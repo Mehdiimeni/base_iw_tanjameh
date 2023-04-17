@@ -1,0 +1,2 @@
+<?php
+//ManProductsImageModify.php

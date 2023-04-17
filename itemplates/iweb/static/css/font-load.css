@@ -1,0 +1,9 @@
+@import url(fonts.css);
+
+html , body {
+  font-family: 'VazirThin', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-wrap: break-word;
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,34 @@
+{
+  "name": "vendor_name/moon",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Imeni",
+      "email": "imeni@borobe.com"
+    }
+  ],
+  "require": {
+    "myclabs/php-enum": "*",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-gd": "*",
+    "ext-curl": "*",
+   "pepco-api/php-rest-sdk": "*",
+    "dpsoft/parsian-payment": "*",
+    "txthinking/mailer": "^2.0",
+    "tecnickcom/tcpdf": "*"
+  },
+
+  "autoload": {
+    "classmap": ["iassets"],
+
+    "psr-4": {
+      "conf\\": "idefine/conf"
+    }
+
+  }
+
+}

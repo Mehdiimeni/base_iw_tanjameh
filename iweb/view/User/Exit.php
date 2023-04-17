@@ -1,0 +1,2 @@
+<?php
+//Exit.php

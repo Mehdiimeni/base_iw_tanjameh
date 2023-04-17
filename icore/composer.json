@@ -1,0 +1,25 @@
+{
+  "name": "vendor_name/moon",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Imeni",
+      "email": "imeni@borobe.com"
+    }
+  ],
+  "require": {
+
+  },
+
+  "autoload": {
+    "classmap": ["iassets"],
+
+    "psr-4": {
+      "conf\\": "idefine/conf"
+    }
+
+  }
+
+}

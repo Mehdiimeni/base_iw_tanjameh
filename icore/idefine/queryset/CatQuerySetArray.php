@@ -1,0 +1,32 @@
+<?php
+
+const ARR_PRIORITY2 = [
+    'gifts-for-her',
+    'exclusives',
+    'sale',
+    'outlet',
+    'new-in',
+    'a-to-z-of-brands',
+    'new-in-back-in-stock',
+    'ctas',
+    'co-ords',
+    'designer-brands',
+    'activewear',
+    'back-to-school',
+    'festival',
+    'gifts',
+    'holiday',
+    'multipacks',
+    'occasionwear',
+    'plus-size',
+    'spring-essentials',
+    'summer-essentials',
+    'tall',
+    'curve-plus-size',
+    'holiday',
+    'jeans-and-a-nice-top',
+    'modestwear',
+    'occasion',
+    'petit',
+    'face-body'
+];
