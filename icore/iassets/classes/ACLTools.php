@@ -14,58 +14,42 @@ class ACLTools extends GlobalVarTools
 
     }
 
-    public function NormalLogin($FullAddressLoginLogFile, $UserType = 'admin'): bool
+    public function CookieCheck($UserType)
     {
-        if($UserType == 'user') {
-            if (@$this->jsonSessionVars->_IWUserIdKey == NULL) {
+        if ($UserType == 'admin') {
 
-                if (@$this->jsonCookieVars->_IWUserIdKey == NULL) {
-
-                    return true;
-
-
-                } else {
-                    return false;
-                }
+            if (@$this->jsonCookieVars->_IWAdminIdKey != null) {
+                parent::setSessionVar('_IWAdminIdKey', parent::de2Base64($this->jsonCookieVars->_IWAdminIdKey));
+                return true;
 
             } else {
                 return false;
             }
-        }else
-        {
-            if (@$this->jsonSessionVars->_IWAdminIdKey == NULL) {
-                if (@$this->jsonCookieVars->_IWAdminIdKey == NULL) {
-                    return true;
 
-                } else {
-                    return false;
-                }
-
-            } else {
-                return false;
-            }
         }
 
-    }
+        if ($UserType == 'user') {
 
-    public function NormalUserLogin($FullAddressLoginLogFile): bool
-    {
-        if (@$this->jsonSessionVars->_IWUserIdKey == NULL) {
-
-            if (@$this->jsonCookieVars->_IWUserIdKey == NULL) {
-
-                    return true;
-
+            if (@$this->jsonCookieVars->_IWUserIdKey != null) {
+                parent::setSessionVar('_IWUserIdKey', parent::de2Base64($this->jsonCookieVars->_IWUserIdKey));
+                return true;
 
             } else {
                 return false;
             }
 
+        }
+    }
+
+    public function NormalLogin($FullAddressLoginLogFile, $UserType = 'admin'): bool
+    {
+        if (file_exists($FullAddressLoginLogFile)) {
+            return $this->CookieCheck($UserType);
         } else {
             return false;
         }
-
     }
+
 
     public function TableNames()
     {

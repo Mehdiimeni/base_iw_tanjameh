@@ -12,7 +12,7 @@ if (isset($_POST['SubmitL'])) {
         $Enabled = BoolEnum::BOOL_TRUE();
         $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
-        require IW_ASSETS_FROM_PANEL."include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 
         if (!$objORM->DataExist($SCondition, TableIWAdmin)) {
             JavaTools::JsAlertWithRefresh(FA_LC['login_info_error'], 0, '');
@@ -49,7 +49,8 @@ if (isset($_POST['SubmitL'])) {
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
             $objGlobalVar->setSessionVar('_IWAdminIdKey', $ModifyId);
             $objGlobalVar->setCookieVar('_IWAdminIdKey', $objAclTools->en2Base64($ModifyId, 1));
-             JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
+
+            JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
             exit();
 
         }
