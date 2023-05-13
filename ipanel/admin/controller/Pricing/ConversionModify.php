@@ -2,7 +2,7 @@
 //ConversionModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -49,7 +49,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = " CurrencyIdKey1 = '$CurrencyIdKey1' AND CurrencyIdKey2 = '$CurrencyIdKey1' ";
 
         if ($objORM->DataExist($SCondition, TableIWACurrenciesConversion)) {

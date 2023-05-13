@@ -2,7 +2,7 @@
 //BannerModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 //No Image
 $strBannerImage = '';
@@ -78,7 +78,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "  Name = '$Name' AND GroupIdKey = '$GroupIdKey' ";
 
         if ($objORM->DataExist($SCondition, TableIWWebBanner)) {
@@ -194,7 +194,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
-            $Enabled = BoolEnum::BOOL_TRUE();
+            $Enabled = true;
             $SCondition = "  Name = '$Name' AND GroupIdKey = '$GroupIdKey' and IdKey != '$IdKey'  ";
 
             if ($objORM->DataExist($SCondition, TableIWWebBanner)) {

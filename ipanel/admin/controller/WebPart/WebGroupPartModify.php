@@ -2,7 +2,7 @@
 //WebGroupPartModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
 
@@ -36,7 +36,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Name);
         $PartName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PartName);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "Name = '$Name' OR PartName = '$PartName'  ";
 
         if ($objORM->DataExist($SCondition, TableIWWebGroupPart)) {

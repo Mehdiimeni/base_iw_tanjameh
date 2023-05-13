@@ -17,7 +17,7 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 
 // user profile
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 if (isset($_POST['PGenderName'])) {
     $GroupName = $_POST['PGenderName'];
     $SCondition = "Name = '$GroupName'  ";

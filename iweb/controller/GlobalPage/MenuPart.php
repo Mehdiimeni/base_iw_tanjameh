@@ -5,7 +5,7 @@ include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));

@@ -1,22 +1,23 @@
 <?php
 ///controller/global/top.php
 
+function set_server()
+{
 
- function get_website_data()
-{ 
-    $objIAPI = new IAPI($_SERVER['HTTP_HOST'],'iweb');
-$objIAPI->SetLocalProjectName('tanjameh');
-$objIAPI->GetGeneralApi('global/top_page');
-return json_decode( $objIAPI->GetGeneralApi('global/top_page'));
+    $objIAPI = new IAPI($_SERVER['HTTP_HOST'], 'iweb');
+    $objIAPI->SetLocalProjectName('tanjameh');
+    return $objIAPI;
+}
 
+function get_website_data()
+{
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetGeneralApi('global/top_page'));
 
 }
 
 function get_website_alert($type)
-{ 
-    include dirname(__FILE__,4) . "/iassets/include/DBLoader.php";
-    $Enabled = BoolEnum::BOOL_TRUE();
-
-   return  @$objORM->Fetch(" Enabled = $Enabled and alert_type = '$type' ", '*', TableIWWebSiteAlert);
+{
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetGeneralApi('global/website_alert'));
 }
-

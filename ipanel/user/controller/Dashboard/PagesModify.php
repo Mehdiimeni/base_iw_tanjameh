@@ -2,7 +2,7 @@
 //PagesModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
 
@@ -67,7 +67,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $PartIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PartIdKey);
         $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = " ( Name = '$Name' OR PageName = '$PageName' ) and PartIdKey = '$PartIdKey' ";
 
         if ($objORM->DataExist($SCondition, TableIWPanelAdminPage)) {

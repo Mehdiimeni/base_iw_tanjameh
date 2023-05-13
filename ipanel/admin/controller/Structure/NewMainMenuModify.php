@@ -2,7 +2,7 @@
 //NewMainMenuModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 

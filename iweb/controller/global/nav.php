@@ -1,16 +1,16 @@
 <?php
 ///controller/global/nav.php
 
-$objACL = new ACLTools();
-
 function get_nav()
-{ 
-    include dirname(__FILE__,4) . "/iassets/include/DBLoader.php";
-    $Enabled = BoolEnum::BOOL_TRUE();
-
-   return  @$objORM->FetchAll(" Enabled = $Enabled ", '*', TableIWNewMenu);
+{
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetGeneralApi('menu/nav'));
 }
 
-
-
+function get_user_acl($UserIdKey)
+{
+    $filds = array('user_idkey'=> $UserIdKey);
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetPostApi('user/login',$filds));
+}
 

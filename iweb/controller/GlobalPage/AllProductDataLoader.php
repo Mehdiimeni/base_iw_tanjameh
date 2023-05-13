@@ -3,7 +3,7 @@
 // API Count and Connect
 $objAsos = new AsosConnections();
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();

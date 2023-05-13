@@ -1,6 +1,6 @@
 <?php
 
-class FileCaller 
+class IWebFileCaller 
 {
     public function FileIncluderWithControler($FullDirAddress, $NameFolder, $Name, $TypeInclude = 'requre')
     {

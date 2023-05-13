@@ -35,7 +35,7 @@ if (isset($_POST['SubmitL'])) {
             exit();
         }
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
         include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
@@ -48,7 +48,7 @@ if (isset($_POST['SubmitL'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $Online = BoolEnum::BOOL_TRUE();
+            $Online = true;
             $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
             $ModifyTime = $objTimeTools->jdate("H:i:s");
             $ModifyDate = $objTimeTools->jdate("Y/m/d");

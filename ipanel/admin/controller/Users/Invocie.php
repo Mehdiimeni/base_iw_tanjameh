@@ -4,7 +4,7 @@ include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $objGlobalVar = new GlobalVarTools();
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $BasketIdKey = $_GET['BasketIdKey'];
 $PaymentIdKey = $_GET['PaymentIdKey'];
 

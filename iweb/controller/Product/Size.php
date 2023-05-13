@@ -5,7 +5,7 @@
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $ApiReplacePeriod = 2;
 $ApiGetLive = 0;
 

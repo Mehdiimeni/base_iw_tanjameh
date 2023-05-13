@@ -24,33 +24,34 @@ class GlobalVarTools extends Regularization
 
     public function GetVarToJson()
     {
-        return $this->JsonEncode($this->AllGet);
+        return json_encode($this->AllGet);
     }
 
     public function GetVarToJsonNoSet()
     {
         
-        return $this->JsonEncode($_GET);
+        return json_encode($_GET);
     }
 
     public function ServerVarToJson()
     {
-        return $this->JsonEncode($this->AllServer);
+
+        return json_encode($this->AllServer);
     }
 
     public function SessionVarToJson()
     {
-        return $this->JsonEncode($this->AllSession);
+        return json_encode($this->AllSession);
     }
 
     public function getIWVarToJson($name)
     {
-        if ($this->JsonEncode($this->AllCookie[$name]) != null) {
+        if (json_encode($this->AllCookie[$name]) != null) {
             $this->setSessionVar($name, $this->de2Base64($this->AllCookie[$name]));
-            return $this->JsonEncode($this->de2Base64($this->AllCookie[$name]));
-        } elseif ($this->JsonEncode($this->AllSession[$name]) != null) {
+            return json_encode($this->de2Base64($this->AllCookie[$name]));
+        } elseif (json_encode($this->AllSession[$name]) != null) {
             $this->setCookieVar($name, $this->AllSession[$name]);
-            return $this->JsonEncode($this->AllSession[$name]);
+            return json_encode($this->AllSession[$name]);
         } else {
             return null;
         }
@@ -59,17 +60,17 @@ class GlobalVarTools extends Regularization
 
     public function CookieVarToJson()
     {
-        return $this->JsonEncode($this->AllCookie);
+        return json_encode($this->AllCookie);
     }
 
     public function PostVarToJson()
     {
-        return $this->JsonEncode($this->AllPost);
+        return json_encode($this->AllPost);
     }
 
     public function FileVarToJson()
     {
-        return $this->JsonEncode($this->AllFiles);
+        return json_encode($this->AllFiles);
     }
 
 

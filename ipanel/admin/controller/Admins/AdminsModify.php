@@ -2,7 +2,7 @@
 //AdminsModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -74,7 +74,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Username, 1);
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = " ( Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber' ) and GroupIdKey = '$GroupIdKey' ";
 
         if ($objORM->DataExist($SCondition, TableIWAdmin)) {

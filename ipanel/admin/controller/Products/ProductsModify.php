@@ -5,7 +5,7 @@
 //SubMenuModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
 
@@ -79,7 +79,7 @@ if (isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $PCategoryId = $STSubMenu->ApiId;
                 $PGroupId = $ListCatId->ApiId;
 
-                $Enabled = BoolEnum::BOOL_TRUE();
+                $Enabled = true;
                 $SCondition = "   ProductId = '$ProductId'   ";
 
                 if ($objORM->DataExist($SCondition, TableIWAPIProducts)) {
@@ -141,7 +141,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Name);
         $GroupIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->GroupIdKey);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "Name = '$Name' AND GroupIdKey = '$GroupIdKey'    ";
 
         if ($objORM->DataExist($SCondition, TableIWWebSubMenu)) {

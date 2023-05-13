@@ -6,7 +6,7 @@ include_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 $apiMainName = 'PinCharge';
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
     case 'add' :

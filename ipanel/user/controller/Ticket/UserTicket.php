@@ -7,7 +7,7 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 include IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["sender"], FA_LC["subject"], FA_LC["view"], FA_LC["submit_time"], FA_LC["submit_date"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];

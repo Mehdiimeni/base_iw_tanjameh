@@ -1,7 +1,7 @@
 <?php
 //PartsModify.php
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
 
@@ -57,7 +57,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $FaIcon = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->FaIcon);
         $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "Name = '$Name' OR PartName = '$PartName'  ";
 
         if ($objORM->DataExist($SCondition, TableIWPanelUserPart)) {

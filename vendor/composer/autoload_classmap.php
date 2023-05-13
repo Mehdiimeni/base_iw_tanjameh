@@ -32,6 +32,8 @@ return array(
     'IPTools' => $baseDir . '/icore/iassets/classes/IPTools.php',
     'IPanelViewUnity' => $baseDir . '/icore/iassets/classes/IPanelViewUnity.php',
     'IWCheckTools' => $baseDir . '/icore/iassets/classes/IWCheckTools.php',
+    'IWebFileCaller' => $baseDir . '/iweb/core/caller.php',
+    'IWebSessionTools' => $baseDir . '/iweb/core/SessionTools.php',
     'InitTools' => $baseDir . '/icore/iassets/classes/InitTools.php',
     'JavaTools' => $baseDir . '/icore/iassets/classes/JavaTools.php',
     'KMNConnection' => $baseDir . '/icore/iassets/classes/KMNConnection.php',

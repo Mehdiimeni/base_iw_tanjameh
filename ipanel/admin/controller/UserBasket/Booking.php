@@ -8,7 +8,7 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $ToolsIcons[] = $arrToolsIcon["reverse_basket"];
 
 $strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"], FA_LC["date"], FA_LC["address_label"]), FA_LC["tools"]);

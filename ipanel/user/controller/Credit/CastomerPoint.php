@@ -11,7 +11,7 @@ $arrTypePoint = array(FA_LC["balance"], FA_LC["transfer"], FA_LC["transaction"],
 , FA_LC["lottery"], FA_LC["topup"]);
 
 // user profile
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
@@ -20,7 +20,7 @@ $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiI
 $apiMainName = 'PointStats/' . (int)$stdProfile->ApiId;
 
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["location"], FA_LC["score_value"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["active"];

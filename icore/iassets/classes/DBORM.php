@@ -106,6 +106,13 @@ class DBORM extends DBConnect
 
     }
 
+    //------ fetch limit data return json
+    public function FetchJson($TableName,$SCondition, $SFilds, $IndexSet = 'IdRow', $Limit = 10)
+    {
+        return (parent::SelectJson($SFilds, $TableName, $SCondition, $IndexSet, $Limit));
+
+    }
+
     //------- fetch data
     public function Fetch($SCondition, $SFilds, $TableName)
     {

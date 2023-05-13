@@ -3,7 +3,7 @@
 
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -63,7 +63,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $LookPageName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->LookPageName);
         $LookTitle = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->LookTitle);
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "  LookPageName = '$LookPageName' and iw_user_IdRow = '$UserIdKey' ";
 
         if ($objORM->DataExist($SCondition, TableIWUserLook)) {

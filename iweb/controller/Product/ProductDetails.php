@@ -3,7 +3,7 @@
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $Disabled = BoolEnum::BOOL_FALSE();
 $objAclTools = new ACLTools();
 $objGlobalVar = new GlobalVarTools();
@@ -22,7 +22,7 @@ if (isset($_POST['SubmitM'])) {
     $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
     $UserSessionId = session_id();
 
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
     $SCondition = " ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId' and  ExpireDate = '$strExpireDate' ";
 
     if ($objORM->DataExist($SCondition, TableIWUserTempCart)) {

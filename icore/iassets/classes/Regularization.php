@@ -56,7 +56,7 @@ class Regularization
 
     public function JsonDecode($String)
     {
-        return json_decode($String);
+        return $String != null ?? json_decode($String);
     }
 
     public function JsonDecodeArray($String)

@@ -1,7 +1,7 @@
 <?php
 //Tables.php
 require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 //table name
 $strTablesName = '';

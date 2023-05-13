@@ -2,7 +2,7 @@
 //MainBasketModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $objTimeTools = new TimeTools();
 $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();

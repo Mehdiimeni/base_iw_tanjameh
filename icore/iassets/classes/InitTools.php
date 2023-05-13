@@ -19,8 +19,6 @@ class InitTools extends GlobalVarTools
         $this->setLang($array['Language']);
         $this->setTimeZone($array['TimeZone']);
         $this->setEncoding($array['Encoding']);
-        $this->CheckHandler($FullErrorPartAddressRepository);
-
 
     }
 
@@ -101,12 +99,5 @@ class InitTools extends GlobalVarTools
         return $this->Encoding;
     }
 
-    public function CheckHandler($FullErrorPartAddressRepository)
-    {
-        $this->jsonServerVars->HTTP_HOST == 'localhost' ? $this->setDisplayErrors(1) : $this->setDisplayErrors(1);
-        $this->IniSet("log_errors", true);
-        $this->IniSet("error_log", $FullErrorPartAddressRepository);
-
-    }
 
 }

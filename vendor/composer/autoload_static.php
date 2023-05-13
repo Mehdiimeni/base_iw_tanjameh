@@ -94,6 +94,8 @@ class ComposerStaticInit13b00999f3a21499952f46dee59739a9
         'IPTools' => __DIR__ . '/../..' . '/icore/iassets/classes/IPTools.php',
         'IPanelViewUnity' => __DIR__ . '/../..' . '/icore/iassets/classes/IPanelViewUnity.php',
         'IWCheckTools' => __DIR__ . '/../..' . '/icore/iassets/classes/IWCheckTools.php',
+        'IWebFileCaller' => __DIR__ . '/../..' . '/iweb/core/caller.php',
+        'IWebSessionTools' => __DIR__ . '/../..' . '/iweb/core/SessionTools.php',
         'InitTools' => __DIR__ . '/../..' . '/icore/iassets/classes/InitTools.php',
         'JavaTools' => __DIR__ . '/../..' . '/icore/iassets/classes/JavaTools.php',
         'KMNConnection' => __DIR__ . '/../..' . '/icore/iassets/classes/KMNConnection.php',

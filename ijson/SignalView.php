@@ -16,7 +16,7 @@ $objORM = new DBORM((new MySQLConnection($objFileToolsDBInfo))->getConn());
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 
 // user profile
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));

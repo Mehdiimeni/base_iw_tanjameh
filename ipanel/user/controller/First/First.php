@@ -134,7 +134,7 @@ if (@$_GET['backset'] == 'pec') {
     $RRN = $_REQUEST ["RRN"];
 
     // user profile
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
     $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
     $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
     $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
@@ -172,7 +172,7 @@ if (@$_GET['backset'] == 'pecl') {
     $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId', TableIWUser);
 
     $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
 
     $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
     $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
@@ -224,7 +224,7 @@ if (@$_GET['backset'] == 'pecl') {
     $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 
 // user profile
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
     $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
     $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
     $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
@@ -251,7 +251,7 @@ if (@$_GET['backset'] == 'pep') {
         $objVerifyData = $objPasargadIPG->verifyPayment();
 
         // user profile
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
         $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
         $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);

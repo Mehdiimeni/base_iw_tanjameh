@@ -11,7 +11,7 @@ if (isset($_POST['SubmitL'])) {
 
         $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->UsernameL, 1);
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PasswordL, 0);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
@@ -24,7 +24,7 @@ if (isset($_POST['SubmitL'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $Online = BoolEnum::BOOL_TRUE();
+            $Online = true;
             $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
             $ModifyTime = $objTimeTools->jdate("H:i:s");
             $ModifyDate = $objTimeTools->jdate("Y/m/d");
@@ -93,7 +93,7 @@ if (isset($_POST['RegisterL'])) {
         $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Username, 1);
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "  Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber'  ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
@@ -133,7 +133,7 @@ if (isset($_POST['RegisterL'])) {
 
             $objORM->DataAdd($InSet, TableIWUser);
 
-            $Online = BoolEnum::BOOL_TRUE();
+            $Online = true;
             $InSet = "";
             $InSet .= " Online = '$Online' ,";
             $InSet .= " ModifyIP = '$ModifyIP' ,";
@@ -172,7 +172,7 @@ if (isset($_POST['SubmitForget'])) {
         exit();
     } else {
         $Email = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Email);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "Email = '$Email'  and Enabled = '$Enabled' ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
@@ -185,7 +185,7 @@ if (isset($_POST['SubmitForget'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $Online = BoolEnum::BOOL_TRUE();
+            $Online = true;
             $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
             $ModifyTime = $objTimeTools->jdate("H:i:s");
             $ModifyDate = $objTimeTools->jdate("Y/m/d");

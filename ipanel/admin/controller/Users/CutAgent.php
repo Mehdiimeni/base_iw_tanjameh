@@ -6,7 +6,7 @@ $apiMainName = 'CutAgent';
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["name"], FA_LC["family"],FA_LC["pan_trunc"], FA_LC["national_code"],FA_LC["address"], FA_LC["email"], FA_LC["external_id"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["active"];

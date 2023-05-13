@@ -2,7 +2,7 @@
 //Profile.php
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 $SCondition = "  IdKey = '$UserIdKey' ";
@@ -42,7 +42,7 @@ if (isset($_POST['RegisterE'])) {
             $UsernameL = $objAclTools->en2Base64($Email, 1);
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "      NationalCode = '$NationalCode' and IdKey != '$UserIdKey'  ";
 
         include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";

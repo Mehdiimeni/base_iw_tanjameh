@@ -4,7 +4,7 @@
 $apiMainName = 'Agency';
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
     case 'add' :
@@ -31,7 +31,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         if ($SuperUser == null)
             $SuperUser = 0;
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "  Name = '$Name'  ";
 
         if ($objORM->DataExist($SCondition, TableIWUserGroup)) {

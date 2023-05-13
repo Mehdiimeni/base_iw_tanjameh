@@ -3,7 +3,7 @@
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
@@ -24,7 +24,7 @@ if (isset($_POST['RegisterE'])) {
         }
 
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
 
 
         include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";

@@ -12,7 +12,7 @@ if ($stdProfile->ApiId != null) {
 if ($strUserGroup->SuperUser or $strUserGroup->SuperTrade)
     $strSuper = 1;
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $strPart = $objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->part;
 $strPage = $objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->page;

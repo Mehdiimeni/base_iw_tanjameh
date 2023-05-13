@@ -8,7 +8,7 @@ class IPTools extends GlobalVarTools
     public function __construct($DefineRoot)
     {
         parent::__construct();
-        $this->jsonServerVar = parent::JsonDecode(parent::ServerVarToJson());
+        $this->jsonServerVar = json_decode(parent::ServerVarToJson());
         $this->DefineRoot = $DefineRoot;
 
         $this->FindHostAllow();
@@ -53,18 +53,18 @@ class IPTools extends GlobalVarTools
 
     public function getHostAllow()
     {
-        return array_map('trim', (array)file($this->DefineRoot . 'conf/host.iw'));
+        return array_map('trim', (array) file($this->DefineRoot . 'conf/host.iw'));
     }
 
     public function getIPAllow()
     {
 
-        return array_map('trim', (array)file($this->DefineRoot . 'conf/ipallow.txt'));
+        return array_map('trim', (array) file($this->DefineRoot . 'conf/ipallow.txt'));
     }
 
     public function getIPDeny()
     {
-        return array_map('trim', (array)file($this->DefineRoot . 'conf/ipdeny.txt'));
+        return array_map('trim', (array) file($this->DefineRoot . 'conf/ipdeny.txt'));
     }
 
     public function FindHostAllow()
@@ -74,8 +74,7 @@ class IPTools extends GlobalVarTools
         if (!in_array($this->getHostAddressLoad(), $this->getHostAllow())) {
 
             $this->Destroyer();
-            echo(11111);
-            //$this->Reloader();
+            $this->Reloader();
         }
 
     }
@@ -84,8 +83,7 @@ class IPTools extends GlobalVarTools
     {
         if (!in_array($this->getUserIP(), $this->getIPAllow()) and !in_array('all', $this->getIPAllow())) {
             $this->Destroyer();
-            echo(111112222);
-            //$this->Reloader();
+            $this->Reloader();
         }
 
     }
@@ -94,10 +92,10 @@ class IPTools extends GlobalVarTools
     {
 
         if (in_array($this->getUserIP(), $this->getIPDeny()) and !in_array('any', $this->getIPDeny())) {
-            echo(4665);
+
 
             $this->Destroyer();
-            //$this->Reloader();
+            $this->Reloader();
         }
     }
 

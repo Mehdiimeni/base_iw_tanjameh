@@ -2,7 +2,7 @@
 
 require_once IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $Disabled = BoolEnum::BOOL_FALSE();
 
 $objAclTools = new ACLTools();

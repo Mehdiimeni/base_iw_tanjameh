@@ -8,7 +8,7 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC['user_id'], FA_LC["user"], FA_LC["product_id"], FA_LC["product_code"], FA_LC["order_number"], FA_LC["size"], FA_LC["sorting_number"], FA_LC["count_property"], FA_LC["product"], FA_LC["image"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["reverse"];

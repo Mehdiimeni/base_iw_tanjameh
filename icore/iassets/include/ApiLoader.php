@@ -13,7 +13,7 @@ $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->dat
 
 $NameApi = $objAsos->getName();
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 if($ApiGetLive == 0) {
 

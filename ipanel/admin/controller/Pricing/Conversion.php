@@ -4,7 +4,7 @@
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["currency1"], FA_LC["currency2"], FA_LC["rate"],FA_LC['last_update']), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];

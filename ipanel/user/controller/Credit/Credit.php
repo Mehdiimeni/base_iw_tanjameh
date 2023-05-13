@@ -7,14 +7,14 @@ include IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 // user profile
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
 $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
 
 $apiMainName = 'CustomerCredit?$filter=Customer_Id%20eq%20' . $stdProfile->ApiId;
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["value"], FA_LC["transaction_datetime"], FA_LC["description"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["active"];

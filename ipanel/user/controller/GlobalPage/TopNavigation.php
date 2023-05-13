@@ -1,7 +1,7 @@
 <?php
 //TopNavigation.php
 require IW_ASSETS_FROM_PANEL."include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
 $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";

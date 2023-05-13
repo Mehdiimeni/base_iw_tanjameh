@@ -3,7 +3,7 @@
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -74,7 +74,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "  GroupIdKey = '$GroupIdKey' OR TradeIdKey = '$TradeIdKey'  ";
 
         if ($objORM->DataExist($SCondition, TableIWTradePosition)) {

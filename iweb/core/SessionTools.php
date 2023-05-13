@@ -1,6 +1,6 @@
 <?php
 
-class SessionTools
+class IWebSessionTools
 {
 
     public static function gzhandler()

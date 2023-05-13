@@ -4,7 +4,7 @@
 $apiMainName = 'Transaction';
 
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
     case 'add' :
@@ -63,7 +63,7 @@ function pecl($strRedirect, $Amount)
     $apiMainName = 'Transaction';
 
     include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
     $objAclTools = new ACLTools();
 
     $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
@@ -72,7 +72,7 @@ function pecl($strRedirect, $Amount)
     $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId,GroupIdKey', TableIWUser);
 
     $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
 
     $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
     $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
@@ -124,7 +124,7 @@ function pecl($strRedirect, $Amount)
     }
 
 // user profile
-    $Enabled = BoolEnum::BOOL_TRUE();
+    $Enabled = true;
     $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
     $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
     $stdProfile = $objORM->Fetch($SCondition, 'ApiId', TableIWUser);
@@ -145,7 +145,7 @@ function pep($strRedirect, $Amount)
         $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId,GroupIdKey', TableIWUser);
     
         $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
     
         $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
         $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);

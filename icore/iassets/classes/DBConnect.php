@@ -226,4 +226,14 @@ class DBConnect extends Regularization
 
     }
 
+
+    public function SelectJson($Fields, $Table, $Condition, $IndexSet , $Limit)
+    {
+        $Query = "SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet LIMIT $Limit ";
+        $sql = $this->dbConnection->prepare($Query);
+        $sql->execute();
+        $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return json_encode($results);
+    }
+
 }

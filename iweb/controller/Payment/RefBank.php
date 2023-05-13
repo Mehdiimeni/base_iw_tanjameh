@@ -3,7 +3,7 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $objTimeTools = new TimeTools();
 $objAclTools = new ACLTools();

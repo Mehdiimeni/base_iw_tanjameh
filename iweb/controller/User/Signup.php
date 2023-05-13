@@ -26,7 +26,7 @@ if (isset($_POST['RegisterL'])) {
 
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "   Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber'  ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
@@ -66,7 +66,7 @@ if (isset($_POST['RegisterL'])) {
 
             $objORM->DataAdd($InSet, TableIWUser);
 
-            $Online = BoolEnum::BOOL_TRUE();
+            $Online = true;
             $InSet = "";
             $InSet .= " Online = '$Online' ,";
             $InSet .= " ModifyIP = '$ModifyIP' ,";

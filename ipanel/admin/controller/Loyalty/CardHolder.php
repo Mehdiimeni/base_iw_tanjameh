@@ -6,7 +6,7 @@ $apiMainName = 'CardHolder';
 include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["name"], FA_LC["family"], FA_LC["row"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];

@@ -12,7 +12,7 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 require_once IW_DEFINE_FROM_PANEL . "queryset/ProductFilter.php";
 
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();

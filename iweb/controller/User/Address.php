@@ -2,7 +2,7 @@
 //Address.php
 require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
 //Country
@@ -40,7 +40,7 @@ if (isset($_POST['SubmitL'])) {
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
-        $Enabled = BoolEnum::BOOL_TRUE();
+        $Enabled = true;
         $SCondition = "   (NicName = '$NicName' OR PostCode = '$PostCode' OR Address = '$Address' ) and UserIdKey = '$UserIdKey' ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";

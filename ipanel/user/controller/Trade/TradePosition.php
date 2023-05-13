@@ -9,7 +9,7 @@ include_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 if ($strUserGroup->SuperUser or $strUserGroup->SuperTrade)
     $strSuper = 1;
 
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["group_name"], FA_LC["trade_name"], FA_LC["trade_type"], FA_LC["trade_time"], FA_LC["submit_date"],FA_LC["submit_time"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];

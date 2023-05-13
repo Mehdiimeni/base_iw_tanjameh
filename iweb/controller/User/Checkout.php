@@ -12,7 +12,7 @@ if ($UserIdKey == '') {
     exit();
 }
 $objTimeTools = new TimeTools();
-$Enabled = BoolEnum::BOOL_TRUE();
+$Enabled = true;
 $Disabled = BoolEnum::BOOL_FALSE();
 
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
