@@ -261,8 +261,8 @@ input[type="color"]:focus,
   display: block;
   margin: auto;
   height: 2px;
-    content: "";
-    transition: border .15s ease-in-out; 
+  content: "";
+  transition: border .15s ease-in-out; 
 }
 .b-animate a{
   width: fit-content;
@@ -556,7 +556,7 @@ opacity: 1;
 }
 
 /* cart */
-#bag-empty , #total-text, #cartTitle , .cartSm , .pluse-form{
+#bag-empty , #total-text, #cartTitle , .cartSm , .pluse-form, .boxAnotherSize{
   display: none;
 }
 
@@ -642,6 +642,7 @@ background-repeat: no-repeat;
 .icon-search{
   position: relative;
   cursor: text;
+  width: 288px;
 }
 .icon-search i{
   transition: all ease 0.5s;

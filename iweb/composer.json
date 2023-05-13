@@ -14,9 +14,10 @@
     },
   
     "autoload": {
-      "classmap": ["core"],
+      "classmap": ["../icore","core"],
   
       "psr-4": {
+        "conf\\": "../icore/idefine/conf"
       }
   
     }

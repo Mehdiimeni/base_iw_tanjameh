@@ -23,10 +23,10 @@
   },
 
   "autoload": {
-    "classmap": ["iassets"],
+    "classmap": ["icore","iweb/core"],
 
     "psr-4": {
-      "conf\\": "idefine/conf"
+      "conf\\": "icore/idefine/conf"
     }
 
   }

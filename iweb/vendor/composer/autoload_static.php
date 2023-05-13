@@ -6,16 +6,72 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitf6309c0d6517211a550efb2e9de7c05f
 {
+    public static $prefixLengthsPsr4 = array (
+        'c' => 
+        array (
+            'conf\\' => 5,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'conf\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../icore/idefine/conf',
+        ),
+    );
+
     public static $classMap = array (
+        'ACLTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/ACLTools.php',
+        'APIConnectionInterface' => __DIR__ . '/../..' . '/../icore/iassets/interfaces/APIConnectionInterface.php',
+        'AsosAssets' => __DIR__ . '/../..' . '/../icore/iassets/classes/AsosAssets.php',
+        'AsosConnections' => __DIR__ . '/../..' . '/../icore/iassets/classes/AsosConnections.php',
+        'BoolEnum' => __DIR__ . '/../..' . '/../icore/iassets/enum/BoolEnum.php',
+        'ComposerAutoloaderInita382ff37f63409228bc502095e7dd032' => __DIR__ . '/../..' . '/../icore/vendor/composer/autoload_real.php',
+        'Composer\\Autoload\\ClassLoader' => __DIR__ . '/../..' . '/../icore/vendor/composer/ClassLoader.php',
+        'Composer\\Autoload\\ComposerStaticInita382ff37f63409228bc502095e7dd032' => __DIR__ . '/../..' . '/../icore/vendor/composer/autoload_static.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'FileCaller' => __DIR__ . '/../..' . '/core/caller.php',
-        'IAPI' => __DIR__ . '/../..' . '/core/api.php',
-        'SessionTools' => __DIR__ . '/../..' . '/core/SessionTools.php',
+        'ConfigTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/ConfigTools.php',
+        'DBConnect' => __DIR__ . '/../..' . '/../icore/iassets/classes/DBConnect.php',
+        'DBConnectionInterface' => __DIR__ . '/../..' . '/../icore/iassets/interfaces/DBConnectionInterface.php',
+        'DBORM' => __DIR__ . '/../..' . '/../icore/iassets/classes/DBORM.php',
+        'FileCaller' => __DIR__ . '/../..' . '/../icore/iassets/classes/FileCaller.php',
+        'FileSizeEnum' => __DIR__ . '/../..' . '/../icore/iassets/enum/FileSizeEnum.php',
+        'FileTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/FileTools.php',
+        'GlobalVarTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/GlobalVarTools.php',
+        'IPGEnum' => __DIR__ . '/../..' . '/../icore/iassets/enum/IPGEnum.php',
+        'IPTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/IPTools.php',
+        'IPanelViewUnity' => __DIR__ . '/../..' . '/../icore/iassets/classes/IPanelViewUnity.php',
+        'IWCheckTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/IWCheckTools.php',
+        'InitTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/InitTools.php',
+        'JavaTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/JavaTools.php',
+        'KMNConnection' => __DIR__ . '/../..' . '/../icore/iassets/classes/KMNConnection.php',
+        'ListTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/ListTools.php',
+        'MSSQLDBConnection' => __DIR__ . '/../..' . '/../icore/iassets/classes/MSSQLDBConnection.php',
+        'MakeDirectory' => __DIR__ . '/../..' . '/../icore/iassets/classes/MakeDirectory.php',
+        'MariaDBConnection' => __DIR__ . '/../..' . '/../icore/iassets/classes/MariaDBConnection.php',
+        'MySQLConnection' => __DIR__ . '/../..' . '/../icore/iassets/classes/MySQLConnection.php',
+        'PdfTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/PdfTools.php',
+        'PinEnum' => __DIR__ . '/../..' . '/../icore/iassets/enum/PinEnum.php',
+        'PositionEnum' => __DIR__ . '/../..' . '/../icore/iassets/enum/PositionEnum.php',
+        'PricingTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/PricingTools.php',
+        'RNLS2Connection' => __DIR__ . '/../..' . '/../icore/iassets/classes/RNLS2Connection.php',
+        'Regularization' => __DIR__ . '/../..' . '/../icore/iassets/classes/Regularization.php',
+        'Router' => __DIR__ . '/../..' . '/../icore/iassets/classes/Router.php',
+        'SamanPayment' => __DIR__ . '/../..' . '/../icore/iassets/classes/SamanPayment.php',
+        'Sanitize' => __DIR__ . '/../..' . '/../icore/iassets/classes/Sanitize.php',
+        'SessionTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/SessionTools.php',
+        'ShippingTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/ShippingTools.php',
+        'ShowFile' => __DIR__ . '/../..' . '/../icore/iassets/classes/ShowFile.php',
+        'SmsConnections' => __DIR__ . '/../..' . '/../icore/iassets/classes/SmsConnections.php',
+        'StorageTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/StorageTools.php',
+        'TimeTools' => __DIR__ . '/../..' . '/../icore/iassets/classes/TimeTools.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf6309c0d6517211a550efb2e9de7c05f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf6309c0d6517211a550efb2e9de7c05f::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitf6309c0d6517211a550efb2e9de7c05f::$classMap;
 
         }, null, ClassLoader::class);

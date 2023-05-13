@@ -1,0 +1,60 @@
+@import url(font-load.css);
+
+ /* spinner loader */
+ #loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.85);
+    /* background: rgba(0,0,0,0.85) url(images/loading2.gif) no-repeat center center; */
+    z-index: 10000;
+  }
+  #loader .spinner-border{
+    width: 3rem; 
+    height: 3rem;
+  }
+
+  .form-control:hover{
+    box-shadow: inset 0 0 0 1px #1a1a1a;
+  }
+
+  .text-mediumpurple{
+    color: #6925de;
+  }
+  .b-animate a:after {
+    display: block;
+    margin: auto;
+    height: 2px;
+      content: "";
+      transition: border .15s ease-in-out; 
+  }
+  .b-animate a{
+    width: fit-content;
+  }
+  .b-purple a:hover:after {
+    background: #6328e0;
+  }
+  .b-dark a:hover:after {
+    background: #1a1a1a;
+  }
+  
+  .boxForgetPass{
+    display: none;
+  }
+
+  .form-check-input{
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid #1a1a1a;
+  }
+  .form-check-label{
+    margin-right: 0.5em;
+  }
+  .form-check-input:checked{
+    background-color: #1a1a1a;
+      border-color: #1a1a1a;
+  }

@@ -85,6 +85,14 @@ $('.owl-autowidth').owlCarousel({
 });
   });
 
+// click login & register link  
+  function goLogin() {
+    localStorage.setItem("login", "true");
+  }
+  function goRegister() {
+    localStorage.setItem("register", "true");
+  }
+  
 // validate for disabling form submissions if there are invalid fields
 function validateForm() {
   'use strict'
@@ -141,16 +149,36 @@ $(".btn-heart").click(function() {
 
 // change button click brand follow
 $(document).on('click', '.clike-follow', function() {
+
+  var brandName = $(this).parent().find(".brandName");
+
   if ( $(this).hasClass( "notfollow" ) ) {
-    $(this).removeClass("notfollow")
+    $(this).removeClass("notfollow");
     $(this).html('<i class="fa-solid fa-check me-2"></i><span>دنبال شده</span>');
-    const toastLiveExample = document.getElementById('brandFollowToast')
-    const toast = new bootstrap.Toast(toastLiveExample)
+    const toastLiveExample = document.getElementById('brandFollowToast');
+    const toast = new bootstrap.Toast(toastLiveExample);
     toast.show()
+
+    if($("#boxBrandSelected")){
+      $("#boxBrandSelected").append(
+        `
+        <li class="brandItem col nav-hover">
+          <div class="border-bottom px-1 py-2 d-flex align-items-center">
+            <a href="${brandName.attr("data-url")}" class="text-decoration-none text-dark">${brandName.text()}</a>
+            <button class="btn border-1 rounded-0 btn-outline-dark ms-auto d-flex align-items-center clike-follow follow"><i class="fa-solid fa-check me-2"></i><span>دنبال شده</span></button>
+        </div>
+        </li>
+        `
+      )
+    }
   }
   if ( $(this).hasClass( "follow" ) ) {
-    $(this).addClass("notfollow")
+    $(this).addClass("notfollow");
     $(this).html('<i class="fa-solid fa-plus me-2"></i><span>دنبال کنید</span>');
+    
+    if($("#boxBrandSelected")){
+      $(this).closest(".brandItem").remove();
+    }
   }
   $(this).toggleClass("follow");
 });
@@ -221,7 +249,7 @@ function eventCheckBox() {
 
   for (i = 0; i < li.length; i++) {
     label = li[i].getElementsByTagName("label")[0];
-    console.log(label.textContent)
+    // console.log(label.textContent)
     txtValue = label.textContent || label.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       li[i].style.display = "";
@@ -321,6 +349,47 @@ $("#feedback_form").submit(function(e) {
       }
   });
 });
+
+// newsletter submit
+$('#newsletter').submit(function (e) {
+  e.preventDefault();
+  'use strict'
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.form-validation')
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      if (form.checkValidity()) {
+        $form = $(this)
+        var formData = new FormData(this);
+  $.ajax({
+      url: window.location.pathname,
+      type: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        $('#newsletter').toggle(300);
+        $('#newsletterResult').append(`
+        <i class="fa fa-message fs-1"></i>
+        <div>
+          <h6 class="fw-bold">Welcome aboard!</h6>
+          <h6>we sent you a welcome email</h6>
+          <small class="my-3 d-block">amir@hotmail.com</small>
+          <h6>you'r subscribe</h6>
+        </div>
+        `);
+      }
+    });
+        }
+
+  form.classList.add('was-validated')
+  })
+  });
 
 // dropdown size box in product page
 function myDropdown() {
@@ -581,4 +650,39 @@ const outputHtml = matchs => {
 }
 search.addEventListener('input', () => allSearch(search.value))
 }
+
+// feedback helpful
+$('.btnPositive').click(function() {
+  if($('.btnPositive').html('<i class="fa-regular fa-thumbs-up"></i>')) {
+      $('.btnPositive').html('<i class="fa-solid fa-thumbs-up"></i>');
+      $('.btnNegative').html('<i class="fa-regular fa-thumbs-down"></i>');
+  }
+  else {
+      $('.btnPositive').html('<i class="fa-regular fa-thumbs-up"></i>');
+  }
+  });
+  
+  $('.btnNegative').click(function() {
+  if($('.btnNegative').html('<i class="fa-regular fa-thumbs-down"></i>')) {
+      $('.btnNegative').html('<i class="fa-solid fa-thumbs-down"></i>');
+      $('.btnPositive').html('<i class="fa-regular fa-thumbs-up"></i>');
+  }
+  else {
+      $('.btnNegative').html('<i class="fa-regular fa-thumbs-down"></i>');
+  }
+  });
+
+  // contact radio order
+  $('.radioOrder input[type="radio"]').click(function(){
+    var inputValue = $(this).attr("value");
+    if(inputValue == 'yes'){
+      $(".boxOrder").show();
+      $(".orderNumber").show();
+    }
+    if(inputValue == 'no'){
+      $(".boxOrder").show();
+      $(".orderNumber").hide();
+    }
+  });
+
 
