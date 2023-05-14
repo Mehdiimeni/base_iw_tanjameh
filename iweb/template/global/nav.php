@@ -44,7 +44,7 @@
             <li class="px-3 mt-2"><a class="btn btn-dark w-100 rounded-0" href="./login">
                 <?php echo (_LANG['login']); ?>
               </a></li>
-            <?php if (get_user_acl($UserIdKey)) { ?>
+            <?php if (!get_user_acl()) { ?>
               <li class="b-animate b-purple px-3 pt-2">
                 <a class="text-decoration-none text-mediumpurple d-inline-block" href="./signin">ثبت نام</a>
                 <span class="font-x-s">- تنها یک دقیقه طول می کشد.</span>
@@ -71,6 +71,7 @@
             <?php } ?>
           </ul>
         </li>
+        <?php if (get_user_acl()) { ?>
         <!-- wishlist -->
         <li class="nav-item b-drop position-relative">
           <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">2</span>
@@ -84,6 +85,7 @@
             </svg>
           </a>
         </li>
+        <?php } ?>
         <!-- cart -->
         <li class="cart nav-item b-drop position-relative">
           <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"></span>

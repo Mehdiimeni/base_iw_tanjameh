@@ -17,3 +17,6 @@ if ((new IPTools(dirname(__FILE__, 3) . "/idefine/"))->getHostAddressLoad() == '
     $objFileToolsDBInfo = (new FileTools(dirname(__FILE__, 3) . "/idefine/conf/local.iw"))->KeyValueFileReader();
 
 $objORM = new DBORM((new MySQLConnection($objFileToolsDBInfo))->getConn());
+
+
+$objACLTools = new ACLTools();

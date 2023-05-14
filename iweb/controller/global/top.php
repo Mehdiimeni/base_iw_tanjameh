@@ -9,6 +9,13 @@ function set_server()
     return $objIAPI;
 }
 
+function get_user_id()
+{
+    isset($_REQUEST['_IWUserIdKey']) ? $UserIdKey = $_REQUEST['_IWUserIdKey']  : $UserIdKey = null;
+    return $UserIdKey;
+
+}
+
 function get_website_data()
 {
     $objIAPI = set_server();
