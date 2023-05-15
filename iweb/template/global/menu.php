@@ -17,49 +17,49 @@
       <ul class="navbar-nav">
         <?php foreach (get_menu(@$_GET['gender']) as $Menu) { ?>
           <li class="nav-item dropdown has-megamenu">
-            <a class="nav-link"  href="&<?php echo @$Menu->Name ?>" data-bs-toggle="dropdown">  <?php echo @$Menu->LocalName ?> </a>
-
-          </li>
-        <?php } ?>
-
-        <!-- <li class="nav-item dropdown has-megamenu">
-            <a class="nav-link" href="#" data-bs-toggle="dropdown"> برای تو  </a>
+            <a class="nav-link" href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>" data-bs-toggle="dropdown"> <?php echo @$Menu->LocalName ?> </a>
             <div class="dropdown-menu megamenu rounded-0" role="menu">
-                  <div class="container-lg">
-                    <div class="row b-animate b-dark">
+              <div class="container-lg">
+                <div class="row b-animate b-dark">
+                  <?php
+                  $counter = 0;
+                  foreach (get_category(@$_GET['gender'], @$Menu->Name) as $Category) {
+                    if ($counter == 0 or $counter % 12 == 0) {
+                      ?>
                       <div class="col">
-                        <h5 class="text-black-50 mt-5">زنانه</h5>
+                        <h5 class="text-black-50 mt-5"></h5>
                         <div class="d-grid cat">
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه لباس</a>
-                            <a href="#"><i class="fa-sharp fa-solid fa-vest-patches"></i> همه کفش</a>
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه اکسسوری</a>
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه ورزشی</a>
-                          </div>
+                        <?php } ?>
+                        <a href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&Group=<?php echo @$Category->Name ?>"><i class="fa-solid fa-shirt"></i>
+                          <?php echo @$Category->LocalName ?>
+                        </a>
+                        <?php if ($counter != 0 and ($counter % 12 == 0 or count(get_category(@$_GET['gender'], @$Menu->Name)) == $counter + 1)) { ?>
+                        </div>
                       </div>
-                  <div class="col">
-                    <h5 class="text-black-50 mt-5">مردانه</h5>
-                        <div class="d-grid cat">
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه لباس</a>
-                            <a href="#"><i class="fa-sharp fa-solid fa-vest-patches"></i> همه کفش</a>
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه اکسسوری</a>
-                            <a href="#"><i class="fa-solid fa-shirt"></i> همه ورزشی</a>
-                          </div>
-                  </div>
+
+                    <?php }
+                        $counter++;
+                  } // ?>
                   <div class="col">
                   </div>
                   <div class="col">
                     <div class="card bg-danger rounded-0 border-0 ps-4 mt-5" style="max-width: 18rem;">
-                      <a href="#"><img src="media/owned-index.png" class="card-img-top" alt="..."></a>
+                      <a href="#"><img src="./itemplates/iweb/media/owned-index.png" class="card-img-top" alt="..."></a>
                       <div class="card-body">
-                        <p class="card-text b-animate b-light"><a href="#" class="text-white text-decoration-none ">فروش متعلق به تو <i class="fa-solid fa-arrow-left"></i></a></p>
+                        <p class="card-text b-animate b-light"><a href="#" class="text-white text-decoration-none ">فروش
+                            متعلق به تو <i class="fa-solid fa-arrow-left"></i></a></p>
                       </div>
                     </div>
                   </div>
-                    </div>
-                  </div>
-            </div>  dropdown-mega-menu.// 
+                </div>
+              </div>
+            </div>
+
+
           </li>
-        -->
+        <?php } ?>
+
+
       </ul>
     </div>
     <!-- search all website -->
