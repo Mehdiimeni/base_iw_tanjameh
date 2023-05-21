@@ -10,11 +10,15 @@ $objIAPI->SetLocalProjectName('tanjameh');
 
 $jsonHost = json_decode($objIAPI->GetGeneralApi('global/host_name'));
 
+/*
 if (str_contains($jsonHost->host, 'localhost')) {
     error_reporting(E_ALL);
 } else {
     error_reporting(0);
 }
+*/
+
+error_reporting(E_ALL);
 
 $objFileToolsInit = new FileTools(dirname(__FILE__, 1) . "/icore/idefine/conf/init.iw");
 
