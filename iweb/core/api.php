@@ -10,6 +10,7 @@ class IAPI
 
     public function __construct($MainUrl, $Type)
     {
+
         $this->MainUrl = $MainUrl;
         $this->Type = $Type;
         $this->GeneralRoute = '/icore/apis/';
@@ -49,18 +50,22 @@ class IAPI
 
     public function GetGeneralApi($api_url)
     {
+
+        $filds = array('url'=>$this->MainUrl . $this->LocalName);
+
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
             CURLOPT_URL => $this->MainUrl . $this->LocalName . $this->GeneralRoute . $this->Type . '/' . $api_url . '.php',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($filds),
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
 
         ]);
 
@@ -71,6 +76,8 @@ class IAPI
 
     public function GetPostApi($api_url,$filds)
     {
+
+
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
             CURLOPT_URL => $this->MainUrl . $this->LocalName . $this->GeneralRoute . $this->Type . '/' . $api_url . '.php',

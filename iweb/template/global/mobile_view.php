@@ -10,11 +10,11 @@
         <div class="offcanvas-body p-0 overflow-y-scroll overflow-x-hidden">
           <nav>
             <div class="nav nav-pills nav-justified" id="nav-tab" role="tablist">
-              <button class="nav-link active text-black-50 rounded-0" id="nav-women-tab" data-bs-toggle="tab" data-bs-target="#nav-women" type="button" role="tab" aria-controls="nav-women" aria-selected="true">زنانه</button>
+            <?php foreach (get_menu(@$_GET['gender']) as $Menu) { ?>
+              <button class="nav-link active text-black-50 rounded-0" id="nav-<?php echo @$Menu->Name ?>-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo @$Menu->Name ?>" type="button" role="tab" aria-controls="nav-<?php echo @$Menu->Name ?>" aria-selected="true"><?php echo @$Menu->LocalName ?></button>
               <div class="vr"></div>
-              <button class="nav-link text-black-50 rounded-0" id="nav-men-tab" data-bs-toggle="tab" data-bs-target="#nav-men" type="button" role="tab" aria-controls="nav-men" aria-selected="false">مردانه</button>
-              <div class="vr"></div>
-              <button class="nav-link text-black-50 rounded-0" id="nav-kids-tab" data-bs-toggle="tab" data-bs-target="#nav-kids" type="button" role="tab" aria-controls="nav-kids" aria-selected="false">بچگانه</button>
+              <?php } ?>
+            
             </div>
           </nav>
           <div class="tab-content shadow-sm" id="nav-tabContent">

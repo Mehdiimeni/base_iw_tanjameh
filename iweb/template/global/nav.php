@@ -63,7 +63,7 @@
               </li>
               <li><a class="dropdown-item" href="#">
                   <div class="row fs-6">
-                    <div class="col-9 text-truncate">username نیستی؟</div>
+                   <!-- <div class="col-9 text-truncate">username نیستی؟</div> -->
                     <div class="col-3">خروج</div>
                   </div>
                 </a></li>
