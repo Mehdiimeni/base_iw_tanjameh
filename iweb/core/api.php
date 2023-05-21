@@ -51,7 +51,7 @@ class IAPI
     public function GetGeneralApi($api_url)
     {
 
-        $filds = array('url' => $this->MainUrl . $this->LocalName.'/icore','protecol' => 'http://');
+        $filds = array('url' => $this->MainUrl . $this->LocalName.'/icore','protecol' => 'https://');
 
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
@@ -66,6 +66,7 @@ class IAPI
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
         ]);
 
         $this->CloseCurl($Curl);
