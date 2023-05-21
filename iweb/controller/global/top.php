@@ -19,6 +19,8 @@ function get_user_id()
 function get_website_data()
 {
     $objIAPI = set_server();
+    var_dump($objIAPI->GetGeneralApi('global/top_page'));
+    exit();
     return json_decode($objIAPI->GetGeneralApi('global/top_page'));
 
 }

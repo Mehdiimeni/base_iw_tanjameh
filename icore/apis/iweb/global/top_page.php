@@ -1,4 +1,4 @@
 <?php
-
-include $_POST['url'] . "/iassets/include/DBLoader.php";
-echo @$objORM->FetchJson(TableIWWebSiteInfo, " Enabled = '1' ", '*','id');
+ini_set('allow_url_include', 'on');
+include $_POST['protecol'].$_POST['url'] . "/iassets/include/DBLoader.php";
+echo @$objORM->FetchJson(TableIWWebSiteInfo, " Enabled = 1 ", '*','id');
