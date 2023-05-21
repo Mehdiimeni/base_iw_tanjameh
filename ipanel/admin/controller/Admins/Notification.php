@@ -26,7 +26,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,AdminIdKey,Email,Sms,Enabled,I
     $ListItem->Sms == 1 ? $ListItem->Sms = FA_LC["yes"] : $ListItem->Sms = FA_LC["no"];
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

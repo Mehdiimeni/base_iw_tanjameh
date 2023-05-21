@@ -7,7 +7,7 @@ $Enabled = true;
 
 $objTimeTools = new TimeTools();
 $objAclTools = new ACLTools();
-$Disabled = BoolEnum::BOOL_FALSE();
+$Disabled = false;
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');

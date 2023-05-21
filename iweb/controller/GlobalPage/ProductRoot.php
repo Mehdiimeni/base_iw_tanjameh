@@ -3,7 +3,7 @@
 require_once IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 
 $Enabled = true;
-$Disabled = BoolEnum::BOOL_FALSE();
+$Disabled = false;
 
 $objAclTools = new ACLTools();
 $objReqular = new Regularization();

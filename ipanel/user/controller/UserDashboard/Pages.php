@@ -18,7 +18,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,Name,PageName,PartIdKey,Enable
     $ListItem->PartIdKey = $objORM->Fetch($SCondition,'PartName',TableIWPanelUserPart)->PartName;
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

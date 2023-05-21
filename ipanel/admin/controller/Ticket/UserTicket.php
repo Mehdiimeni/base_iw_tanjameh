@@ -20,7 +20,7 @@ foreach ($objORM->FetchAll($SCondition,'IdKey,SenderIdKey,TicketSubject,SetView,
     $SCondition = "IdKey = '$ListItem->SenderIdKey'";
     $ListItem->SenderIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

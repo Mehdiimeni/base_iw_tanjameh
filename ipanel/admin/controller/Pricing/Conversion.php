@@ -26,7 +26,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,CurrencyIdKey1,CurrencyIdKey2,
     $ListItem->Rate = $objGlobalVar->NumberFormat($ListItem->Rate);
     $ListItem->ModifyDate = $ListItem->ModifyTime.' '.$ListItem->ModifyDate;
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

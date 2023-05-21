@@ -7,7 +7,7 @@ class ShowFile extends StorageTools
         parent::__construct($MainName);
     }
 
-    public function ShowImage($strRootStart = '', $FileGrAddress, $FileName, $FileTitle, $ChSize = 0, $ImgClass = '', $WaterMark = 0, $Margin = 5, $hadjust = 0)
+    public function ShowImage($strRootStart , $FileGrAddress, $FileName, $FileTitle, $ChSize = 0, $ImgClass = '', $WaterMark = 0, $Margin = 5, $hadjust = 0)
     {
 
         if ($FileName == '' or !$this->FileExist($FileGrAddress, $FileName)) {

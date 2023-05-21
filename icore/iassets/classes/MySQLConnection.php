@@ -4,11 +4,19 @@ require_once dirname(__FILE__, 2) . "/interfaces/DBConnectionInterface.php";
 
 final class MySQLConnection implements DBConnectionInterface
 {
+    private $Host;
+    private $Database;
+    private $User;
+    private $Password;
+    private $IP;
+    private $Port;
+    private $PConn;
+
 
     public function __construct(array $array)
     {
         $this->Host = base64_decode(base64_decode($array['Host']));
-        $this->Datebase = base64_decode(base64_decode($array['Database']));
+        $this->Database = base64_decode(base64_decode($array['Database']));
         $this->User = base64_decode(base64_decode($array['User']));
         $this->Password = base64_decode(base64_decode($array['Password']));
         $this->IP = base64_decode(base64_decode($array['IP']));
@@ -22,8 +30,7 @@ final class MySQLConnection implements DBConnectionInterface
 
         try {
             strtolower($this->Password) == 'null' ? $this->Password = '' : $this->Password;
-            // $this->PConn = new PDO('mysql:host='.$this->Host.';dbname='.$this->Datebase.';charset=utf8', $this->User, $this->Password);
-            $this->PConn = new PDO('mysql:host=localhost;dbname=tanjameh;charset=utf8', 'root', '');
+            $this->PConn = new PDO('mysql:host='.$this->Host.';dbname='.$this->Database.';charset=utf8', $this->User, $this->Password);
             $this->PConn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         } catch (\PDOException $e) {

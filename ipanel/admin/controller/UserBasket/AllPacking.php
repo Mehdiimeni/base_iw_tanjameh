@@ -56,7 +56,7 @@ foreach ($objORM->FetchLimit($SCondition, 'UserIdKey', 'ModifyDate ASC', $strLim
     $SCondition = "IdKey = '$ListItem->UserIdKey'";
     $ListItem->UserIdKey = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->UserIdKey . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
 
-    if (@$ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if (@$ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

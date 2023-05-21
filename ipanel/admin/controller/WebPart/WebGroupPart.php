@@ -15,7 +15,7 @@ $ToolsIcons[] = $arrToolsIcon["delete"];
 $strListBody = '';
 foreach ($objORM->FetchAllWhitoutCondition('IdKey,Name,PartName,Enabled,IdRow', TableIWWebGroupPart) as $ListItem) {
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

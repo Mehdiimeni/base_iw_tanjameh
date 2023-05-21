@@ -3,6 +3,7 @@
 class StorageTools
 {
 
+    public $RootStoreFile;
     private $MainName;
 
     public function __construct($MainName)

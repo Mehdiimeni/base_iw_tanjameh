@@ -18,7 +18,7 @@ $SCondition = " SetPart = 'marquee'";
 foreach ($objORM->FetchAll($SCondition, 'IdKey,Name,Enabled,IdRow', TableIWAdver) as $ListItem) {
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

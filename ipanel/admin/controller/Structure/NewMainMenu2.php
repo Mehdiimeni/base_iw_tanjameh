@@ -25,7 +25,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,Name,LocalName,GroupIdKey,Weig
     $SCondition = "IdKey = '$ListItem->WeightIdKey'";
     $ListItem->WeightIdKey = '<input type="text" class="weight-sub" maxlength="3" size="3" id="' . $ListItem->Name . '" value="' . @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight . '">';
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

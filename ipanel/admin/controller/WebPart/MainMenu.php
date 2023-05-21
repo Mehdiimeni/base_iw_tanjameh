@@ -17,7 +17,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,Name,LocalName,Enabled,IdRow',
 
     $ListItem->LocalName = '<input type="text" class="name-main" maxlength="250" size="25" id="' . $ListItem->IdKey . '" value="' . $ListItem->LocalName . '">';
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

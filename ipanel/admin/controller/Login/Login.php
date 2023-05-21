@@ -7,10 +7,11 @@ if (isset($_POST['SubmitL'])) {
         exit();
     } else {
 
-        $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->UsernameL, 1);
-        $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PasswordL, 0);
+        $UsernameL = $objAclTools->en2Base64($_POST['UsernameL'], 1);
+        $PasswordL = $objAclTools->mdShal($_POST['PasswordL'], 0);
         $Enabled = true;
         $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = '$Enabled' ";
+
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 
@@ -25,6 +26,7 @@ if (isset($_POST['SubmitL'])) {
             $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
             $ModifyTime = $objTimeTools->jdate("H:i:s");
             $ModifyDate = $objTimeTools->jdate("Y/m/d");
+
 
             $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
             $ModifyId = $objORM->Fetch($SCondition, 'IdKey', TableIWAdmin)->IdKey;
@@ -50,7 +52,7 @@ if (isset($_POST['SubmitL'])) {
             $objGlobalVar->setSessionVar('_IWAdminIdKey', $ModifyId);
             $objGlobalVar->setCookieVar('_IWAdminIdKey', $objAclTools->en2Base64($ModifyId, 1));
 
-            JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
+          //  JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
             exit();
 
         }

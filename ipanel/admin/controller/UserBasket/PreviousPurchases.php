@@ -105,7 +105,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,ChkState,UserIdKey,BasketId
     $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

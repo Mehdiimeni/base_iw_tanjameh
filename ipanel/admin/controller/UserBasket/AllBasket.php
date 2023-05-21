@@ -9,7 +9,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["product"],FA_LC["product_code"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["product"], FA_LC["product_code"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
 
 
 $strListBody = '';
@@ -30,7 +30,10 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
 
     $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    $objArrayImage = explode('==::==', @$APIProducts->Content);
+    if (@$APIProducts->Content == '')
+        continue;
+
+    $objArrayImage = explode('==::==', $APIProducts->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 
     $ListItem->BasketIdKey = @$APIProducts->Name;
@@ -38,7 +41,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
 
     $intImageCounter = 1;
     foreach ($objArrayImage as $image) {
-        if (@strpos($APIProducts->ImageSet, (string)$intImageCounter) === false) {
+        if (@strpos($APIProducts->ImageSet, (string) $intImageCounter) === false) {
 
             unset($objArrayImage[$intImageCounter]);
         }
@@ -61,10 +64,10 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
     $strSizeSelect = $ListItem->Size;
     $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
 
-    $ListItem->OrderNu = '<input type="text" class="order_number"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->OrderNu. '">';
+    $ListItem->OrderNu = '<input type="text" class="order_number"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->OrderNu . '">';
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];
@@ -72,7 +75,3 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
 
     $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0));
 }
-
-
-
-

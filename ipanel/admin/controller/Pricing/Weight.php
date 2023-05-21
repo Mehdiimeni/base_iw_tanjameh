@@ -17,7 +17,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,Weight,NormalPrice,ExtraPrice,
 
     $ListItem->ModifyDate = $ListItem->ModifyTime . ' ' . $ListItem->ModifyDate;
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

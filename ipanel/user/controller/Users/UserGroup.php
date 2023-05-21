@@ -18,7 +18,7 @@ $SCondition = " ModifyId = '$ModifyId' ";
 foreach ($objORM->FetchAll($SCondition,'IdKey,Name,SuperUser,Enabled,IdRow', TableIWUserGroup) as $ListItem) {
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

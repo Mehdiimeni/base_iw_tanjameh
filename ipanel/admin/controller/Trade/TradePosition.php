@@ -21,7 +21,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,GroupIdKey,TradeIdKey,TypePosi
     $SCondition = "IdKey = '$ListItem->TradeIdKey'";
     $ListItem->TradeIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWTrade)->Name;
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

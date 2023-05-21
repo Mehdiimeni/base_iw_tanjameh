@@ -20,7 +20,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,UserName,GroupIdKey,Name,Email
     $SCondition = "IdKey = '$ListItem->GroupIdKey'";
     $ListItem->GroupIdKey = @$objORM->Fetch($SCondition,'Name',TableIWAdminGroup)->Name;
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

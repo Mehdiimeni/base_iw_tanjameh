@@ -5,7 +5,7 @@ include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
 
 $Enabled = true;
-$Disabled = BoolEnum::BOOL_FALSE();
+$Disabled = false;
 
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);

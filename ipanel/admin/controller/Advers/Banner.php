@@ -28,7 +28,7 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,GroupIdKey,Name,Image,Enabled,
     $ListItem->Image = $objShowFile->ShowImage( '', $objShowFile->FileLocation( "banner" ), $ListItem->Image, $ListItem->Name, 80, '' );
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

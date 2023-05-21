@@ -24,7 +24,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdKey,LookPageName,iw_user_IdRow,Enable
     $ListItem->iw_user_IdRow = $objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

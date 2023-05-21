@@ -51,7 +51,7 @@ if($ApiGetLive == 0) {
     } else {
         $SCondition = "  Name = '$NameApi'  and Category = '$ApiCategoryName.$ApivarList'   ";
         if ($objORM->DataExist($SCondition, TableIWAPIContents)) {
-            $ApiContent = BoolEnum::BOOL_FALSE();
+            $ApiContent = false;
         } else {
 
             $objAclTools = new ACLTools();

@@ -83,7 +83,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,UserIdKey,ProductId,ProductCode,O
     $ListItem->SortingNu = '<input type="text" class="sorting_number"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->SortingNu . '">';
 
 
-    if ($ListItem->Enabled == BoolEnum::BOOL_FALSE()) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];

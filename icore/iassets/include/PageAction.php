@@ -10,7 +10,7 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'logout') 
 
 
         $objTimeTools = new TimeTools();
-        $Online = BoolEnum::BOOL_FALSE();
+        $Online = false;
         $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
         $ModifyTime = $objTimeTools->jdate("H:i:s");
         $ModifyDate = $objTimeTools->jdate("Y/m/d");

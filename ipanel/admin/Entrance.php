@@ -5,8 +5,7 @@ $objGlobalVar = new GlobalVarTools();
 isset($_REQUEST['_IWAdminIdKey']) ? $AdminIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey')) : $AdminIdKey = null;
 $objACL = new ACLTools();
 
-if ($objGlobalVar->JsonDecode($objGlobalVar->ServerVarToJson())->HTTP_HOST == 'localhost')
-    error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 require_once IW_DEFINE_FROM_PANEL . 'conf/tablename.php';
 require_once IW_DEFINE_FROM_PANEL . 'conf/viewname.php';
