@@ -1,5 +1,6 @@
 <?php
 //DBLoader.php
+
 require dirname(__FILE__, 4) . "/vendor/autoload.php";
 SessionTools::init();
 
