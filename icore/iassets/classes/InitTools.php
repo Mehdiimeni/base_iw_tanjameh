@@ -45,7 +45,7 @@ class InitTools extends GlobalVarTools
         $this->Errors = $DisplayErrors;
         $DisplayErrors == 1 ? $Reporting = "E_ALL" : $Reporting = $this->Errors;
 
-        //error_reporting($Reporting);
+        error_reporting($Reporting);
         $this->IniSet("display_errors", $this->Errors);
 
     }

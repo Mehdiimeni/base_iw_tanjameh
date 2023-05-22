@@ -25,6 +25,7 @@ $objFileToolsInit = new FileTools(dirname(__FILE__, 1) . "/icore/idefine/conf/in
 (new MakeDirectory)->MKDir(dirname(__FILE__, 1) . '/irepository/log/error/', 'iweb', 0755);
 $objInitTools = new InitTools($objFileToolsInit->KeyValueFileReader(), dirname(__FILE__, 1) . '/irepository/log/error/iweb/viewerror.log');
 
+
 include dirname(__FILE__, 1) . "/iweb/lang/" . $objInitTools->getLang() . "_web.php";
 
 
