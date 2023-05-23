@@ -1,6 +1,8 @@
 <?php 
 //web index 
 
+$page_name_system = 'index';
+
 (new FileCaller)->FileIncluderWithControler(dirname(__FILE__,2), 'temp', 'top');
 (new FileCaller)->FileIncluderWithControler(dirname(__FILE__,2), 'global', 'top');
 (new FileCaller)->FileIncluderWithControler(dirname(__FILE__,2), 'global', 'nav');

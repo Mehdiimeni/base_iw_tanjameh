@@ -17,8 +17,10 @@ class StorageTools
         $arrAllFile = scandir($FileGrAddress);
         foreach ($arrAllFile as $fileName) {
 
-            if ($fileName == '.'
-                or $fileName == '..')
+            if (
+                $fileName == '.'
+                or $fileName == '..'
+            )
                 continue;
 
             if (strpos($fileName, '--') > 0)
@@ -33,8 +35,10 @@ class StorageTools
         $arrAllFile = scandir($FileGrAddress);
         foreach ($arrAllFile as $fileName) {
 
-            if ($fileName == '.'
-                or $fileName == '..')
+            if (
+                $fileName == '.'
+                or $fileName == '..'
+            )
                 continue;
 
             if (strpos($fileName, '--') === false && filesize($FileGrAddress . $fileName) > $MinSize * 1024)
@@ -63,7 +67,7 @@ class StorageTools
 
     public function FileAllowFormat($objAllow, $fileExn): bool
     {
-        $arrAllow = (array)$objAllow;
+        $arrAllow = (array) $objAllow;
         $arrAllow = array_values($arrAllow);
 
         $result = false;
@@ -122,6 +126,12 @@ class StorageTools
             case "banner":
 
                 return FileSizeEnum::SizeBanner();
+
+                break;
+
+            case "adver_banner":
+
+                return FileSizeEnum::SizeAdverBanner();
 
                 break;
 
@@ -221,7 +231,7 @@ class StorageTools
     public function FileAllowSize($FileGrType, $FileSource)
     {
 
-        $FileFact = (array)$this->FindFileFact($FileGrType);
+        $FileFact = (array) $this->FindFileFact($FileGrType);
         $FileFact = array_values($FileFact);
 
         $FileSize = filesize($FileSource);
@@ -332,7 +342,7 @@ class StorageTools
         imageconvolution($image, $sharpen, $divisor, 0);
     }
 
-    public function ImageOptAndStorage($FileSource, $FileGrType, $FileNewName, $ChSize = 0, $hadjust = 0, $sharp = 0,$Refresh = 1)
+    public function ImageOptAndStorage($FileSource, $FileGrType, $FileNewName, $ChSize = 0, $hadjust = 0, $sharp = 0, $Refresh = 1)
     {
 
 
@@ -345,7 +355,7 @@ class StorageTools
 
         if ($ChSize == 0) {
 
-            $FileFact = (array)$this->FindFileFact($FileGrType);
+            $FileFact = (array) $this->FindFileFact($FileGrType);
             $FileFact = array_values($FileFact);
             $intFileFactW = $FileFact[0][1];
 
@@ -360,7 +370,7 @@ class StorageTools
 
         $FinalRoot = $this->FileLocation($FileGrType) . $FileNewName;
 
-        if($FileInfoSize[0] != 0) {
+        if ($FileInfoSize[0] != 0) {
             $hadjust == 0 ? $Div = ($FileInfoSize[0] / $intFileFactW) : $Div = ($FileInfoSize[1] / $intFileFactW);
 
             $ImageRootW = floor($FileInfoSize[0] / $Div);
@@ -512,4 +522,3 @@ class StorageTools
 
     }
 }
-

@@ -5,7 +5,7 @@ if (@$_GET['part'] == null) {
 
 
     if (@$_GET['Category'] != null) {
-        (new FileCaller)->FileIncluderWithControler(dirname(__FILE__, 1)."/iweb/", 'Product', 'Category');
+        (new FileCaller)->FileIncluderWithControler(dirname(__FILE__, 1) . "/iweb/", 'Product', 'Category');
         exit();
     }
 
@@ -17,12 +17,12 @@ if (@$_GET['part'] == null) {
     }
 
 
-    if (@$_GET['Gender'] != null) {
-        (new FileCaller)->FileIncluderWithControler(IW_MAIN_ROOT_FROM_PANEL . IW_WEB_FOLDER, 'First', 'Root');
+    if (@$_GET['gender'] != null) {
+        include_once(dirname(__FILE__, 2) . "/page/gender.php");
         exit();
     }
 
-    include_once(dirname(__FILE__, 2)."/page/index.php");
+    include_once(dirname(__FILE__, 2) . "/page/index.php");
     exit();
 
 } else {
@@ -37,11 +37,9 @@ if (@$_GET['part'] == null) {
         } else {
             (new FileCaller)->FileModifyIncluderWithControler(IW_MAIN_ROOT_FROM_PANEL . IW_WEB_FOLDER, $strPart, $strPage, $strModify);
         }
-    }else
-    {
-        (new FileCaller)->FileIncluderWithControler(dirname(__FILE__, 1)."/iweb/", 'First', 'First');
+    } else {
+        (new FileCaller)->FileIncluderWithControler(dirname(__FILE__, 1) . "/iweb/", 'First', 'First');
     }
     exit();
 
 }
-

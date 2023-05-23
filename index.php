@@ -28,9 +28,6 @@ $objInitTools = new InitTools($objFileToolsInit->KeyValueFileReader(), dirname(_
 
 include dirname(__FILE__, 1) . "/iweb/lang/" . $objInitTools->getLang() . "_web.php";
 
-
-
-
 require(dirname(__FILE__, 1) . "/iweb/core/caller.php");
 require(dirname(__FILE__, 1) . "/iweb/core/urls.php");
 exit();

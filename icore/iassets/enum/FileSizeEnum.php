@@ -8,6 +8,7 @@ class FileSizeEnum extends Enum
     private const SizeUserProfile = array(250 * 1024 * 1024, 1024);
     private const SizeLogo = array(250 * 1024 * 1024, 1600);
     private const SizeBanner = array(250 * 1080 * 1024, 1920);
+    private const SizeAdverBanner = array(250 * 1080 * 1024, 1920);
     private const SizeSlider = array(250 * 1024 * 1024, 1600);
     private const SizeAttachedImage = array(250 * 1024 * 1024, 1400);
     private const SizeDownload = array(1500 * 1024 * 1024, 1600);
