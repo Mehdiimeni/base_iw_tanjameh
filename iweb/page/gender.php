@@ -2,7 +2,7 @@
 //web gender 
 
 if ($_GET['gender'] == strtolower('men'))
-    $page_name_system = 'MenFirstPage';
+     $_SESSION['page_name_system'] = 'MenFirstPage';
 
 
 (new FileCaller)->FileIncluderWithControler(dirname(__FILE__, 2), 'temp', 'top');

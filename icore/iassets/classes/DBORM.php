@@ -113,6 +113,12 @@ class DBORM extends DBConnect
 
     }
 
+    public function FetchJsonWhitoutCondition($TableName, $SCondition, $SFilds)
+    {
+        return (parent::SelectJsonWhitoutCondition($SFilds, $TableName, $SCondition));
+
+    }
+
     //------- fetch data
     public function Fetch($SCondition, $SFilds, $TableName)
     {

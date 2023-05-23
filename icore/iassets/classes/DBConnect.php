@@ -236,4 +236,15 @@ class DBConnect extends Regularization
         return json_encode($results);
     }
 
+    public function SelectJsonWhitoutCondition($Fields, $Table, $Condition)
+    {
+        $Query = "SELECT $Fields FROM $Table WHERE $Condition  ";
+        $sql = $this->dbConnection->prepare($Query);
+        $sql->execute();
+        $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return json_encode($results);
+    }
+
+    
+
 }

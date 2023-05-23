@@ -22,5 +22,5 @@ if (isset($_POST['page_name_system'])) {
 
     $iw_web_pages_part_id = @$objORM->Fetch($condition, "id", TableIWWebSitePagesPart)->id;
 }
-
-echo @$objORM->FetchJson(TableIWWebSiteBannerAdver, " Enabled = 1 and iw_web_pages_part_id = '$iw_web_pages_part_id'  ", '*','id',1);
+$condition_statement = @$objORM->Fetch(" Enabled = 1 and iw_web_pages_part_id = '$iw_web_pages_part_id'  ", "condition_statement", TableIWWebSiteBannerAdver)->condition_statement;
+echo @$objORM->FetchJsonWhitoutCondition(TableIWAPIProducts,   $condition_statement  , '*');
