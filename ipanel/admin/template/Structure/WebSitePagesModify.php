@@ -1,6 +1,7 @@
 <?php
-///template/Structure/WebSiteAlertModify.php
 
+///template/Structure/WebSiteInfoModify.php
+ 
 
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>
@@ -99,7 +100,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                             <div class="x_content">
                                 <br/>
                                 <form class="form-horizontal form-label-left input_mask" method="post" action="">
-
                                 <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["website_name"]; ?>
                                             <span class="required">*</span>
@@ -112,37 +112,30 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["name"]; ?>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["website_page"]; ?>
                                             <span
                                                     class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input name="alert_name" class="date-picker form-control col-md-7 col-xs-12"
+                                            <input  name="name"
+                                                   class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="text"
-                                                   value="<?php echo @$objEditView->alert_name; ?>">
+                                                   value="<?php echo @$objEditView->name; ?>">
                                         </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["type"]; ?>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["local_name"]; ?>
                                             <span
                                                     class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input name="alert_type" class="date-picker form-control col-md-7 col-xs-12"
+                                            <input  name="title"
+                                                   class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="text"
-                                                   value="<?php echo @$objEditView->alert_type; ?>">
+                                                   value="<?php echo @$objEditView->title; ?>">
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["content"]; ?>
-                                        </label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <textarea name="alert_content" class="form-control" rows="3"
-                                                      placeholder="<?php echo FA_LC["content"]; ?>"><?php echo @$objEditView->alert_content; ?></textarea>
-                                        </div>
-                                    </div>
 
                                     <div class="ln_solid"></div>
                                     <?php if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify != 'view') { ?>
@@ -225,7 +218,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
 </body>
 </html>
-
 
 
 

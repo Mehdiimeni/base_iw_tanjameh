@@ -7,7 +7,6 @@ $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 
 
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -39,7 +38,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
         $SCondition = "website_name = '$website_name'   ";
 
-        if ($objORM->DataExist($SCondition, TableIWWebSiteInfo)) {
+        if ($objORM->DataExist($SCondition, TableIWWebSiteInfo,'id')) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
             exit();
 
@@ -59,8 +58,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " main_phone = '$main_phone' ,";
             $InSet .= " company = '$company' ,";
             $InSet .= " website_address = '$website_address' ,";
-            $InSet .= " modify_id = '$modify_id' ";
-            $InSet .= " modify_ip = '$modify_ip' ,";
+            $InSet .= " modify_id = '$modify_id' ,";
+            $InSet .= " modify_ip = '$modify_ip'";
 
             $objORM->DataAdd($InSet, TableIWWebSiteInfo);
 
