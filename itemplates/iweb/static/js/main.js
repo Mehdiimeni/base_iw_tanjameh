@@ -232,12 +232,14 @@ $cle.on("touchstart click", function(e) {
 });
 
 // select all checkbox
-function eventCheckBox() {
-  let checkboxs = document.getElementsByTagName("input");
-  for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
-    checkboxs[i].checked = !checkboxs[i].checked;
-  }
+$("#checkall").click(function(){
+  if ($(this).hasClass('allChecked')) {
+    $('input[type="checkbox"]', '#choiceAll').prop('checked', false);
+} else {
+    $('input[type="checkbox"]', '#choiceAll').prop('checked', true);
 }
+$(this).toggleClass('allChecked');     
+});
 
 // search whith filter items
  function searchFilter() {

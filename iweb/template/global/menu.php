@@ -2,6 +2,7 @@
 ///template/global/menu.php
 ?>
 <nav class="navbar navbar-expand-lg menu p-0 border-bottom">
+
   <div class="container-lg">
     <a class="btn border-dark-subtle d-lg-none" data-bs-toggle="offcanvas" href="#offcanvasHome" role="button"
       aria-controls="offcanvasHome">
@@ -17,7 +18,8 @@
       <ul class="navbar-nav">
         <?php foreach (get_menu(@$_GET['gender']) as $Menu) { ?>
           <li class="nav-item dropdown has-megamenu">
-            <a class="nav-link" href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>" data-bs-toggle="dropdown"> <?php echo @$Menu->LocalName ?> </a>
+            <a class="nav-link" href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>"
+              data-bs-toggle="dropdown"> <?php echo @$Menu->LocalName ?> </a>
             <div class="dropdown-menu megamenu rounded-0" role="menu">
               <div class="container-lg">
                 <div class="row b-animate b-dark">
@@ -30,7 +32,9 @@
                         <h5 class="text-black-50 mt-5"></h5>
                         <div class="d-grid cat">
                         <?php } ?>
-                        <a href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&Group=<?php echo @$Category->Name ?>"><i class="fa-solid fa-shirt"></i>
+                        <a
+                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&Group=<?php echo @$Category->Name ?>"><i
+                            class="fa-solid fa-shirt"></i>
                           <?php echo @$Category->LocalName ?>
                         </a>
                         <?php if ($counter != 0 and ($counter % 12 == 0 or count(get_category(@$_GET['gender'], @$Menu->Name)) == $counter + 1)) { ?>
@@ -64,8 +68,7 @@
     </div>
     <!-- search all website -->
     <div>
-      <div class="icon-search bg-gainsboro-light d-flex align-items-center justify-content-between p-1"
-        style="width: 288px;">
+      <div class="icon-search bg-gainsboro-light d-flex align-items-center justify-content-between p-1">
         <span class="fs-6 text-dark-emphasis">جستجو</span>
         <i class="fa fa-search p-2" aria-hidden="trues"></i>
       </div>
@@ -78,6 +81,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </nav>

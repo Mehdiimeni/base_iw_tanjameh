@@ -4,6 +4,7 @@
 <!doctype html>
 <html lang="<?php echo $page_lang ?>" dir="<?php echo $page_dir ?>">
   <head>
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

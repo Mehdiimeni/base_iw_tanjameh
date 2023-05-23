@@ -1,8 +1,5 @@
 <?php
 ///template/Structure/NewMainMenu.php
-?>
-<?php
-//NewMainMenu.php
 
 include IW_ASSETS_FROM_PANEL."include/PageUnity.php";
 ?>

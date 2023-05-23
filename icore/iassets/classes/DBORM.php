@@ -30,10 +30,10 @@ class DBORM extends DBConnect
     }
 
     //-------  data exist in table
-    public function DataExist($SCondition, $TableName)
+    public function DataExist($SCondition, $TableName, $Row = 'IdRow')
     {
 
-        if (parent::CountRow($TableName, $SCondition) != 0) {
+        if (parent::CountRow($TableName, $SCondition, $Row) != 0) {
             return true;
         } else {
             return false;
@@ -43,16 +43,16 @@ class DBORM extends DBConnect
 
     //------- data count
 
-    public function DataCount($SCondition, $TableName)
+    public function DataCount($SCondition, $TableName, $Row = 'IdRow')
     {
-        return parent::CountRow($TableName, $SCondition);
+        return parent::CountRow($TableName, $SCondition, $Row);
     }
 
     //------- find unique data in table
 
-    public function DataUnique($SCondition, $TableName)
+    public function DataUnique($SCondition, $TableName, $Row = 'IdRow')
     {
-        if (parent::CountRow($TableName, $SCondition) == 1) {
+        if (parent::CountRow($TableName, $SCondition, $Row) == 1) {
             return true;
         } else {
             return false;
@@ -107,7 +107,7 @@ class DBORM extends DBConnect
     }
 
     //------ fetch limit data return json
-    public function FetchJson($TableName,$SCondition, $SFilds, $IndexSet = 'IdRow', $Limit = 10)
+    public function FetchJson($TableName, $SCondition, $SFilds, $IndexSet = 'IdRow', $Limit = 10)
     {
         return (parent::SelectJson($SFilds, $TableName, $SCondition, $IndexSet, $Limit));
 
@@ -137,7 +137,7 @@ class DBORM extends DBConnect
 
     //------ run function data
 
-    public function  FetchFunc($Value, $FuncName)
+    public function FetchFunc($Value, $FuncName)
     {
         return (parent::SelectFunc($Value, $FuncName));
     }
@@ -189,9 +189,9 @@ class DBORM extends DBConnect
         parent::CallProcedure($ProName);
     }
 
-    public function CallProcedureValue($ProName,$Value)
+    public function CallProcedureValue($ProName, $Value)
     {
-        return (parent::CallProcedureValue($ProName,$Value));
+        return (parent::CallProcedureValue($ProName, $Value));
     }
 
 

@@ -1,5 +1,6 @@
 <?php
-///template/Structure/NewMainMenuModify.php
+///template/Structure/WebSiteInfoModify.php
+ 
 
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>
@@ -105,32 +106,68 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                                     class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input  name="Name"
+                                            <input  name="website_name"
                                                    class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="text"
-                                                   value="<?php echo @$objEditView->Name; ?>">
+                                                   value="<?php echo @$objEditView->website_name; ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["local_name"]; ?>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["title"]; ?>
                                             <span
                                                     class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input name="LocalName" class="date-picker form-control col-md-7 col-xs-12"
+                                            <input name="website_title" class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="text"
-                                                   value="<?php echo @$objEditView->LocalName; ?>">
+                                                   value="<?php echo @$objEditView->website_title; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["email"]; ?>
+                                            <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="email" class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required" type="email"
+                                                   value="<?php echo @$objEditView->email; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["tel"]; ?>
+                                            <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="main_phone" class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required" type="tel"
+                                                   value="<?php echo @$objEditView->main_phone; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["company_name"]; ?>
+                                            <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="company" class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required" type="text"
+                                                   value="<?php echo @$objEditView->company; ?>">
                                         </div>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["description"]; ?>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["address"]; ?>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <textarea name="Description" class="form-control" rows="3"
-                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo @$objEditView->Description; ?></textarea>
+                                            <textarea name="website_address" class="form-control" rows="3"
+                                                      placeholder="<?php echo FA_LC["address"]; ?>"><?php echo @$objEditView->website_address; ?></textarea>
                                         </div>
                                     </div>
 
@@ -215,6 +252,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
 </body>
 </html>
+
 
 
 

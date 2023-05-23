@@ -83,10 +83,10 @@ class DBConnect extends Regularization
 
     }
 
-    public function CountRow($Table, $Condition): int
+    public function CountRow($Table, $Condition, $Row ): int
     {
 
-        $Query = "SELECT IdRow FROM $Table WHERE $Condition ";
+        $Query = "SELECT $Row FROM $Table WHERE $Condition ";
 
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
