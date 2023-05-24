@@ -11,7 +11,7 @@ class ShowFile extends StorageTools
     {
 
         if ($FileName == '' or !$this->FileExist($FileGrAddress, $FileName)) {
-            $FileGrAddress = IW_PANEL_THEME_FROM_PANEL . 'build/icon/';
+            $FileGrAddress = dirname(__FILE__, 4) . '/itemplates/ipanel/build/icon/';
             $FileName = 'no-image.jpg';
             $FileTitle = 'No Image';
         }
@@ -23,7 +23,7 @@ class ShowFile extends StorageTools
 
 
         if ($ChSize == 0) {
-            return ('<img ' . $ImgClass . ' src="' . $strRootStart . $FileAddress . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+            return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddress . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
         } else {
 
             $FileNameChSize = $this->NameChSize($FileGrAddress, $FileName, $ChSize, 1);
@@ -33,17 +33,17 @@ class ShowFile extends StorageTools
             if ($this->FileExist($FileGrAddress . 'thumbnail/', $FileNameChSize)) {
                 $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
 
-                return ('<img ' . $ImgClass . ' src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
             } else {
 
                 parent::ImageOptAndStorage($FileAddress, '../' . $FileGrAddress . 'thumbnail/', $FileNameChSize, $ChSize, $hadjust);
 
                 if ($WaterMark) {
-                    parent::SetWaterMark($FileAddressChSize, '../' . $FileGrAddress . 'thumbnail/', IW_PANEL_THEME_FROM_PANEL . 'build/icon/watermark.png', $Margin);
+                    parent::SetWaterMark($FileAddressChSize, '../' . $FileGrAddress . 'thumbnail/', dirname(__FILE__, 4) . '/itemplates/ipanel/build/icon/watermark.png', $Margin);
                 }
 
                 $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
-                return ('<img ' . $ImgClass . ' src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
 
 
             }
@@ -59,7 +59,7 @@ class ShowFile extends StorageTools
     {
 
         if ($FileName == NULL)
-            return (IW_PANEL_THEME_FROM_PANEL . 'build/icon/no-image.jpg');
+            return (dirname(__FILE__, 4) . '/itemplates/ipanel/build/icon/no-image.jpg');
 
         if ($this->FileExist($FileGrAddress, $FileName)) {
 
@@ -67,7 +67,7 @@ class ShowFile extends StorageTools
 
         } else {
 
-            return (IW_PANEL_THEME_FROM_PANEL . 'build/icon/no-image.jpg');
+            return (dirname(__FILE__, 4) . '/itemplates/ipanel/build/icon/no-image.jpg');
 
         }
     }
