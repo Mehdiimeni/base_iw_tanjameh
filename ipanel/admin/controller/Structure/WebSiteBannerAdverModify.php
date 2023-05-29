@@ -121,8 +121,8 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
     //image
     $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
-    $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL.'img/');
-    $strBannerAdverImage = $objShowFile->ShowImage( '', $objShowFile->FileLocation( "adver_banner" ), $objEditView->image, $objEditView->title, 450, '' );
+    $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
+    $strBannerAdverImage = $objShowFile->ShowImage('', $objShowFile->FileLocation("adver_banner"), $objEditView->image, $objEditView->title, 450, '');
 
     //WebSitePagesPart Name
     $SCondition = "  id = '$objEditView->iw_web_pages_part_id' ";

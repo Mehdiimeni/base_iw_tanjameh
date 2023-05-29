@@ -9,6 +9,7 @@ include dirname(__FILE__, 4) . "/iassets/include/DBLoader.php";
 
 
 if (isset($_POST['id_row'])) {
+    
     $id_row = strtolower($_POST['id_row']);
     $condition = "IdRow = '$id_row' and Enabled = 1 ";
 
@@ -18,7 +19,7 @@ if (isset($_POST['id_row'])) {
     $objFileToolsInit = new FileTools(dirname(__FILE__, 4) . "/idefine/conf/init.iw");
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 
-    $objShowFile->SetRootStoryFile(dirname(__FILE__, 4) . '/irepository/img/');
+    $objShowFile->SetRootStoryFile( './irepository/img/');
 
     $objArrayImage = explode("==::==", $obj_row_product->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
@@ -65,7 +66,7 @@ if (isset($_POST['id_row'])) {
     $arr_product_detail = array('name' => $obj_row_product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart);
     $arr_product_offer = array('offer1' => '<div class="text-bg-light p-1 mb-2"><small>جدید</small></div>');
     $arr_product_note = array('note1' => '<h6 class="m-0">تحویل از راه دور</h6>');
-    $arr_product_detials = array_merge($arr_product_detail,$arr_product_offer,$arr_product_note);
+    $arr_product_detials = array_merge($arr_product_detail, $arr_product_offer, $arr_product_note);
     echo json_encode($arr_product_detials);
 
 }

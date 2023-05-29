@@ -7,7 +7,7 @@ class ShowFile extends StorageTools
         parent::__construct($MainName);
     }
 
-    public function ShowImage($strRootStart , $FileGrAddress, $FileName, $FileTitle, $ChSize = 0, $ImgClass = '', $WaterMark = 0, $Margin = 5, $hadjust = 0)
+    public function ShowImage($strRootStart , $FileGrAddress, $FileName, $FileTitle, $ChSize = 0, $ImgClass = '', $ImageSrc = 'src', $WaterMark = 0, $Margin = 5, $hadjust = 0)
     {
 
         if ($FileName == '' or !$this->FileExist($FileGrAddress, $FileName)) {
@@ -23,7 +23,7 @@ class ShowFile extends StorageTools
 
 
         if ($ChSize == 0) {
-            return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddress . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+            return ('<img ' . $ImgClass .' '.$ImageSrc.'="' . $strRootStart . $FileAddress . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
         } else {
 
             $FileNameChSize = $this->NameChSize($FileGrAddress, $FileName, $ChSize, 1);
@@ -33,7 +33,7 @@ class ShowFile extends StorageTools
             if ($this->FileExist($FileGrAddress . 'thumbnail/', $FileNameChSize)) {
                 $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
 
-                return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                return ('<img ' . $ImgClass .' '.$ImageSrc.'="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
             } else {
 
                 parent::ImageOptAndStorage($FileAddress, '../' . $FileGrAddress . 'thumbnail/', $FileNameChSize, $ChSize, $hadjust);
@@ -43,7 +43,7 @@ class ShowFile extends StorageTools
                 }
 
                 $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
-                return ('<img ' . $ImgClass . ' data-src="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                return ('<img ' . $ImgClass .' '.$ImageSrc.'="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
 
 
             }

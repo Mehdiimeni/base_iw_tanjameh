@@ -21,5 +21,6 @@ if (isset($_POST['page_name_system'])) {
 
     $iw_web_pages_part_id = @$objORM->Fetch($condition, "id", TableIWWebSitePagesPart)->id;
 }
+
 $condition_statement = @$objORM->Fetch("  iw_web_pages_part_id = '$iw_web_pages_part_id' and Enabled = 1   ", "condition_statement", TableIWWebSiteBannerAdver)->condition_statement;
 echo @$objORM->FetchJsonWhitoutCondition(TableIWAPIProducts, $condition_statement, 'IdRow');
