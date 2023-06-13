@@ -1,6 +1,5 @@
 <?php
 ///template/global/nav.php
-require_once './iweb/controller/global/nav.php';
 ?>
 
 <nav class="navbar navbar-expand-lg">
