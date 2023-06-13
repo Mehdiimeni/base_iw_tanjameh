@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET,POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include dirname(__FILE__, 4) . "/iassets/include/DBLoader.php";
+include "../../../iassets/include/DBLoader.php";
 
 $condition = " Enabled = 1  ";
 

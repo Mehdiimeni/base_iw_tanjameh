@@ -8,7 +8,7 @@
 <!-- top bar -->
 <div class="bg-body-secondary d-none d-lg-flex position-relative">
   <div class="container d-flex font-x-s">
-    <a href="mailto:<?php echo (@get_website_data()[0]->email); ?>"
+    <a href="mailto:<?php  echo (@get_website_data()[0]->email); ?>"
       class="p-1 flex-fill text-muted text-decoration-none fw-semibold"><?php echo (_LANG['email']); ?></a>
     <a href="tel:<?php echo (@get_website_data()[0]->main_phone); ?>"
       class="p-1 text-center flex-fill text-muted text-decoration-none fw-semibold"><?php echo (_LANG['main_phone_contact']); ?></a>

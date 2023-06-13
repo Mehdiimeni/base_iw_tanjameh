@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__, 2) . "/interfaces/DBConnectionInterface.php";
+require_once "../../../iassets/interfaces/DBConnectionInterface.php";
 
 final class MySQLConnection implements DBConnectionInterface
 {

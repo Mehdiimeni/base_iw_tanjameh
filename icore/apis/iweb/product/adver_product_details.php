@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET,POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include dirname(__FILE__, 4) . "/iassets/include/DBLoader.php";
+include "../../../iassets/include/DBLoader.php";
 
 
 if (isset($_POST['id_row'])) {
@@ -16,10 +16,10 @@ if (isset($_POST['id_row'])) {
     $obj_row_product = @$objORM->Fetch($condition, "IdKey,Name,PCategory,PGroup,Content,ImageSet,MainPrice,LastPrice,ProductType", TableIWAPIProducts);
 
 
-    $objFileToolsInit = new FileTools(dirname(__FILE__, 4) . "/idefine/conf/init.iw");
+    $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 
-   // $objShowFile->SetRootStoryFile( $_POST['MainUrl'].$_POST['LocalName'].'/irepository/img/');
+    $objShowFile->SetRootStoryFile( '../../../irepository/img/');
 
     $objArrayImage = explode("==::==", $obj_row_product->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
@@ -60,7 +60,7 @@ if (isset($_POST['id_row'])) {
     }
 
 
-    $str_image = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_row_product->Name, 0, 'class="card-img rounded-0 owl-lazy"');
+    $str_image = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_row_product->Name, 360, 'class="card-img rounded-0 owl-lazy"','data-src');
     $product_content = $obj_row_product->ProductType . ' ' . $obj_row_product->PCategory . ' ' . $obj_row_product->PGroup;
 
     $arr_product_detail = array('name' => $obj_row_product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart);

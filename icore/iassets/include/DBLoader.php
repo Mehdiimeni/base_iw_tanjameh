@@ -1,23 +1,23 @@
 <?php
 //DBLoader.php
 
-require dirname(__FILE__, 4) . "/vendor/autoload.php";
+require "../../../vendor/autoload.php";
 SessionTools::init();
 
 
-require_once dirname(__FILE__, 3) . '/idefine/conf/tablename.php';
-require_once dirname(__FILE__, 3) . '/idefine/conf/viewname.php';
-require_once dirname(__FILE__, 3) . '/idefine/conf/functionname.php';
-require_once dirname(__FILE__, 3) . '/idefine/conf/procedurename.php';
+require_once  "../../../idefine/conf/tablename.php";
+require_once  "../../../idefine/conf/viewname.php";
+require_once  "../../../idefine/conf/functionname.php";
+require_once  "../../../idefine/conf/procedurename.php";
 
 $objGlobalVar = new GlobalVarTools();
 
-$objFileToolsDBInfo = (new FileTools(dirname(__FILE__, 3) . "/idefine/conf/online.iw"))->KeyValueFileReader();
+$objFileToolsDBInfo = (new FileTools("../../../idefine/conf/online.iw"))->KeyValueFileReader();
 
 
 
-if ((new IPTools(dirname(__FILE__, 3) . "/idefine/"))->getHostAddressLoad() == 'localhost')
-    $objFileToolsDBInfo = (new FileTools(dirname(__FILE__, 3) . "/idefine/conf/local.iw"))->KeyValueFileReader();
+if ((new IPTools("../../../idefine/"))->getHostAddressLoad() == "localhost")
+    $objFileToolsDBInfo = (new FileTools("../../../idefine/conf/local.iw"))->KeyValueFileReader();
 
 $objORM = new DBORM((new MySQLConnection($objFileToolsDBInfo))->getConn());
 

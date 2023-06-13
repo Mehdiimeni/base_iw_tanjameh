@@ -6,7 +6,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-require dirname(__FILE__, 5) . "/vendor/autoload.php";
+require "../../../../vendor/autoload.php";
 SessionTools::init();
 
 $objGlobalVar = new GlobalVarTools();
