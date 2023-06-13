@@ -1,4 +1,4 @@
 <?php
 ///view/UserBasket/MainBasketModify.php
-require_once (dirname(__FILE__, 3).'/controller/UserBasket/MainBasketModify.php');
-require_once (dirname(__FILE__, 3).'/template/UserBasket/MainBasketModify.php');
+require_once '../ipanel/controller/UserBasket/MainBasketModify.php';
+require_once '../ipanel/template/UserBasket/MainBasketModify.php';

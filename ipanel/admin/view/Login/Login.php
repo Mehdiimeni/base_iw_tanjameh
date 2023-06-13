@@ -1,4 +1,4 @@
 <?php
 ///view/Login/Login.php
-require_once (dirname(__FILE__, 3).'/controller/Login/Login.php');
-require_once (dirname(__FILE__, 3).'/template/Login/Login.php');
+require_once '../ipanel/controller/Login/Login.php';
+require_once '../ipanel/template/Login/Login.php';

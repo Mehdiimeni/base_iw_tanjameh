@@ -55,8 +55,8 @@ class IWebFileCaller
 
             if($Taype == '/view/')
             {
-                fwrite($FOpen,"require_once (dirname(__FILE__, 3).'/controller/$NameFolder$NameFile');\n");
-                fwrite($FOpen,"require_once (dirname(__FILE__, 3).'/template/$NameFolder$NameFile');\n");
+                fwrite($FOpen,"require_once '../../../controller/$NameFolder$NameFile');\n");
+                fwrite($FOpen,"require_once '../../../template/$NameFolder$NameFile');\n");
             }
 
             fclose($FOpen);

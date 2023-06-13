@@ -1,4 +1,4 @@
 <?php
 ///view/temp/top.php
-require_once (dirname(__FILE__, 3).'/controller/temp/top.php');
-require_once (dirname(__FILE__, 3).'/template/temp/top.php');
+require_once './iweb/controller/temp/top.php';
+require_once './iweb/template/temp/top.php';

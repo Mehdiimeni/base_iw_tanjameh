@@ -1,4 +1,4 @@
 <?php
 ///view/Advers/WebLogoModify.php
-require_once (dirname(__FILE__, 3).'/controller/Advers/WebLogoModify.php');
-require_once (dirname(__FILE__, 3).'/template/Advers/WebLogoModify.php');
+require_once '../ipanel/controller/Advers/WebLogoModify.php';
+require_once '../ipanel/template/Advers/WebLogoModify.php';
