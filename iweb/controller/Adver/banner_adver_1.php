@@ -22,6 +22,6 @@ function get_product_details($IdRow)
 {
     $objIAPI = set_server();
     
-    $filds = array('id_row' => $IdRow);
+    $filds = array('id_row' => $IdRow, 'MainUrl'=>$objIAPI->MainUrl , 'LocalName'=>$objIAPI->LocalName );
     return json_decode($objIAPI->GetPostApi('product/adver_product_details', $filds));
 }

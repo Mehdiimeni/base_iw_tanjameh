@@ -19,7 +19,7 @@ if (isset($_POST['id_row'])) {
     $objFileToolsInit = new FileTools(dirname(__FILE__, 4) . "/idefine/conf/init.iw");
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 
-    $objShowFile->SetRootStoryFile( './irepository/img/');
+   // $objShowFile->SetRootStoryFile( $_POST['MainUrl'].$_POST['LocalName'].'/irepository/img/');
 
     $objArrayImage = explode("==::==", $obj_row_product->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
