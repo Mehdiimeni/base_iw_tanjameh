@@ -1,28 +1,28 @@
 <?php
 ///template/adver/banner_adver_1.php
-
+$position_order = 1;
 ?>
 <div class="text-dark"
-  style="background-color: <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->main_color); ?>;">
+  style="background-color: <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->main_color); ?>;">
   <div class="container-md">
     <div class="row pt-5 ps-4 ps-md-0 position-relative placeholder-glow">
       <div class="col-12 col-md-6 py-3">
         <h3 class="fw-semibold">
-          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->title); ?>
+          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->title); ?>
         </h3>
         <h4 class="mb-4">
-          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->content); ?>
+          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->content); ?>
         </h4>
         <a href="products.html" class="text-decoration-none text-dark fw-semibold stretched-link">
-          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->bottom_caption); ?><i
+          <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
             class="fa-solid fa-arrow-left"></i>
         </a>
       </div>
       <div class="col-12 col-md-6 card p-0 rounded-0 border-0">
         <div class="position-relative pt-48 bg-dark-subtle placeholder">
           <img class="lazy-image position-absolute top-0 w-100"
-            data-src="./irepository/img/adver_banner/<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->image); ?>"
-            alt="<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->title); ?>">
+            data-src="./irepository/img/adver_banner/<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->image); ?>"
+            alt="<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->title); ?>">
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
 </div>
 <!-- carousel center nonloop -->
 <div class="container-fluid py-5"
-  style="background-color: <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], 1)[0]->second_color); ?>;">
+  style="background-color: <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->second_color); ?>;">
   <div class="row">
     <div class="col-0 col-md-1"></div>
     <div class="col-12 col-md-11 position-relative overflow-hidden">
@@ -38,7 +38,7 @@
         <div class="position-relative index-owl-nav"></div>
       </div>
       <div class="owl-center-nonloop owl-carousel">
-        <?php foreach (get_banner_adver_product($_SESSION['page_name_system'], 1) as $Product) { ?>
+        <?php foreach (get_banner_adver_product($_SESSION['page_name_system'], $position_order) as $Product) { ?>
           <div class="item position-relative">
             <div class="position-absolute top-0 z-1 mt-2">
               <!-- add class like or dislike -->

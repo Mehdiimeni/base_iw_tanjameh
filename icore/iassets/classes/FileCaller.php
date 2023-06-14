@@ -55,8 +55,8 @@ class FileCaller extends MakeDirectory
             }
 
             if ($Taype == '/view/') {
-                fwrite($FOpen, "require_once '../../../controller/$NameFolder$NameFile');\n");
-                fwrite($FOpen, "require_once '../../../template/$NameFolder$NameFile');\n");
+                fwrite($FOpen, "require_once '$FullDirAddress/controller/$NameFolder$NameFile';\n");
+                fwrite($FOpen, "require_once '$FullDirAddress/template/$NameFolder$NameFile';\n");
             }
 
             fclose($FOpen);

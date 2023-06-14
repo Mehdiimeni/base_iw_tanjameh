@@ -14,7 +14,7 @@ require_once IW_DEFINE_FROM_PANEL . 'conf/procedurename.php';
 
 
 if (@$objACL->NormalLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/admin/' . $AdminIdKey, 'admin')) {
-    (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'GlobalPage', 'PageLoader');
+    (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin', 'GlobalPage', 'PageLoader');
 } else {
-    (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'Login', 'Login');
+    (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin', 'Login', 'Login');
 }

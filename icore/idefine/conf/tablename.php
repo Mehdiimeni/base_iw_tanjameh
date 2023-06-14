@@ -70,6 +70,7 @@ const TableIWWebSiteAlert = "iw_website_alert";
 const TableIWWebSitePages = "iw_website_pages";
 const TableIWWebSitePagesPart = "iw_website_pages_part";
 const TableIWWebSiteBannerAdver = "iw_website_banner_adver";
+const TableIWWebSiteSpAdver = "iw_website_sp_adver";
 
 
 // LooK Part
