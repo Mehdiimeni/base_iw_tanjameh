@@ -38,7 +38,7 @@ if (isset($_POST['SubmitL'])) {
         $Enabled = true;
         $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
-        include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 
         if (!$objORM->DataExist($SCondition, TableIWUser)) {

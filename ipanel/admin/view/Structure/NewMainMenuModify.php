@@ -1,4 +1,4 @@
 <?php
 ///view/Structure/NewMainMenuModify.php
-require_once '../ipanel/controller/Structure/NewMainMenuModify.php';
-require_once '../ipanel/template/Structure/NewMainMenuModify.php';
+require_once '../ipanel/admin/controller/Structure/NewMainMenuModify.php';
+require_once '../ipanel/admin/template/Structure/NewMainMenuModify.php';

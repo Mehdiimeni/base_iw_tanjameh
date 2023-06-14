@@ -5,7 +5,7 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
 } else {
 
 
-    require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     $objGlobalVar = new GlobalVarTools();
 
     $Enabled = true;

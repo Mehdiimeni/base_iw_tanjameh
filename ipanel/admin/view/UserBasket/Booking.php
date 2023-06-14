@@ -1,4 +1,4 @@
 <?php
 ///view/UserBasket/Booking.php
-require_once '../ipanel/controller/UserBasket/Booking.php';
-require_once '../ipanel/template/UserBasket/Booking.php';
+require_once '../ipanel/admin/controller/UserBasket/Booking.php';
+require_once '../ipanel/admin/template/UserBasket/Booking.php';

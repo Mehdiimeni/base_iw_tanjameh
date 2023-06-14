@@ -1,4 +1,4 @@
 <?php
 ///view/UserDashboard/Parts.php
-require_once '../ipanel/controller/UserDashboard/Parts.php';
-require_once '../ipanel/template/UserDashboard/Parts.php';
+require_once '../ipanel/admin/controller/UserDashboard/Parts.php';
+require_once '../ipanel/admin/template/UserDashboard/Parts.php';

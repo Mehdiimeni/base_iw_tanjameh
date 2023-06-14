@@ -1,6 +1,6 @@
 <?php
 //PartsModify.php
-include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 
 $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";

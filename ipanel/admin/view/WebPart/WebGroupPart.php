@@ -1,4 +1,4 @@
 <?php
 ///view/WebPart/WebGroupPart.php
-require_once '../ipanel/controller/WebPart/WebGroupPart.php';
-require_once '../ipanel/template/WebPart/WebGroupPart.php';
+require_once '../ipanel/admin/controller/WebPart/WebGroupPart.php';
+require_once '../ipanel/admin/template/WebPart/WebGroupPart.php';

@@ -21,7 +21,7 @@ if (isset($_POST['SubmitForget'])) {
         $Enabled = true;
         $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  )  and Enabled = '$Enabled' ";
 
-        require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 
         if (!$objORM->DataExist($SCondition, TableIWUser)) {

@@ -107,7 +107,7 @@ if ($arrAllTrade != null) {
 if (@$_GET['backset'] == 'pec') {
 
     $apiMainName = 'Transaction';
-    include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
     $objAclTools = new ACLTools();
@@ -153,7 +153,7 @@ if (@$_GET['backset'] == 'pec') {
 }
 if (@$_GET['backset'] == 'pecl') {
     $apiMainName = 'Transaction';
-    include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
     $objAclTools = new ACLTools();

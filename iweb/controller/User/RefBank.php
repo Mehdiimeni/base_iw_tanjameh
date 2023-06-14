@@ -28,7 +28,7 @@ if (!isset($_POST['Status'])) {
 
 if ($_POST['Status'] == 2) {
 
-    require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     $objGlobalVar = new GlobalVarTools();
 
     $Enabled = true;

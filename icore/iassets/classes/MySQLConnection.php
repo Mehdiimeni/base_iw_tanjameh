@@ -1,7 +1,5 @@
 <?php
 
-require_once "../../../iassets/interfaces/DBConnectionInterface.php";
-
 final class MySQLConnection implements DBConnectionInterface
 {
     private $Host;

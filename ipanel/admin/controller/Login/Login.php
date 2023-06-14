@@ -13,7 +13,7 @@ if (isset($_POST['SubmitL'])) {
         $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
 
-        require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
         if (!$objORM->DataExist($SCondition, TableIWAdmin)) {
             JavaTools::JsAlertWithRefresh(FA_LC['login_info_error'], 0, '');

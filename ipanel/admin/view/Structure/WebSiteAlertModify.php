@@ -1,4 +1,4 @@
 <?php
 ///view/Structure/WebSiteAlertModify.php
-require_once '../ipanel/controller/Structure/WebSiteAlertModify.php';
-require_once '../ipanel/template/Structure/WebSiteAlertModify.php';
+require_once '../ipanel/admin/controller/Structure/WebSiteAlertModify.php';
+require_once '../ipanel/admin/template/Structure/WebSiteAlertModify.php';

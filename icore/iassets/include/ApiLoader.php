@@ -1,6 +1,6 @@
 <?php
 //PageAction.php
-require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 require_once IW_DEFINE_FROM_PANEL . 'conf/tablename.php';
 
 $objTimeTools = new TimeTools();

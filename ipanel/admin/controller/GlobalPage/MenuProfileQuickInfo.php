@@ -1,6 +1,6 @@
 <?php
 //MenuProfileQuickInfo.php
-require IW_ASSETS_FROM_PANEL."include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 $Enabled = true;
 $AdminIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));

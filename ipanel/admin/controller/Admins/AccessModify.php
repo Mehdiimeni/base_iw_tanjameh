@@ -1,6 +1,6 @@
 <?php
 //AccessModify.php
-include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 $Enabled = true;
 

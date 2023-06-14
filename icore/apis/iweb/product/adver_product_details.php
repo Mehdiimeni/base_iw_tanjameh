@@ -60,7 +60,7 @@ if (isset($_POST['id_row'])) {
     }
 
 
-    $str_image = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_row_product->Name, 360, 'class="card-img rounded-0 owl-lazy"','data-src');
+    $str_image = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_row_product->Name, 336, 'class="card-img rounded-0 owl-lazy"','data-src');
     $product_content = $obj_row_product->ProductType . ' ' . $obj_row_product->PCategory . ' ' . $obj_row_product->PGroup;
 
     $arr_product_detail = array('name' => $obj_row_product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart);

@@ -1,6 +1,6 @@
 <?php
 //Checkout.php
-require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $objGlobalVar = new GlobalVarTools();
 
 $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));

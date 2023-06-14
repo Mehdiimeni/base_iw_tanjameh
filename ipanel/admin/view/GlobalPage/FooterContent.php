@@ -1,4 +1,4 @@
 <?php
 ///view/GlobalPage/FooterContent.php
-require_once '../ipanel/controller/GlobalPage/FooterContent.php';
-require_once '../ipanel/template/GlobalPage/FooterContent.php';
+require_once '../ipanel/admin/controller/GlobalPage/FooterContent.php';
+require_once '../ipanel/admin/template/GlobalPage/FooterContent.php';

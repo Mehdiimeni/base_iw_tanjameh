@@ -1,6 +1,6 @@
 <?php
 //First.php
-include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
@@ -29,7 +29,7 @@ $arrState = $objGlobalVar->JsonDecodeArray($objKMN->connect());
 if (@$_GET['backset'] == 't') {
 
     $apiMainName = 'Transaction';
-    include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
     $objAclTools = new ACLTools();

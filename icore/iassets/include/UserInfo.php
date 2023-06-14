@@ -1,7 +1,7 @@
 <?php
 //UserInfo.php
 
-require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 

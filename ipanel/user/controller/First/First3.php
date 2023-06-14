@@ -1,6 +1,6 @@
 <?php
 //First3.php
-require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 require_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 
 $apiMainName = 'customer/'.(int)$stdProfile->ApiId;
@@ -28,7 +28,7 @@ $arrState = $objGlobalVar->JsonDecodeArray($objKMN->connect());
 if (@$_GET['backset'] == 't') {
 
    
-    require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
     require_once IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
     $objAclTools = new ACLTools();

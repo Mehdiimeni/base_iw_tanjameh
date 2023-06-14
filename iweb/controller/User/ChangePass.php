@@ -1,7 +1,7 @@
 <?php
 //ChangePass.php
 
-include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $objGlobalVar = new GlobalVarTools();
 $Enabled = true;
 
@@ -27,7 +27,7 @@ if (isset($_POST['RegisterE'])) {
         $Enabled = true;
 
 
-        include IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 
         $objTimeTools = new TimeTools();

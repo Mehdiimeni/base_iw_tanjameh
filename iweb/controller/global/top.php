@@ -3,8 +3,9 @@
 
 function set_server()
 {
+    $_SERVER['HTTP_HOST'] != 'localhost' ? $server_address = 'https://'.$_SERVER['HTTP_HOST'] : $server_address = $_SERVER['HTTP_HOST'];
 
-    $objIAPI = new IAPI($_SERVER['HTTP_HOST'], 'iweb');
+    $objIAPI = new IAPI($server_address, 'iweb');
     $objIAPI->SetLocalProjectName('tanjameh');
     return $objIAPI;
 }

@@ -29,7 +29,7 @@ if (isset($_POST['RegisterL'])) {
         $Enabled = true;
         $SCondition = "   Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber'  ";
 
-        require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
+        require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
         if ($objORM->DataExist($SCondition, TableIWUser)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
