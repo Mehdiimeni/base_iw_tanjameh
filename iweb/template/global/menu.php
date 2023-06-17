@@ -33,7 +33,7 @@
                         <div class="d-grid cat">
                         <?php } ?>
                         <a
-                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&Group=<?php echo @$Category->Name ?>"><i
+                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&group=<?php echo @$Category->Name ?>"><i
                             class="fa-solid fa-shirt"></i>
                           <?php echo @$Category->LocalName ?>
                         </a>

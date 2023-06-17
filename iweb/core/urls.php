@@ -3,21 +3,13 @@
 
 if (@$_GET["part"] == null) {
 
-
-    if (@$_GET["Category"] != null) {
-        (new FileCaller)->FileIncluderWithControler("./iweb/", "Product", "Category");
+    if (@$_GET["group"] != null) {
+        include_once("./iweb/page/group.php");
         exit();
     }
 
 
-
-    if (@$_GET["Search"] != null) {
-        (new FileCaller)->FileIncluderWithControler(IW_MAIN_ROOT_FROM_PANEL . IW_WEB_FOLDER, "Product", "Search");
-        exit();
-    }
-
-
-    if (@$_GET["gender"] != null) {
+    if (@$_GET["gender"] != null and @$_GET["group"] == null) {
         include_once("./iweb/page/gender.php");
         exit();
     }
