@@ -20,4 +20,4 @@ if (isset($_POST['category'])) {
 }
 
 $GroupIdKey = @$objORM->Fetch( $condition, "IdKey" , TableIWNewMenu2)->IdKey;
-echo @$objORM->FetchJson(TableIWNewMenu3, " Enabled = 1 and GroupIdKey = '$GroupIdKey' ", 'Name,LocalName');
+echo @$objORM->FetchJson(TableIWNewMenu3, " Enabled = 1 and GroupIdKey = '$GroupIdKey' ", 'Name,LocalName,CatId');
