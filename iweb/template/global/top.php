@@ -1,6 +1,7 @@
 <?php
 ///template/global/top.php
 
+if(get_website_data()){
 ?>
 <!-- scroll back to top -->
 <a id="back-to-top" href="#" class="btn btn-dark btn-sm rounded-0 back-to-top" role="button"><i
@@ -37,3 +38,4 @@
       aria-label="Close"></button>
   </div>
 </div>
+<?php } ?>

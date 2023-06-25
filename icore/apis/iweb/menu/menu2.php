@@ -7,17 +7,32 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-$condition = " Enabled = 1  ";
-
 if (isset($_POST['gender'])) {
     $gender = strtolower($_POST['gender']);
+
+    if (isset($_POST['category'])) {
+        $category = $_POST['category'];
+        $condition = " Enabled = 1 and Name = '$category' ";
+
+        if ($objORM->DataExist($condition, TableIWNewMenu2)) {
+            $GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu2)->IdKey;
+
+            $condition = "Enabled = 1 and GroupIdKey = '$GroupIdKey'";
+            if ($objORM->DataExist($condition, TableIWNewMenu3)) {
+                echo @$objORM->FetchJson(TableIWNewMenu3, $condition, 'Name,LocalName,CatId');
+            } else {
+                echo false;
+            }
+
+        } else {
+            echo false;
+        }
+
+    } else {
+        echo false;
+    }
+
+
+} else {
+    echo false;
 }
-
-
-if (isset($_POST['category'])) {
-    $category= $_POST['category'];
-    $condition = " Enabled = 1 and Name = '$category' ";
-}
-
-$GroupIdKey = @$objORM->Fetch( $condition, "IdKey" , TableIWNewMenu2)->IdKey;
-echo @$objORM->FetchJson(TableIWNewMenu3, " Enabled = 1 and GroupIdKey = '$GroupIdKey' ", 'Name,LocalName,CatId');

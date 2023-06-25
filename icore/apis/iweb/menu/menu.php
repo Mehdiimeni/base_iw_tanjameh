@@ -7,12 +7,23 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-$condition = " Enabled = 1  ";
 
 if (isset($_POST['gender'])) {
     $gender = strtolower($_POST['gender']);
     $condition = " Enabled = 1 and Name = '$gender' ";
-}
 
-$GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu)->IdKey;
-echo @$objORM->FetchJson(TableIWNewMenu2, " Enabled = 1 and GroupIdKey = '$GroupIdKey' ", 'Name,LocalName');
+    if ($objORM->DataExist($condition, TableIWNewMenu)) {
+
+        $GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu)->IdKey;
+        $condition = " Enabled = 1 and GroupIdKey = '$GroupIdKey' ";
+        if ($objORM->DataExist($condition, TableIWNewMenu2)) {
+            echo @$objORM->FetchJson(TableIWNewMenu2, $condition, 'Name,LocalName');
+        } else {
+            echo false;
+        }
+    } else {
+        echo false;
+    }
+} else {
+    echo false;
+}

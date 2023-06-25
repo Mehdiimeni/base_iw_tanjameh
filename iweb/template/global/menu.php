@@ -16,54 +16,56 @@
     </a>
     <div class="d-lg-block d-none">
       <ul class="navbar-nav">
-        <?php foreach (get_menu(@$_GET['gender']) as $Menu) { ?>
-          <li class="nav-item dropdown has-megamenu">
-            <a class="nav-link" href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>"
-              data-bs-toggle="dropdown"> <?php echo @$Menu->LocalName ?> </a>
-            <div class="dropdown-menu megamenu rounded-0" role="menu">
-              <div class="container-lg">
-                <div class="row b-animate b-dark">
-                  <?php
-                  $counter = 0;
-                  foreach (get_category(@$_GET['gender'], @$Menu->Name) as $Category) {
-                    if ($counter == 0 or $counter % 12 == 0) {
-                      ?>
-                      <div class="col">
-                        <h5 class="text-black-50 mt-5"></h5>
-                        <div class="d-grid cat">
-                        <?php } ?>
+        <?php if (get_menu(@$_GET['gender'])) {
+          foreach (get_menu(@$_GET['gender']) as $Menu) { ?>
+            <li class="nav-item dropdown has-megamenu">
+              <a class="nav-link" href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>"
+                data-bs-toggle="dropdown"> <?php echo @$Menu->LocalName ?> </a>
+              <div class="dropdown-menu megamenu rounded-0" role="menu">
+                <div class="container-lg">
+                  <div class="row b-animate b-dark">
+                    <?php
+                    $counter = 0;
+                    if (get_category(@$_GET['gender'], @$Menu->Name)) {
+                      foreach (get_category(@$_GET['gender'], @$Menu->Name) as $Category) {
+                        if ($counter == 0 or $counter % 12 == 0) {
+                          ?>
+                          <div class="col">
+                            <h5 class="text-black-50 mt-5"></h5>
+                            <div class="d-grid cat">
+                            <?php } ?>
                         <a
-                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&group=<?php echo @$Category->Name ?>&CatId=<?php echo @$Category->CatId;?>"><i
+                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&group=<?php echo @$Category->Name ?>&CatId=<?php echo @$Category->CatId; ?>"><i
                             class="fa-solid fa-shirt"></i>
                           <?php echo @$Category->LocalName ?>
                         </a>
                         <?php if ($counter != 0 and ($counter % 12 == 0 or count(get_category(@$_GET['gender'], @$Menu->Name)) == $counter + 1)) { ?>
+                          </div>
                         </div>
-                      </div>
 
-                    <?php }
+                      <?php }
                         $counter++;
-                  } // ?>
-                  <div class="col">
-                  </div>
-                  <div class="col">
-                    <div class="card bg-danger rounded-0 border-0 ps-4 mt-5" style="max-width: 18rem;">
-                      <a href="#"><img src="./itemplates/iweb/media/owned-index.png" class="card-img-top" alt="..."></a>
-                      <div class="card-body">
-                        <p class="card-text b-animate b-light"><a href="#" class="text-white text-decoration-none ">فروش
-                            متعلق به تو <i class="fa-solid fa-arrow-left"></i></a></p>
+                      }
+                    } // ?>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                      <div class="card bg-danger rounded-0 border-0 ps-4 mt-5" style="max-width: 18rem;">
+                        <a href="#"><img src="./itemplates/iweb/media/owned-index.png" class="card-img-top" alt="..."></a>
+                        <div class="card-body">
+                          <p class="card-text b-animate b-light"><a href="#" class="text-white text-decoration-none ">فروش
+                              متعلق به تو <i class="fa-solid fa-arrow-left"></i></a></p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
 
-          </li>
-        <?php } ?>
-
-
+            </li>
+          <?php }
+        } // ?>
       </ul>
     </div>
     <!-- search all website -->

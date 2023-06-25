@@ -1,5 +1,6 @@
 <?php
 ///template/global/nav.php
+if(get_nav()){
 ?>
 
 <nav class="navbar navbar-expand-lg">
@@ -119,3 +120,4 @@
     </div>
   </div>
 </nav>
+<?php } ?>

@@ -1,6 +1,7 @@
 <?php
 ///template/adver/sp_adver_1.php
 $position_order = 1;
+if(get_sp_adver_data($_SESSION['page_name_system'], $position_order)){
 ?>
 <div class="container-fluid py-5">
     <div class="row">
@@ -58,3 +59,4 @@ $position_order = 1;
             </div>
         </div>
     </div>
+    <?php } ?>

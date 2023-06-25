@@ -6,4 +6,9 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
-echo @$objORM->FetchJson(TableIWWebSiteInfo, " Enabled = 1 ", '*','id');
+
+if ($objORM->DataExist(" Enabled = 1 ", TableIWWebSiteInfo, 'id')) {
+    echo @$objORM->FetchJson(TableIWWebSiteInfo, " Enabled = 1 ", '*', 'id');
+} else {
+    echo false;
+}

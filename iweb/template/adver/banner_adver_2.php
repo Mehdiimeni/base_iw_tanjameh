@@ -1,6 +1,7 @@
 <?php
 ///template/adver/banner_adver_2.php
 $position_order = 2;
+if(get_banner_adver_data($_SESSION['page_name_system'], $position_order)){
 ?>
 <div class="text-dark"
   style="background-color: <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->main_color); ?>;">
@@ -88,3 +89,4 @@ $position_order = 2;
     </div>
   </div>
 </div>
+<?php } ?>

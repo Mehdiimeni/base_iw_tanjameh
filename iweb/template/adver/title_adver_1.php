@@ -1,5 +1,6 @@
 <?php
 ///template/adver/title_adver_1.php
+if(get_title_adver_data($_SESSION['page_name_system'], $position_order)){
 ?>
 <!-- baner -->
 <div class="row  text-dark mt-3 pt-0 pt-md-4 ps-4 ps-md-0 position-relative placeholder-glow"
@@ -27,3 +28,4 @@
 </div>
 </div>
 </div>
+<?php } ?>

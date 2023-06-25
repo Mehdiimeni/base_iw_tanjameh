@@ -7,4 +7,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-echo @$objORM->FetchJson(TableIWWebSiteAlert," Enabled = '1' ", '*','id');
+if ($objORM->DataExist(" Enabled = 1 ", TableIWWebSiteAlert, 'id')) {
+    echo @$objORM->FetchJson(TableIWWebSiteAlert, " Enabled = '1' ", '*', 'id');
+} else {
+    echo false;
+}
