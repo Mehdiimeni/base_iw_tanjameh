@@ -7,8 +7,8 @@ $group = $_SESSION['group'];
 $cat_id = $_SESSION['cat_id'];
 
 
-$page_condition = "LIMIT 3"
-?>
+$page_condition = "order by IdRow DESC LIMIT 3"
+  ?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
@@ -855,7 +855,7 @@ $page_condition = "LIMIT 3"
         </div>
       </div>
       <div class="hstack gap-2 text-muted my-3">
-        <h6>۴،۹۱۲ محصول</h6>
+        <h6><?php echo get_group_info($cat_id, $gender, $category, $group)->total." "._LANG['product']; ?> </h6>
         <a href="#" class="text-body-tertiary lh-sm fs-5" data-bs-toggle="modal" data-bs-target="#help_items"><i
             class="fa-regular fa-circle-question"></i></a>
         <div class="modal fade" id="help_items" tabindex="-1">
@@ -877,88 +877,64 @@ $page_condition = "LIMIT 3"
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php foreach( group_product_details($cat_id,$page_condition) as $product_data ){ ?>
-        <div class="col card rounded-0 border-0">
-          <div class="position-relative d-inline-block product">
-            <div class="position-absolute top-0 z-1 mt-2">
-              <!-- add class like or dislike -->
-              <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                  class="fa-regular fa-heart" aria-hidden="true"></i></button>
-            </div>
-            <a href="product-detail.html" class="text-decoration-none">
-              <div class="card text-dark rounded-0 border-0 bg-transparent">
-                <div class="position-relative placeholder-glow">
-                  <div class="product-img position-relative pt-144 bg-dark-subtle w-100 placeholder">
-                    <img class="card-img rounded-0 position-absolute top-0 lazy-image"
-                      data-src='media/product/product-a1.webp' onmouseover="this.src='media/product/product-a2.webp';"
-                      onmouseout="this.src='media/product/product-a1.webp';" alt="">
-                  </div>
-                  <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                    <div class="text-bg-light p-1 mb-2"><small>جدید</small></div>
-                    <div class="text-bg-danger p-1 mb-2"><small>تا ۳۰٪ تخفیف</small></div>
-                  </div>
-                  <div class="wrapper position-absolute bottom-0 w-100 bg-body">
-                    <ul class="product-size d-flex scroll-y-nowrap list-unstyled gap-3 text-body mb-0 pt-1">
-                      <li>s</li>
-                      <li>m</li>
-                      <li>l</li>
-                      <li>xl</li>
-                      <li>xxl</li>
-                    </ul>
-                    <div class="product-box d-flex placeholder-glow">
-                      <a href="product-detail.html" class="text-decoration-none p-1 d-inline-block placeholder"
-                        data-img="media/product/product-a1.webp" data-size="s m l xl xxl" data-price="۳,۴۰۰,۰۰۰"
-                        data-detail="tshirt - سفید">
-                        <img data-src='media/product/box-a1.webp' class="lazy-image w-100" alt="">
-                      </a>
-                      <a href="product-detail.html" class="text-decoration-none p-1 d-inline-block placeholder"
-                        data-img="media/product/product-a2.webp" data-size="s m" data-price="۳,۴۰۰,۰۰۰"
-                        data-detail="tshirt - آبی">
-                        <img data-src='media/product/box-a2.webp' class="lazy-image w-100" alt="">
-                      </a>
-                      <a href="product-detail.html" class="text-decoration-none p-1 d-inline-block placeholder"
-                        data-img="media/product/product-a3.webp" data-size="همه سایز موجود هست" data-price="۳,۴۰۰,۰۰۰"
-                        data-detail="tshirt - طوسی">
-                        <img data-src='media/product/box-a3.webp' class="lazy-image w-100" alt="">
-                      </a>
-                      <a href="product-detail.html" class="text-decoration-none p-1 d-inline-block placeholder"
-                        data-img="media/product/product-a4.webp" data-size="xl xxl" data-price="۳,۱۰۰,۰۰۰"
-                        data-detail="tshirt - مشکی">
-                        <img data-src='media/product/box-a4.webp' class="lazy-image w-100" alt="">
-                      </a>
-                      <a href="product-detail.html" class="text-decoration-none p-1 d-inline-block placeholder"
-                        data-img="media/product/product-a5.webp" data-size="s m l xl xxl" data-price="۳,۱۵۰,۰۰۰"
-                        data-detail="tshirt - قرمز">
-                        <img data-src='media/product/box-a5.webp' class="lazy-image w-100" alt="">
-                      </a>
+        <?php foreach (group_product_details($cat_id, $page_condition) as $product_data) { ?>
+          <div class="col card rounded-0 border-0">
+            <div class="position-relative d-inline-block product">
+              <div class="position-absolute top-0 z-1 mt-2">
+                <!-- add class like or dislike -->
+                <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                    class="fa-regular fa-heart" aria-hidden="true"></i></button>
+              </div>
+              <a href="product-detail.html" class="text-decoration-none">
+                <div class="card text-dark rounded-0 border-0 bg-transparent">
+                  <div class="position-relative placeholder-glow">
+                    <div class="product-img position-relative pt-144 bg-dark-subtle w-100 placeholder">
+                      <img class="card-img rounded-0 position-absolute top-0 lazy-image"
+                        data-src='media/product/product-a1.webp' onmouseover="this.src='media/product/product-a2.webp';"
+                        onmouseout="this.src='media/product/product-a1.webp';" alt="">
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                      <?php //echo product_data->offer1;  ?>
+                    </div>
+                    <div class="wrapper position-absolute bottom-0 w-100 bg-body">
+                      <ul class="product-size d-flex scroll-y-nowrap list-unstyled gap-3 text-body mb-0 pt-1">
+                        <?php $arr_size = explode(",", $product_data->Size);
+                        foreach ($arr_size as $size) { ?>
+                          <li>
+                            <?php echo $size; ?>
+                          </li>
+                        <?php } ?>
+                      </ul>
                     </div>
                   </div>
+                  <div class="card-body p-0 py-2">
+                    <h6 class="m-0 text-truncate">
+                      <?php echo ($product_data->name); ?>
+                    </h6>
+                    <h6 class="m-0 text-truncate product-detail">
+                      <?php echo ($product_data->product_content); ?>
+                    </h6>
+                  </div>
+                  <section>
+                    <h6 class="fw-semibold text-danger"><span class="product-price">
+                        <?php echo ($product_data->str_price); ?>
+                      </span></h6>
+                    <?php if ($product_data->str_old_price != 0 and $product_data->str_old_price != $product_data->str_price) { ?>
+                      <?php echo ($product_data->str_old_price); ?>
+                    <?php } ?>
+                  </section>
                 </div>
-                <div class="card-body p-0 py-2">
-                  <h6 class="m-0 text-truncate"><?php echo($product_data->name);?> </h6>
-                  <h6 class="m-0 text-truncate product-detail"><?php echo($product_data->product_content);?></h6>
-                </div>
-                <section>
-                  <h6 class="fw-semibold text-danger"><span class="product-price"><?php echo($product_data->str_price);?></span> تومان</h6>
-                  <h6><del>۵،۴۰۰،۰۰۰ تومان</del></h6>
-                </section>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
-        </div>
         <?php } ?>
       </div>
 
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <li class="page-item disabled">
-            <a class="page-link border-0 bg-white text-body-tertiary"><i class="fa-solid fa-chevron-right"></i></a>
-          </li>
-          <li class="page-item d-flex align-items-center mx-4">صفحه ۱ از ۲۲</li>
-          <li class="page-item">
-            <a class="page-link border-0 text-reset" href="#"><i class="fa-solid fa-chevron-left"></i></a>
-          </li>
+          <?php echo group_product_paging(3,get_group_info($cat_id, $gender, $category, $group)->total); ?>
+      
         </ul>
       </nav>
 

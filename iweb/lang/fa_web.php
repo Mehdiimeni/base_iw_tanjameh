@@ -15,4 +15,5 @@ const _LANG = [
     "child_category" => "دسته بندی بچه گانه",
     "sale_category" => "دسته بندی فروش فوق العاده",
     "categories" => "دسته بندی ها",
+    "product" => "محصول",
 ];
