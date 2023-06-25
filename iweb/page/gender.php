@@ -1,11 +1,20 @@
 <?php
 //web gender 
+$_GET['gender'] != '' ?? $_SESSION['gender'] = $_GET['gender'];
 
 if ($_GET['gender'] == strtolower('men'))
      $_SESSION['page_name_system'] = 'MenFirstPage';
 
 if ($_GET['gender'] == strtolower('women'))
      $_SESSION['page_name_system'] = 'WomenFirstPage';
+
+if ($_GET['gender'] == strtolower('sale'))
+     $_SESSION['page_name_system'] = 'SaleFirstPage';
+
+
+if ($_GET['gender'] == strtolower('child'))
+     $_SESSION['page_name_system'] = 'ChildFirstPage';
+
 
 
 (new FileCaller)->FileIncluderWithControler('./iweb', 'temp', 'top');
