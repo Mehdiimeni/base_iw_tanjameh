@@ -1,6 +1,6 @@
 <?php
 ///template/adver/brand_box.php
-if (get_brand($_SESSION['gender'])) {
+if (get_brand(@$_SESSION['gender'])) {
   ?>
   <div class="container-md my-5">
     <h4 class="h4 fw-semibold">
@@ -8,10 +8,11 @@ if (get_brand($_SESSION['gender'])) {
     </h4>
     <div class="row row-cols-md-4 row-cols-2 mt-4 lh-lg text-truncate b-animate b-dark">
       <?php $counter = 0;
-      foreach (get_brand($_SESSION['gender']) as $Brand) {
-        if ($counter == 0 or $counter % 4 == 0) { ?>
-          <div class="col">
-          <?php } ?>
+      if (get_brand($_SESSION['gender'])) {
+        foreach (get_brand($_SESSION['gender']) as $Brand) {
+          if ($counter == 0 or $counter % 4 == 0) { ?>
+            <div class="col">
+            <?php } ?>
         <a class="nav-link" href="#">
           <?php echo $Brand->BrandName; ?>
         </a>
@@ -19,7 +20,8 @@ if (get_brand($_SESSION['gender'])) {
           </div>
         <?php } ?>
 
-    <?php } ?>
+    <?php }
+      } //?>
     </div>
   </div>
 <?php } ?>

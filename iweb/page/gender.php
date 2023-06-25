@@ -1,6 +1,6 @@
 <?php
 //web gender 
-$_GET['gender'] != '' ?? $_SESSION['gender'] = $_GET['gender'];
+$_SESSION['gender'] = @$_GET['gender'];
 
 if ($_GET['gender'] == strtolower('men'))
      $_SESSION['page_name_system'] = 'MenFirstPage';

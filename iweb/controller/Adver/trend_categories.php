@@ -1,6 +1,6 @@
 <?php
 ///controller/adver/trend_categories.php
-$gender = strtolower($_SESSION['gender']);
+isset($_SESSION['gender']) ? $gender = strtolower(@$_SESSION['gender']) : $gender = '';
 $gender_category_title = _LANG['categories'];
 
 switch ($gender) {

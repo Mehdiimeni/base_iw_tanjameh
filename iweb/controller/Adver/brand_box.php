@@ -1,7 +1,6 @@
 <?php
 ///controller/adver/brand_box.php
-
-$gender = strtolower($_SESSION['gender']);
+isset($_SESSION['gender']) ? $gender = strtolower(@$_SESSION['gender']) : $gender = '';
 $gender_title = _LANG['brands'];
 
 switch ($gender) {
