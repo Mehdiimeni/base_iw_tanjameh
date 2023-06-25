@@ -10,11 +10,12 @@ include "../../../iassets/include/DBLoader.php";
 
 if (isset($_POST['id_row'])) {
 
-    $id_row = strtolower($_POST['id_row']);
-    $condition = "IdRow = '$id_row' and Enabled = 1 ";
+    $id_row = $_POST['id_row'];
+    $condition = "IdRow = $id_row ";
 
-    if ($objORM->DataExist($condition, TableIWAPIProducts)) {
-        $obj_row_product = @$objORM->Fetch($condition, "IdKey,Name,PCategory,PGroup,Content,ImageSet,MainPrice,LastPrice,ProductType", TableIWAPIProducts);
+    if ($objORM->DataExist($condition, ViewIWProductRand)) {
+    
+        $obj_row_product = @$objORM->Fetch($condition, "*", ViewIWProductRand);
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
@@ -36,11 +37,10 @@ if (isset($_POST['id_row'])) {
 
 
         $strPricingPart = '';
-        $SArgument = "'$obj_row_product->IdKey','c72cc40d','fea9f1bf'";
-        $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
-        $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
-        $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
-        $PreviousCurrencyPrice = $PreviousCurrencyPrice[0]->Result;
+ 
+        
+        $CarentCurrencyPrice = $obj_row_product->MainPrice;
+        $PreviousCurrencyPrice = $obj_row_product->LastPrice;
 
         $boolChange = 0;
 

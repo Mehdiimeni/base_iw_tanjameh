@@ -25,8 +25,9 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 //WebSitePagesPart Name
 $strWebSitePart = '';
 $SCondition = " Enabled = '$Enabled' ORDER BY id ";
-foreach ($objORM->FetchAll($SCondition, 'id,title', TableIWWebSitePagesPart) as $ListItem) {
-    $strWebSitePart .= '<option value="' . $ListItem->id . '">' . $ListItem->title . '</option>';
+foreach ($objORM->FetchAll($SCondition, 'id,title,iw_web_pages_id', TableIWWebSitePagesPart) as $ListItem) {
+    $page_title = $objORM->Fetch(" id = $ListItem->iw_web_pages_id ","title",TableIWWebSitePages)->title;
+    $strWebSitePart .= '<option value="' . $ListItem->id . '">' .$page_title.' | '.$ListItem->title . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -126,11 +127,13 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
     //WebSitePagesPart Name
     $SCondition = "  id = '$objEditView->iw_web_pages_part_id' ";
-    $Item = $objORM->Fetch($SCondition, 'title,id', TableIWWebSitePagesPart);
-    $strWebSitePart = '<option selected value="' . $Item->id . '">' . $Item->title . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'title,id,iw_web_pages_id', TableIWWebSitePagesPart);
+    $page_title = $objORM->Fetch(" id = $Item->iw_web_pages_id ","title",TableIWWebSitePages)->title;
+    $strWebSitePart = '<option selected value="' . $Item->id . '">' .$page_title.' | '. $Item->title . '</option>';
     $SCondition = " Enabled = '$Enabled' ORDER BY id ";
-    foreach ($objORM->FetchAll($SCondition, 'title,id', TableIWWebSitePagesPart) as $ListItem) {
-        $strWebSitePart .= '<option value="' . $ListItem->id . '">' . $ListItem->title . '</option>';
+    foreach ($objORM->FetchAll($SCondition, 'title,id,iw_web_pages_id', TableIWWebSitePagesPart) as $ListItem) {
+        $page_title = $objORM->Fetch(" id = $ListItem->iw_web_pages_id ","title",TableIWWebSitePages)->title;
+        $strWebSitePart .= '<option value="' . $ListItem->id . '">' .$page_title.' | '. $ListItem->title . '</option>';
     }
 
 
