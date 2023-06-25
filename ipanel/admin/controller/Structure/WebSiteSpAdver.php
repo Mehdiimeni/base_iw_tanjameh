@@ -17,7 +17,9 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,title,iw_web_pages_part_id,Ena
 
     //website page
     $SCondition = "id = '$ListItem->iw_web_pages_part_id'";
-    $ListItem->iw_web_pages_part_id = $objORM->Fetch($SCondition, 'title', TableIWWebSitePagesPart)->title;
+    $part_name = $objORM->Fetch($SCondition, 'title,iw_web_pages_id', TableIWWebSitePagesPart);
+    $page_title = $objORM->Fetch(" id = $part_name->iw_web_pages_id ", "title", TableIWWebSitePages)->title;
+    $ListItem->iw_web_pages_part_id = $page_title . " | " . $part_name->title;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

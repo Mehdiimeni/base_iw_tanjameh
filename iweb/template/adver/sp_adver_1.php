@@ -34,23 +34,23 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                 <a href="#" class="text-decoration-none">
                                     <div class="card text-dark rounded-0 border-0 bg-transparent">
                                         <div class="position-relative">
-                                            <?php echo get_product_details($Product->IdRow)->image; ?>
+                                            <?php echo $Product->image; ?>
 
                                             <div class="text-bg-dark p-1 mb-2 position-absolute bottom-0 end-0">
-                                                <?php //echo get_product_details($Product->IdRow)->offer1;  ?>
+                                                <?php //echo $Product->offer1;  ?>
                                             </div>
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">
-                                                <?php echo get_product_details($Product->IdRow)->name; ?>
+                                                <?php echo $Product->name; ?>
                                             </h6>
                                             <h6 class="m-0 text-truncate">
-                                                <?php echo get_product_details($Product->IdRow)->product_content; ?>
+                                                <?php echo $Product->product_content; ?>
                                             </h6>
                                         </div>
                                         <section>
                                             <h6>
-                                                <?php echo get_product_details($Product->IdRow)->str_price; ?>
+                                                <?php echo $Product->str_price; ?>
                                             </h6>
                                         </section>
                                     </div>
