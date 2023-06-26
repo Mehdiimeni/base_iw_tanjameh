@@ -29,11 +29,11 @@ if (isset($_POST['page_name_system'])) {
                     $condition_statement = @$objORM->Fetch($condition, "condition_statement", TableIWWebSiteBannerAdver)->condition_statement;
                     if ($objORM->DataExist($condition_statement, ViewIWProductRand)) {
 
-                        $obj_products = $objORM->FetchAll($condition_statement, '*',ViewIWProductRand);
+                        $obj_products = $objORM->FetchAll($condition_statement, '*', ViewIWProductRand);
 
                         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
                         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
-                        $objShowFile->SetRootStoryFile('../../../irepository/img/');
+                        $objShowFile->SetRootStoryFile('./irepository/img/');
 
 
                         $products_diteils = array();
@@ -67,19 +67,23 @@ if (isset($_POST['page_name_system'])) {
                                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
                                 $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
                             }
+                            $strOldPricingPart = 0;
 
                             if ($PreviousCurrencyPrice != null and $boolChange) {
                                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                                $strPricingPart .= '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+                                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
                             }
 
 
-                            $str_image = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
+                            $product_page_url = "?gender=" . $product->PGender . "&category=" . $product->PCategory . "&group=" . $product->PGroup . "&item=" . $product->IdRow;
+                            $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
+                            $str_image = str_replace('../../../../', '', $str_image);
                             $product_content = $product->ProductType . ' ' . $product->PCategory . ' ' . $product->PGroup;
+                            $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
 
-                            $arr_product_detail = array('name' => $product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart);
-                            $arr_product_offer = array('offer1' => '<div class="text-bg-light p-1 mb-2"><small>جدید</small></div>');
+
+                            $arr_product_detail = array('name' => $product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart, 'str_old_price' => $strOldPricingPart, 'product_page_url' => $product_page_url);
                             $arr_product_note = array('note1' => '<h6 class="m-0">تحویل از راه دور</h6>');
                             $arr_product_detials = array_merge($arr_product_detail, $arr_product_offer, $arr_product_note);
                             $products_diteils[] = $arr_product_detials;

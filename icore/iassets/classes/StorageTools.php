@@ -14,6 +14,7 @@ class StorageTools
     public function ClearMake($FileGrType)
     {
         $FileGrAddress = $this->FileLocation($FileGrType);
+
         $arrAllFile = scandir($FileGrAddress);
         foreach ($arrAllFile as $fileName) {
 
@@ -157,7 +158,6 @@ class StorageTools
             case "movie":
 
                 return FileSizeEnum::SizeMovie();
-
                 break;
 
 
@@ -184,9 +184,7 @@ class StorageTools
         switch ($FileUnit) {
 
             case "kb":
-
                 return ceil($FileSize / 1024);
-
                 break;
 
             case "mg":
@@ -298,6 +296,7 @@ class StorageTools
         if (!file_exists($this->RootStoreFile . $GrType)) {
 
             mkdir($this->RootStoreFile . $GrType, 0755, true);
+            return true;
 
         }
 
@@ -312,7 +311,6 @@ class StorageTools
 
     public function FileLocation($FileGrType)
     {
-
         return $this->RootStoreFile . $FileGrType . '/';
 
     }
@@ -345,13 +343,13 @@ class StorageTools
     public function ImageOptAndStorage($FileSource, $FileGrType, $FileNewName, $ChSize = 0, $hadjust = 0, $sharp = 0, $Refresh = 1)
     {
 
-
-
         $this->ChkAndMkDir($FileGrType);
 
         $FileInfoSize = $this->FindFileInfoSize($FileSource);
 
-        $FileExt = $this->FindFileExt('', $FileSource);
+
+
+
 
         if ($ChSize == 0) {
 
@@ -364,11 +362,13 @@ class StorageTools
 
             $intFileFactW = $ChSize;
 
-
         }
 
 
-        $FinalRoot = $this->FileLocation($FileGrType) . $FileNewName;
+
+
+        $FinalRoot = $FileGrType . $FileNewName;
+
 
         if ($FileInfoSize[0] != 0) {
             $hadjust == 0 ? $Div = ($FileInfoSize[0] / $intFileFactW) : $Div = ($FileInfoSize[1] / $intFileFactW);
@@ -376,6 +376,8 @@ class StorageTools
             $ImageRootW = floor($FileInfoSize[0] / $Div);
 
             $ImageRootH = floor($FileInfoSize[1] / $Div);
+
+            $FileExt = $this->FindFileExt('', $FileSource);
 
             switch ($FileExt) {
                 case 'jpeg':

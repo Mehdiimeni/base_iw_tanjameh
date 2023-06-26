@@ -11,68 +11,57 @@ class ShowFile extends StorageTools
     {
 
 
+        $repository_address = $strRootStart . $FileGrAddress;
+        $repository_thumbnail_address = $repository_address . 'thumbnail/';
 
-        $FileAddress = $FileGrAddress . $FileName;
-        $FileInfoSize = parent::FindFileInfoSize($FileAddress);
+        //main file
+        $FileInfoSize = parent::FindFileInfoSize($repository_address . $FileName);
+
 
         if ($FileInfoSize != null) {
 
 
 
-
             if ($ChSize == 0) {
-                return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $strRootStart . $FileAddress . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $repository_address . $FileName . '" width="' . $FileInfoSize[0] . '" height="' . $FileInfoSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
             } else {
 
-                $FileNameChSize = $this->NameChSize($FileGrAddress, $FileName, $ChSize, 1);
-                $FileAddressChSize = $FileGrAddress . 'thumbnail/' . $FileNameChSize;
+                $FileNameChSize = $this->NameChSize($repository_address, $FileName, $ChSize, 1);
+                
+                $FileAddressChSize = $repository_thumbnail_address . $FileNameChSize;
 
-
-                if ($this->FileExist($FileGrAddress . 'thumbnail/', $FileNameChSize)) {
+                
+                
+                if ($this->FileExist($repository_thumbnail_address, $FileNameChSize)) {
                     $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
 
-                    return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                    return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
                 } else {
+                    
 
-                    parent::ImageOptAndStorage($FileAddress, '../' . $FileGrAddress . 'thumbnail/', $FileNameChSize, $ChSize, $hadjust);
+                    parent::ImageOptAndStorage($repository_address . $FileName, $repository_thumbnail_address, $FileNameChSize, $ChSize, $hadjust);
+                    
 
                     if ($WaterMark) {
-                        parent::SetWaterMark($FileAddressChSize, '../' . $FileGrAddress . 'thumbnail/', './itemplates/ipanel/build/icon/watermark.png', $Margin);
+                        parent::SetWaterMark($FileAddressChSize, $repository_thumbnail_address, $strRootStart . './itemplates/ipanel/build/icon/watermark.png', $Margin);
                     }
 
                     $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
 
-                    return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $strRootStart . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
+                    return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $FileAddressChSize . '" width="' . $FileInfoSizeChSize[0] . '" height="' . $FileInfoSizeChSize[1] . '" alt="' . $FileTitle . '" title="' . $FileTitle . '">');
 
 
                 }
             }
 
         } else {
-            return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">');
+            return ('<img ' . $ImgClass . ' ' . $ImageSrc . '="' . $strRootStart . './itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">');
         }
     }
 
-    public function FileExist($FileGrAddress, $FileName)
+    public function FileExist($repository_address, $FileName)
     {
-        return (file_exists($FileGrAddress . $FileName));
-    }
-
-    public function FileAddress($FileGrAddress, $FileName)
-    {
-
-        if ($FileName == NULL)
-            return ('./itemplates/ipanel/build/icon/no-image.jpg');
-
-        if ($this->FileExist($FileGrAddress, $FileName)) {
-
-            return ($FileGrAddress . $FileName);
-
-        } else {
-
-            return ('./itemplates/ipanel/build/icon/no-image.jpg');
-
-        }
+        return (file_exists($repository_address . $FileName));
     }
 
     public function NameChSize($FileRoot, $FileName, $ChSize, $webp = 0)

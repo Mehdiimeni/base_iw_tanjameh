@@ -886,20 +886,20 @@ $page_condition = "order by IdRow DESC LIMIT ".$str_limit;
                 <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                     class="fa-regular fa-heart" aria-hidden="true"></i></button>
               </div>
-              <a href="product-detail.html" class="text-decoration-none">
+              <a href="<?php echo $product_data->product_page_url; ?>" class="text-decoration-none">
                 <div class="card text-dark rounded-0 border-0 bg-transparent">
                   <div class="position-relative placeholder-glow">
                     <div class="product-img position-relative pt-144 bg-dark-subtle w-100 placeholder">
                       <img class="card-img rounded-0 position-absolute top-0 lazy-image"
-                        data-src='media/product/product-a1.webp' onmouseover="this.src='media/product/product-a2.webp';"
-                        onmouseout="this.src='media/product/product-a1.webp';" alt="">
+                        data-src='<?php echo $product_data->image_one_address; ?>' onmouseover="this.src='<?php echo $product_data->image_two_address; ?>';"
+                        onmouseout="this.src='<?php echo $product_data->image_one_address; ?>';" alt="">
                     </div>
                     <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                      <?php //echo product_data->offer1;  ?>
+                      <?php echo $product_data->offer1;  ?>
                     </div>
                     <div class="wrapper position-absolute bottom-0 w-100 bg-body">
                       <ul class="product-size d-flex scroll-y-nowrap list-unstyled gap-3 text-body mb-0 pt-1">
-                        <?php $arr_size = explode(",", $product_data->Size);
+                        <?php $arr_size = explode(",", $product_data->size);
                         foreach ($arr_size as $size) { ?>
                           <li>
                             <?php echo $size; ?>

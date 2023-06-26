@@ -37,7 +37,7 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                             <?php echo $Product->image; ?>
 
                                             <div class="text-bg-dark p-1 mb-2 position-absolute bottom-0 end-0">
-                                                <?php //echo $Product->offer1;  ?>
+                                                <?php echo $Product->offer1;  ?>
                                             </div>
                                         </div>
                                         <div class="card-body p-0 py-2">
