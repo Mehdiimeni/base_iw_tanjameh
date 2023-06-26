@@ -4,6 +4,12 @@
 $group = @$_GET["group"];
 $gender = @$_GET["gender"];
 
+if($_GET['loaddata'] == 22)
+{
+    include_once("./iweb/page/data_gather.php");
+    exit(); 
+}
+
 if ($gender == '' and $group == '') {
 
     include_once("./iweb/page/index.php");
