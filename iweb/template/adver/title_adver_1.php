@@ -1,5 +1,6 @@
 <?php
 ///template/adver/title_adver_1.php
+$position_order = 1;
 if (get_title_adver_data($_SESSION['page_name_system'], $position_order)) {
     ?>
     <!-- baner -->
@@ -24,8 +25,7 @@ if (get_title_adver_data($_SESSION['page_name_system'], $position_order)) {
             </div>
         </div>
     </div>
-
-    </div>
-    </div>
-    </div>
 <?php } ?>
+</div>
+</div>
+</div>

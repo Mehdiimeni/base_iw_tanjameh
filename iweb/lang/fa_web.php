@@ -16,4 +16,8 @@ const _LANG = [
     "sale_category" => "دسته بندی فروش فوق العاده",
     "categories" => "دسته بندی ها",
     "product" => "محصول",
+    "page" => "صفحه",
+    "of" => "از",
+    "displaying" => "نمایش",
+    "results" => "نتیجه",
 ];

@@ -5,9 +5,10 @@ $gender = $_SESSION['gender'];
 $category = $_SESSION['category'];
 $group = $_SESSION['group'];
 $cat_id = $_SESSION['cat_id'];
+$page_offcet_nu = 15;
+(isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page']*$page_offcet_nu.' OFFSET '.$page_offcet_nu : $str_limit = $page_offcet_nu;
 
-
-$page_condition = "order by IdRow DESC LIMIT 3"
+$page_condition = "order by IdRow DESC LIMIT ".$str_limit;
   ?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->
@@ -933,8 +934,7 @@ $page_condition = "order by IdRow DESC LIMIT 3"
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php echo group_product_paging(3,get_group_info($cat_id, $gender, $category, $group)->total); ?>
-      
+          <?php echo group_product_paging($page_offcet_nu,get_group_info($cat_id, $gender, $category, $group)->total_en,$_SESSION['actual_link']); ?>
         </ul>
       </nav>
 

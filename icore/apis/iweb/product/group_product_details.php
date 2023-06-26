@@ -15,6 +15,7 @@ if (isset($_POST['cat_id'])) {
     $condition = "CatId = '$cat_id' and Enabled = 1 AND Content IS NOT NULL
     AND AdminOk = 1   " . $page_condition;
 
+
     if ($objORM->DataExist($condition, TableIWAPIProducts)) {
 
         $obj_products = @$objORM->FetchAll($condition, "IdRow,IdKey,Name,PCategory,PGroup,Content,ImageSet,MainPrice,LastPrice,ProductType,Size", TableIWAPIProducts);

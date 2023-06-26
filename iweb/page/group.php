@@ -6,6 +6,10 @@ $_SESSION['category'] = $_GET['category'];
 $_SESSION['group'] = $_GET['group'];
 $_SESSION['cat_id'] = $_GET['CatId'];
 
+$_SESSION['page_name_system'] = 'group';
+$_SESSION['actual_link'] =  "?gender=".$_GET['gender']."&category=".$_GET['category']."&group=".$_GET['group']."&CatId=".$_GET['CatId'];
+
+
 (new FileCaller)->FileIncluderWithControler('./iweb', 'temp', 'top');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'top');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'nav');
