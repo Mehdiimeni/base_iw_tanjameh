@@ -80,7 +80,7 @@ if (isset($_POST['page_name_system'])) {
                             $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
                             $str_image = str_replace('../../../../', '', $str_image);
                             $product_content = $product->ProductType . ' ' . $product->PCategory . ' ' . $product->PGroup;
-                            $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
+                            $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2 position-absolute bottom-0 end-0"><small>تخفیف</small></div>');
 
 
                             $arr_product_detail = array('name' => $product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart, 'str_old_price' => $strOldPricingPart, 'product_page_url' => $product_page_url);

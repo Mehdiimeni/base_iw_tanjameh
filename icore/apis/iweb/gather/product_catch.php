@@ -6,24 +6,26 @@ header("Access-Control-Allow-Methods: GET,POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-
-require "../../../../vendor/autoload.php";
-SessionTools::init();
-
 include "../../../iassets/include/DBLoader.php";
 
 $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile('../../../../irepository/img/');
 
+
 // filter setter
-require_once  "../../../idefine/queryset/ProductFilter.php";
+require_once "../../../idefine/queryset/ProductFilter.php";
 
 
 $Enabled = true;
 
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
+
+// check api count
+$strExpireDate = date("m-Y");
+if (($objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "Count", TableIWAPIAllConnect)->Count) > 39000)
+    exit();
 
 $ModifyTime = $objTimeTools->jdate("H:i:s");
 $ModifyDate = $objTimeTools->jdate("Y/m/d");
@@ -42,8 +44,23 @@ $TimePriod = $objAclTools->JsonDecodeArray(json_encode($TimePriod));
 $TimePriod = $TimePriod["date"];
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-$SCondition = "1 ";
+$SCondition = "ModifyStrTime < '$TimePriod' order by rand() limit 1 ";
+
 foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,WeightIdKey,Enabled,IdRow,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
+
+    if (!($objORM->Fetch("IdKey = '$ListItem->NewMenuId' ", "Enabled", TableIWNewMenu)->Enabled)) {
+
+        $UCondition = " IdKey = '$ListItem->IdKey' ";
+        $USet = " CreateCad = 1 ,";
+        $USet .= " ModifyTime = '$ModifyTime' ,";
+        $USet .= " ModifyDate = '$ModifyDate' ,";
+        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+
+        $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
+
+        continue;
+    }
+
 
     $PGroup = $ListItem->Name;
     $objPCategory = $objORM->Fetch("IdKey = '$ListItem->GroupIdKey' ", 'Name,GroupIdKey', TableIWNewMenu2);
@@ -57,13 +74,8 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
     $CatId = $ListItem->CatId;
 
     $WeightIdKey = $ListItem->WeightIdKey;
-    $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 1500);
+    $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
     $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
-
-    var_dump($ProductContentAt);
-    var_dump($ListProductsContentAt);
-    exit();
-
 
     $strExpireDate = date("m-Y");
     $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
@@ -88,6 +100,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
         $product['price']['previous']['value'] != null ? $ApiLastPrice = $product['price']['previous']['value'] : $ApiLastPrice = 0;
         $ProductCode = $product['productCode'];
+        
         $ApiContent = $objAclTools->enBase64($objAclTools->JsonEncode($product), 0);
         $SCondition = "   ProductId = '$ProductId'   ";
 

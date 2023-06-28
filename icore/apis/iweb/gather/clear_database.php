@@ -6,9 +6,6 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-require "../../../../vendor/autoload.php";
-SessionTools::init();
-
 include "../../../iassets/include/DBLoader.php";
 
 $strExpireDate = date("m-d-Y");

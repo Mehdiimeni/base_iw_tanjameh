@@ -112,8 +112,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
             $objORM->DataAdd($InSet, TableIWAdmin);
             if ( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null ) {
-                $objStorageTools->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL.'img/');
-                $objStorageTools->ImageOptAndStorage( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName );
+                $objStorageTools->SetRootStoryFile('../irepository/img/');
+                $objStorageTools->FileCopyServer( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName );
             }
 
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
@@ -220,8 +220,8 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " ModifyId = '$ModifyId' ";
 
                 if ( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null ) {
-                    $objStorageTools->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL.'img/');
-                    $objStorageTools->ImageOptAndStorage( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName );
+                    $objStorageTools->SetRootStoryFile('../irepository/img/');
+                    $objStorageTools->FileCopyServer( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName );
                     $USet .= ", Image = '$FileNewName'";
                 }
 

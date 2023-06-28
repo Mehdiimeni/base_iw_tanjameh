@@ -14,7 +14,7 @@ if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
           <h4 class="mb-4">
             <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->content); ?>
           </h4>
-          <a href="products.html" class="text-decoration-none text-dark fw-semibold stretched-link">
+          <a href="<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>" class="text-decoration-none text-dark fw-semibold stretched-link">
             <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
               class="fa-solid fa-arrow-left"></i>
           </a>

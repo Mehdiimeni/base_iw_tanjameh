@@ -14,7 +14,7 @@ if (isset($_POST['id_row'])) {
     $condition = "IdRow = $id_row ";
 
     if ($objORM->DataExist($condition, ViewIWProductRand)) {
-    
+
         $obj_row_product = @$objORM->Fetch($condition, "*", ViewIWProductRand);
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
@@ -37,8 +37,8 @@ if (isset($_POST['id_row'])) {
 
 
         $strPricingPart = '';
- 
-        
+
+
         $CarentCurrencyPrice = $obj_row_product->MainPrice;
         $PreviousCurrencyPrice = $obj_row_product->LastPrice;
 
@@ -50,13 +50,15 @@ if (isset($_POST['id_row'])) {
         if ($CarentCurrencyPrice != null) {
             $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
             $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-            $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
+            $strPricingPart = '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
         }
+
+        $strOldPricingPart = 0;
 
         if ($PreviousCurrencyPrice != null and $boolChange) {
             $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
             $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-            $strPricingPart .= '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+            $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
         }
 
 

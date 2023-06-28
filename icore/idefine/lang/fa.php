@@ -980,6 +980,7 @@ const FA_LC = [
     "sale" => "حراج ",
     "premium" => "خاص",
     "bottom_caption" => "متن دکمه",
+    "bottom_link" => "لینک دکمه",
     "titer_line" => "خط تیتر",
     "main_line" => "خط اصلی",
     "description_line" => "خط توضیح",

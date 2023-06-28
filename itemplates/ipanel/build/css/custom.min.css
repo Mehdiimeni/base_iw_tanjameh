@@ -5224,3 +5224,10 @@ body.lock #lock_screen .unlock {
     position: relative;
 }
 
+.iw_image_edit_show{
+
+    max-width: 120px !important;
+    width: 100% !important;
+    height: auto !important;
+}
+

@@ -6,10 +6,10 @@ $category = $_SESSION['category'];
 $group = $_SESSION['group'];
 $cat_id = $_SESSION['cat_id'];
 $page_offcet_nu = 15;
-(isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page']*$page_offcet_nu.' OFFSET '.$page_offcet_nu : $str_limit = $page_offcet_nu;
+(isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page'] * $page_offcet_nu . ' OFFSET ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
-$page_condition = "order by IdRow DESC LIMIT ".$str_limit;
-  ?>
+$page_condition = "order by IdRow DESC LIMIT " . $str_limit;
+?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
@@ -856,7 +856,9 @@ $page_condition = "order by IdRow DESC LIMIT ".$str_limit;
         </div>
       </div>
       <div class="hstack gap-2 text-muted my-3">
-        <h6><?php echo get_group_info($cat_id, $gender, $category, $group)->total." "._LANG['product']; ?> </h6>
+        <h6>
+          <?php echo get_group_info($cat_id, $gender, $category, $group)->total . " " . _LANG['product']; ?>
+        </h6>
         <a href="#" class="text-body-tertiary lh-sm fs-5" data-bs-toggle="modal" data-bs-target="#help_items"><i
             class="fa-regular fa-circle-question"></i></a>
         <div class="modal fade" id="help_items" tabindex="-1">
@@ -878,63 +880,66 @@ $page_condition = "order by IdRow DESC LIMIT ".$str_limit;
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php foreach (group_product_details($cat_id, $page_condition) as $product_data) { ?>
-          <div class="col card rounded-0 border-0">
-            <div class="position-relative d-inline-block product">
-              <div class="position-absolute top-0 z-1 mt-2">
-                <!-- add class like or dislike -->
-                <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                    class="fa-regular fa-heart" aria-hidden="true"></i></button>
-              </div>
-              <a href="<?php echo $product_data->product_page_url; ?>" class="text-decoration-none">
-                <div class="card text-dark rounded-0 border-0 bg-transparent">
-                  <div class="position-relative placeholder-glow">
-                    <div class="product-img position-relative pt-144 bg-dark-subtle w-100 placeholder">
-                      <img class="card-img rounded-0 position-absolute top-0 lazy-image"
-                        data-src='<?php echo $product_data->image_one_address; ?>' onmouseover="this.src='<?php echo $product_data->image_two_address; ?>';"
-                        onmouseout="this.src='<?php echo $product_data->image_one_address; ?>';" alt="">
-                    </div>
-                    <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                      <?php echo $product_data->offer1;  ?>
-                    </div>
-                    <div class="wrapper position-absolute bottom-0 w-100 bg-body">
-                      <ul class="product-size d-flex scroll-y-nowrap list-unstyled gap-3 text-body mb-0 pt-1">
-                        <?php $arr_size = explode(",", $product_data->size);
-                        foreach ($arr_size as $size) { ?>
-                          <li>
-                            <?php echo $size; ?>
-                          </li>
-                        <?php } ?>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="card-body p-0 py-2">
-                    <h6 class="m-0 text-truncate">
-                      <?php echo ($product_data->name); ?>
-                    </h6>
-                    <h6 class="m-0 text-truncate product-detail">
-                      <?php echo ($product_data->product_content); ?>
-                    </h6>
-                  </div>
-                  <section>
-                    <h6 class="fw-semibold text-danger"><span class="product-price">
-                        <?php echo ($product_data->str_price); ?>
-                      </span></h6>
-                    <?php if ($product_data->str_old_price != 0 and $product_data->str_old_price != $product_data->str_price) { ?>
-                      <?php echo ($product_data->str_old_price); ?>
-                    <?php } ?>
-                  </section>
+        <?php if (group_product_details($cat_id, $page_condition)) {
+          foreach (group_product_details($cat_id, $page_condition) as $product_data) { ?>
+            <div class="col card rounded-0 border-0">
+              <div class="position-relative d-inline-block product">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-              </a>
+                <a href="<?php echo $product_data->product_page_url; ?>" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative placeholder-glow">
+                      <div class="product-img position-relative pt-144 bg-dark-subtle w-100 placeholder">
+                        <img class="card-img rounded-0 position-absolute top-0 lazy-image"
+                          data-src='<?php echo $product_data->image_one_address; ?>'
+                          onmouseover="this.src='<?php echo $product_data->image_two_address; ?>';"
+                          onmouseout="this.src='<?php echo $product_data->image_one_address; ?>';" alt="">
+                      </div>
+                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                        <?php echo $product_data->offer1; ?>
+                      </div>
+                      <div class="wrapper position-absolute bottom-0 w-100 bg-body">
+                        <ul class="product-size d-flex scroll-y-nowrap list-unstyled gap-3 text-body mb-0 pt-1">
+                          <?php $arr_size = explode(",", $product_data->size);
+                          foreach ($arr_size as $size) { ?>
+                            <li>
+                              <?php echo $size; ?>
+                            </li>
+                          <?php } ?>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        <?php echo ($product_data->name); ?>
+                      </h6>
+                      <h6 class="m-0 text-truncate product-detail">
+                        <?php echo ($product_data->product_content); ?>
+                      </h6>
+                    </div>
+                    <section>
+                      <h6 class="fw-semibold text-danger"><span class="product-price">
+                          <?php echo ($product_data->str_price); ?>
+                        </span></h6>
+                      <?php if ($product_data->str_old_price != 0 and $product_data->str_old_price != $product_data->str_price) { ?>
+                        <?php echo ($product_data->str_old_price); ?>
+                      <?php } ?>
+                    </section>
+                  </div>
+                </a>
+              </div>
             </div>
-          </div>
-        <?php } ?>
+          <?php }
+        } //?>
       </div>
 
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php echo group_product_paging($page_offcet_nu,get_group_info($cat_id, $gender, $category, $group)->total_en,$_SESSION['actual_link']); ?>
+          <?php if (group_product_details($cat_id, $page_condition)) { echo group_product_paging($page_offcet_nu, get_group_info($cat_id, $gender, $category, $group)->total_en, $_SESSION['actual_link']); } ?>
         </ul>
       </nav>
 

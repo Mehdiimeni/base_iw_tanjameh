@@ -14,6 +14,8 @@ class ShowFile extends StorageTools
         $repository_address = $strRootStart . $FileGrAddress;
         $repository_thumbnail_address = $repository_address . 'thumbnail/';
 
+        
+
         //main file
         $FileInfoSize = parent::FindFileInfoSize($repository_address . $FileName);
 

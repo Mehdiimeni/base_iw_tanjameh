@@ -41,6 +41,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $content = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->content);
         $condition_statement = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->condition_statement);
         $bottom_caption = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->bottom_caption);
+        $bottom_link = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->bottom_link);
         $iw_web_pages_part_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_web_pages_part_id);
 
 
@@ -64,6 +65,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " content = '$content' ,";
             $InSet .= " condition_statement = '$condition_statement' ,";
             $InSet .= " bottom_caption = '$bottom_caption' ,";
+            $InSet .= " bottom_link = '$bottom_link' ,";
             $InSet .= " modify_id = '$modify_id', ";
             $InSet .= " modify_ip = '$modify_ip' ,";
             $InSet .= " iw_web_pages_part_id = '$iw_web_pages_part_id' ";
@@ -110,6 +112,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
             $content = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->content);
             $condition_statement = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->condition_statement);
             $bottom_caption = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->bottom_caption);
+            $bottom_link = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->bottom_link);
             $iw_web_pages_part_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_web_pages_part_id);
 
             $SCondition = "( title = '$title' and iw_web_pages_part_id = '$iw_web_pages_part_id'  ) and IdKey != '$IdKey'  ";
@@ -129,6 +132,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " content = '$content' ,";
                 $USet .= " condition_statement = '$condition_statement' ,";
                 $USet .= " bottom_caption = '$bottom_caption' ,";
+                $USet .= " bottom_link = '$bottom_link' ,";
                 $USet .= " modify_id = '$modify_id', ";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 $USet .= " iw_web_pages_part_id = '$iw_web_pages_part_id' ";

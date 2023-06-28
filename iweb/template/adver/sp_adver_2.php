@@ -14,7 +14,7 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                     <h4>
                         <?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->content); ?>
                     </h4>
-                    <a href="#" class="ms-auto text-decoration-none text-mediumpurple">
+                    <a href="<?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>" class="ms-auto text-decoration-none text-mediumpurple">
                         <?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
                             class="fa-solid fa-arrow-left"></i>
                     </a>
@@ -36,9 +36,7 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                         <div class="position-relative">
                                             <?php echo $Product->image; ?>
 
-                                            <div class="text-bg-dark p-1 mb-2 position-absolute bottom-0 end-0">
                                                 <?php echo $Product->offer1;  ?>
-                                            </div>
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">

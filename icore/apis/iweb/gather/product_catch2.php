@@ -6,9 +6,6 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-require "../../../../vendor/autoload.php";
-SessionTools::init();
-
 include "../../../iassets/include/DBLoader.php";
 
 $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
@@ -23,7 +20,11 @@ $Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+// check api count
+$strExpireDate = date("m-Y");
+if (($objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "Count", TableIWAPIAllConnect)->Count) > 39000)
+    exit();
+
 $ModifyTime = $objTimeTools->jdate("H:i:s");
 $ModifyDate = $objTimeTools->jdate("Y/m/d");
 $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
@@ -41,8 +42,22 @@ $TimePriod = $objAclTools->JsonDecodeArray(json_encode($TimePriod));
 $TimePriod = $TimePriod["date"];
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-$SCondition = "1 ";
+$SCondition = "ModifyStrTime < '$TimePriod' order by rand() limit 1";
 foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,WeightIdKey,Enabled,IdRow,ModifyStrTime', TableIWNewMenu4) as $ListItem) {
+
+    if (!($objORM->Fetch("IdKey = '$ListItem->NewMenuId' ", "Enabled", TableIWNewMenu)->Enabled))
+    {
+
+        $UCondition = " IdKey = '$ListItem->IdKey' ";
+        $USet = " CreateCad = 1 ,";
+        $USet .= " ModifyTime = '$ModifyTime' ,";
+        $USet .= " ModifyDate = '$ModifyDate' ,";
+        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+
+        $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu4);
+
+        continue;
+    }
 
 
     $objPGroup = $objORM->Fetch("IdKey = '$ListItem->GroupIdKey' ", 'Name,GroupIdKey', TableIWNewMenu3);
@@ -58,7 +73,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
     $CatId = $ListItem->CatId;
 
     $WeightIdKey = $ListItem->WeightIdKey;
-    $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 1500);
+    $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
 
     $strExpireDate = date("m-Y");
     $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
@@ -105,7 +120,6 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $USet .= " BrandName = '$BrandName' ,";
             $USet .= " WeightIdKey = '$WeightIdKey' ,";
             $USet .= " Attribute = '$Attribute'  ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
             $USet .= " ModifyTime = '$ModifyTime' ,";
             $USet .= " ModifyDate = '$ModifyDate' ,";
             $USet .= " ModifyStrTime = '$ModifyStrTime' ";
@@ -136,7 +150,6 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $InSet .= " BrandName = '$BrandName' ,";
             $InSet .= " WeightIdKey = '$WeightIdKey' ,";
             $InSet .= " Attribute = '$Attribute'  ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
             $InSet .= " ModifyTime = '$ModifyTime' ,";
             $InSet .= " ModifyDate = '$ModifyDate' ,";
             $InSet .= " ModifyStrTime = '$ModifyStrTime', ";
@@ -147,7 +160,6 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
         $UCondition = " IdKey = '$ListItem->IdKey' ";
         $USet = " CreateCad = 1 ,";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
         $USet .= " ModifyTime = '$ModifyTime' ,";
         $USet .= " ModifyDate = '$ModifyDate' ,";
         $USet .= " ModifyStrTime = '$ModifyStrTime' ";
@@ -256,7 +268,6 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                 $USet .= " Size = '$strSize', ";
                 $USet .= " SizeDis = '$strSizeDis', ";
                 $USet .= " BrandName = '$BrandName' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
                 $USet .= " ModifyTime = '$ModifyTime' ,";
                 $USet .= " ModifyDate = '$ModifyDate' ,";
                 $USet .= " RootDateCheck = '$ModifyStrTime' ,";

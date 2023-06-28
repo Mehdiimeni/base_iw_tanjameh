@@ -154,8 +154,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="image" class="date-picker form-control col-md-7 col-xs-12"
-                                            required="required"  type="file"
-                                                   value="<?php echo @$objEditView->image; ?>">
+                                            required="required"  type="file">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -168,6 +167,19 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                                    class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required"  type="text"
                                                    value="<?php echo @$objEditView->bottom_caption; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["bottom_link"]; ?>
+                                        <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="bottom_link"
+                                                   class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required"  type="text"
+                                                   value="<?php echo @$objEditView->bottom_link; ?>">
                                         </div>
                                     </div>
 

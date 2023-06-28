@@ -6,9 +6,12 @@ class StorageTools
     public $RootStoreFile;
     private $MainName;
 
+    public $RefreshPage;
+
     public function __construct($MainName)
     {
         $this->MainName = $MainName;
+       
     }
 
     public function ClearMake($FileGrType)
@@ -343,13 +346,10 @@ class StorageTools
     public function ImageOptAndStorage($FileSource, $FileGrType, $FileNewName, $ChSize = 0, $hadjust = 0, $sharp = 0, $Refresh = 1)
     {
 
+
         $this->ChkAndMkDir($FileGrType);
 
         $FileInfoSize = $this->FindFileInfoSize($FileSource);
-
-
-
-
 
         if ($ChSize == 0) {
 
@@ -441,7 +441,7 @@ class StorageTools
 
             }
 
-
+     
             $ImageRootP = imagecreatetruecolor($ImageRootW, $ImageRootH);
 
 

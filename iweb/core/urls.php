@@ -4,7 +4,7 @@
 $group = @$_GET["group"];
 $gender = @$_GET["gender"];
 
-if($_GET['loaddata'] == 22)
+if(@$_GET['loaddata'] == 22)
 {
     include_once("./iweb/page/data_gather.php");
     exit(); 

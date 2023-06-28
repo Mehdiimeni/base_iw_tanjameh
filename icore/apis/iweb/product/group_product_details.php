@@ -22,7 +22,7 @@ if (isset($_POST['cat_id'])) {
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
-        $objShowFile->SetRootStoryFile('./irepository/img/');
+        $objShowFile->SetRootStoryFile('../irepository/img/');
 
 
         $products_diteils = array();
@@ -57,14 +57,15 @@ if (isset($_POST['cat_id'])) {
             if ($CarentCurrencyPrice != null) {
                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
+                $strPricingPart = '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
             }
+
             $strOldPricingPart = 0;
 
             if ($PreviousCurrencyPrice != null and $boolChange) {
                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+                $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
             }
 
 
@@ -72,27 +73,34 @@ if (isset($_POST['cat_id'])) {
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[1], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
 
-            $image_one_address = $objShowFile->FileLocation("attachedimage").$objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"),$objArrayImage[0],336);
-            $image_two_address = $objShowFile->FileLocation("attachedimage").$objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"),$objArrayImage[1],336);
-            
-            
+            $image_one_address = $objShowFile->FileLocation("attachedimage") . 'thumbnail/' . $objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"), $objArrayImage[0], 336);
+            $image_two_address = $objShowFile->FileLocation("attachedimage") . 'thumbnail/' . $objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"), $objArrayImage[1], 336);
+
+
             $product_content = $product->ProductType . ' ' . $product->PCategory . ' ' . $product->PGroup;
             $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
 
 
             $arr_product_detail = array(
-                'name' => $product->Name, 
-                'product_content' => $product_content, 
-                'image_one_address' => $image_one_address, 
-                'image_two_address' => $image_two_address, 
-                'str_price' => $strPricingPart, 
-                'str_old_price' => $strOldPricingPart, 
-                'product_page_url' => $product_page_url ,
-                'size' => $product->Size);
+                'name' => $product->Name,
+                'product_content' => $product_content,
+                'image_one_address' => $image_one_address,
+                'image_two_address' => $image_two_address,
+                'str_price' => $strPricingPart,
+                'str_old_price' => $strOldPricingPart,
+                'product_page_url' => $product_page_url,
+                'size' => $product->Size
+            );
 
 
-            $arr_product_note = array('note1' => '<h6 class="m-0">تحویل از راه دور</h6>');
-            $arr_product_detials = array_merge($arr_product_detail, $arr_product_offer, $arr_product_note);
+            $arr_product_note = array(
+                'note1' => '<h6 class="m-0">تحویل از راه دور</h6>'
+            );
+            $arr_product_detials = array_merge(
+                $arr_product_detail,
+                $arr_product_offer,
+                $arr_product_note
+            );
             $products_diteils[] = $arr_product_detials;
         }
 
