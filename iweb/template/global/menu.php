@@ -71,11 +71,11 @@
     <!-- search all website -->
     <div>
       <div class="icon-search bg-gainsboro-light d-flex align-items-center justify-content-between p-1">
-        <span class="fs-6 text-dark-emphasis">جستجو</span>
+        <span class="fs-6 text-dark-emphasis"><?php echo _LANG['search']; ?></span>
         <i class="fa fa-search p-2" aria-hidden="trues"></i>
       </div>
       <div class="search-form">
-        <input type="text" id="all_search" class="" placeholder="جستجو را اینجا بنویس" onfocus="all_search()">
+        <input type="text" id="all_search" class="" placeholder="<?php echo _LANG['search_tip1']; ?>" onfocus="all_search()">
         <div class="result-search position-relative p-0">
           <div id="all_match_list"
             class="position-absolute bg-light-subtle w-100 overflow-y-scroll border-dark border border-top-0"

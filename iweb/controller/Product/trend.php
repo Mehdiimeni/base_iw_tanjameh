@@ -1,26 +1,26 @@
 <?php
-///controller/product/brand.php
+///controller/product/trend.php
 
-function get_brand_info($brand)
+function get_trend_info($trend)
 {
-    $filds = array('brand' => $brand);
+    $filds = array('trend' => $trend);
     $objIAPI = set_server();
-    return json_decode($objIAPI->GetPostApi('product/brand', $filds));
+    return json_decode($objIAPI->GetPostApi('product/trend', $filds));
 
 }
 
-function brand_product_details($brand, $page_condition)
+function trend_product_details($trend, $page_condition)
 {
     $objIAPI = set_server();
 
     $filds = array(
-        'brand' => $brand,
-        'page_condition' => $page_condition,
+        'trend' => $trend,
+        'page_condition' => $page_condition
     );
-    return json_decode($objIAPI->GetPostApi('product/brand_product_details', $filds));
+    return json_decode($objIAPI->GetPostApi('product/trend_product_details', $filds));
 }
 
-function brand_product_paging($limit, $total)
+function trend_product_paging($limit, $total)
 {
     $pages = ceil((int) $total / $limit);
     $page = min($pages, filter_input(

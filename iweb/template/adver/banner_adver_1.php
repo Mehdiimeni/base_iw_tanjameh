@@ -14,7 +14,8 @@ if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
           <h4 class="mb-4">
             <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->content); ?>
           </h4>
-          <a href="<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>" class="text-decoration-none text-dark fw-semibold stretched-link">
+          <a href="<?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>"
+            class="text-decoration-none text-dark fw-semibold stretched-link">
             <?php echo (@get_banner_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
               class="fa-solid fa-arrow-left"></i>
           </a>
@@ -53,7 +54,7 @@ if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
                     <div class="position-relative">
                       <?php echo $Product->image; ?>
                       <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                        <?php echo $Product->offer1;  ?>
+                        <?php echo $Product->offer1; ?>
                       </div>
                     </div>
                     <div class="card-body p-0 py-2">
@@ -61,7 +62,13 @@ if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
                         <?php echo $Product->name; ?>
                       </h6>
                       <h6 class="m-0 text-truncate">
-                        <?php echo $Product->product_content; ?>
+                        <?php if (!in_array($Product->product_type, _PRODUCT)) {
+                          echo $Product->product_type;
+                        } else {
+                          echo array_search($Product->product_type, _PRODUCT);
+                        } ?>
+                        -
+                        <?php echo $Product->brand_name; ?>
                       </h6>
                     </div>
                     <section>

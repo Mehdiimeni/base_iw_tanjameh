@@ -8,11 +8,11 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['cat_id'])) {
+if (isset($_POST['brand'])) {
 
-    $cat_id = $_POST['cat_id'];
+    $brand = $_POST['brand'];
     $page_condition = $_POST['page_condition'];
-    $condition = "CatId = '$cat_id' and Enabled = 1 AND Content IS NOT NULL
+    $condition = "BrandName = '$brand' and Enabled = 1 AND Content IS NOT NULL
     AND AdminOk = 1   " . $page_condition;
 
 

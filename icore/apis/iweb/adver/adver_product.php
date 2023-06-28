@@ -79,13 +79,26 @@ if (isset($_POST['page_name_system'])) {
                             $product_page_url = "?gender=" . $product->PGender . "&category=" . $product->PCategory . "&group=" . $product->PGroup . "&item=" . $product->IdRow;
                             $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
                             $str_image = str_replace('../../../../', '', $str_image);
-                            $product_content = $product->ProductType . ' ' . $product->PCategory . ' ' . $product->PGroup;
                             $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
 
 
-                            $arr_product_detail = array('name' => $product->Name, 'product_content' => $product_content, 'image' => $str_image, 'str_price' => $strPricingPart, 'str_old_price' => $strOldPricingPart, 'product_page_url' => $product_page_url);
-                            $arr_product_note = array('note1' => '<h6 class="m-0">تحویل از راه دور</h6>');
-                            $arr_product_detials = array_merge($arr_product_detail, $arr_product_offer, $arr_product_note);
+                            $arr_product_detail = array(
+                                'name' => $product->Name,
+                                'product_type' => $product->ProductType,
+                                'brand_name' => $product->BrandName,
+                                'image' => $str_image,
+                                'str_price' => $strPricingPart,
+                                'str_old_price' => $strOldPricingPart,
+                                'product_page_url' => $product_page_url
+                            );
+                            $arr_product_note = array(
+                                'note1' => '<h6 class="m-0">تحویل از راه دور</h6>'
+                            );
+                            $arr_product_detials = array_merge(
+                                $arr_product_detail,
+                                $arr_product_offer,
+                                $arr_product_note
+                            );
                             $products_diteils[] = $arr_product_detials;
                         }
 

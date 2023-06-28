@@ -1,6 +1,6 @@
 <?php
-///template/adver/sp_adver_1.php
-$position_order = 2;
+///template/adver/sp_adver_4.php
+$position_order = 4;
 if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
     ?>
     <div class="container-fluid py-5">
@@ -37,6 +37,7 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                             <?php echo $Product->image; ?>
 
                                                 <?php echo $Product->offer1;  ?>
+                                            
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">

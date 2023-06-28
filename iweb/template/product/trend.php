@@ -1,10 +1,7 @@
 <?php
-///template/product/group.php
+///template/product/trend.php
 
-$gender = $_SESSION['gender'];
-$category = $_SESSION['category'];
-$group = $_SESSION['group'];
-$cat_id = $_SESSION['cat_id'];
+$trend = $_SESSION['trend'];
 $page_offcet_nu = 15;
 (isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page'] * $page_offcet_nu . ' OFFSET ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
@@ -12,37 +9,12 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
 ?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb b-animate b-dark">
-      <li class="breadcrumb-item"><a
-          href="./?gender=<?php echo get_group_info($cat_id, $gender, $category, $group)->gender_name; ?>"
-          class="text-decoration-none text-dark fw-semibold d-inline-block"><?php echo get_group_info($cat_id, $gender, $category, $group)->gender_local_name; ?></a>
-      </li>
-      <li class="breadcrumb-item active" aria-current="page">
-        <?php echo get_group_info($cat_id, $gender, $category, $group)->category_local_name; ?>
-      </li>
-    </ol>
-  </nav>
+
   <h1 class="fw-semibold mb-5">
-    <?php echo get_group_info($cat_id, $gender, $category, $group)->group_local_name; ?>
+    <?php echo get_trend_info($trend)->trend_name; ?>
   </h1>
   <div class="row my-4">
     <div class="col-12 col-lg-3 b-animate b-dark brand-cat lh-lg">
-      <ul class="list-unstyled">
-        <li>
-          <span class="text-mediumpurple fw-bold">
-            <?php echo get_group_info($cat_id, $gender, $category, $group)->category_local_name; ?>
-          </span>
-          <ul class="list-unstyled ms-0 ms-lg-3 d-flex d-lg-block scroll-y-nowrap">
-            <?php foreach (get_category($gender, $category) as $Category) { ?>
-              <li class="list-active d-inline-block d-lg-block">
-                <a href="./?gender=<?php echo $gender; ?>&category=<?php echo $category; ?>&group=<?php echo @$Category->Name ?>&CatId=<?php echo @$Category->CatId; ?>"
-                  class="text-decoration-none text-dark d-inline-block d-lg-block"><?php echo @$Category->LocalName ?></a>
-              </li>
-            <?php } ?>
-          </ul>
-        </li>
-      </ul>
       <hr class="d-lg-none">
     </div>
     <div class="col-12 col-lg-9">
@@ -69,47 +41,6 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
             <hr class="ms-3 m-0 border-dark-subtle">
             <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
                 class="float-start"><?php echo (_LANG['sales']); ?></span></button>
-          </form>
-        </div>
-        <div class="dropdown d-inline-block mt-1">
-          <button type="button" class="btn btn-outline-dark border-2 rounded-0 dropdown-toggle fw-bold lh-lg"
-            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-            <span>
-              <?php echo (_LANG['brand']); ?>
-            </span>
-          </button>
-          <form class="dropdown-menu p-0 rounded-0 b-animate b-purple" id="choiceAll">
-            <div class="input-group p-3 border-bottom">
-              <input type="search" id="search_filter" class="form-control border-dark rounded-0 border-end-0"
-                placeholder="<?php echo (_LANG['brand_search']); ?>" aria-label="Recipient's brand"
-                aria-describedby="brand-addon1" onkeyup="searchFilter()">
-              <span class="input-group-text border-dark rounded-0 border-start-0 bg-light-subtle" id="brand-addon1"><i
-                  class="fa-solid fa-magnifying-glass"></i></span>
-            </div>
-            <div class="content-filter overflow-y-scroll overflow-x-hidden">
-              <h6 class="fw-semibold m-3">
-                <?php echo (_LANG['all_brands']); ?>
-              </h6>
-              <a class="btn ms-3 p-0 text-mediumpurple text-decoration-none d-block" id="checkall">
-                <?php echo (_LANG['select_all']); ?>
-              </a>
-              <ul id="ul_search_filter" class="list-unstyled">
-                <li class="border-bottom">
-                  <div class="form-check form-check-inline d-flex align-items-center">
-                    <label class="form-check-label flex-grow-1 text-start" for="brandID1">آدیداس</label>
-                    <input class="form-check-input" type="checkbox" id="brandID1">
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="d-flex overflow-hidden border-top">
-              <button type="submit" class="btn btn-secondary p-3 rounded-0 flex-grow-1">
-                <?php echo (_LANG['actions']); ?>
-              </button>
-              <button type="reset" class="btn btn-light p-3 rounded-0 flex-grow-1">
-                <?php echo (_LANG['clear']); ?>
-              </button>
-            </div>
           </form>
         </div>
         <div class="dropdown d-inline-block mt-1">
@@ -144,28 +75,28 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
             data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
             <?php echo (_LANG['color']); ?>
           </button>
-              <form class="dropdown-menu p-0 rounded-0">
-                <div class="content-filter overflow-y-scroll overflow-x-hidden">
-                  <ul id="ul_search_filter" class="list-unstyled pt-2">
-                    <li class="border-bottom">
-                      <div class="form-check form-check-inline d-flex align-items-center">
-                        <span class="badge bg-dark-900 p-2 rounded-0"> </span>
-                        <label class="form-check-label flex-grow-1 text-start" for="colorID1">مشکی</label>
-                        <input class="form-check-input" type="checkbox" id="colorID1">
-                      </div>
-                    </li>
+          <form class="dropdown-menu p-0 rounded-0">
+            <div class="content-filter overflow-y-scroll overflow-x-hidden">
+              <ul id="ul_search_filter" class="list-unstyled pt-2">
+                <li class="border-bottom">
+                  <div class="form-check form-check-inline d-flex align-items-center">
+                    <span class="badge bg-dark-900 p-2 rounded-0"> </span>
+                    <label class="form-check-label flex-grow-1 text-start" for="colorID1">مشکی</label>
+                    <input class="form-check-input" type="checkbox" id="colorID1">
+                  </div>
+                </li>
 
-                  </ul>
-                </div>
-                <div class="d-flex overflow-hidden border-top">
-                  <button type="submit" class="btn btn-secondary p-3 rounded-0 flex-grow-1">
-                    <?php echo (_LANG['actions']); ?>
-                  </button>
-                  <button type="reset" class="btn btn-light p-3 rounded-0 flex-grow-1">
-                    <?php echo (_LANG['clear']); ?>
-                  </button>
-                </div>
-              </form>
+              </ul>
+            </div>
+            <div class="d-flex overflow-hidden border-top">
+              <button type="submit" class="btn btn-secondary p-3 rounded-0 flex-grow-1">
+                <?php echo (_LANG['actions']); ?>
+              </button>
+              <button type="reset" class="btn btn-light p-3 rounded-0 flex-grow-1">
+                <?php echo (_LANG['clear']); ?>
+              </button>
+            </div>
+          </form>
         </div>
         <div class="dropdown d-inline-block mt-1">
           <button type="button" class="btn btn-outline-dark border-1 rounded-0 dropdown-toggle lh-lg"
@@ -193,14 +124,14 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
       </div>
       <div class="hstack gap-2 text-muted my-3">
         <h6>
-          <?php echo get_group_info($cat_id, $gender, $category, $group)->total . " " . _LANG['product']; ?>
+          <?php echo get_trend_info($trend)->total . " " . _LANG['product']; ?>
         </h6>
       </div>
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php if (group_product_details($cat_id, $page_condition)) {
-          foreach (group_product_details($cat_id, $page_condition) as $product_data) { ?>
+        <?php if (trend_product_details($trend, $page_condition)) {
+          foreach (trend_product_details($trend, $page_condition) as $product_data) { ?>
             <div class="col card rounded-0 border-0">
               <div class="position-relative d-inline-block product">
                 <div class="position-absolute top-0 z-1 mt-2">
@@ -236,7 +167,7 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
                         <?php echo ($product_data->name); ?>
                       </h6>
                       <h6 class="m-0 text-truncate product-detail">
-                      <?php if (!in_array($product_data->product_type, _PRODUCT)) {
+                        <?php if (!in_array($product_data->product_type, _PRODUCT)) {
                           echo $product_data->product_type;
                         } else {
                           echo array_search($product_data->product_type, _PRODUCT);
@@ -264,8 +195,8 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php if (group_product_details($cat_id, $page_condition)) {
-            echo group_product_paging($page_offcet_nu, get_group_info($cat_id, $gender, $category, $group)->total_en, $_SESSION['actual_link']);
+          <?php if (trend_product_details($trend, $page_condition)) {
+            echo trend_product_paging($page_offcet_nu, get_trend_info($trend)->total_en);
           } ?>
         </ul>
       </nav>

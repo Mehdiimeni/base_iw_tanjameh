@@ -27,6 +27,7 @@ $objInitTools = new InitTools($objFileToolsInit->KeyValueFileReader(), "./irepos
 
 
 include "./iweb/lang/" . $objInitTools->getLang() . "_web.php";
+include "./iweb/lang/" . $objInitTools->getLang() . "_product.php";
 
 require("./iweb/core/caller.php");
 require("./iweb/core/urls.php");

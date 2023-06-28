@@ -61,7 +61,13 @@ if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
                         <?php echo $Product->name; ?>
                       </h6>
                       <h6 class="m-0 text-truncate">
-                        <?php echo $Product->product_content; ?>
+                      <?php if (!in_array($Product->product_type, _PRODUCT)) {
+                          echo $Product->product_type;
+                        } else {
+                          echo array_search($Product->product_type, _PRODUCT);
+                        } ?>
+                        -
+                        <?php echo $Product->brand_name; ?>
                       </h6>
                     </div>
                     <section>
