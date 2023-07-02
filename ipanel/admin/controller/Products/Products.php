@@ -7,61 +7,52 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 $Enabled = true;
 $objAclTools = new ACLTools();
 
-//Api count
-/*
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = '4a897b83' ";
-$intApiCount = $objORM->DataCount($SCondition, TableIWAPIAllConnect));
-*/
 
 // Gender
-$strPGender = '<option value=""></option>';
+$strurl_gender = '<option value=""></option>';
 
 
 foreach ($objORM->FetchAll("1 GROUP BY  Name", 'Name,IdKey', TableIWNewMenu) as $objPGander) {
     $strSelected = '';
-    if (@$_GET['PGender'] == $objPGander->Name and isset($_GET['PGender']))
+    if (@$_GET['url_gender'] == $objPGander->Name and isset($_GET['url_gender']))
         $strSelected = 'selected';
-    $strPGender .= '<option ' . $strSelected . ' value="' . $objPGander->Name . '" >' . $objPGander->Name . '</option>';
+    $strurl_gender .= '<option ' . $strSelected . ' value="' . $objPGander->Name . '" >' . $objPGander->Name . '</option>';
 }
 
 // Category
-$strPCategory = '<option value=""></option>';
-if (isset($_GET['PCategory']))
-    $strPCategory .= '<option selected value="' . $_GET['PCategory'] . '">' . $_GET['PCategory'] . '</option>';
+$strurl_category = '<option value=""></option>';
+if (isset($_GET['url_category']))
+    $strurl_category .= '<option selected value="' . $_GET['url_category'] . '">' . $_GET['url_category'] . '</option>';
 
 
 // Group
-$strPGroup = '<option value=""></option>';
-if (isset($_GET['PGroup']))
-    $strPGroup .= '<option selected value="' . $_GET['PGroup'] . '">' . $_GET['PGroup'] . '</option>';
+$strurl_group = '<option value=""></option>';
+if (isset($_GET['url_group']))
+    $strurl_group .= '<option selected value="' . $_GET['url_group'] . '">' . $_GET['url_group'] . '</option>';
 
 // Group2
-$strPGroup2 = '<option value=""></option>';
-if (isset($_GET['PGroup2']))
-    $strPGroup2 .= '<option selected value="' . $_GET['PGroup2'] . '">' . $_GET['PGroup2'] . '</option>';
+$strurl_group2 = '<option value=""></option>';
+if (isset($_GET['url_group2']))
+    $strurl_group2 .= '<option selected value="' . $_GET['url_group2'] . '">' . $_GET['url_group2'] . '</option>';
 
 
-// ProductType
-$strPProductType = '<option  value=""></option>';
-
-
-foreach ($objORM->FetchAll("ProductType != '' GROUP BY  ProductType", 'ProductType', TableIWAPIProducts) as $objProductType) {
+//type
+$str_product_type = '<option value=""></option>';
+foreach ($objORM->FetchAll("1 GROUP BY  name", 'name,id', TableIWApiProductType) as $obj_product_type) {
     $strSelected = '';
-    if ((@$_GET['ProductType'] == $objProductType->ProductType) and $objProductType->ProductType != '' and isset($_GET['ProductType']) )
+    if (@$_GET['product_type'] == $obj_product_type->id and isset($_GET['product_type']))
         $strSelected = 'selected';
-    $strPProductType .= '<option ' . $strSelected . ' value="' . $objProductType->ProductType . '" >' . $objProductType->ProductType . '</option>';
+    $str_product_type .= '<option ' . $strSelected . ' value="' . $obj_product_type->id . '" >' . $obj_product_type->name . '</option>';
 }
 
-// BrandName
-$strPBrandName = '<option  value=""></option>';
 
-
-foreach ($objORM->FetchAll("BrandName != '' GROUP BY  BrandName", 'BrandName', TableIWAPIProducts) as $objBrandName) {
+//brand
+$str_brand = '<option value=""></option>';
+foreach ($objORM->FetchAll("1 GROUP BY  name", 'name,id', TableIWApiBrands) as $obj_brand) {
     $strSelected = '';
-    if ((@$_GET['BrandName'] == @$objBrandName->BrandName) and $objBrandName->BrandName != '' and isset($_GET['BrandName']) )
+    if (@$_GET['brand'] == $obj_brand->id and isset($_GET['brand']))
         $strSelected = 'selected';
-    $strPBrandName .= '<option ' . $strSelected . ' value="' . $objBrandName->BrandName . '" >' . $objBrandName->BrandName . '</option>';
+    $str_brand .= '<option ' . $strSelected . ' value="' . $obj_brand->id . '" >' . $obj_brand->name . '</option>';
 }
 
 
@@ -79,7 +70,7 @@ foreach ($arrListSet as $key => $value) {
 
 
 //Count show
-$arrListcount = [25, 50, 100, 200, 500];
+$arrListcount = [25, 50, 100, 150];
 $strCountShow = '';
 foreach ($arrListcount as $Listcount) {
     $strSelected = '';
@@ -114,12 +105,13 @@ foreach ($arrUnweight as $key => $value) {
 if (isset($_POST['SubmitF'])) {
 
 
-    $PGender = @$_POST['PGender'];
-    $PCategory = @$_POST['PCategory'];
-    $PGroup = @$_POST['PGroup'];
-    $PGroup2 = @$_POST['PGroup2'];
-    $ProductType = @$_POST['ProductType'];
-    $BrandName = @$_POST['BrandName'];
+    $url_gender = @$_POST['url_gender'];
+    $url_category = @$_POST['url_category'];
+    $url_group = @$_POST['url_group'];
+    $url_group2 = @$_POST['url_group2'];
+    $product_type = @$_POST['product_type'];
+    $brand = @$_POST['brand'];
+
     $SetEdit = @$_POST['SetEdit'];
     $CountShow = @$_POST['CountShow'];
     $PActivity = @$_POST['PActivity'];
@@ -127,18 +119,18 @@ if (isset($_POST['SubmitF'])) {
 
     $strGetUrl = '';
 
-    if ($PGender != '')
-        $strGetUrl .= '&PGender=' . $objGlobalVar->getUrlDecode($PGender);
-    if ($PCategory != '')
-        $strGetUrl .= '&PCategory=' . $objGlobalVar->getUrlDecode($PCategory);
-    if ($PGroup != '')
-        $strGetUrl .= '&PGroup=' . $objGlobalVar->getUrlDecode($PGroup);
-    if ($PGroup2 != '')
-        $strGetUrl .= '&PGroup2=' . $objGlobalVar->getUrlDecode($PGroup2);
-    if ($ProductType != '')
-        $strGetUrl .= '&ProductType=' . $objGlobalVar->getUrlDecode($ProductType);
-    if ($BrandName != '')
-        $strGetUrl .= '&BrandName=' . $objGlobalVar->getUrlDecode($BrandName);
+    if ($url_gender != '')
+        $strGetUrl .= '&url_gender=' . $objGlobalVar->getUrlDecode($url_gender);
+    if ($url_category != '')
+        $strGetUrl .= '&url_category=' . $objGlobalVar->getUrlDecode($url_category);
+    if ($url_group != '')
+        $strGetUrl .= '&url_group=' . $objGlobalVar->getUrlDecode($url_group);
+    if ($url_group2 != '')
+        $strGetUrl .= '&url_group2=' . $objGlobalVar->getUrlDecode($url_group2);
+    if ($product_type != '')
+        $strGetUrl .= '&product_type=' . $objGlobalVar->getUrlDecode($product_type);
+    if ($brand != '')
+        $strGetUrl .= '&brand=' . $objGlobalVar->getUrlDecode($brand);
     if ($PActivity != '')
         $strGetUrl .= '&PActivity=' . $objGlobalVar->getUrlDecode($PActivity);
     if ($PUnweight != '')
@@ -148,11 +140,27 @@ if (isset($_POST['SubmitF'])) {
     if ($CountShow != '')
         $strGetUrl .= '&CountShow=' . $CountShow;
 
-    $objGlobalVar->JustUnsetGetVar(array('PGroup,PGender,BrandName,ProductType,PCategory,PActivity,PUnweight,SetEdit,CountShow'));
+    $objGlobalVar->JustUnsetGetVar(array('url_group,url_gender,url_category,product_type,brand,PActivity,PUnweight,SetEdit,CountShow'));
     JavaTools::JsTimeRefresh(0, '?part=Products&page=Products&ln=' . @$strGlobalVarLanguage . $strGetUrl);
 
 }
-$strListHead = (new ListTools())->TableHead(array(FA_LC["date"], FA_LC["image"], FA_LC["code"], FA_LC["characteristic"], FA_LC["name"], FA_LC["gender"], FA_LC["category"], FA_LC["group"],FA_LC["group2"],'Attribute',FA_LC["type"],FA_LC["brand"], FA_LC["price"], FA_LC["weight"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(
+    array(
+        FA_LC["date"],
+        FA_LC["image"],
+        FA_LC["code"],
+        FA_LC["characteristic"],
+        FA_LC["name"],
+        FA_LC["gender"],
+        FA_LC["category"],
+        FA_LC["group"],
+        FA_LC["group2"],
+        FA_LC["price"],
+        FA_LC["type"],
+        FA_LC["brand"],
+        FA_LC["weight"]
+    ), FA_LC["tools"]
+);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -167,36 +175,36 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 $objStorageTools = new StorageTools($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objStorageTools->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 $SCondition = " 1 ";
-if (@$_GET['PGender'] != '') {
-    $strPGenderValue = $_GET['PGender'];
-    $SCondition .= "  and PGender = '$strPGenderValue'";
+if (@$_GET['url_gender'] != '') {
+    $strurl_genderValue = $_GET['url_gender'];
+    $SCondition .= "  and url_gender = '$strurl_genderValue'";
 }
 
 
-if (@$_GET['PCategory'] != '') {
-    $strPCategoryValue = $_GET['PCategory'];
-    $SCondition .= "  and PCategory REGEXP '$strPCategoryValue'";
+if (@$_GET['url_category'] != '') {
+    $strurl_categoryValue = $_GET['url_category'];
+    $SCondition .= "  and url_category REGEXP '$strurl_categoryValue'";
 }
 
 
-if (@$_GET['PGroup'] != '') {
-    $strPGroupValue = $_GET['PGroup'];
-    $SCondition .= "  and PGroup REGEXP '$strPGroupValue'";
+if (@$_GET['url_group'] != '') {
+    $strurl_groupValue = $_GET['url_group'];
+    $SCondition .= "  and url_group REGEXP '$strurl_groupValue'";
 }
 
-if (@$_GET['PGroup2'] != '') {
-    $strPGroup2Value = $_GET['PGroup2'];
-    $SCondition .= "  and PGroup2 REGEXP '$strPGroup2Value'";
+if (@$_GET['url_group2'] != '') {
+    $strurl_group2Value = $_GET['url_group2'];
+    $SCondition .= "  and url_group2 REGEXP '$strurl_group2Value'";
 }
 
-if (@$_GET['ProductType'] != '') {
-    $strPProductTypeValue = $_GET['ProductType'];
-    $SCondition .= "  and ProductType = '$strPProductTypeValue'";
+if (@$_GET['product_type'] != '') {
+    $strurl_product_type = $_GET['product_type'];
+    $SCondition .= "  and iw_api_product_type_id = '$strurl_product_type'";
 }
 
-if (@$_GET['BrandName'] != '') {
-    $strPBrandNameValue = $_GET['BrandName'];
-    $SCondition .= "  and BrandName = '$strPBrandNameValue'";
+if (@$_GET['brand'] != '') {
+    $strurl_brand = $_GET['brand'];
+    $SCondition .= "  and iw_api_brands_id = '$strurl_brand'";
 }
 
 if (@$_GET['PActivity'] != '') {
@@ -207,9 +215,9 @@ if (@$_GET['PActivity'] != '') {
 if (@$_GET['PUnweight'] != '') {
     $Unweight = $_GET['PUnweight'];
 
-    if($Unweight == 0) {
+    if ($Unweight == 0) {
         $SCondition .= "  and ( WeightIdKey IS NOT NULL )";
-    }else{
+    } else {
         $SCondition .= "  and (NoWeightValue = '$Unweight' or WeightIdKey IS  NULL )";
     }
 }
@@ -238,30 +246,36 @@ $strListBody = '';
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
     $SCondition = "ProductId LIKE '%$strSearch%' OR 
-                   ModifyDate LIKE '%$strSearch%' OR 
-                   IdKey LIKE '%$strSearch%' OR 
+                   IdRow LIKE '%$strSearch%' OR 
                    LocalName REGEXP '$strSearch' OR 
                    Name REGEXP '$strSearch' OR 
-                   PGender REGEXP '$strSearch' OR 
-                   PCategory REGEXP '$strSearch' OR 
-                   PGroup REGEXP '$strSearch' OR 
-                   PGroup2 REGEXP '$strSearch' OR 
-                   Attribute REGEXP '$strSearch' OR 
-                   ProductCode LIKE '%$strSearch%' OR 
-                   BrandName REGEXP '$strSearch' OR 
-                   ProductType REGEXP '$strSearch' ";
+                   url_gender REGEXP '$strSearch' OR 
+                   url_category REGEXP '$strSearch' OR 
+                   url_group REGEXP '$strSearch' OR 
+                   url_group2 REGEXP '$strSearch' OR 
+                   ProductCode LIKE '%$strSearch%'  ";
 }
 $intTotalFind = 0;
-$intTotalFind = $objORM->DataCount($SCondition,TableIWAPIProducts);
-foreach ($objORM->FetchLimit($SCondition, 'ModifyDate,Content,IdKey,ProductId,Name,PGender,PCategory,PGroup,PGroup2,Attribute,ProductType,BrandName,MainPrice,WeightIdKey,ModifyId,Enabled,IdRow,ApiContent', 'IdRow DESC', $strLimit, TableIWAPIProducts) as $ListItem) {
+$intTotalFind = $objORM->DataCount($SCondition, TableIWAPIProducts);
+foreach ($objORM->FetchLimit($SCondition, 'created_time,
+Content,
+ProductCode,
+ProductId,
+Name,
+url_gender,
+url_category,
+url_group,
+url_group2,
+MainPrice,
+iw_api_product_type_id,
+iw_api_brands_id,
+WeightIdKey,
+Enabled,
+modify_ip,
+IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
-    $ProductCode = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ListItem->ApiContent))["productCode"];
-    $UCondition = " IdKey = '$ListItem->IdKey' and `ProductCode` is  null ";
-    $USet = " ProductCode = '$ProductCode' ";
-    $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
-
-    $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
+    $ListItem->modify_ip == null ? $ListItem->modify_ip = FA_LC["no_viewed"] : FA_LC["viewed"];
 
 
     // add  weight product
@@ -271,43 +285,47 @@ foreach ($objORM->FetchLimit($SCondition, 'ModifyDate,Content,IdKey,ProductId,Na
 
 
     // add weight gender
-    $PGenderName = $ListItem->PGender;
-    $MainWeightIdKey = $objORM->Fetch(" Name = '$PGenderName'", 'WeightIdKey', TableIWWebMainMenu)->WeightIdKey;
+    $url_gender = $ListItem->url_gender;
+    $MainWeightIdKey = $objORM->Fetch(" Name = '$url_gender'", 'WeightIdKey', TableIWNewMenu)->WeightIdKey;
     $SCondition = "IdKey = '$MainWeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
-    $ListItem->PGender = $ListItem->PGender . '<br /><input type="text" class="weight-main" maxlength="3" size="3" id="' . $PGenderName . '" value="' . $WeightValue . '">';
+    $ListItem->url_gender = $ListItem->url_gender . '<br /><input type="text" class="weight-main" maxlength="3" size="3" id="' . $url_gender . '" value="' . $WeightValue . '">';
 
 
     // add weight category
-    $PCategoryName = $ListItem->PCategory;
-    $SubWeightIdKey = @$objORM->Fetch(" Name = '$PCategoryName'", 'WeightIdKey', TableIWWebSubMenu)->WeightIdKey;
+    $url_category = $ListItem->url_category;
+    $SubWeightIdKey = @$objORM->Fetch(" Name = '$url_category'", 'WeightIdKey', TableIWNewMenu2)->WeightIdKey;
     $SCondition = "IdKey = '$SubWeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
-    $ListItem->PCategory = $ListItem->PCategory . '<br /><input type="text" class="weight-sub" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($PCategoryName) . '" value="' . $WeightValue . '">';
+    $ListItem->url_category = $ListItem->url_category . '<br /><input type="text" class="weight-sub" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_category) . '" value="' . $WeightValue . '">';
 
     // add weight group
-    $PGroupName = $ListItem->PGroup;
-    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$PGroupName'", 'WeightIdKey', TableIWWebSub2Menu)->WeightIdKey;
+    $url_group = $ListItem->url_group;
+    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$url_group'", 'WeightIdKey', TableIWNewMenu3)->WeightIdKey;
     $SCondition = "IdKey = '$Sub2WeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
-    $ListItem->PGroup = $ListItem->PGroup . '<br /><input type="text" class="weight-sub2" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($PGroupName) . '" value="' . $WeightValue . '">';
+    $ListItem->url_group = $ListItem->url_group . '<br /><input type="text" class="weight-sub2" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group) . '" value="' . $WeightValue . '">';
 
     // add weight submit 4
-    $PAttribute = $ListItem->Attribute;
-    $Sub4WeightIdKey = @$objORM->Fetch(" Name = '$PAttribute'", 'WeightIdKey', TableIWWebSub4Menu)->WeightIdKey;
+    $url_group2 = $ListItem->url_group2;
+    $Sub4WeightIdKey = @$objORM->Fetch(" Name = '$url_group2'", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
     $SCondition = "IdKey = '$Sub4WeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
-    $ListItem->Attribute = $ListItem->Attribute . '<br /><input type="text" class="weight-sub4" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($PAttribute) . '" value="' . $WeightValue . '">';
+    $ListItem->url_group2 = $ListItem->url_group2 . '<br /><input type="text" class="weight-sub4" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group2) . '" value="' . $WeightValue . '">';
 
+    // brand
+    $ListItem->iw_api_brands_id = @$objORM->Fetch("id = '$ListItem->iw_api_brands_id' ", 'name', TableIWApiBrands)->name;
+    //type
+    $ListItem->iw_api_product_type_id = @$objORM->Fetch("id = '$ListItem->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->IdRow','c72cc40d','fea9f1bf'";
 
     $objArrayImage = explode("==::==", $ListItem->Content);
 
     $ListItem->Name = $objGlobalVar->StrTruncate($ListItem->Name, 60);
 
 
-    $ListItem->Content = ' <a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[0] . '"> <i class="fa fa-search-plus "></i>  ' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->ProductId, 120, '');
+    $ListItem->Content = ' <a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[0] . '"> <i class="fa fa-search-plus "></i>  ' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->ProductId, 336, 'id="myImg" class="cursor_pointer iw_image_edit_show"');
 
 
     if ($ListItem->Enabled == false) {
@@ -333,8 +351,5 @@ foreach ($objORM->FetchLimit($SCondition, 'ModifyDate,Content,IdKey,ProductId,Na
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 14, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAPIProducts, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 13, $objGlobalVar->en2Base64($ListItem->IdRow . '::==::' . TableIWAPIProducts, 0));
 }
-
-
-

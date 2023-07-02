@@ -152,9 +152,9 @@ if (isset($_POST['SubmitM'])) {
     $objTimeTools = new TimeTools();
     $objAclTools = new ACLTools();
 
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
     $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdRow'));
+    $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdRow'));
 
     $arrAllImageSelected = $_POST['ImageSelected'];
 
@@ -163,7 +163,8 @@ if (isset($_POST['SubmitM'])) {
         $IdRow = $AllProduct;
 
         $USet = "";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
+        $USet .= " modify_ip = '$modify_ip' ,";
+        $USet .= " modify_id = '$modify_id' ,";
         $USet .= " AdminOk = 2 ,";
         $USet .= " ImageSet = '' ";
 
@@ -182,7 +183,8 @@ if (isset($_POST['SubmitM'])) {
             $ImageSet = $Keys;
 
             $USet = "";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            $USet .= " modify_id = '$modify_id' ,";
             $USet .= " AdminOk = 1 ,";
             $USet .= " ImageSet = concat_ws(',',ImageSet,'" . $ImageSet . "') ";
 
@@ -227,7 +229,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
-$SCondition = "Content IS NOT NULL and CatIds IS NOT NULL ";
+$SCondition = "IdRow > 0";
 if (@$_GET['url_gender'] != '') {
     $strurl_genderValue = $_GET['url_gender'];
     $SCondition .= "  and url_gender = '$strurl_genderValue'";
@@ -313,7 +315,7 @@ if (isset($_POST['SubmitSearch'])) {
                    ProductCode LIKE '%$strSearch%'  ";
 }
 $intTotalFind = 0;
-$intTotalFind = $objORM->DataCount($SCondition, TableIWAPIProducts);
+$intTotalFind = $objORM->DataCount($SCondition, ViewIWProductNotCheck);
 
 $intRowCounter = 0;
 $intIdMaker = 0;
@@ -322,7 +324,7 @@ $intIdMaker = 0;
 $strListBody = '';
 
 
-foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageSet,Url,IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageSet,Url,IdRow', 'IdRow ASC', $strLimit, ViewIWProductNotCheck) as $ListItem) {
 
 
     $objArrayImage = explode("==::==", $ListItem->Content);

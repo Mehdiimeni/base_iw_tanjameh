@@ -46,9 +46,9 @@ class GlobalVarTools extends Regularization
 
     public function getIWVarToJson($name)
     {
-        if (json_encode($this->AllCookie[$name]) != null) {
-            $this->setSessionVar($name, $this->de2Base64($this->AllCookie[$name]));
-            return json_encode($this->de2Base64($this->AllCookie[$name]));
+        if (json_encode(@$this->AllCookie[$name]) != null) {
+            $this->setSessionVar($name, $this->de2Base64(@$this->AllCookie[$name]));
+            return json_encode($this->de2Base64(@$this->AllCookie[$name]));
         } elseif (json_encode($this->AllSession[$name]) != null) {
             $this->setCookieVar($name, $this->AllSession[$name]);
             return json_encode($this->AllSession[$name]);
