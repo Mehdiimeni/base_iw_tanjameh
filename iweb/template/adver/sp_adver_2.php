@@ -31,12 +31,13 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                     <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                                             class="fa-regular fa-heart" aria-hidden="true"></i></button>
                                 </div>
-                                <a href="#" class="text-decoration-none">
+                                <a href="<?php echo $Product->product_page_url; ?>" class="text-decoration-none">
                                     <div class="card text-dark rounded-0 border-0 bg-transparent">
                                         <div class="position-relative">
                                             <?php echo $Product->image; ?>
 
                                                 <?php echo $Product->offer1;  ?>
+                                            
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">

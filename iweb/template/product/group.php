@@ -1,10 +1,10 @@
 <?php
 ///template/product/group.php
 
-$gender = $_SESSION['gender'];
-$category = $_SESSION['category'];
-$group = $_SESSION['group'];
-$cat_id = $_SESSION['cat_id'];
+$gender = str_ireplace('%20',' ',$_SESSION['gender']);
+$category = str_ireplace('%20',' ',$_SESSION['category']);
+$group = str_ireplace('%20',' ',$_SESSION['group']);
+$cat_id = str_ireplace('%20',' ',$_SESSION['cat_id']);
 $page_offcet_nu = 15;
 
 
@@ -38,7 +38,7 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
           <ul class="list-unstyled ms-0 ms-lg-3 d-flex d-lg-block scroll-y-nowrap">
             <?php foreach (get_category($gender, $category) as $Category) { ?>
               <li class="list-active d-inline-block d-lg-block">
-                <a href="./?gender=<?php echo $gender; ?>&category=<?php echo $category; ?>&group=<?php echo @$Category->Name ?>&CatId=<?php echo @$Category->CatId; ?>"
+                <a href="./?gender=<?php echo urlencode($gender); ?>&category=<?php echo urlencode($category); ?>&group=<?php echo urlencode(@$Category->Name); ?>&CatId=<?php echo @$Category->CatId; ?>"
                   class="text-decoration-none text-dark d-inline-block d-lg-block"><?php echo @$Category->LocalName ?></a>
               </li>
             <?php } ?>

@@ -1,10 +1,10 @@
 <?php
 //web group 
 
-$_SESSION['gender'] = $_GET['gender'];
-$_SESSION['category'] = $_GET['category'];
-$_SESSION['group'] = $_GET['group'];
-$_SESSION['cat_id'] = $_GET['CatId'];
+$_SESSION['gender'] = str_ireplace('%20',' ',$_GET['gender']);
+$_SESSION['category'] = str_ireplace('%20',' ',$_GET['category']);
+$_SESSION['group'] = str_ireplace('%20',' ',$_GET['group']);
+$_SESSION['cat_id'] = str_ireplace('%20',' ',$_GET['CatId']);
 
 $_SESSION['page_name_system'] = 'group';
 $_SESSION['actual_link'] =  "?gender=".$_GET['gender']."&category=".$_GET['category']."&group=".$_GET['group']."&CatId=".$_GET['CatId'];

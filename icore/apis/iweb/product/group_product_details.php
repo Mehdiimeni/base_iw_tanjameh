@@ -69,7 +69,7 @@ if (isset($_POST['cat_id'])) {
             }
 
 
-            $product_page_url = "?gender=" . $product->url_gender . "&category=" . $product->url_category . "&group=" . $product->url_group . "&item=" . $product->IdRow;
+            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->IdRow;
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[1], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
 

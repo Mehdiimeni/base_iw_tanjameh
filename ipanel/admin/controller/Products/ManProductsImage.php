@@ -329,7 +329,7 @@ foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageS
 
     $objArrayImage = explode("==::==", $ListItem->Content);
 
-    $ListItem->Name = '<a target="_blank" href="https://www.asos.com/' . $ListItem->Url . '">' . wordwrap($ListItem->Name, 15, "<br>\n") . '</a>';
+    $ListItem->Name = '<a target="_blank" href="' . $ListItem->Url . '">' . wordwrap($ListItem->Name, 15, "<br>\n") . '</a>';
 
 
     $ListItem->Content = '';

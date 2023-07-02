@@ -35,7 +35,7 @@
                             <div class="d-grid cat">
                             <?php } ?>
                         <a
-                          href="./?gender=<?php echo @$_GET['gender'] ?>&category=<?php echo @$Menu->Name ?>&group=<?php echo @$Category->Name ?>&CatId=<?php echo @$Category->CatId; ?>"><i
+                          href="./?gender=<?php echo urlencode(@$_GET['gender']) ?>&category=<?php echo urlencode(@$Menu->Name); ?>&group=<?php echo urlencode(@$Category->Name); ?>&CatId=<?php echo @$Category->CatId; ?>"><i
                             class="fa-solid fa-shirt"></i>
                           <?php echo @$Category->LocalName ?>
                         </a>

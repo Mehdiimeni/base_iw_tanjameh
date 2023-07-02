@@ -3,8 +3,8 @@
 
 require_once "../vendor/autoload.php";
 SessionTools::init();
-require_once "../idefine/conf/root.php";
-require_once "../idefine/conf/tablename.php";
+require_once "../icore/idefine/conf/root.php";
+require_once "../icore/idefine/conf/tablename.php";
 
 $objGlobalVar = new GlobalVarTools();
 $objFileToolsDBInfo = (new FileTools(IW_DEFINE_FROM_PANEL . "conf/online.iw"))->KeyValueFileReader();

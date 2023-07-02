@@ -11,15 +11,17 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['cat_id'])) {
 
     $cat_id = $_POST['cat_id'];
-    $gender = $_POST['gender'];
-    $category = $_POST['category'];
-    $group = $_POST['group'];
+    $gender = urldecode($_POST['gender']);
+    $category = urldecode($_POST['category']);
+    $group = urldecode($_POST['group']);
+    
+    $condition = "CatId = '$cat_id'  and Enabled = 1 ";
 
-    $condition = "CatId = '$cat_id' and Name = '$group' and Enabled = 1 ";
     if ($objORM->DataExist($condition, TableIWNewMenu3)) {
         $obj_row_menu3 = @$objORM->Fetch($condition, "IdRow,Name,LocalName", TableIWNewMenu3);
-
+       
         $condition = " Name = '$category' and Enabled = 1 ";
+
         if ($objORM->DataExist($condition, TableIWNewMenu2)) {
             $obj_row_menu2 = @$objORM->Fetch($condition, "IdRow,Name,LocalName", TableIWNewMenu2);
 

@@ -14,10 +14,18 @@ if (isset($_POST['gender'])) {
 
     if ($objORM->DataExist($condition, TableIWNewMenu)) {
 
-        $GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu)->IdKey;
-        $condition = " Enabled = 1 and GroupIdKey = '$GroupIdKey' ";
+        $MenuGroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu)->IdKey;
+        $condition = " Enabled = 1 and GroupIdKey = '$MenuGroupIdKey' ";
         if ($objORM->DataExist($condition, TableIWNewMenu2)) {
-            echo @$objORM->FetchJson(TableIWNewMenu2, $condition, 'Name,LocalName');
+
+            $Menu2GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu2)->IdKey;
+
+            $condition2 = "Enabled = 1 and GroupIdKey = '$Menu2GroupIdKey' and NewMenuId = '$MenuGroupIdKey ' ";
+            if ($objORM->DataExist($condition2, TableIWNewMenu3)) {
+                echo @$objORM->FetchJson(TableIWNewMenu2, $condition, 'Name,LocalName');
+            } else {
+                echo false;
+            }
         } else {
             echo false;
         }

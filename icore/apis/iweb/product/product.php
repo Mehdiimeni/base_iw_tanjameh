@@ -316,7 +316,7 @@ if (isset($_POST['item'])) {
         $strShippingWeight = $objShippingTools->FindItemWeight($obj_product) . ' KG ';
 
 
-        $obj_product_page_url = "?gender=" . $obj_product->url_gender . "&category=" . $obj_product->url_category . "&group=" . $obj_product->url_group . "&item=" . $obj_product->IdRow;
+        $obj_product_page_url = "?gender=" . urlencode($obj_product->url_gender) . "&category=" . urlencode($obj_product->url_category) . "&group=" . urlencode($obj_product->url_group) . "&item=" . $obj_product->IdRow;
 
         $images_address = array();
         foreach ($objArrayImage as $image) {

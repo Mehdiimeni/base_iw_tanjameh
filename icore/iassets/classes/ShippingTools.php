@@ -106,7 +106,7 @@ class ShippingTools extends DBORM
 
             $type_name = @$this->Fetch("id = $iw_api_product_type_id", "name", TableIWApiProductType)->name;
 
-            $GroupWeightIdKey = $this->Fetch(" Name = '$type_name' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
+            $GroupWeightIdKey = @$this->Fetch(" Name = '$type_name' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
 
             if (isset($Weight) and $Weight != 0)

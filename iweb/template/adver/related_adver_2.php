@@ -27,7 +27,7 @@ if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $ad
                                     <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                                             class="fa-regular fa-heart" aria-hidden="true"></i></button>
                                 </div>
-                                <a href="#" class="text-decoration-none">
+                                <a href="<?php echo $Product->product_page_url; ?>" class="text-decoration-none">
                                     <div class="card text-dark rounded-0 border-0 bg-transparent">
                                         <div class="position-relative">
                                             <?php echo $Product->image; ?>
