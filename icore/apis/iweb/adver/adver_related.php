@@ -8,8 +8,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 $color_related = "رنگ ها";
 $color_related_note = "موارد مشابه بر اساس رنگ";
-$cat_related = "دسته بندی";
-$cat_related_note = " موارد مشابه بر اساس دسته بندی ";
+$price_related = "قیمت";
+$price_related_note = "موارد مشابه بر اساس قیمت";
 $group_related = "انواع";
 $group_related_note = "موارد مشابه بر اساس نوع";
 
@@ -28,9 +28,9 @@ if (isset($_POST['adver_related'])) {
             $content = $group_related_note;
             break;
 
-        case 'cat':
-            $title = $cat_related;
-            $content = $cat_related_note;
+        case 'price':
+            $title = $price_related;
+            $content = $price_related_note;
             break;
     }
 

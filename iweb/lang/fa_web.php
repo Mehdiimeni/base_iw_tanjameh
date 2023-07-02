@@ -46,5 +46,17 @@ const _LANG = [
     "when_exist_product_note" => "اگر این کالا در انبار بازگردد، ایمیلی دریافت خواهید کرد.",
     "continue_shopping" => "ادامه خرید",
     "We_have_received_your_request" => "ما درخواست شما را دریافت کردیم، به زودی با شما در تماس خواهیم بود!",
-    
+    "enter_to_basket" => "ورود به سبد خرید",
+    "add_to_basket" => " افزودن به سبد خرید ",
+    "tanjameh_shipping_note1" => " فروخته و ارسال شده توسط تن جامه ",
+    "25_working_days" => " 25 روز کاری ",
+    "standard_delivery" => " تحویل استاندارد ",
+    "approximate_weight" => "وزن تقریبی",
+    "care" => "مراقبت",
+    "details" => "جزئیات",
+    "size_and_fit" => "اندازه و تناسب",
+    "follow" => "دنبال کنید",
+    "factory_size" => "سایز کارخانه",
+    "cart" => "سبد خرید",
+
 ];

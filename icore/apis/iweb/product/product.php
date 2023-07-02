@@ -295,6 +295,27 @@ if (isset($_POST['item'])) {
         }
 
 
+        // shipping price
+
+        $strShippingPrice = '';
+        $PWIdKey = $obj_product->WeightIdKey;
+
+        $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
+
+
+
+        $intTotalShipping = $objShippingTools->FindBasketWeightPrice($objShippingTools->FindItemWeight($obj_product), $obj_product->MainPrice, 'پوند', 'تومان');
+
+        if ($intTotalShipping != 0) {
+            $intTotalShipping = $objGlobalVar->NumberFormat($intTotalShipping, 0, ".", ",");
+            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping). ' تومان';
+        }
+
+        // wieght
+
+        $strShippingWeight = $objShippingTools->FindItemWeight($obj_product) . ' KG ';
+
+
         $obj_product_page_url = "?gender=" . $obj_product->url_gender . "&category=" . $obj_product->url_category . "&group=" . $obj_product->url_group . "&item=" . $obj_product->IdRow;
 
         $images_address = array();
@@ -307,11 +328,8 @@ if (isset($_POST['item'])) {
         $count_score = 0;
 
         
-        $brand_name = @$objORM->Fetch("id = '$obj_product->iw_api_brands_id' ", 'name', TableIWApiBrands)->name;
-        $product_type = @$objORM->Fetch("id = '$obj_product->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
-
-        $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$obj_product->IdRow' ", 'brandSize', TableIWApiProductVariants);
-
+        $obj_brand_name = @$objORM->Fetch("id = '$obj_product->iw_api_brands_id' ", 'name,id', TableIWApiBrands);
+        $obj_product_type = @$objORM->Fetch("id = '$obj_product->iw_api_product_type_id' ", 'name,id', TableIWApiProductType);
 
         //all size 
 
@@ -334,6 +352,8 @@ if (isset($_POST['item'])) {
         $all_size = explode(',', $str_size);
         $all_disabled_size = explode(',', $str_disabled_size);
 
+        $arr_info = json_decode($obj_product->info,1);
+
         $arr_product_detail = array(
             'name' => $obj_product->Name,
             'product_content' => $obj_product_content,
@@ -346,8 +366,15 @@ if (isset($_POST['item'])) {
             'discount_persent' => $discount_persent,
             'score' => $obj_product->PScore,
             'count_score' => $count_score,
-            'product_type' => $product_type,
-            'brand_name' => $brand_name,
+            'product_type' => $obj_product_type->name,
+            'product_type_id' => $obj_product_type->id,
+            'brand_name' => $obj_brand_name->name,
+            'brand_id' => $obj_brand_name->id,
+            'shipping_price' => $strShippingPrice,
+            'shipping_weight' => $strShippingWeight,
+            'aboutMe' => $arr_info['aboutMe'] ,
+            'sizeAndFit' => $arr_info['sizeAndFit'],
+            'careInfo' => $arr_info['careInfo'],
         );
 
 

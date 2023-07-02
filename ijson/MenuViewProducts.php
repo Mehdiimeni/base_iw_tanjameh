@@ -3,8 +3,8 @@
 
 require_once "../vendor/autoload.php";
 SessionTools::init();
-require_once "../idefine/conf/root.php";
-require_once "../idefine/conf/tablename.php";
+require_once "../icore/idefine/conf/root.php";
+require_once "../icore/idefine/conf/tablename.php";
 
 $objGlobalVar = new GlobalVarTools();
 $objFileToolsDBInfo = (new FileTools(IW_DEFINE_FROM_PANEL . "conf/online.iw"))->KeyValueFileReader();
@@ -18,8 +18,8 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 // user profile
 
 $Enabled = true;
-if (isset($_POST['PGenderName'])) {
-    $GroupName = $_POST['PGenderName'];
+if (isset($_POST['url_gender'])) {
+    $GroupName = $_POST['url_gender'];
     $SCondition = "Name = '$GroupName'  ";
     $MenuId = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu)->IdKey;
 
@@ -32,8 +32,8 @@ if (isset($_POST['PGenderName'])) {
     }
 }
 
-if (isset($_POST['PCategoryName'])) {
-    $GroupName = $_POST['PCategoryName'];
+if (isset($_POST['url_category'])) {
+    $GroupName = $_POST['url_category'];
     $SCondition = "Name = '$GroupName'  ";
     $MenuId2 = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu2)->IdKey;
 
@@ -46,8 +46,8 @@ if (isset($_POST['PCategoryName'])) {
     }
 }
 
-if (isset($_POST['PGroupName'])) {
-    $GroupName = $_POST['PGroupName'];
+if (isset($_POST['url_group'])) {
+    $GroupName = $_POST['url_group'];
     $SCondition = "Name = '$GroupName'  ";
     $MenuId2 = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu3)->IdKey;
 

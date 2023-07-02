@@ -103,8 +103,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="PGender" id="PGender" class="form-control">
-                                    <?php echo $strPGender; ?>
+                                <select name="url_gender" id="url_gender" class="form-control">
+                                    <?php echo $strurl_gender; ?>
 
                                 </select>
                             </div>
@@ -114,8 +114,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="PCategory" id="PCategory" class="form-control">
-                                    <?php echo $strPCategory; ?>
+                                <select name="url_category" id="url_category" class="form-control">
+                                    <?php echo $strurl_category; ?>
                                 </select>
                             </div>
                         </div>
@@ -124,8 +124,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="PGroup" id="PGroup" class="form-control">
-                                    <?php echo $strPGroup; ?>
+                                <select name="url_group" id="url_group" class="form-control">
+                                    <?php echo $strurl_group; ?>
                                 </select>
                             </div>
                         </div>
@@ -134,8 +134,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="PGroup2" id="PGroup2" class="form-control">
-                                    <?php echo $strPGroup2; ?>
+                                <select name="url_group2" id="url_group2" class="form-control">
+                                    <?php echo $strurl_group2; ?>
                                 </select>
                             </div>
                         </div>
@@ -144,8 +144,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="ProductType" id="ProductType" class="form-control">
-                                    <?php echo $strPProductType; ?>
+                                <select name="product_type" id="product_type" class="form-control">
+                                    <?php echo $str_product_type; ?>
                                 </select>
                             </div>
                         </div>
@@ -154,8 +154,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="BrandName" id="BrandName" class="form-control">
-                                    <?php echo $strPBrandName; ?>
+                                <select name="brand" id="brand" class="form-control">
+                                    <?php echo $str_brand; ?>
                                 </select>
                             </div>
                         </div>

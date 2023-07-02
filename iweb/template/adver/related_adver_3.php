@@ -1,6 +1,6 @@
 <?php
 ///template/adver/related_adver_3.php
-$adver_related = 'group';
+$adver_related = 'price';
 if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)) {
     ?>
     <div class="container-fluid py-5">

@@ -47,18 +47,18 @@ class ShippingTools extends DBORM
 
     public function FindIntWeight($WeightIdKey)
     {
-        return $this->Fetch(" IdKey = '$WeightIdKey'", 'Weight', TableIWWebWeightPrice)->Weight;
+        return $this->Fetch(" IdKey = '$WeightIdKey'", 'Weight', TableIWWebWeightPrice)->Weight ?? null;
     }
 
     public function FindItemWeight($ProductItem)
     {
 
-        if (!$this->ProductHasWeight($ProductItem->WeightIdKey))
-            if (!$this->CatHasWeight($ProductItem->CatId))
-                if (!$this->TypeHasWeight($ProductItem->ProductType))
-                    if (!$this->GroupHasWeight($ProductItem->PGroup))
-                        if (!$this->CategoryHasWeight($ProductItem->PCategory))
-                            $this->MainHasWeight($ProductItem->PGender);
+        if (!$this->ProductHasWeight(@$ProductItem->WeightIdKey))
+            if (!$this->CatHasWeight(@$ProductItem->CatIds))
+                if (!$this->TypeHasWeight(@$ProductItem->iw_api_product_type_id))
+                    if (!$this->GroupHasWeight(@$ProductItem->url_group))
+                        if (!$this->CategoryHasWeight(@$ProductItem->url_category))
+                            $this->MainHasWeight(@$ProductItem->url_gender);
 
         return $this->ProductWeight;
 
@@ -80,12 +80,14 @@ class ShippingTools extends DBORM
 
     public function CatHasWeight($ProductCatId)
     {
-        if ($ProductCatId != '') {
-            $GroupWeightIdKey = $this->Fetch(" CatId = '$ProductCatId' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
+        $arr_cat_id = explode(',', $ProductCatId);
+        $main_cat_id = $arr_cat_id[0];
+
+        if ($main_cat_id != '') {
+            $GroupWeightIdKey = @$this->Fetch(" CatId = '$main_cat_id' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
-            if($Weight == '')
-            {
-                $GroupWeightIdKey = $this->Fetch(" CatId = '$ProductCatId' ", 'WeightIdKey', TableIWNewMenu3)->WeightIdKey;
+            if ($Weight == '') {
+                $GroupWeightIdKey = @$this->Fetch(" CatId = '$main_cat_id' ", 'WeightIdKey', TableIWNewMenu3)->WeightIdKey;
                 $Weight = $this->FindIntWeight($GroupWeightIdKey);
             }
 
@@ -98,10 +100,13 @@ class ShippingTools extends DBORM
 
     }
 
-    public function TypeHasWeight($ProductType)
+    public function TypeHasWeight($iw_api_product_type_id)
     {
-        if ($ProductType != '') {
-            $GroupWeightIdKey = $this->Fetch(" Name = '$ProductType' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
+        if ($iw_api_product_type_id != '') {
+
+            $type_name = @$this->Fetch("id = $iw_api_product_type_id", "name", TableIWApiProductType)->name;
+
+            $GroupWeightIdKey = $this->Fetch(" Name = '$type_name' ", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
 
             if (isset($Weight) and $Weight != 0)
@@ -176,7 +181,7 @@ class ShippingTools extends DBORM
 
         $box_count = 0; // Total number of shared boxes
         $item_count = count($ListProductShip);
-        $box = array();// Box   Subarray 
+        $box = array(); // Box   Subarray 
         for ($itemindex = 0; $itemindex < $item_count; $itemindex++) {
             $_box_index = false;
             $_box_count = count($box);

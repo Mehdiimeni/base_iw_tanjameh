@@ -33,28 +33,25 @@ $strurl_group2 = '<option value=""></option>';
 if (isset($_GET['url_group2']))
     $strurl_group2 .= '<option selected value="' . $_GET['url_group2'] . '">' . $_GET['url_group2'] . '</option>';
 
-
-// ProductType
-$strPProductType = '<option  value=""></option>';
-
-
-foreach ($objORM->FetchAll("ProductType != '' GROUP BY  ProductType", 'ProductType', TableIWAPIProducts) as $objProductType) {
+//type
+$str_product_type = '<option value=""></option>';
+foreach ($objORM->FetchAll("1 GROUP BY  name", 'name,id', TableIWApiProductType) as $obj_product_type) {
     $strSelected = '';
-    if ((@$_GET['ProductType'] == $objProductType->ProductType) and $objProductType->ProductType != '' and isset($_GET['ProductType']))
+    if (@$_GET['product_type'] == $obj_product_type->id and isset($_GET['product_type']))
         $strSelected = 'selected';
-    $strPProductType .= '<option ' . $strSelected . ' value="' . $objProductType->ProductType . '" >' . $objProductType->ProductType . '</option>';
+    $str_product_type .= '<option ' . $strSelected . ' value="' . $obj_product_type->id . '" >' . $obj_product_type->name . '</option>';
 }
 
-// BrandName
-$strPBrandName = '<option  value=""></option>';
 
-
-foreach ($objORM->FetchAll("BrandName != '' GROUP BY  BrandName", 'BrandName', TableIWAPIProducts) as $objBrandName) {
+//brand
+$str_brand = '<option value=""></option>';
+foreach ($objORM->FetchAll("1 GROUP BY  name", 'name,id', TableIWApiBrands) as $obj_brand) {
     $strSelected = '';
-    if ((@$_GET['BrandName'] == @$objBrandName->BrandName) and $objBrandName->BrandName != '' and isset($_GET['BrandName']))
+    if (@$_GET['brand'] == $obj_brand->id and isset($_GET['brand']))
         $strSelected = 'selected';
-    $strPBrandName .= '<option ' . $strSelected . ' value="' . $objBrandName->BrandName . '" >' . $objBrandName->BrandName . '</option>';
+    $str_brand .= '<option ' . $strSelected . ' value="' . $obj_brand->id . '" >' . $obj_brand->name . '</option>';
 }
+
 
 
 // Set Edit
@@ -71,7 +68,7 @@ foreach ($arrListSet as $key => $value) {
 
 
 //Count show
-$arrListcount = [25, 50, 75, 100, 125, 150];
+$arrListcount = [25, 50, 75, 100];
 $strCountShow = '';
 foreach ($arrListcount as $Listcount) {
     $strSelected = '';
@@ -112,8 +109,9 @@ if (isset($_POST['SubmitF'])) {
     $url_category = @$_POST['url_category'];
     $url_group = @$_POST['url_group'];
     $url_group2 = @$_POST['url_group2'];
-    $ProductType = @$_POST['ProductType'];
-    $BrandName = @$_POST['BrandName'];
+    $product_type = @$_POST['product_type'];
+    $brand = @$_POST['brand'];
+
     $SetEdit = @$_POST['SetEdit'];
     $CountShow = @$_POST['CountShow'];
     $PActivity = @$_POST['PActivity'];
@@ -129,10 +127,10 @@ if (isset($_POST['SubmitF'])) {
         $strGetUrl .= '&url_group=' . $objGlobalVar->getUrlDecode($url_group);
     if ($url_group2 != '')
         $strGetUrl .= '&url_group2=' . $objGlobalVar->getUrlDecode($url_group2);
-    if ($ProductType != '')
-        $strGetUrl .= '&ProductType=' . $objGlobalVar->getUrlDecode($ProductType);
-    if ($BrandName != '')
-        $strGetUrl .= '&BrandName=' . $objGlobalVar->getUrlDecode($BrandName);
+    if ($product_type != '')
+        $strGetUrl .= '&product_type=' . $objGlobalVar->getUrlDecode($product_type);
+    if ($brand != '')
+        $strGetUrl .= '&brand=' . $objGlobalVar->getUrlDecode($brand);
     if ($PActivity != '')
         $strGetUrl .= '&PActivity=' . $objGlobalVar->getUrlDecode($PActivity);
     if ($PUnweight != '')
@@ -142,7 +140,7 @@ if (isset($_POST['SubmitF'])) {
     if ($CountShow != '')
         $strGetUrl .= '&CountShow=' . $CountShow;
 
-    $objGlobalVar->JustUnsetGetVar(array('url_group,url_gender,BrandName,ProductType,url_category,PActivity,PUnweight,SetEdit,CountShow'));
+    $objGlobalVar->JustUnsetGetVar(array('url_group,url_gender,url_category,product_type,brand,PActivity,PUnweight,SetEdit,CountShow'));
     JavaTools::JsTimeRefresh(0, '?part=Products&page=ManProductsImage&ln=' . @$strGlobalVarLanguage . $strGetUrl);
 
 
@@ -155,28 +153,22 @@ if (isset($_POST['SubmitM'])) {
     $objAclTools = new ACLTools();
 
     $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
     $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+    $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdRow'));
 
     $arrAllImageSelected = $_POST['ImageSelected'];
 
 
     foreach ($_POST['AllProduct'] as $AllProduct) {
-        $IdKey = $AllProduct;
+        $IdRow = $AllProduct;
 
         $USet = "";
         $USet .= " ModifyIP = '$ModifyIP' ,";
         $USet .= " AdminOk = 2 ,";
-        $USet .= " ImageSet = '' ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-        $USet .= " ModifyId = '$ModifyId' ";
+        $USet .= " ImageSet = '' ";
 
 
-        $UCondition = " IdKey = '$IdKey' ";
+        $UCondition = " IdRow = '$IdRow' ";
         $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
     }
@@ -186,22 +178,16 @@ if (isset($_POST['SubmitM'])) {
         foreach ($Values as $key => $value) {
 
 
-            $IdKey = $value;
+            $IdRow = $value;
             $ImageSet = $Keys;
-
 
             $USet = "";
             $USet .= " ModifyIP = '$ModifyIP' ,";
             $USet .= " AdminOk = 1 ,";
-            $USet .= " ImageSet = concat_ws(',',ImageSet,'" . $ImageSet . "') ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $USet .= " ModifyId = '$ModifyId' ";
+            $USet .= " ImageSet = concat_ws(',',ImageSet,'" . $ImageSet . "') ";
 
-            $UCondition = " IdKey = '$IdKey' ";
+            $UCondition = " IdRow = '$IdRow' ";
             $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
-
 
         }
 
@@ -211,7 +197,6 @@ if (isset($_POST['SubmitM'])) {
     $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
     JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('act')));
     exit();
-
 
 }
 
@@ -227,7 +212,8 @@ $strListHead = (new ListTools())->TableHead(
         '<input type="checkbox" name="cum6" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-5 col-master">',
         '<input type="checkbox" name="cum7" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-6 col-master">',
         '<input type="checkbox" name="cum8" checked="checked" id="check-cum7" class="flat checkboxbig master-sec-7 col-master">'
-    ), FA_LC['name']);
+    ), FA_LC['name']
+);
 
 
 $ToolsIcons[] = $arrToolsIcon["view"];
@@ -241,7 +227,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
-$SCondition = "Content IS NOT NULL and ApiContent IS NOT NULL and CatId IS NOT NULL ";
+$SCondition = "Content IS NOT NULL and CatIds IS NOT NULL ";
 if (@$_GET['url_gender'] != '') {
     $strurl_genderValue = $_GET['url_gender'];
     $SCondition .= "  and url_gender = '$strurl_genderValue'";
@@ -264,15 +250,17 @@ if (@$_GET['url_group2'] != '') {
     $SCondition .= "  and url_group2 REGEXP '$strurl_group2Value'";
 }
 
-if (@$_GET['ProductType'] != '') {
-    $strPProductTypeValue = $_GET['ProductType'];
-    $SCondition .= "  and ProductType = '$strPProductTypeValue'";
+if (@$_GET['product_type'] != '') {
+    $strurl_product_type = $_GET['product_type'];
+    $SCondition .= "  and iw_api_product_type_id = '$strurl_product_type'";
 }
 
-if (@$_GET['BrandName'] != '') {
-    $strPBrandNameValue = $_GET['BrandName'];
-    $SCondition .= "  and BrandName = '$strPBrandNameValue'";
+if (@$_GET['brand'] != '') {
+    $strurl_brand = $_GET['brand'];
+    $SCondition .= "  and iw_api_brands_id = '$strurl_brand'";
 }
+
+
 
 if (@$_GET['PActivity'] != '') {
     $Activity = $_GET['PActivity'];
@@ -282,9 +270,9 @@ if (@$_GET['PActivity'] != '') {
 if (@$_GET['PUnweight'] != '') {
     $Unweight = $_GET['PUnweight'];
     if ($Unweight == 0) {
-        $SCondition .= "  and ( WeightIdKey IS NOT NULL )";
+        $SCondition .= "  and ( WeightIdRow IS NOT NULL )";
     } else {
-        $SCondition .= "  and (NoWeightValue = '$Unweight' or WeightIdKey IS  NULL )";
+        $SCondition .= "  and (NoWeightValue = '$Unweight' or WeightIdRow IS  NULL )";
     }
 }
 
@@ -315,17 +303,14 @@ $strListBody = '';
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
     $SCondition = "ProductId LIKE '%$strSearch%' OR 
-                   ModifyDate LIKE '%$strSearch%' OR 
-                   IdKey LIKE '%$strSearch%' OR 
+                   IdRow LIKE '%$strSearch%' OR 
                    LocalName REGEXP '$strSearch' OR 
                    Name REGEXP '$strSearch' OR 
                    url_gender REGEXP '$strSearch' OR 
                    url_category REGEXP '$strSearch' OR 
                    url_group REGEXP '$strSearch' OR 
                    url_group2 REGEXP '$strSearch' OR 
-                   ProductCode LIKE '%$strSearch%' OR 
-                   BrandName REGEXP '$strSearch' OR 
-                   ProductType REGEXP '$strSearch' ";
+                   ProductCode LIKE '%$strSearch%'  ";
 }
 $intTotalFind = 0;
 $intTotalFind = $objORM->DataCount($SCondition, TableIWAPIProducts);
@@ -337,7 +322,7 @@ $intIdMaker = 0;
 $strListBody = '';
 
 
-foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageSet,Url,IdKey', 'ModifyDate ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageSet,Url,IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
 
     $objArrayImage = explode("==::==", $ListItem->Content);
@@ -363,14 +348,14 @@ foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageS
     }
 
 
-    isset($objArrayImage[0]) ? $strImage1 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[0] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-0" ' . @$strChecked[1] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[1][]"><label for="' . $intIdMaker . '" >' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->ProductId, 336, 'id="myImg" class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage1 = '';
-    isset($objArrayImage[1]) ? $strImage2 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[1] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-1" ' . @$strChecked[2] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[2][]"><label for="' . $intIdMaker . '" >' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[1], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage2 = '';
-    isset($objArrayImage[2]) ? $strImage3 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[2] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-2" ' . @$strChecked[3] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[3][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[2], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage3 = '';
-    isset($objArrayImage[3]) ? $strImage4 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[3] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-3" ' . @$strChecked[4] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[4][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[3], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage4 = '';
-    isset($objArrayImage[4]) ? $strImage5 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[4] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-4" ' . @$strChecked[5] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[5][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[4], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage5 = '';
-    isset($objArrayImage[5]) ? $strImage6 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[5] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-5" ' . @$strChecked[6] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[6][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[5], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage6 = '';
-    isset($objArrayImage[6]) ? $strImage7 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[6] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-6" ' . @$strChecked[7] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[7][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[6], $ListItem->ProductId, 336, 'id="myImg" class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage7 = '';
-    isset($objArrayImage[7]) ? $strImage8 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[7] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-7" ' . @$strChecked[8] . ' value="' . $ListItem->IdKey . '" id="' . ++$intIdMaker . '"  name="ImageSelected[8][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[7], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage8 = '';
+    isset($objArrayImage[0]) ? $strImage1 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[0] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-0" ' . @$strChecked[1] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[1][]"><label for="' . $intIdMaker . '" >' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->ProductId, 336, 'id="myImg" class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage1 = '';
+    isset($objArrayImage[1]) ? $strImage2 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[1] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-1" ' . @$strChecked[2] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[2][]"><label for="' . $intIdMaker . '" >' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[1], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage2 = '';
+    isset($objArrayImage[2]) ? $strImage3 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[2] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-2" ' . @$strChecked[3] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[3][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[2], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage3 = '';
+    isset($objArrayImage[3]) ? $strImage4 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[3] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-3" ' . @$strChecked[4] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[4][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[3], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage4 = '';
+    isset($objArrayImage[4]) ? $strImage5 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[4] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-4" ' . @$strChecked[5] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[5][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[4], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage5 = '';
+    isset($objArrayImage[5]) ? $strImage6 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[5] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-5" ' . @$strChecked[6] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[6][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[5], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage6 = '';
+    isset($objArrayImage[6]) ? $strImage7 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[6] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-6" ' . @$strChecked[7] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[7][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[6], $ListItem->ProductId, 336, 'id="myImg" class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage7 = '';
+    isset($objArrayImage[7]) ? $strImage8 = '<a class="pimagemodalclass" href="#PImageModal" data-toggle="modal" data-img-url="' . $objShowFile->FileLocation("attachedimage") . @$objArrayImage[7] . '"> <i class="fa fa-search-plus fa-lg"></i> </a><input type="checkbox" class="flat child sec-' . $intRowCounter . ' sco-7" ' . @$strChecked[8] . ' value="' . $ListItem->IdRow . '" id="' . ++$intIdMaker . '"  name="ImageSelected[8][]"><label for="' . $intIdMaker . '">' . $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $objArrayImage[7], $ListItem->ProductId, 336, 'id="myImg"  class="cursor_pointer iw_image_edit_show"') . '</label>' : $strImage8 = '';
 
 
     $strListBody .= '<tr><td><input type="checkbox" checked="checked" class="flat checkboxbig master-sco-' . $intRowCounter++ . ' row-master" name="row' . $ListItem->ProductId . '">' . $ListItem->ProductId . '</td>';
@@ -384,7 +369,7 @@ foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageS
     $strListBody .= '<td>' . $strImage8 . '</td>';
     $strListBody .= '<td  width="10%">' . $ListItem->Name . '</td>';
     $strListBody .= '</tr>';
-    $strListBody .= '<input name="AllProduct[]" value="' . $ListItem->IdKey . '" type="hidden">';
+    $strListBody .= '<input name="AllProduct[]" value="' . $ListItem->IdRow . '" type="hidden">';
 }
 
 // list
