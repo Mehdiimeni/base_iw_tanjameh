@@ -10,15 +10,17 @@ include "../../../iassets/include/DBLoader.php";
 
 if (isset($_POST['trend'])) {
 
-    $trend = $_POST['trend'];
+    $trend = str_replace('%20', ' ',$_POST['trend']);
     $page_condition = $_POST['page_condition'];
-    $condition = " ProductType = '$trend' and Enabled = 1 AND Content IS NOT NULL
-    AND AdminOk = 1   " . $page_condition;
+    
+    $trend_id= $_POST['id'];
+
+    $condition = " Enabled = 1 AND Content IS NOT NULL
+    AND AdminOk = 1 AND iw_api_product_type_id = $trend_id  ". $page_condition;
 
 
     if ($objORM->DataExist($condition, TableIWAPIProducts)) {
-
-        $obj_products = @$objORM->FetchAll($condition, "IdRow,IdKey,Name,PGender,PCategory,PGroup,Content,ImageSet,MainPrice,LastPrice,ProductType,BrandName,Size", TableIWAPIProducts);
+        $obj_products = @$objORM->FetchAll($condition, "IdRow,Name,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
@@ -69,7 +71,7 @@ if (isset($_POST['trend'])) {
             }
 
 
-            $product_page_url = "?gender=" . $product->PGender . "&category=" . $product->PCategory . "&group=" . $product->PGroup . "&item=" . $product->IdRow;
+            $product_page_url = "?gender=" . $product->url_gender . "&category=" . $product->url_category . "&group=" . $product->url_group . "&item=" . $product->IdRow;
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[1], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
 
@@ -78,17 +80,31 @@ if (isset($_POST['trend'])) {
 
             $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
 
+            $brand_name = @$objORM->Fetch("id = '$product->iw_api_brands_id' ", 'name', TableIWApiBrands)->name;
+            $product_type = @$objORM->Fetch("id = '$product->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
+
+            $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$product->IdRow' ", 'brandSize', TableIWApiProductVariants);
+
+            $arr_size = array();
+            foreach($obj_product_variants_size as $size)
+            {
+                $arr_size[] = $size->brandSize;
+            }
+
+            $str_size = implode(',',$arr_size);
 
             $arr_product_detail = array(
                 'name' => $product->Name,
-                'product_type' => $product->ProductType,
-                'brand_name' => $product->BrandName,
+                'product_type' => $product_type,
+                'brand_name' => $brand_name,
+                'product_type_id' => $product->iw_api_product_type_id,
+                'brand_id' => $product->iw_api_brands_id,
                 'image_one_address' => $image_one_address,
                 'image_two_address' => $image_two_address,
                 'str_price' => $strPricingPart,
                 'str_old_price' => $strOldPricingPart,
                 'product_page_url' => $product_page_url,
-                'size' => $product->Size
+                'size' => $str_size
             );
 
 

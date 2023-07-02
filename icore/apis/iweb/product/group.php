@@ -27,7 +27,8 @@ if (isset($_POST['cat_id'])) {
             if ($objORM->DataExist($condition, TableIWNewMenu)) {
                 $obj_row_menu = @$objORM->Fetch($condition, "IdRow,Name,LocalName", TableIWNewMenu);
 
-                $condition = "CatId = '$cat_id' and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
+                $condition = "  find_in_set($cat_id, CatIds)  and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
+
                 $total_en = @$objORM->DataCount($condition, TableIWAPIProducts);
 
                 $last_page = ceil($total_en / 15);

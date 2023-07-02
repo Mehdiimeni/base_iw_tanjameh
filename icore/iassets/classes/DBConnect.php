@@ -109,7 +109,7 @@ class DBConnect extends Regularization
         return (true);
     }
 
-    public function LastId(): string
+    public function LastId()
     {
         return ($this->dbConnection->lastInsertId());
     }

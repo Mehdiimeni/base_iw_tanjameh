@@ -2,6 +2,7 @@
 ///template/product/brand.php
 
 $brand = $_SESSION['brand'];
+$brand_id = $_SESSION['brand_id'];
 $page_offcet_nu = 15;
 (isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page'] * $page_offcet_nu . ' OFFSET ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
@@ -11,10 +12,11 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
   <!-- Breadcrumb -->
 
   <h1 class="fw-semibold mb-5">
-    <?php echo get_brand_info($brand)->brand_name; ?>
+    <?php echo get_brand_info($brand,$brand_id)->brand_name; ?>
   </h1>
   <div class="row my-4">
     <div class="col-12 col-lg-3 b-animate b-dark brand-cat lh-lg">
+    <?php echo get_brand_info($brand,$brand_id)->brand_description; ?>
       <hr class="d-lg-none">
     </div>
     <div class="col-12 col-lg-9">
@@ -124,14 +126,14 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
       </div>
       <div class="hstack gap-2 text-muted my-3">
         <h6>
-          <?php echo get_brand_info($brand)->total . " " . _LANG['product']; ?>
+          <?php echo get_brand_info($brand,$brand_id)->total . " " . _LANG['product']; ?>
         </h6>
       </div>
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php if (brand_product_details($brand, $page_condition)) {
-          foreach (brand_product_details($brand, $page_condition) as $product_data) { ?>
+        <?php if (brand_product_details($brand,$brand_id, $page_condition)) {
+          foreach (brand_product_details($brand,$brand_id, $page_condition) as $product_data) { ?>
             <div class="col card rounded-0 border-0">
               <div class="position-relative d-inline-block product">
                 <div class="position-absolute top-0 z-1 mt-2">
@@ -195,8 +197,8 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php if (brand_product_details($brand, $page_condition)) {
-            echo brand_product_paging($page_offcet_nu, get_brand_info($brand)->total_en);
+          <?php if (brand_product_details($brand,$brand_id, $page_condition)) {
+            echo brand_product_paging($page_offcet_nu, get_brand_info($brand,$brand_id)->total_en);
           } ?>
         </ul>
       </nav>

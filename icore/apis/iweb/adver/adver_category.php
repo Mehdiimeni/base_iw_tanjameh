@@ -11,10 +11,9 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['gender'])) {
 
     $gender = strtolower($_POST['gender']);
-    $condition_statement = "  Enabled = 1 AND Content IS NOT NULL
-    AND AdminOk = 1 AND PGender = '$gender' and  ProductType IS NOT NULL  GROUP BY ProductType ORDER BY rand() ASC limit 16 ";
-    if ($objORM->DataExist($condition_statement, TableIWAPIProducts)) {
-        echo @$objORM->FetchJsonWhitoutCondition(TableIWAPIProducts, $condition_statement, 'ProductType');
+    $condition_statement = "  1 ORDER BY rand() ASC limit 16 ";
+    if ($objORM->DataExist($condition_statement, TableIWApiProductType, 'id')) {
+        echo @$objORM->FetchJsonWhitoutCondition(TableIWApiProductType, $condition_statement, '*');
     } else {
         echo false;
     }

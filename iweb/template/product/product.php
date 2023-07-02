@@ -24,8 +24,9 @@ if (get_product_info($item)) {
             <div class="item-detail-product">
               <div class="b-animate b-dark">
                 <h3>
-                  <a href="#" class="text-decoration-none text-dark d-block product-brand"><?php echo get_product_info($item)->name; ?></a>
+                  <a href="?brand=<?php echo get_product_info($item)->brand_name; ?>" class="text-decoration-none text-dark d-block product-brand"><?php echo get_product_info($item)->brand_name; ?></a>
                 </h3>
+                <h2>  <?php echo str_replace(get_product_info($item)->brand_name,"",get_product_info($item)->name); ?></h2>
                 <h3 class="fw-semibold product-title">
                     
                 <?php if (!in_array(get_product_info($item)->product_type, _PRODUCT)) {
@@ -33,8 +34,8 @@ if (get_product_info($item)) {
                 } else {
                     echo array_search(get_product_info($item)->product_type, _PRODUCT);
                 } ?>
-                -
-                <?php echo get_product_info($item)->brand_name; ?>
+                
+                
                 </h3>
                 <?php if (get_product_info($item)->discount_persent) { ?>
                     <p class="font-x-s m-0"><?php echo get_product_info($item)->discount_persent; ?>% <?php echo _LANG['discount']; ?></p>

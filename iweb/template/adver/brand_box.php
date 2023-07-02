@@ -13,8 +13,8 @@ if (get_brand(@$_SESSION['gender'])) {
           if ($counter == 0 or $counter % 4 == 0) { ?>
             <div class="col">
             <?php } ?>
-        <a class="nav-link" href="?brand=<?php echo $Brand->BrandName; ?>">
-          <?php echo $Brand->BrandName; ?>
+        <a class="nav-link" href="?brand=<?php echo $Brand->name; ?>&id=<?php echo $Brand->id; ?>">
+          <?php echo $Brand->name; ?>
         </a>
         <?php if ($counter == 0 or $counter % 4 == 0) { ?>
           </div>

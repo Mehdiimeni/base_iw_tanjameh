@@ -6,6 +6,8 @@ $category = $_SESSION['category'];
 $group = $_SESSION['group'];
 $cat_id = $_SESSION['cat_id'];
 $page_offcet_nu = 15;
+
+
 (isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page'] * $page_offcet_nu . ' OFFSET ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
 $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
@@ -53,21 +55,21 @@ $page_condition = "order by IdRow DESC LIMIT " . $str_limit;
             data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
             <?php echo (_LANG['ordering']); ?>
           </button>
-          <form class="dropdown-menu rounded-0">
-            <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100  py-3"><span
+          <form class="dropdown-menu rounded-0" action="">
+            <button name="order" value="most_popular" type="submit" class="btn btn-outline-light text-dark rounded-0 w-100  py-3"><span
                 class="float-start"><?php echo (_LANG['most_popular']); ?></span></button>
             <hr class="ms-3 m-0 border-dark-subtle">
-            <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3 fw-bold"><span
+            <button name="order" value="the_newest" type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3 fw-bold"><span
                 class="float-start"><?php echo (_LANG['the_newest']); ?></span><i
                 class="fa-solid fa-check float-end"></i></button>
             <hr class="ms-3 m-0 border-dark-subtle">
-            <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
+            <button name="order" value="the_lowest_price" type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
                 class="float-start"><?php echo (_LANG['the_lowest_price']); ?></span></button>
             <hr class="ms-3 m-0 border-dark-subtle">
-            <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
+            <button name="order" value="the_highest_price" type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
                 class="float-start"><?php echo (_LANG['the_highest_price']); ?></span></button>
             <hr class="ms-3 m-0 border-dark-subtle">
-            <button type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
+            <button name="order" value="sales" type="submit" class="btn btn-outline-light text-dark rounded-0 w-100 py-3"><span
                 class="float-start"><?php echo (_LANG['sales']); ?></span></button>
           </form>
         </div>

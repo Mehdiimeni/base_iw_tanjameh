@@ -13,8 +13,8 @@ if (get_adver_category(@$_SESSION['gender'])) {
           if ($counter == 0 or $counter % 4 == 0) { ?>
             <div class="col">
             <?php } ?>
-        <a class="nav-link" href="?trend=<?php echo $Category->ProductType; ?>">
-          <?php echo $Category->ProductType; ?>
+        <a class="nav-link" href="?trend=<?php echo $Category->name; ?>&id=<?php echo $Category->id; ?>">
+          <?php echo $Category->name; ?>
         </a>
         <?php if ($counter == 0 or $counter % 4 == 0) { ?>
           </div>

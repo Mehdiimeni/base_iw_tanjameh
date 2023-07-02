@@ -1,20 +1,24 @@
 <?php
 ///controller/product/brand.php
 
-function get_brand_info($brand)
+function get_brand_info($brand,$id)
 {
-    $filds = array('brand' => $brand);
+    $filds = array(
+        'brand' => $brand,
+        'id' => $id
+    );
     $objIAPI = set_server();
     return json_decode($objIAPI->GetPostApi('product/brand', $filds));
 
 }
 
-function brand_product_details($brand, $page_condition)
+function brand_product_details($brand,$id, $page_condition)
 {
     $objIAPI = set_server();
 
     $filds = array(
         'brand' => $brand,
+        'id' => $id,
         'page_condition' => $page_condition,
     );
     return json_decode($objIAPI->GetPostApi('product/brand_product_details', $filds));

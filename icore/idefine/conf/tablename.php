@@ -63,6 +63,12 @@ const TableIWNewMenu = "iw_new_menu";
 const TableIWNewMenu2 = "iw_new_menu_2";
 const TableIWNewMenu3 = "iw_new_menu_3";
 const TableIWNewMenu4 = "iw_new_menu_4";
+const TableIWApiBrands = "iw_api_brands";
+const TableIWApiProductType = "iw_api_product_type";
+const TableIWApiProductVariants = "iw_api_product_variants";
+
+
+
 
 // website part 
 const TableIWWebSiteInfo = "iw_website_info";

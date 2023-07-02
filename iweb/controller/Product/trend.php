@@ -1,20 +1,24 @@
 <?php
 ///controller/product/trend.php
 
-function get_trend_info($trend)
+function get_trend_info($trend,$trend_id)
 {
-    $filds = array('trend' => $trend);
+    $filds = array(
+        'trend' => $trend,
+        'id' => $trend_id
+    );
     $objIAPI = set_server();
     return json_decode($objIAPI->GetPostApi('product/trend', $filds));
 
 }
 
-function trend_product_details($trend, $page_condition)
+function trend_product_details($trend,$trend_id, $page_condition)
 {
     $objIAPI = set_server();
 
     $filds = array(
         'trend' => $trend,
+        'id' => $trend_id,
         'page_condition' => $page_condition
     );
     return json_decode($objIAPI->GetPostApi('product/trend_product_details', $filds));

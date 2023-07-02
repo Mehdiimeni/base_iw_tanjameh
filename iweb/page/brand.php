@@ -2,6 +2,7 @@
 //web brand 
 
 $_SESSION['brand'] = $_GET['brand'];
+$_SESSION['brand_id'] = $_GET['id'];
 
 $_SESSION['page_name_system'] = 'brand';
 

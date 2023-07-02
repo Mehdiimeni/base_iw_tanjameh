@@ -1,0 +1,523 @@
+id:204322896,
+name:"ASOS DESIGN slim fit short sleeve stripe shirt in white & black",
+"localisedData": [
+    {
+        "pdpUrl": "https://www.asos.com/asos-design/asos-design-slim-fit-short-sleeve-stripe-shirt-in-white-black/prd/204322896"
+    }
+],
+"gender": "Men",
+"productCode": "126584185",
+"brand": {
+    "brandId": 53,
+    "name": "ASOS DESIGN",
+    "description": "This is <a href=\"/men/a-to-z-of-brands/asos-design/cat/?cid=27871\"><strong>ASOS DESIGN</strong></a> – your go-to for all the latest trends, no matter who you are, where you’re from and what you’re up to. Exclusive to ASOS, our universal brand is here for you, and comes in Plus and Tall. Created by us, styled by you."
+},
+"sizeGuide": null,
+"sizeGuideApiUrl": null,
+"isNoSize": false,
+"isOneSize": false,
+"isInStock": true,
+"countryOfManufacture": null,
+"hasVariantsWithProp65Risk": false,
+"variants": [
+    {
+        "id": 204322904,
+        "sizeId": 484054,
+        "brandSize": "2XS",
+        "sizeDescription": "Chest 34",
+        "displaySizeText": "2XS - Chest 34",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322898,
+        "sizeId": 484055,
+        "brandSize": "XS",
+        "sizeDescription": "Chest 36",
+        "displaySizeText": "XS - Chest 36",
+        "isLowInStock": false,
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322905,
+        "sizeId": 484058,
+        "brandSize": "S",
+        "sizeDescription": "Chest 38",
+        "displaySizeText": "S - Chest 38",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+
+
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322902,
+        "sizeId": 484061,
+        "brandSize": "S Long",
+        "sizeDescription": "Chest 38 Long",
+        "displaySizeText": "S Long - Chest 38 Long",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322901,
+        "sizeId": 484056,
+        "brandSize": "M",
+        "sizeDescription": "Chest 40",
+        "displaySizeText": "M - Chest 40",
+        "isLowInStock": false,
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322909,
+        "sizeId": 484063,
+        "brandSize": "ML",
+        "sizeDescription": "Chest 40 Long",
+        "displaySizeText": "ML - Chest 40 Long",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+        
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322899,
+        "sizeId": 484057,
+        "brandSize": "L",
+        "sizeDescription": "Chest 42",
+        "displaySizeText": "L - Chest 42",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+           
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322908,
+        "sizeId": 484065,
+        "brandSize": "L Long",
+        "sizeDescription": "Chest 42 Long",
+        "displaySizeText": "L Long - Chest 42 Long",
+        "sizeOrder": 8,
+        "sku": "126584392",
+        "isLowInStock": false,
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322907,
+        "sizeId": 484060,
+        "brandSize": "XL",
+        "sizeDescription": "Chest 44",
+        "displaySizeText": "XL - Chest 44",
+    
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322906,
+        "sizeId": 484062,
+        "brandSize": "XL Long",
+        "sizeDescription": "Chest 44 Long",
+        "displaySizeText": "XL Long - Chest 44 Long",
+        
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322903,
+        "sizeId": 484059,
+        "brandSize": "2XL",
+        "sizeDescription": "Chest 46-48",
+        "displaySizeText": "2XL - Chest 46-48",
+        
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+           
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322900,
+        "sizeId": 484066,
+        "brandSize": "2XL Long",
+        "sizeDescription": "Chest 46-48 Long",
+        "displaySizeText": "2XL Long - Chest 46-48 Long",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    },
+    {
+        "id": 204322910,
+        "sizeId": 484064,
+        "brandSize": "3XL Long",
+        "sizeDescription": "Chest 50 Long",
+        "displaySizeText": "3XL Long - Chest 50 Long",
+        "isInStock": true,
+        "isAvailable": true,
+        "colourWayId": 204322897,
+        "colourCode": null,
+        "colour": "WHITE",
+        "price": {
+            "current": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+            "previous": {
+                "value": 18.0,
+                "text": "£18.00",
+                "versionId": "REGP0000020002000000000000000",
+                "conversionId": "0"
+            },
+           
+        },
+        "isPrimary": true,
+        "isProp65Risk": false,
+        "ean": null,
+        "seller": null
+    }
+],
+
+"info": {
+    "aboutMe": "Plain-woven fabric<br><br>Main: 67% Cotton, 33% Polyester.",
+    "sizeAndFit": "Model's height: 189cm/6'2.5\" <br>Model is wearing: Medium",
+    "careInfo": "Machine wash according to instructions on care label"
+},
+"isDeadProduct": false,
+"rating": null,
+"productType": {
+    "id": 8390,
+    "name": "Shirts"
+},
+"plpIds": [
+    {
+        "id": 3602,
+        "type": "SEO"
+    },
+    {
+        "id": 6993,
+        "type": "Standard"
+    },
+    {
+        "id": 13802,
+        "type": "Standard"
+    },
+    {
+        "id": 13803,
+        "type": "Standard"
+    },
+    {
+        "id": 13804,
+        "type": "Standard"
+    },
+    {
+        "id": 15411,
+        "type": "Standard"
+    },
+    {
+        "id": 15413,
+        "type": "Standard"
+    },
+    {
+        "id": 15415,
+        "type": "Standard"
+    },
+    {
+        "id": 17477,
+        "type": "Standard"
+    },
+    {
+        "id": 17496,
+        "type": "Standard"
+    },
+    {
+        "id": 17566,
+        "type": "Standard"
+    },
+    {
+        "id": 20753,
+        "type": "Standard"
+    },
+    {
+        "id": 21884,
+        "type": "Standard"
+    },
+    {
+        "id": 22176,
+        "type": "Brand"
+    },
+    {
+        "id": 27868,
+        "type": "Standard"
+    },
+    {
+        "id": 28751,
+        "type": "Standard"
+    },
+    {
+        "id": 28982,
+        "type": "Standard"
+    },
+    {
+        "id": 50063,
+        "type": "Standard"
+    },
+    {
+        "id": 50680,
+        "type": "Standard"
+    }
+]

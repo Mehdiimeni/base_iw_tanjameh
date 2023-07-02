@@ -2,6 +2,7 @@
 //web trend 
 
 $_SESSION['trend'] = $_GET['trend'];
+$_SESSION['trend_id'] = $_GET['id'];
 $_SESSION['page_name_system'] = 'trend';
 
 

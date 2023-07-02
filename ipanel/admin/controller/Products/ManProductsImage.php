@@ -7,31 +7,31 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 $Enabled = true;
 
 // Gender
-$strPGender = '<option value=""></option>';
+$strurl_gender = '<option value=""></option>';
 
 
 foreach ($objORM->FetchAll("1 GROUP BY  Name", 'Name', TableIWNewMenu) as $objPGander) {
     $strSelected = '';
-    if (@$_GET['PGender'] == $objPGander->Name and isset($_GET['PGender']))
+    if (@$_GET['url_gender'] == $objPGander->Name and isset($_GET['url_gender']))
         $strSelected = 'selected';
-    $strPGender .= '<option ' . $strSelected . ' value="' . $objPGander->Name . '" >' . $objPGander->Name . '</option>';
+    $strurl_gender .= '<option ' . $strSelected . ' value="' . $objPGander->Name . '" >' . $objPGander->Name . '</option>';
 }
 
 // Category
-$strPCategory = '<option value=""></option>';
-if (isset($_GET['PCategory']))
-    $strPCategory .= '<option selected value="' . $_GET['PCategory'] . '">' . $_GET['PCategory'] . '</option>';
+$strurl_category = '<option value=""></option>';
+if (isset($_GET['url_category']))
+    $strurl_category .= '<option selected value="' . $_GET['url_category'] . '">' . $_GET['url_category'] . '</option>';
 
 
 // Group
-$strPGroup = '<option value=""></option>';
-if (isset($_GET['PGroup']))
-    $strPGroup .= '<option selected value="' . $_GET['PGroup'] . '">' . $_GET['PGroup'] . '</option>';
+$strurl_group = '<option value=""></option>';
+if (isset($_GET['url_group']))
+    $strurl_group .= '<option selected value="' . $_GET['url_group'] . '">' . $_GET['url_group'] . '</option>';
 
 // Group2
-$strPGroup2 = '<option value=""></option>';
-if (isset($_GET['PGroup2']))
-    $strPGroup2 .= '<option selected value="' . $_GET['PGroup2'] . '">' . $_GET['PGroup2'] . '</option>';
+$strurl_group2 = '<option value=""></option>';
+if (isset($_GET['url_group2']))
+    $strurl_group2 .= '<option selected value="' . $_GET['url_group2'] . '">' . $_GET['url_group2'] . '</option>';
 
 
 // ProductType
@@ -71,7 +71,7 @@ foreach ($arrListSet as $key => $value) {
 
 
 //Count show
-$arrListcount = [25,50, 75, 100, 125, 150];
+$arrListcount = [25, 50, 75, 100, 125, 150];
 $strCountShow = '';
 foreach ($arrListcount as $Listcount) {
     $strSelected = '';
@@ -108,10 +108,10 @@ foreach ($arrUnweight as $key => $value) {
 if (isset($_POST['SubmitF'])) {
 
 
-    $PGender = @$_POST['PGender'];
-    $PCategory = @$_POST['PCategory'];
-    $PGroup = @$_POST['PGroup'];
-    $PGroup2 = @$_POST['PGroup2'];
+    $url_gender = @$_POST['url_gender'];
+    $url_category = @$_POST['url_category'];
+    $url_group = @$_POST['url_group'];
+    $url_group2 = @$_POST['url_group2'];
     $ProductType = @$_POST['ProductType'];
     $BrandName = @$_POST['BrandName'];
     $SetEdit = @$_POST['SetEdit'];
@@ -121,14 +121,14 @@ if (isset($_POST['SubmitF'])) {
 
     $strGetUrl = '';
 
-    if ($PGender != '')
-        $strGetUrl .= '&PGender=' . $objGlobalVar->getUrlDecode($PGender);
-    if ($PCategory != '')
-        $strGetUrl .= '&PCategory=' . $objGlobalVar->getUrlDecode($PCategory);
-    if ($PGroup != '')
-        $strGetUrl .= '&PGroup=' . $objGlobalVar->getUrlDecode($PGroup);
-    if ($PGroup2 != '')
-        $strGetUrl .= '&PGroup2=' . $objGlobalVar->getUrlDecode($PGroup2);
+    if ($url_gender != '')
+        $strGetUrl .= '&url_gender=' . $objGlobalVar->getUrlDecode($url_gender);
+    if ($url_category != '')
+        $strGetUrl .= '&url_category=' . $objGlobalVar->getUrlDecode($url_category);
+    if ($url_group != '')
+        $strGetUrl .= '&url_group=' . $objGlobalVar->getUrlDecode($url_group);
+    if ($url_group2 != '')
+        $strGetUrl .= '&url_group2=' . $objGlobalVar->getUrlDecode($url_group2);
     if ($ProductType != '')
         $strGetUrl .= '&ProductType=' . $objGlobalVar->getUrlDecode($ProductType);
     if ($BrandName != '')
@@ -142,7 +142,7 @@ if (isset($_POST['SubmitF'])) {
     if ($CountShow != '')
         $strGetUrl .= '&CountShow=' . $CountShow;
 
-    $objGlobalVar->JustUnsetGetVar(array('PGroup,PGender,BrandName,ProductType,PCategory,PActivity,PUnweight,SetEdit,CountShow'));
+    $objGlobalVar->JustUnsetGetVar(array('url_group,url_gender,BrandName,ProductType,url_category,PActivity,PUnweight,SetEdit,CountShow'));
     JavaTools::JsTimeRefresh(0, '?part=Products&page=ManProductsImage&ln=' . @$strGlobalVarLanguage . $strGetUrl);
 
 
@@ -216,15 +216,18 @@ if (isset($_POST['SubmitM'])) {
 }
 
 
-$strListHead = (new ListTools())->TableHead(array('<input type="checkbox" checked="checked" name="All" id="checkAll"  class="flat checkboxbig">' . FA_LC['all'],
-    '<input type="checkbox" name="cum1" checked="checked" id="check-cum1" class="flat checkboxbig master-sec-0 col-master">',
-    '<input type="checkbox" name="cum2" checked="checked" id="check-cum2" class="flat checkboxbig master-sec-1 col-master">',
-    '<input type="checkbox" name="cum3" checked="checked" id="check-cum3" class="flat checkboxbig master-sec-2 col-master">',
-    '<input type="checkbox" name="cum4" checked="checked" id="check-cum4" class="flat checkboxbig master-sec-3 col-master">',
-    '<input type="checkbox" name="cum5" checked="checked" id="check-cum5" class="flat checkboxbig master-sec-4 col-master">',
-    '<input type="checkbox" name="cum6" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-5 col-master">',
-    '<input type="checkbox" name="cum7" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-6 col-master">',
-    '<input type="checkbox" name="cum8" checked="checked" id="check-cum7" class="flat checkboxbig master-sec-7 col-master">'), FA_LC['name']);
+$strListHead = (new ListTools())->TableHead(
+    array(
+        '<input type="checkbox" checked="checked" name="All" id="checkAll"  class="flat checkboxbig">' . FA_LC['all'],
+        '<input type="checkbox" name="cum1" checked="checked" id="check-cum1" class="flat checkboxbig master-sec-0 col-master">',
+        '<input type="checkbox" name="cum2" checked="checked" id="check-cum2" class="flat checkboxbig master-sec-1 col-master">',
+        '<input type="checkbox" name="cum3" checked="checked" id="check-cum3" class="flat checkboxbig master-sec-2 col-master">',
+        '<input type="checkbox" name="cum4" checked="checked" id="check-cum4" class="flat checkboxbig master-sec-3 col-master">',
+        '<input type="checkbox" name="cum5" checked="checked" id="check-cum5" class="flat checkboxbig master-sec-4 col-master">',
+        '<input type="checkbox" name="cum6" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-5 col-master">',
+        '<input type="checkbox" name="cum7" checked="checked" id="check-cum6" class="flat checkboxbig master-sec-6 col-master">',
+        '<input type="checkbox" name="cum8" checked="checked" id="check-cum7" class="flat checkboxbig master-sec-7 col-master">'
+    ), FA_LC['name']);
 
 
 $ToolsIcons[] = $arrToolsIcon["view"];
@@ -239,26 +242,26 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
 $SCondition = "Content IS NOT NULL and ApiContent IS NOT NULL and CatId IS NOT NULL ";
-if (@$_GET['PGender'] != '') {
-    $strPGenderValue = $_GET['PGender'];
-    $SCondition .= "  and PGender = '$strPGenderValue'";
+if (@$_GET['url_gender'] != '') {
+    $strurl_genderValue = $_GET['url_gender'];
+    $SCondition .= "  and url_gender = '$strurl_genderValue'";
 }
 
 
-if (@$_GET['PCategory'] != '') {
-    $strPCategoryValue = $_GET['PCategory'];
-    $SCondition .= "  and PCategory REGEXP '$strPCategoryValue'";
+if (@$_GET['url_category'] != '') {
+    $strurl_categoryValue = $_GET['url_category'];
+    $SCondition .= "  and url_category REGEXP '$strurl_categoryValue'";
 }
 
 
-if (@$_GET['PGroup'] != '') {
-    $strPGroupValue = $_GET['PGroup'];
-    $SCondition .= "  and PGroup REGEXP '$strPGroupValue'";
+if (@$_GET['url_group'] != '') {
+    $strurl_groupValue = $_GET['url_group'];
+    $SCondition .= "  and url_group REGEXP '$strurl_groupValue'";
 }
 
-if (@$_GET['PGroup2'] != '') {
-    $strPGroup2Value = $_GET['PGroup2'];
-    $SCondition .= "  and PGroup2 REGEXP '$strPGroup2Value'";
+if (@$_GET['url_group2'] != '') {
+    $strurl_group2Value = $_GET['url_group2'];
+    $SCondition .= "  and url_group2 REGEXP '$strurl_group2Value'";
 }
 
 if (@$_GET['ProductType'] != '') {
@@ -316,10 +319,10 @@ if (isset($_POST['SubmitSearch'])) {
                    IdKey LIKE '%$strSearch%' OR 
                    LocalName REGEXP '$strSearch' OR 
                    Name REGEXP '$strSearch' OR 
-                   PGender REGEXP '$strSearch' OR 
-                   PCategory REGEXP '$strSearch' OR 
-                   PGroup REGEXP '$strSearch' OR 
-                   PGroup2 REGEXP '$strSearch' OR 
+                   url_gender REGEXP '$strSearch' OR 
+                   url_category REGEXP '$strSearch' OR 
+                   url_group REGEXP '$strSearch' OR 
+                   url_group2 REGEXP '$strSearch' OR 
                    ProductCode LIKE '%$strSearch%' OR 
                    BrandName REGEXP '$strSearch' OR 
                    ProductType REGEXP '$strSearch' ";
@@ -339,7 +342,7 @@ foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageS
 
     $objArrayImage = explode("==::==", $ListItem->Content);
 
-    $ListItem->Name = '<a target="_blank" href="https://www.asos.com/' . $ListItem->Url . '">' .  wordwrap($ListItem->Name,15,"<br>\n"). '</a>';
+    $ListItem->Name = '<a target="_blank" href="https://www.asos.com/' . $ListItem->Url . '">' . wordwrap($ListItem->Name, 15, "<br>\n") . '</a>';
 
 
     $ListItem->Content = '';
@@ -352,7 +355,7 @@ foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageS
 
         if ($ListItem->AdminOk != 0) {
 
-            if (@strpos($ListItem->ImageSet, (string)$intImageCounter) === false) {
+            if (@strpos($ListItem->ImageSet, (string) $intImageCounter) === false) {
                 $strChecked[$intImageCounter] = '';
             }
             $intImageCounter++;
@@ -390,5 +393,3 @@ if (@$_GET['list'] != '') {
 } else {
     $_SESSION['strListSet'] = 'normal';
 }
-
-

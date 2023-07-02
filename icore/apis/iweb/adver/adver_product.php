@@ -76,16 +76,23 @@ if (isset($_POST['page_name_system'])) {
                             }
 
 
-                            $product_page_url = "?gender=" . $product->PGender . "&category=" . $product->PCategory . "&group=" . $product->PGroup . "&item=" . $product->IdRow;
+                            $product_page_url = "?gender=" . $product->url_gender . "&category=" . $product->url_category . "&group=" . $product->url_group . "&item=" . $product->IdRow;
                             $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
                             $str_image = str_replace('../../../../', '', $str_image);
                             $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
 
+                            $brand_name = @$objORM->Fetch("id = '$product->brands_id' ", 'name', TableIWApiBrands)->name;
+                            $product_type = @$objORM->Fetch("id = '$product->product_type_id' ", 'name', TableIWApiProductType)->name;
+                           
+                            
+                            
 
                             $arr_product_detail = array(
                                 'name' => $product->Name,
-                                'product_type' => $product->ProductType,
-                                'brand_name' => $product->BrandName,
+                                'product_type' => $product_type,
+                                'brand_name' => $brand_name,
+                                'product_type_id' => $product->product_type_id,
+                                'brand_id' => $product->brands_id,
                                 'image' => $str_image,
                                 'str_price' => $strPricingPart,
                                 'str_old_price' => $strOldPricingPart,

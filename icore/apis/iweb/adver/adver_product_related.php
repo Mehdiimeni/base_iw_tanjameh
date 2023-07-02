@@ -8,9 +8,30 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['page_name_system'])) {
+if (isset($_POST['adver_related'])) {
 
-    $website_page_name = strtolower($_POST['page_name_system']);
+    $adver_related = $_POST['adver_related'];
+    $iw_web_pages_id = @$objORM->Fetch($condition, "id", TableIWWebSitePages)->id;
+
+    switch ($adver_related) {
+        case 'color':
+            $title = $color_related;
+            $content = $color_related_note;
+            break;
+
+        case 'group':
+            $title = $group_related;
+            $content = $group_related_note;
+            break;
+
+        case 'cat':
+            $title = $cat_related;
+            $content = $cat_related_note;
+            break;
+    }
+
+
+
     $condition = " Enabled = 1 and name = '$website_page_name' ";
 
     if ($objORM->DataExist($condition, TableIWWebSitePages, 'id')) {
