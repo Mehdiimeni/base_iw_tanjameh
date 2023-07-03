@@ -3,6 +3,7 @@
 class ShippingTools extends DBORM
 {
 
+    public $ProductWeight;
     public function __construct($dbConnection)
     {
         parent::__construct($dbConnection);

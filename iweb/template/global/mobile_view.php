@@ -22,7 +22,7 @@
                 <div class="row g-2">
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/new-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/new-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">جدید</p>
                         </div>
@@ -31,7 +31,7 @@
                   </div>
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/look-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/look-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">نمایش</p>
                         </div>
@@ -40,7 +40,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/shoes-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/shoes-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">کفش</p>
                       </div>
@@ -49,7 +49,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/accessory-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/accessory-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">اکسسوری</p>
                       </div>
@@ -62,7 +62,7 @@
                 <div class="row g-2">
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/new-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/new-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">جدید</p>
                         </div>
@@ -71,7 +71,7 @@
                   </div>
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/look-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/look-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">نمایش</p>
                         </div>
@@ -80,7 +80,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/shoes-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/shoes-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">کفش</p>
                       </div>
@@ -89,7 +89,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/accessory-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/accessory-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">اکسسوری</p>
                       </div>
@@ -102,7 +102,7 @@
                 <div class="row g-2">
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/new-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/new-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">جدید</p>
                         </div>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-6">
                       <div class="card rounded-0 border-0">
-                        <a href="#" class="text-dark text-decoration-none"><img src="media/look-collapse.png" class="card-img-top" alt="...">
+                        <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/look-collapse.png" class="card-img-top" alt="...">
                         <div class="card-body">
                           <p class="card-text">نمایش</p>
                         </div>
@@ -120,7 +120,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/shoes-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/shoes-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">کفش</p>
                       </div>
@@ -129,7 +129,7 @@
                   </div>
                   <div class="col-6">
                     <div class="card rounded-0 border-0">
-                      <a href="#" class="text-dark text-decoration-none"><img src="media/accessory-collapse.png" class="card-img-top" alt="...">
+                      <a href="#" class="text-dark text-decoration-none"><img src="./itemplates/iweb/media/accessory-collapse.png" class="card-img-top" alt="...">
                       <div class="card-body">
                         <p class="card-text">اکسسوری</p>
                       </div>

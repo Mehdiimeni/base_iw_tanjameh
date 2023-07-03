@@ -21,15 +21,41 @@ if (isset($_POST['item'])) {
         $objORM->DataUpdate($condition, $USet, TableIWAPIProducts);
 
 
-        $obj_product = @$objORM->Fetch($condition, "*", TableIWAPIProducts);
+        $obj_product = @$objORM->Fetch($condition, "
+        IdRow,
+        ProductId,
+        ProductCode,
+        Name,
+        url_gender,
+        url_category,
+        url_group,
+        Content,
+        PView,
+        PScore,
+        ImageSet,
+        MainPrice,
+        LastPrice,
+        WeightIdKey,
+        CatIds,
+        NoWeightValue,
+        Color,
+        gender,
+        isInStock,
+        info,
+        last_modify,
+        iw_api_product_type_id,
+        iw_api_brands_id", TableIWAPIProducts);
 
+        $last_modify = strtotime($obj_product->last_modify);
+        $curtime = time();
+        $now_modify = date("Y-m-d H:i:s");
 
         // API Count and Connect
         // check api count
         $strExpireDate = date("m-Y");
         $obj_api_connect = $objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "*", TableIWAPIAllConnect);
 
-        if ($obj_api_connect != false and (int) ($obj_api_connect->Count) < 50000) {
+        if ($obj_api_connect != false and (int) ($obj_api_connect->Count) < 50000 and (($curtime - $last_modify) > 21600)) {
 
 
             $whitelist = array(
@@ -39,7 +65,7 @@ if (isset($_POST['item'])) {
 
             if (!in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 
-
+    
                 $objAsos = new AsosConnections();
                 $ApiContent = $objAsos->ProductsDetail($obj_product->ProductId);
 
@@ -51,22 +77,22 @@ if (isset($_POST['item'])) {
                 $objProductData = json_decode(base64_decode($ApiContent), true);
 
                 $Name = $objProductData['name'];
-                $Name =str_replace("'", "\'", $Name);
-                $Name =str_replace('"', '\"', $Name);
+                $Name = str_replace("'", "\'", $Name);
+                $Name = str_replace('"', '\"', $Name);
                 $gender = $objProductData['gender'];
                 $ProductCode = $objProductData['productCode'];
-                $isNoSize = $objProductData['isNoSize']== true ? 1 : 0;
-                $isOneSize = $objProductData['isOneSize']== true ? 1 : 0;
-                $isInStock = $objProductData['isInStock']== true ? 1 : 0;
-                $prop65Risk = $objProductData['hasVariantsWithProp65Risk']== true ? 1 : 0;
+                $isNoSize = $objProductData['isNoSize'] == true ? 1 : 0;
+                $isOneSize = $objProductData['isOneSize'] == true ? 1 : 0;
+                $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
+                $prop65Risk = $objProductData['hasVariantsWithProp65Risk'] == true ? 1 : 0;
 
-                
+
                 $info = json_encode($objProductData['info']);
-                $info =str_replace("'", "\'", $info);
-                $info =str_replace('"', '\"', $info);
+                $info = str_replace("'", "\'", $info);
+                $info = str_replace('"', '\"', $info);
                 $rating = json_encode($objProductData['rating']);
-                $rating =str_replace("'", "\'", $rating);
-                $rating =str_replace('"', '\"', $rating);
+                $rating = str_replace("'", "\'", $rating);
+                $rating = str_replace('"', '\"', $rating);
                 $isDeadProduct = $objProductData['isDeadProduct'];
                 $MainPrice = $objProductData['price']['current']['value'];
                 $LastPrice = $objProductData['price']['previous']['value'];
@@ -78,15 +104,16 @@ if (isset($_POST['item'])) {
 
                 $brandId = $objProductData['brand']['brandId'];
                 $brand_name = $objProductData['brand']['name'];
-                $brand_name =str_replace("'", "\'", $brand_name);
-                $brand_name =str_replace('"', '\"', $brand_name);
+                $brand_name = str_replace("'", "\'", $brand_name);
+                $brand_name = str_replace('"', '\"', $brand_name);
                 $brand_description = $objProductData['brand']['description'];
-                $brand_description =str_replace("'", "\'", $brand_description);
-                $brand_description =str_replace('"', '\"', $brand_description);
+                $brand_description = str_replace("'", "\'", $brand_description);
+                $brand_description = str_replace('"', '\"', $brand_description);
 
                 $str_change = "  brand_id = $brandId ,
                      name = '$brand_name' ,
-                     description = '$brand_description' ";
+                     description = '$brand_description',
+                     last_modify = '$now_modify' ";
 
                 $brand_condition = "brand_id = $brandId";
                 if (!$objORM->DataExist($brand_condition, TableIWApiBrands, 'id')) {
@@ -105,11 +132,12 @@ if (isset($_POST['item'])) {
 
                 $product_type_id = $objProductData['productType']['id'];
                 $product_type_name = $objProductData['productType']['name'];
-                $product_type_name =str_replace("'", "\'", $product_type_name);
-                $product_type_name =str_replace('"', '\"', $product_type_name);
+                $product_type_name = str_replace("'", "\'", $product_type_name);
+                $product_type_name = str_replace('"', '\"', $product_type_name);
 
                 $str_change = " product_type_id = $product_type_id ,
-                     name = '$product_type_name' ";
+                     name = '$product_type_name',
+                     last_modify = '$now_modify' ";
 
                 $type_condition = "product_type_id = $product_type_id";
                 if (!$objORM->DataExist($type_condition, TableIWApiProductType, 'id')) {
@@ -143,8 +171,7 @@ if (isset($_POST['item'])) {
 
 
                 $product_condition = "IdRow = $obj_product->IdRow";
-                $str_change = "
-                                ProductCode='$ProductCode',
+                $str_change = " ProductCode='$ProductCode',
                                 Name='$Name',
                                 Url='$Url',
                                 MainPrice=$MainPrice,
@@ -159,6 +186,7 @@ if (isset($_POST['item'])) {
                                 isDeadProduct='$isDeadProduct',
                                 rating='$rating',
                                 CatIds='$CatIds',
+                                last_modify = '$now_modify',
                                 iw_api_brands_id=$iw_api_brands_id,
                                 iw_api_product_type_id=$iw_api_product_type_id ";
 
@@ -178,31 +206,33 @@ if (isset($_POST['item'])) {
                     $sizeDescription = $variant['sizeDescription'];
                     $displaySizeText = $variant['displaySizeText'];
                     $sizeOrder = $variant['sizeOrder'];
-                    $isInStock = $variant['isInStock']== true ? 1 : 0;
-                    $isAvailable = $variant['isAvailable']== true ? 1 : 0;
+                    $isInStock = $variant['isInStock'] == true ? 1 : 0;
+                    $isAvailable = $variant['isAvailable'] == true ? 1 : 0;
                     $colour = $variant['colour'];
                     $isProp65Risk = $variant['isProp65Risk'] == true ? 1 : 0;
 
-                    $str_change = "   product_id= $product_id,
-                                        name='$name',
-                                        sizeId=$sizeId,
-                                        brandSize='$brandSize',
-                                        sizeDescription='$sizeDescription',
-                                        displaySizeText='$displaySizeText',
-                                        sizeOrder= $sizeOrder,
-                                        isInStock=$isInStock,
-                                        isAvailable=$isAvailable,
-                                        colour='$colour',
-                                        price_current= $price_current,
-                                        price_previous= $price_previous,
-                                        isProp65Risk=$isProp65Risk,
-                                        iw_api_products_id = $obj_product->IdRow ";
+                    $str_change = "product_id= $product_id,
+                                   name='$name',
+                                   sizeId=$sizeId,
+                                   brandSize='$brandSize',
+                                   sizeDescription='$sizeDescription',
+                                   displaySizeText='$displaySizeText',
+                                   sizeOrder= $sizeOrder,
+                                   isInStock=$isInStock,
+                                   isAvailable=$isAvailable,
+                                   colour='$colour',
+                                   price_current= $price_current,
+                                   price_previous= $price_previous,
+                                   isProp65Risk=$isProp65Risk,
+                                   last_modify = '$now_modify',
+                                   iw_api_products_id = $obj_product->IdRow ";
 
                     $variant_condition = "product_id= $product_id";
 
                     if (!$objORM->DataExist($variant_condition, TableIWApiProductVariants, 'id')) {
 
                         $objORM->DataAdd($str_change, TableIWApiProductVariants);
+
                     } else {
 
                         $objORM->DataUpdate($variant_condition, $str_change, TableIWApiProductVariants);
@@ -210,22 +240,10 @@ if (isset($_POST['item'])) {
 
                 }
 
-
-                $product_type = $objProductData['productType']['name'];
-
-
-            } else {
-
-                $product_type = $obj_product->ProductType;
-
             }
 
 
-        } else {
-
-            $product_type = $obj_product->ProductType;
         }
-
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
@@ -308,7 +326,7 @@ if (isset($_POST['item'])) {
 
         if ($intTotalShipping != 0) {
             $intTotalShipping = $objGlobalVar->NumberFormat($intTotalShipping, 0, ".", ",");
-            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping). ' تومان';
+            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping) . ' تومان';
         }
 
         // wieght
@@ -327,7 +345,7 @@ if (isset($_POST['item'])) {
         $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
         $count_score = 0;
 
-        
+
         $obj_brand_name = @$objORM->Fetch("id = '$obj_product->iw_api_brands_id' ", 'name,id', TableIWApiBrands);
         $obj_product_type = @$objORM->Fetch("id = '$obj_product->iw_api_product_type_id' ", 'name,id', TableIWApiProductType);
 
@@ -352,7 +370,7 @@ if (isset($_POST['item'])) {
         $all_size = explode(',', $str_size);
         $all_disabled_size = explode(',', $str_disabled_size);
 
-        $arr_info = json_decode($obj_product->info,1);
+        $arr_info = json_decode($obj_product->info, 1);
 
         $arr_product_detail = array(
             'name' => $obj_product->Name,
@@ -372,7 +390,7 @@ if (isset($_POST['item'])) {
             'brand_id' => $obj_brand_name->id,
             'shipping_price' => $strShippingPrice,
             'shipping_weight' => $strShippingWeight,
-            'aboutMe' => $arr_info['aboutMe'] ,
+            'aboutMe' => $arr_info['aboutMe'],
             'sizeAndFit' => $arr_info['sizeAndFit'],
             'careInfo' => $arr_info['careInfo'],
         );

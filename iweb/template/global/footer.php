@@ -284,10 +284,10 @@
               </h5>
               <div class="hstack gap-1">
                 <a href="#">
-                  <img class="rounded-2" src="media/enamad.png" alt="">
+                  <img class="rounded-2" src="./itemplates/iweb/media/enamad.png" alt="">
                 </a>
                 <a href="#">
-                  <img class="rounded-2" src="media/enamad.png" alt="">
+                  <img class="rounded-2" src="./itemplates/iweb/media/enamad.png" alt="">
                 </a>
               </div>
             </div>
@@ -316,7 +316,7 @@
           </h5>
           <div class="hstack gap-2">
             <small>شما اینجا هستید</small>
-            <img src="media/icon/icons8-iran-24.png" alt="">
+            <img src="./itemplates/iweb/media/icon/icons8-iran-24.png" alt="">
             <div class="vr"></div>
             <!-- Button trigger modal change language -->
             <a type="button" class="fs-5 text-white text-decoration-none" data-bs-toggle="modal"
