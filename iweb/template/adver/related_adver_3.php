@@ -4,17 +4,19 @@ $adver_related = 'price';
 if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)) {
     ?>
     <div class="container-fluid py-5">
+        <div class="container-md">
+            <h2 class="fw-semibold">
+                <?php echo (@get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)->title); ?>
+            </h2>
+            <div class="hstack align-items-center mb-3">
+                <h3>
+                    <?php echo (@get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)->content); ?>
+                </h3>
+            </div>
+        </div>
         <div class="row">
             <div class="col-0 col-md-1"></div>
             <div class="col-12 col-md-11 position-relative overflow-hidden">
-                <h3 class="fw-semibold">
-                    <?php echo (@get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)->title); ?>
-                </h3>
-                <div class="hstack b-animate b-dark">
-                    <h4>
-                        <?php echo (@get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $adver_related)->content); ?>
-
-                </div>
                 <div class="container position-absolute bottom-50 z-2">
                     <div class="position-relative index-owl-nav"></div>
                 </div>
@@ -31,9 +33,7 @@ if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $ad
                                     <div class="card text-dark rounded-0 border-0 bg-transparent">
                                         <div class="position-relative">
                                             <?php echo $Product->image; ?>
-
                                             <?php echo $Product->offer1; ?>
-
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">
@@ -62,4 +62,5 @@ if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $ad
                 </div>
             </div>
         </div>
-    <?php } ?>
+    </div>
+<?php } ?>

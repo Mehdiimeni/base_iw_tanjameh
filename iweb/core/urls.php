@@ -7,6 +7,24 @@ $brand = @$_GET["brand"];
 $trend = @$_GET["trend"];
 $item = @$_GET["item"];
 
+
+if (@$_GET['user'] != '') {
+
+
+    switch ($_GET['user']) {
+        case 'login':
+            include_once("./iweb/page/login.php");
+            exit();
+            break;
+
+        default:
+            include_once("./iweb/page/index.php");
+            exit();
+            break;
+    }
+
+}
+
 if (@$_GET['loaddata'] == 22) {
     include_once("./iweb/page/data_gather.php");
     exit();

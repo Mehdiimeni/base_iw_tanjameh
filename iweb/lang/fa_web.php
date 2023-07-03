@@ -58,5 +58,13 @@ const _LANG = [
     "follow" => "دنبال کنید",
     "factory_size" => "سایز کارخانه",
     "cart" => "سبد خرید",
+    "login_user" => "ورود کاربر",
+    "welcome" => "خوش آمدید",
+    "mobile_number" => "شماره همراه",
+    "please_enter_your_email" => "لطفا ایمیل خود را وارد نمایید",
+    "password" => "رمز عبور",
+    "please_enter_password" => "لطفا رمز عبور خود را وارد نمایید",
+    "enter" => "ورود",
+    "forget_password_tip" => "رمز ورود خود را فراموش کرده اید؟",
 
 ];

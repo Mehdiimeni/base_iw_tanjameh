@@ -14,10 +14,9 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                     <h4>
                         <?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->content); ?>
                     </h4>
-                    <a href="<?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>" class="ms-auto text-decoration-none text-mediumpurple">
-                        <?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
-                            class="fa-solid fa-arrow-left"></i>
-                    </a>
+                    <a href="<?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_link); ?>"
+                        class="ms-auto text-decoration-none text-mediumpurple"><?php echo (@get_sp_adver_data($_SESSION['page_name_system'], $position_order)[0]->bottom_caption); ?><i
+                            class="fa-solid fa-arrow-left"></i></a>
                 </div>
                 <div class="container position-absolute bottom-50 z-2">
                     <div class="position-relative index-owl-nav"></div>
@@ -31,26 +30,24 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                                     <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                                             class="fa-regular fa-heart" aria-hidden="true"></i></button>
                                 </div>
-                                <a href="#" class="text-decoration-none">
+                                <a href="<?php echo $Product->product_page_url; ?>" class="text-decoration-none">
                                     <div class="card text-dark rounded-0 border-0 bg-transparent">
                                         <div class="position-relative">
                                             <?php echo $Product->image; ?>
-
-                                                <?php echo $Product->offer1;  ?>
-                                            
+                                            <?php echo $Product->offer1; ?>
                                         </div>
                                         <div class="card-body p-0 py-2">
                                             <h6 class="m-0 text-truncate">
                                                 <?php echo $Product->name; ?>
                                             </h6>
                                             <h6 class="m-0 text-truncate">
-                                            <?php if (!in_array($Product->product_type, _PRODUCT)) {
-                          echo $Product->product_type;
-                        } else {
-                          echo array_search($Product->product_type, _PRODUCT);
-                        } ?>
-                        -
-                        <?php echo $Product->brand_name; ?>
+                                                <?php if (!in_array($Product->product_type, _PRODUCT)) {
+                                                    echo $Product->product_type;
+                                                } else {
+                                                    echo array_search($Product->product_type, _PRODUCT);
+                                                } ?>
+                                                -
+                                                <?php echo $Product->brand_name; ?>
                                             </h6>
                                         </div>
                                         <section>
@@ -66,4 +63,5 @@ if (get_sp_adver_data($_SESSION['page_name_system'], $position_order)) {
                 </div>
             </div>
         </div>
-    <?php } ?>
+    </div>
+<?php } ?>
