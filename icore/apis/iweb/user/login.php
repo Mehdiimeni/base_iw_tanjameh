@@ -7,24 +7,24 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-if (isset($_POST['UserNameL']) and isset($_POST['PasswordL'])) {
+if (isset($_POST['username']) and isset($_POST['password'])) {
 
 
-    $UserNameL = $objACLTools->JsonDecode($objACLTools->PostVarToJson())->UserNameL;
-    $PasswordL = $objACLTools->mdShal($objACLTools->JsonDecode($objACLTools->PostVarToJson())->PasswordL, 0);
+    $UserNameL = $_POST['username'];
+    $PasswordL = $objACLTools->mdShal($_POST['password'], 0);
 
     $Enabled = true;
     $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = '$Enabled' ";
 
-    if (!$objORM->DataExist($SCondition, TableIWUser)) {
+    if (!$objORM->DataExist($SCondition, TableIWUser, 'id')) {
 
         $stat = false;
-        $stat_detials = "12"; // user not exist or disabled
+        $stat_detials = "11"; // user not exist or disabled
 
     } else {
 
         $Online = true;
-        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        $modify_ip = (new IPTools('../../../idefine/'))->getUserIP();
         $now_modify = date("Y-m-d H:i:s");
 
 
@@ -37,7 +37,8 @@ if (isset($_POST['UserNameL']) and isset($_POST['PasswordL'])) {
         $InSet .= " Online = '$Online' ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
         $InSet .= " modify_id = $obj_user_info->id  ,";
-        $InSet .= " last_modify = '$now_modify' ";
+        $InSet .= " last_modify = '$now_modify', ";
+        $InSet .= " iw_user_id = $obj_user_info->id";
 
         $objORM->DataAdd($InSet, TableIWUserObserver);
 
@@ -55,7 +56,7 @@ if (isset($_POST['UserNameL']) and isset($_POST['PasswordL'])) {
 
         $UserSessionId = session_id();
         $SCondition = "  ( iw_user_id = $obj_user_info->id or UserSessionId = '$UserSessionId'  ) and ProductId != ''  ";
-        $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
+        $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
 
 
         if ($intCountAddToCart > 0) {
@@ -76,13 +77,13 @@ if (isset($_POST['UserNameL']) and isset($_POST['PasswordL'])) {
 } else {
 
     $stat = false;
-    $stat_detials = "11"; // user or pass null
+    $stat_detials = "10"; // user or pass null
 
 }
 
 $arr_login_user_detials = array(
     'stat' => $stat,
-    'total_en' => $stat_detials
+    'stat_detials' => $stat_detials
 );
 
 echo json_encode($arr_login_user_detials);

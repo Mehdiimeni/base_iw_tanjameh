@@ -17,6 +17,18 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
+        case 'cart':
+            include_once("./iweb/page/cart.php");
+            exit();
+            break;
+
+        case 'myaccount':
+            include_once("./iweb/page/myaccount.php");
+            exit();
+            break;
+
+
+
         default:
             include_once("./iweb/page/index.php");
             exit();

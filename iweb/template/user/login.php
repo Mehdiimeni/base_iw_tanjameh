@@ -1,5 +1,70 @@
 <?php
 ///template/user/login.php
+
+
+if(isset($_POST['registerL']))
+{
+    if (@user_signup($_POST)->stat) {
+
+        switch (user_signup($_POST)->stat_detials) {
+            case '20':
+                echo "<script>window.location.href = './?user=cart';</script>";
+                break;
+
+            case '21':
+                echo "<script>window.location.href = './?user=myaccount';</script>";
+                break;
+        }
+
+    } else {
+
+        switch (@user_signup($_POST)->stat_detials) {
+            case '12':
+                echo "<script>alert('" . _LANG['user_signup_form_null'] . "');</script>";
+                break;
+
+            case '13':
+                echo "<script>alert('" . _LANG['user_signup_error_exist'] . "');</script>";
+                break;
+        }
+
+    }
+
+}
+
+
+if (isset($_POST['loginL'])) {
+
+    $username = $_POST['UserNameL'];
+    $password = $_POST['PasswordL'];
+
+    if (@user_login($username, $password)->stat) {
+
+        switch (user_login($username, $password)->stat_detials) {
+            case '20':
+                echo "<script>window.location.href = './?user=cart';</script>";
+                break;
+
+            case '21':
+                echo "<script>window.location.href = './?user=myaccount';</script>";
+                break;
+        }
+
+    } else {
+
+        switch (@user_login($username, $password)->stat_detials) {
+            case '10':
+                echo "<script>alert('" . _LANG['user_pass_null'] . "');</script>";
+                break;
+
+            case '11':
+                echo "<script>alert('" . _LANG['user_login_error'] . "');</script>";
+                break;
+        }
+
+    }
+}
+
 ?>
 <header>
     <nav class="navbar border-0 mb-3">
@@ -24,7 +89,7 @@
             <div id="login-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionAuthenticate">
                 <div class="accordion-body px-0">
                     <div class="boxLogin">
-                        <form class="needs-validation" method="post" action="" novalidate >
+                        <form class="needs-validation" method="post" action="" novalidate>
                             <div class="mb-4">
                                 <label for="loginEmail"
                                     class="form-label m-0 p-1 border border-bottom-0 border-dark"><?php echo _LANG["email"]; ?>/<?php echo _LANG["mobile_number"]; ?></label>
@@ -59,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-4">
+                            <button type="submit" name="loginL" class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-4">
                                 <?php echo _LANG["enter"]; ?>
                             </button>
                             <div class="b-animate b-purple">
@@ -110,26 +175,27 @@
             <div id="register-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionAuthenticate">
                 <div class="accordion-body px-0">
                     <div>
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" method="post" action="" novalidate>
                             <div class="mb-4">
                                 <label for="registerName"
-                                    class="form-label m-0 p-1 border border-bottom-0 border-dark">نام *</label>
+                                    class="form-label m-0 p-1 border border-bottom-0 border-dark">نام و نام خانوادگی
+                                    *</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control py-2 rounded-0 border-dark" placeholder="نام"
-                                        id="registerName" required>
+                                    <input type="text" name="Name" class="form-control py-2 rounded-0 border-dark"
+                                        placeholder="نام و نام خانوادگی" id="registerName" required>
                                     <div class="invalid-feedback">
-                                        لطفا نام خود را وارد نمایید
+                                        لطفا نام و نام خانوادگی خود را وارد نمایید
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <label for="registerFamily"
-                                    class="form-label m-0 p-1 border border-bottom-0 border-dark">نام خانوادگی *</label>
+                                    class="form-label m-0 p-1 border border-bottom-0 border-dark">شماره همراه *</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control py-2 rounded-0 border-dark"
-                                        placeholder="نام خانوادگی" id="registerFamily" required>
+                                    <input type="tel" name="CellNumber" class="form-control py-2 rounded-0 border-dark"
+                                        placeholder="شماره همراه" id="registerFamily" required>
                                     <div class="invalid-feedback">
-                                        لطفا نام خانوادگی خود را وارد نمایید
+                                        لطفا شماره همراه خود را وارد نمایید
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +203,7 @@
                                 <label for="registerEmail"
                                     class="form-label m-0 p-1 border border-bottom-0 border-dark">آدرس ایمیل *</label>
                                 <div class="input-group">
-                                    <input type="email" class="form-control py-2 rounded-0 border-dark"
+                                    <input type="email" name="Email" class="form-control py-2 rounded-0 border-dark"
                                         placeholder="آدرس ایمیل" id="registerEmail" required>
                                     <div class="invalid-feedback">
                                         لطفا ایمیل خود را وارد نمایید
@@ -148,7 +214,7 @@
                                 <label for="registerPass"
                                     class="form-label m-0 p-1 border border-bottom-0 border-dark">رمز عبور *</label>
                                 <div class="input-group">
-                                    <input type="password" name="password"
+                                    <input type="password" name="Password"
                                         class="password form-control py-2 border-end-0 rounded-0 border-dark"
                                         placeholder="رمز عبور" id="registerPass" required>
                                     <span class="input-group-text bg-white border-dark rounded-0 border-start-0">
@@ -171,21 +237,21 @@
                             </div>
                             <div class="mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Fashionpreference"
+                                    <input class="form-check-input" type="radio" value="women" name="Fashionpreference"
                                         id="FashionRadios1">
                                     <label class="form-check-label fs-5" for="FashionRadios1">
                                         مد زنانه
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Fashionpreference"
+                                    <input class="form-check-input" type="radio" value="men" name="Fashionpreference"
                                         id="FashionRadios2">
                                     <label class="form-check-label fs-5" for="FashionRadios2">
                                         مد مردانه
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Fashionpreference"
+                                    <input class="form-check-input" type="radio" value="none" name="Fashionpreference"
                                         id="FashionRadios3" checked>
                                     <label class="form-check-label fs-5" for="FashionRadios3">
                                         بدون ترجیهات
@@ -194,13 +260,15 @@
                             </div>
                             <hr>
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="reciveCheckbox">
-                                <label class="form-check-label " for="reciveCheckbox">
+                                <input class="form-check-input" name="accept" required type="checkbox"
+                                    id="reciveCheckbox">
+                                <label class="form-check-label" for="reciveCheckbox">
                                     بله، من مایلم گاه به گاه ایمیل هایی درباره پیشنهادات ویژه، محصولات جدید و تبلیغات
                                     انحصاری دریافت کنم. من می توانم اشتراک خود را در هر زمان لغو کنم. (اختیاری)
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-3">ثبت
+                            <button type="submit" name="registerL"
+                                class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-3">ثبت
                                 نام</button>
                             <small class="text-body-tertiary">* فیلد اجباری</small>
                         </form>

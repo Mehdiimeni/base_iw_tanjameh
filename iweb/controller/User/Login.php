@@ -38,14 +38,31 @@ function get_user_cart()
 
 }
 
-
-if(isset($_POST['UserNameL']) and isset($_POST['PasswordL']))
+function user_login($username,$password)
 {
     $filds = array(
-        'username' => $_POST['UserNameL'],
-        'password' => $_POST['PasswordL']
+        'username' => $username,
+        'password' => $password
     );
     $objIAPI = set_server();
-    return $objIAPI->GetPostApi('user/login', $filds);
+    return json_decode($objIAPI->GetPostApi('user/login', $filds));
+
 }
+
+
+function user_signup($post_all_data)
+{
+    $filds = array(
+        'Name' => $post_all_data['Name'],
+        'CellNumber' => $post_all_data['CellNumber'],
+        'Email' => $post_all_data['Email'],
+        'Password' => $post_all_data['Password'],
+        'Fashionpreference' => $post_all_data['Fashionpreference'],
+        'accept' => $post_all_data['accept']
+    );
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetPostApi('user/signup', $filds));
+
+}
+
 
