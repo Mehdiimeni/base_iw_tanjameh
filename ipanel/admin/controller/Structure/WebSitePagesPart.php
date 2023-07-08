@@ -13,11 +13,11 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('IdKey,title,name,iw_web_pages_id,Enabled,id', TableIWWebSitePagesPart) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('IdKey,title,name,iw_website_pages_id,Enabled,id', TableIWWebSitePagesPart) as $ListItem) {
 
     //website page
-    $SCondition = "id = '$ListItem->iw_web_pages_id'";
-    $ListItem->iw_web_pages_id = $objORM->Fetch($SCondition, 'title', TableIWWebSitePages)->title;
+    $SCondition = "id = '$ListItem->iw_website_pages_id'";
+    $ListItem->iw_website_pages_id = $objORM->Fetch($SCondition, 'title', TableIWWebSitePages)->title;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

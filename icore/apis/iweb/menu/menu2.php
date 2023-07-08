@@ -16,7 +16,7 @@ if (isset($_POST['gender'])) {
         $category = $_POST['category'];
         $condition = " Enabled = 1 and Name = '$category' ";
 
-        if ($objORM->DataExist($condition, TableIWNewMenu2)) {
+        if ($objORM->DataExist($condition, TableIWNewMenu2,'id')) {
             $GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu2)->IdKey;
 
             $condition = "Enabled = 1 and GroupIdKey = '$GroupIdKey' and NewMenuId = '$gender_id_key' ";

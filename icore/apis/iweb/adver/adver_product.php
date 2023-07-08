@@ -10,24 +10,24 @@ include "../../../iassets/include/DBLoader.php";
 
 if (isset($_POST['page_name_system'])) {
 
-    $website_page_name = strtolower($_POST['page_name_system']);
+    $website_page_name = trim($_POST['page_name_system']);
     $condition = " Enabled = 1 and name = '$website_page_name' ";
 
     if ($objORM->DataExist($condition, TableIWWebSitePages, 'id')) {
 
-        $iw_web_pages_id = @$objORM->Fetch($condition, "id", TableIWWebSitePages)->id;
+        $iw_website_pages_id = @$objORM->Fetch($condition, "id", TableIWWebSitePages)->id;
 
         if (isset($_POST['adver_number'])) {
             $adver_number = 'Adver' . $_POST['adver_number'];
-            $condition = "  iw_web_pages_id = $iw_web_pages_id and Enabled = 1 and name = '$adver_number'  ";
+            $condition = "  iw_website_pages_id = $iw_website_pages_id and Enabled = 1 and name = '$adver_number'  ";
 
             if ($objORM->DataExist($condition, TableIWWebSitePagesPart, 'id')) {
-                $iw_web_pages_part_id = @$objORM->Fetch($condition, "id", TableIWWebSitePagesPart)->id;
+                $iw_website_pages_part_id = @$objORM->Fetch($condition, "id", TableIWWebSitePagesPart)->id;
 
-                $condition = "iw_web_pages_part_id = $iw_web_pages_part_id and Enabled = 1";
+                $condition = "iw_website_pages_part_id = $iw_website_pages_part_id and Enabled = 1";
                 if ($objORM->DataExist($condition, TableIWWebSiteBannerAdver, 'id')) {
                     $condition_statement = @$objORM->Fetch($condition, "condition_statement", TableIWWebSiteBannerAdver)->condition_statement;
-                    if ($objORM->DataExist($condition_statement, ViewIWProductRand)) {
+                    if ($objORM->DataExist($condition_statement, ViewIWProductRand,'id')) {
 
                         $obj_products = $objORM->FetchAll($condition_statement, '*', ViewIWProductRand);
 
@@ -76,7 +76,7 @@ if (isset($_POST['page_name_system'])) {
                             }
 
 
-                            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->IdRow;
+                            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->id;
                             $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
                             $str_image = str_replace('../../../../', '', $str_image);
                             $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');

@@ -45,7 +45,7 @@ if (isset($_POST['trend'])) {
 
 
             $strPricingPart = '';
-            $SArgument = "'$product->IdRow','c72cc40d','fea9f1bf'";
+            $SArgument = "'$product->id','c72cc40d','fea9f1bf'";
             $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
             $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
             $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -71,7 +71,7 @@ if (isset($_POST['trend'])) {
             }
 
 
-            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->IdRow;
+            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->id;
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[1], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
 
@@ -83,7 +83,7 @@ if (isset($_POST['trend'])) {
             $brand_name = @$objORM->Fetch("id = '$product->iw_api_brands_id' ", 'name', TableIWApiBrands)->name;
             $product_type = @$objORM->Fetch("id = '$product->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
 
-            $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$product->IdRow' ", 'brandSize', TableIWApiProductVariants);
+            $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$product->id' ", 'brandSize', TableIWApiProductVariants);
 
             $arr_size = array();
             foreach($obj_product_variants_size as $size)

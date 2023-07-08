@@ -35,10 +35,10 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
         $title = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->title);
         $name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->name);
-        $iw_web_pages_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_web_pages_id);
+        $iw_website_pages_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_website_pages_id);
 
 
-        $SCondition = "title = '$title' and iw_web_pages_id='$iw_web_pages_id'   ";
+        $SCondition = "title = '$title' and iw_website_pages_id='$iw_website_pages_id'   ";
 
         if ($objORM->DataExist($SCondition, TableIWWebSitePagesPart, 'id')) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -58,7 +58,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " name = '$name' ,";
             $InSet .= " modify_id = '$modify_id', ";
             $InSet .= " modify_ip = '$modify_ip' ,";
-            $InSet .= " iw_web_pages_id = '$iw_web_pages_id' ";
+            $InSet .= " iw_website_pages_id = '$iw_website_pages_id' ";
 
             $objORM->DataAdd($InSet, TableIWWebSitePagesPart);
 
@@ -81,7 +81,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
 
     //WebSitePages Name
-    $SCondition = "  id = '$objEditView->iw_web_pages_id' ";
+    $SCondition = "  id = '$objEditView->iw_website_pages_id' ";
     $Item = $objORM->Fetch($SCondition, 'title,id', TableIWWebSitePages);
     $strWebSitePages = '<option selected value="' . $Item->id . '">' . $Item->title . '</option>';
     $SCondition = " Enabled = '$Enabled' ORDER BY id ";
@@ -99,9 +99,9 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
             $title = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->title);
             $name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->name);
-            $iw_web_pages_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_web_pages_id);
+            $iw_website_pages_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_website_pages_id);
 
-            $SCondition = "( name = '$name' and iw_web_pages_id = '$iw_web_pages_id'  ) and IdKey != '$IdKey'  ";
+            $SCondition = "( name = '$name' and iw_website_pages_id = '$iw_website_pages_id'  ) and IdKey != '$IdKey'  ";
 
             if ($objORM->DataExist($SCondition, TableIWWebSitePagesPart, 'id')) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -118,7 +118,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " name = '$name' ,";
                 $USet .= " modify_id = '$modify_id', ";
                 $USet .= " modify_ip = '$modify_ip' ,";
-                $USet .= " iw_web_pages_id = '$iw_web_pages_id' ";
+                $USet .= " iw_website_pages_id = '$iw_website_pages_id' ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWWebSitePagesPart);
 

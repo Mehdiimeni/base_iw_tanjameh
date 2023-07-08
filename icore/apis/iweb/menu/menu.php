@@ -12,16 +12,16 @@ if (isset($_POST['gender'])) {
     $gender = strtolower($_POST['gender']);
     $condition = " Enabled = 1 and Name = '$gender' ";
 
-    if ($objORM->DataExist($condition, TableIWNewMenu)) {
+    if ($objORM->DataExist($condition, TableIWNewMenu,'id')) {
 
-        $MenuGroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu)->IdKey;
-        $condition = " Enabled = 1 and GroupIdKey = '$MenuGroupIdKey' ";
-        if ($objORM->DataExist($condition, TableIWNewMenu2)) {
+        $MenuGroupIdKey = @$objORM->Fetch($condition, "id", TableIWNewMenu)->id;
+        $condition = " Enabled = 1 and iw_new_menu_id = '$MenuGroupIdKey' ";
+        if ($objORM->DataExist($condition, TableIWNewMenu2,'id')) {
 
-            $Menu2GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu2)->IdKey;
+            $Menu2GroupIdKey = @$objORM->Fetch($condition, "id", TableIWNewMenu2)->id;
 
-            $condition2 = "Enabled = 1 and GroupIdKey = '$Menu2GroupIdKey' and NewMenuId = '$MenuGroupIdKey ' ";
-            if ($objORM->DataExist($condition2, TableIWNewMenu3)) {
+            $condition2 = "Enabled = 1 and iw_new_menu_2_id  = '$Menu2GroupIdKey' ";
+            if ($objORM->DataExist($condition2, TableIWNewMenu3,'id')) {
                 echo @$objORM->FetchJson(TableIWNewMenu2, $condition, 'Name,LocalName');
             } else {
                 echo false;

@@ -69,7 +69,7 @@ if (isset($_POST['loginL'])) {
 <header>
     <nav class="navbar border-0 mb-3">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="./">
                 <img src="./itemplates/iweb/media/logo.png" alt="" width="100" height="39">
             </a>
         </div>
@@ -293,7 +293,7 @@ if (isset($_POST['loginL'])) {
         <a href="#" class="text-decoration-none text-dark d-inline-block mx-3"> شرایط استفاده</a>
         <a href="#" class="text-decoration-none text-dark d-inline-block mx-3"> اطلاع قانونی</a>
     </div>
-    <a class="navbar-brand my-5 pb-3 d-inline-block" href="#">
+    <a class="navbar-brand my-5 pb-3 d-inline-block" href="./">
         <img src="./itemplates/iweb/media/logo.png" alt="" width="100" height="39">
     </a>
 </footer>

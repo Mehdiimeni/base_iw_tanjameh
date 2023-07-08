@@ -105,7 +105,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="iw_web_pages_id" class="form-control" required="required">
+                                            <select name="iw_website_pages_id" class="form-control" required="required">
                                                 <?php echo $strWebSitePages; ?>
                                             </select>
                                         </div>

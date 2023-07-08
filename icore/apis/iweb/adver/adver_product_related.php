@@ -12,7 +12,7 @@ if (isset($_POST['adver_related'])) {
 
     $adver_related = $_POST['adver_related'];
     $item_id = $_POST['item'];
-    $condition = "IdRow = $item_id";
+    $condition = "id = $item_id";
     $obj_product = @$objORM->Fetch($condition, "Color,url_group,MainPrice", TableIWAPIProducts);
 
     $color_set = $obj_product->Color;
@@ -37,7 +37,7 @@ if (isset($_POST['adver_related'])) {
 
 
 
-    if ($objORM->DataExist($condition_statement, ViewIWProductRand)) {
+    if ($objORM->DataExist($condition_statement, ViewIWProductRand,'id')) {
 
         $obj_products = $objORM->FetchAll($condition_statement, '*', ViewIWProductRand);
 
@@ -86,7 +86,7 @@ if (isset($_POST['adver_related'])) {
             }
 
 
-            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->IdRow;
+            $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->id;
             $str_image = $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $product->Name, 336, 'class="card-img rounded-0 owl-lazy"', 'data-src');
             $str_image = str_replace('../../../../', '', $str_image);
 

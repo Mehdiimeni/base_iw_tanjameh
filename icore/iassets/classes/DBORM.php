@@ -12,10 +12,10 @@ class DBORM extends DBConnect
     }
 
     //------ data select row by idrow
-    public function DataSelect($IdRow, $SFilds, $TableName)
+    public function DataSelect($id, $SFilds, $TableName)
     {
 
-        $SCondition = "IdRow='$IdRow' ";
+        $SCondition = "id='$id' ";
         return (parent::SelectRowL($SFilds, $TableName, $SCondition));
 
     }
@@ -30,7 +30,7 @@ class DBORM extends DBConnect
     }
 
     //-------  data exist in table
-    public function DataExist($SCondition, $TableName, $Row = 'IdRow')
+    public function DataExist($SCondition, $TableName, $Row = 'id')
     {
 
         if (parent::CountRow($TableName, $SCondition, $Row) != 0) {
@@ -43,14 +43,14 @@ class DBORM extends DBConnect
 
     //------- data count
 
-    public function DataCount($SCondition, $TableName, $Row = 'IdRow')
+    public function DataCount($SCondition, $TableName, $Row = 'id')
     {
         return parent::CountRow($TableName, $SCondition, $Row);
     }
 
     //------- find unique data in table
 
-    public function DataUnique($SCondition, $TableName, $Row = 'IdRow')
+    public function DataUnique($SCondition, $TableName, $Row = 'id')
     {
         if (parent::CountRow($TableName, $SCondition, $Row) == 1) {
             return true;
@@ -107,7 +107,7 @@ class DBORM extends DBConnect
     }
 
     //------ fetch limit data return json
-    public function FetchJson($TableName, $SCondition, $SFilds, $IndexSet = 'IdRow', $Limit = 10)
+    public function FetchJson($TableName, $SCondition, $SFilds, $IndexSet = 'id', $Limit = 10)
     {
         return (parent::SelectJson($SFilds, $TableName, $SCondition, $IndexSet, $Limit));
 
@@ -127,9 +127,9 @@ class DBORM extends DBConnect
     }
 
     //------- Move
-    public function Move($IdRow, $IdRowCahngeTo, $TableName)
+    public function Move($id, $idCahngeTo, $TableName)
     {
-        parent::Sort2Id($IdRow, $IdRowCahngeTo, $TableName);
+        parent::Sort2Id($id, $idCahngeTo, $TableName);
 
     }
 

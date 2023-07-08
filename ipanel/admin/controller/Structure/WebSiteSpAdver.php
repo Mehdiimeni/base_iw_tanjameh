@@ -13,13 +13,13 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('IdKey,title,iw_web_pages_part_id,Enabled,id', TableIWWebSiteSpAdver) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('IdKey,title,iw_website_pages_part_id,Enabled,id', TableIWWebSiteSpAdver) as $ListItem) {
 
     //website page
-    $SCondition = "id = '$ListItem->iw_web_pages_part_id'";
-    $part_name = $objORM->Fetch($SCondition, 'title,iw_web_pages_id', TableIWWebSitePagesPart);
-    $page_title = $objORM->Fetch(" id = $part_name->iw_web_pages_id ", "title", TableIWWebSitePages)->title;
-    $ListItem->iw_web_pages_part_id = $page_title . " | " . $part_name->title;
+    $SCondition = "id = '$ListItem->iw_website_pages_part_id'";
+    $part_name = $objORM->Fetch($SCondition, 'title,iw_website_pages_id', TableIWWebSitePagesPart);
+    $page_title = $objORM->Fetch(" id = $part_name->iw_website_pages_id ", "title", TableIWWebSitePages)->title;
+    $ListItem->iw_website_pages_part_id = $page_title . " | " . $part_name->title;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

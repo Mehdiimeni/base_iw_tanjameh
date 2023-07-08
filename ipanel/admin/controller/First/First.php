@@ -3,8 +3,8 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 //user count
 $SCondition = " Enabled != 0 ";
-$intCountAllUser = $objORM->DataCount($SCondition, TableIWUser);
-$intCountTempCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
+$intCountAllUser = $objORM->DataCount($SCondition, TableIWUser,'id');
+$intCountTempCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
 $intCountPaymentState = $objORM->DataCount($SCondition, TableIWAPaymentState);
 
 
