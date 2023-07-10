@@ -11,14 +11,18 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['cat_id'])) {
 
     $cat_id = $_POST['cat_id'];
+    $gender = $_POST['gender'];
     $page_condition = $_POST['page_condition'];
     $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
-    $condition = " find_in_set($cat_id, CatIds)  and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   " . $page_condition;
+    $condition = " find_in_set($cat_id, CatIds) and url_gender = '$gender'   and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   " . $page_condition;
 
 
     if ($objORM->DataExist($condition, TableIWAPIProducts,'id')) {
 
-        $obj_products = @$objORM->FetchAll($condition, "id,Name,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
+        $obj_products = @$objORM->FetchAll($condition, "id,Name,CatIds,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
+
+        
+
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
@@ -28,6 +32,7 @@ if (isset($_POST['cat_id'])) {
         $products_diteils = array();
 
         foreach ($obj_products as $product) {
+
             $objArrayImage = explode("==::==", $product->Content);
             $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 

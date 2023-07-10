@@ -29,7 +29,7 @@ if (isset($_POST['cat_id'])) {
             if ($objORM->DataExist($condition, TableIWNewMenu,'id')) {
                 $obj_row_menu = @$objORM->Fetch($condition, "id,Name,LocalName", TableIWNewMenu);
 
-                $condition = "  find_in_set($cat_id, CatIds)  and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
+                $condition = "  find_in_set($cat_id, CatIds) and url_gender = '$gender'  and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
 
                 $total_en = @$objORM->DataCount($condition, TableIWAPIProducts);
 

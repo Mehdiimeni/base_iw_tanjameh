@@ -202,8 +202,8 @@ $page_condition = "order by id DESC LIMIT " . $str_limit;
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php if (group_product_details($cat_id, $page_condition)) {
-          foreach (group_product_details($cat_id, $page_condition) as $product_data) { ?>
+        <?php if (group_product_details($cat_id,$gender, $page_condition)) {
+          foreach (group_product_details($cat_id,$gender, $page_condition) as $product_data) { ?>
             <div class="col card rounded-0 border-0">
               <div class="position-relative d-inline-block product">
                 <div class="position-absolute top-0 z-1 mt-2">
@@ -267,7 +267,7 @@ $page_condition = "order by id DESC LIMIT " . $str_limit;
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php if (group_product_details($cat_id, $page_condition)) {
+          <?php if (group_product_details($cat_id,$gender, $page_condition)) {
             echo group_product_paging($page_offcet_nu, get_group_info($cat_id, $gender, $category, $group)->total_en, $_SESSION['actual_link']);
           } ?>
         </ul>

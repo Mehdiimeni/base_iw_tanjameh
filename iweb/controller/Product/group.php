@@ -9,7 +9,7 @@ function get_group_info($cat_id, $gender, $category, $group)
 
 }
 
-function group_product_details($cat_id, $page_condition)
+function group_product_details($cat_id,$gender, $page_condition)
 {
     $objIAPI = set_server();
 
@@ -18,6 +18,7 @@ function group_product_details($cat_id, $page_condition)
          'page_condition' => $page_condition,
           'MainUrl' => $objIAPI->MainUrl, 
           'LocalName' => $objIAPI->LocalName,
+          'gender' => $gender,
           'currencies_conversion_id' => get_currency()
         );
 
