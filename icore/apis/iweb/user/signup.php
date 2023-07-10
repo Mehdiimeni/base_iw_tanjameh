@@ -7,12 +7,15 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-if (isset($_POST['accept']) and
-isset($_POST['Name']) and
-isset($_POST['Email']) and
-isset($_POST['CellNumber']) and
-isset($_POST['Fashionpreference']) and
-isset($_POST['Password']) ) {
+if (
+    isset($_POST['accept']) and
+    isset($_POST['Name']) and
+    isset($_POST['Email']) and
+    isset($_POST['CellNumber']) and
+    isset($_POST['Fashionpreference']) and
+    isset($_POST['Password'])
+) {
+
 
     $Name = $objACLTools->CleanStr($_POST['Name']);
     $Email = $objACLTools->CleanStr($_POST['Email']);
@@ -52,7 +55,7 @@ isset($_POST['Password']) ) {
 
         $Online = true;
         $InSet = "";
-        $InSet .= " Online = '$Online' ,";
+        $InSet .= " Online = $Online ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
         $InSet .= " iw_user_id = $iw_user_id ";
 
@@ -62,9 +65,12 @@ isset($_POST['Password']) ) {
         fwrite($FOpen, "$iw_user_id==::==$now_modify==::==in\n");
         fclose($FOpen);
 
+        $objGlobalVar->setSessionVar('_IWUserId', $iw_user_id);
+        $objGlobalVar->setCookieVar('_IWUserId', $objACLTools->en2Base64($iw_user_id, 1));
+
         $UserSessionId = session_id();
-        $SCondition = "  ( iw_user_id = $iw_user_id or UserSessionId = '$UserSessionId'  ) and ProductId != ''  ";
-        $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
+        $SCondition = "  ( iw_user_id = $iw_user_id or session_id = '$UserSessionId'  ) and iw_api_product_variants_id != ''  ";
+        $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart, 'id');
 
 
         if ($intCountAddToCart > 0) {

@@ -66,18 +66,26 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
 
     $iw_product_weight_id = $ListItem->iw_product_weight_id;
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
-    $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
+
+    $ListProductsContentAt = $objAclTools->JsonDecodeArray($ProductContentAt);
+
+
 
     $expire_date = date("m-Y");
     $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
     $USet = " all_count = all_count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
+
+
     foreach ($ListProductsContentAt['products'] as $product) {
+
 
         $MainPrice = $product['price']['current']['value'];
         $ProductName = $objAclTools->strReplace($product['name'], "'");
         $ProductName = $objAclTools->strReplace($ProductName, '"');
+
+
 
         if (in_array(strtolower($ProductName), ARR_PRODUCT_FILTER))
             continue;
@@ -87,17 +95,18 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
         $product['price']['previous']['value'] != null ? $ApiLastPrice = $product['price']['previous']['value'] : $ApiLastPrice = 0;
         $ProductCode = $product['productCode'];
 
-        $ApiContent = $objAclTools->enBase64($objAclTools->JsonEncode($product), 0);
         $SCondition = "ProductId = $ProductId";
 
-        if (!$objORM->DataExist($SCondition, TableIWAPIProducts,'id')) {
+        if (!$objORM->DataExist($SCondition, TableIWAPIProducts, 'id')) {
 
             // API Count and Connect
             // check api count
             $expire_date = date("m-Y");
-            $obj_api_connect = $objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
+            $api_connect_count = $objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "all_count", TableIWAPIAllConnect)->all_count;
 
-            if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000) {
+
+
+            if ($api_connect_count != false and (int) ($api_connect_count) < 50000) {
 
 
                 $whitelist = array(
@@ -109,14 +118,18 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
 
 
                     $objAsos = new AsosConnections();
-                    $ApiContent = $objAsos->ProductsDetail($ProductId);
+                    $objProductData = json_decode($objAsos->ProductsDetail($ProductId), true);
 
                     $expire_date = date("m-Y");
                     $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
                     $USet = " all_count = all_count + 1 ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
-                    $objProductData = json_decode(base64_decode($ApiContent), true);
+
+                    $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
+                    if (!$isInStock)
+                        continue;
+
 
                     $Name = $objProductData['name'];
                     $Name = str_replace("'", "\'", $Name);
@@ -125,9 +138,8 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                     $ProductCode = $objProductData['productCode'];
                     $isNoSize = $objProductData['isNoSize'] == true ? 1 : 0;
                     $isOneSize = $objProductData['isOneSize'] == true ? 1 : 0;
-                    $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
-                    $prop65Risk = $objProductData['hasVariantsWithProp65Risk'] == true ? 1 : 0;
 
+                    $prop65Risk = $objProductData['hasVariantsWithProp65Risk'] == true ? 1 : 0;
 
                     $info = json_encode($objProductData['info']);
                     $info = str_replace("'", "\'", $info);
@@ -237,12 +249,16 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                                 iw_api_product_type_id=$iw_api_product_type_id ";
 
                     $objORM->DataAdd($str_change, TableIWAPIProducts);
-                    $iw_api_product_id = $objORM->LastId();
+                    $iw_api_product_id = $objORM->Fetch(
+                        "ProductId = $ProductId",
+                        "id",
+                        TableIWAPIProducts
+                    )->id;
 
 
-                    $str_change = " PView = PView + 1 ";
+                    $str_change = " PView = PView + 1 , iw_api_products_id = $iw_api_product_id ";
                     $type_condition = "iw_api_products_id = $iw_api_product_id";
-                    if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'id')) {
+                    if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'iw_api_products_id')) {
 
                         $objORM->DataAdd($str_change, TableIWApiProductStatus);
                     } else {
@@ -259,6 +275,8 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
 
                         $product_id = $variant['id'];
                         $name = $variant['name'];
+                        $name = str_replace("'", "\'", $name);
+                        $name = str_replace('"', '\"', $name);
                         $sizeId = $variant['sizeId'];
                         $brandSize = $variant['brandSize'];
                         $sizeDescription = $variant['sizeDescription'];
@@ -297,6 +315,62 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
 
                     }
 
+                    if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts, 'id')) {
+
+
+                      
+            
+            
+                        if (isset($objProductData['media']['images']) and count($objProductData['media']['images']) > 0 and $objProductData['isInStock']) {
+            
+                            $arrImage = array();
+            
+                            $ProductType = $objProductData['productType']['name'] ?? null;
+            
+                            if (in_array(strtolower($ProductType), ARR_PRODUCT_FILTER))
+                                continue;
+            
+                            foreach ($objProductData['media']['images'] as $ProductImage) {
+            
+            
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1200');
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
+                                curl_setopt($ch, CURLOPT_ENCODING, "");
+                                curl_setopt($ch, CURLOPT_MAXREDIRS, 40);
+                                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+                                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            
+                                $content = curl_exec($ch);
+                                curl_close($ch);
+            
+            
+                                $FileNewName = $objShowFile->FileSetNewName('jpg');
+                                $arrImage[] = $FileNewName;
+            
+            
+                                $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "w");
+                                fwrite($fp, $content);
+                                fclose($fp);
+            
+            
+                            }
+            
+                            $strImages = implode("==::==", $arrImage);
+                            $UCondition = " ProductId = $ProductId ";
+                            $USet = "Content = '$strImages'";
+            
+                            $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
+            
+            
+                        }
+                    }
+
+
 
 
 
@@ -311,65 +385,11 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
 
 
 
-        if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts,'id')) {
 
 
-            $arrApiProductDetail = $objAclTools->JsonDecodeArray($objAclTools->deBase64($objAsos->ProductsDetail($ProductId)));
-            $expire_date = date("m-Y");
-            $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
-            $USet = " all_count = all_count + 1 ";
-            $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
-
-            if (isset($arrApiProductDetail['media']['images']) and count($arrApiProductDetail['media']['images']) > 0 and $arrApiProductDetail['isInStock']) {
-
-                $arrImage = array();
-
-                $ProductType = $arrApiProductDetail['productType']['name'] ?? null;
-
-                if (in_array(strtolower($ProductType), ARR_PRODUCT_FILTER))
-                    continue;
-
-                foreach ($arrApiProductDetail['media']['images'] as $ProductImage) {
-
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1200');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                    curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
-                    curl_setopt($ch, CURLOPT_ENCODING, "");
-                    curl_setopt($ch, CURLOPT_MAXREDIRS, 40);
-                    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-                    $content = curl_exec($ch);
-                    curl_close($ch);
-
-
-                    $FileNewName = $objShowFile->FileSetNewName('jpg');
-                    $arrImage[] = $FileNewName;
-
-
-                    $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "w");
-                    fwrite($fp, $content);
-                    fclose($fp);
-
-
-                }
-
-                $strImages = implode("==::==", $arrImage);
-                $UCondition = " ProductId = $ProductId ";
-                $USet = "Content = '$strImages'";
-
-                $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
-
-
-            }
-        }
+      
     }
 
 
 }
-
 echo json_encode('--product catch 2--');

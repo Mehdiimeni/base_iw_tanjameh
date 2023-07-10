@@ -37,7 +37,7 @@ if (isset($_POST['SubmitL'])) {
                  iw_admin_id  = '$iw_admin_id'";
             $objORM->DataAdd($InSet, TableIWAdminObserver);
 
-            if (!$objORM->DataExist("iw_admin_id = $iw_admin_id ", TableIWAdminStatus)) {
+            if (!$objORM->DataExist("iw_admin_id = $iw_admin_id ", TableIWAdminStatus,'iw_admin_id')) {
                 $objORM->DataUpdate(
                     "iw_admin_id = $iw_admin_id",
                     "all_count_enter = all_count_enter + 1 ",

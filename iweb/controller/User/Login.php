@@ -19,6 +19,7 @@ function get_user_id()
 
 function get_user_acl()
 {
+
     if (get_user_id() == null) {
         return false;
     } else {

@@ -1,6 +1,6 @@
 <?php
 
-class AsosConnections extends Regularization
+class AsosConnections 
 {
     private $MainUrl;
     private $RapidapiHost;
@@ -55,7 +55,7 @@ class AsosConnections extends Regularization
             ],
         ]);
 
-        return parent::enBase64( $this->ExecCurl($Curl),0);
+        return  $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
@@ -81,7 +81,7 @@ class AsosConnections extends Regularization
             ],
         ]);
 
-        return parent::enBase64( $this->ExecCurl($Curl),0);
+        return  $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
@@ -109,7 +109,7 @@ class AsosConnections extends Regularization
             ],
         ]);
 
-        return parent::enBase64( $this->ExecCurl($Curl),0);
+        return  $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
@@ -135,7 +135,7 @@ class AsosConnections extends Regularization
             ],
         ]);
 
-        return parent::enBase64($this->ExecCurl($Curl), 0);
+        return $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }

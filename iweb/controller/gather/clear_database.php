@@ -5,5 +5,8 @@
 function clear_database()
 {
     $objIAPI = set_server();
-    return json_decode($objIAPI->GetGeneralApi('gather/clear_database'));
+    $filds = array(
+        'iw_company_id'=> 1 //asos
+    );
+    return json_decode($objIAPI->GetPostApi('gather/clear_database', $filds));
 }

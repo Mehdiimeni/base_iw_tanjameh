@@ -1,12 +1,10 @@
 <?php
 ///template/user/login.php
+if (isset($_POST['registerL'])) {
+    $user_signup_result = @user_signup($_POST);
+    if ($user_signup_result->stat) {
 
-
-if(isset($_POST['registerL']))
-{
-    if (@user_signup($_POST)->stat) {
-
-        switch (user_signup($_POST)->stat_detials) {
+        switch ($user_signup_result->stat_detials) {
             case '20':
                 echo "<script>window.location.href = './?user=cart';</script>";
                 break;
@@ -18,7 +16,7 @@ if(isset($_POST['registerL']))
 
     } else {
 
-        switch (@user_signup($_POST)->stat_detials) {
+        switch ($user_signup_result->stat_detials) {
             case '12':
                 echo "<script>alert('" . _LANG['user_signup_form_null'] . "');</script>";
                 break;
@@ -38,7 +36,8 @@ if (isset($_POST['loginL'])) {
     $username = $_POST['UserNameL'];
     $password = $_POST['PasswordL'];
 
-    if (@user_login($username, $password)->stat) {
+    $user_login_result = @user_login($username, $password);
+    if ($user_login_result->stat) {
 
         switch (user_login($username, $password)->stat_detials) {
             case '20':
@@ -52,7 +51,7 @@ if (isset($_POST['loginL'])) {
 
     } else {
 
-        switch (@user_login($username, $password)->stat_detials) {
+        switch ($user_login_result->stat_detials) {
             case '10':
                 echo "<script>alert('" . _LANG['user_pass_null'] . "');</script>";
                 break;
@@ -267,7 +266,7 @@ if (isset($_POST['loginL'])) {
                                     انحصاری دریافت کنم. من می توانم اشتراک خود را در هر زمان لغو کنم. (اختیاری)
                                 </label>
                             </div>
-                            <button type="submit" name="registerL"
+                            <button type="submit" name="registerL" value="1"
                                 class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-3">ثبت
                                 نام</button>
                             <small class="text-body-tertiary">* فیلد اجباری</small>

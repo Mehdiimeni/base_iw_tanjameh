@@ -22,6 +22,20 @@ function get_user_id()
 
 }
 
+function get_user_acl()
+{
+    if (get_user_id() == null) {
+        return false;
+    } else {
+        $filds = array('user_idkey' => get_user_id());
+        $objIAPI = set_server();
+        return $objIAPI->GetPostApi('user/acl', $filds);
+
+    }
+
+}
+
+
 function get_website_data()
 {
     $objIAPI = set_server();

@@ -34,7 +34,7 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
         $UserGroup = $objORM->Fetch("id = '$iw_user_group_id'", 'id,Name', TableIWUserGroup);
 
         $InSet = "";
-        $InSet .= " Online = '$Online' ,";
+        $InSet .= " Online = $Online ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
         $InSet .= " modify_id = $obj_user_info->id  ,";
         $InSet .= " last_modify = '$now_modify', ";
@@ -55,7 +55,7 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
 
 
         $UserSessionId = session_id();
-        $SCondition = "  ( iw_user_id = $obj_user_info->id or UserSessionId = '$UserSessionId'  ) and ProductId != ''  ";
+        $SCondition = "  ( iw_user_id = $obj_user_info->id or session_id = '$UserSessionId'  ) and iw_api_product_variants_id != ''  ";
         $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
 
 
