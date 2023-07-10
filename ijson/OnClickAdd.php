@@ -108,8 +108,6 @@ if (isset($_GET['basket'])) {
         $InSet .= " UserId = '$UserId' ,";
         $InSet .= " UserSessionId = '$UserSessionId' ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
-        
-        
         $InSet .= " last_modify = '$now_modify' ";
 
         $objORM->DataAdd($InSet, TableIWUserTempCart);
@@ -130,7 +128,7 @@ if ($_GET['rebasket']) {
 if (isset($_GET['w_product']) and isset($_GET['product_id'])) {
     $ProductId = @$_GET['product_id'];
     $Weight = @$_GET['w_product'];
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeightPrice)->id;
 
     if ($iw_product_weight_id != null) {
         $objORM->DataUpdate("  ProductId = $ProductId  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWAPIProducts);
@@ -142,7 +140,7 @@ if (isset($_GET['w_product']) and isset($_GET['product_id'])) {
 if (isset($_GET['w_main']) and isset($_GET['main_name'])) {
     $Weight = @$_GET['w_main'];
     $main_name = @$_GET['main_name'];
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeightPrice)->id;
 
     if ($iw_product_weight_id != null) {
         $objORM->DataUpdate("  Name = '$main_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebMainMenu);
@@ -154,28 +152,28 @@ if (isset($_GET['w_main']) and isset($_GET['main_name'])) {
 // add weight to sub
 if (isset($_GET['w_sub']) and isset($_GET['sub_name'])) {
     $Weight = @$_GET['w_sub'];
-    $sub_name = $objGlobalVar->getUrlEncode(@$_GET['sub_name']);
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $sub_name = @$_GET['sub_name'];
+    $iw_product_weight_id = $objORM->Fetch(" Weight = $Weight", 'id', TableIWWebWeight)->id;
 
     if ($iw_product_weight_id != null) {
-        $objORM->DataUpdate("  Name = '$sub_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebSubMenu);
+        $objORM->DataUpdate("  Name = '$sub_name'  ", " iw_product_weight_id = $iw_product_weight_id", TableIWNewMenu2);
 
-        $SCondition = " PCategory = '$sub_name' ";
-        foreach ($objORM->FetchAll($SCondition, 'IdKey,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
+        $SCondition = " url_category = '$sub_name' ";
+        foreach ($objORM->FetchAll($SCondition, 'id,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
 
             if ($ListItem->iw_product_weight_id == '') {
-                $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                $UCondition = " IdKey = $ListItem->id ";
+                $USet = " iw_product_weight_id = $iw_product_weight_id";
+                $UCondition = " id = $ListItem->id ";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
             } else {
-                $WeightInProduct = $objORM->Fetch(" IdKey = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeightPrice)->Weight;
+                $WeightInProduct = $objORM->Fetch(" id = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeight)->Weight;
 
                 if ($WeightInProduct >= $Weight) {
                     continue;
                 } else {
-                    $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                    $UCondition = " IdKey = $ListItem->id ";
+                    $USet = " iw_product_weight_id = $iw_product_weight_id";
+                    $UCondition = " id = $ListItem->id ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
                 }
@@ -190,27 +188,27 @@ if (isset($_GET['w_sub']) and isset($_GET['sub_name'])) {
 if (isset($_GET['w_sub2']) and isset($_GET['sub2_name'])) {
     $Weight = @$_GET['w_sub2'];
     $sub2_name = $objGlobalVar->getUrlEncode(@$_GET['sub2_name']);
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeight)->id;
 
     if ($iw_product_weight_id != null) {
-        $objORM->DataUpdate("  Name = '$sub2_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebSub2Menu);
+        $objORM->DataUpdate("  Name = '$sub2_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWNewMenu3);
 
         $SCondition = " PGroup = '$sub2_name' ";
-        foreach ($objORM->FetchAll($SCondition, 'IdKey,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
+        foreach ($objORM->FetchAll($SCondition, 'id,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
 
             if ($ListItem->iw_product_weight_id == '') {
                 $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                $UCondition = " IdKey = $ListItem->id ";
+                $UCondition = " id = $ListItem->id ";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
             } else {
-                $WeightInProduct = $objORM->Fetch(" IdKey = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeightPrice)->Weight;
+                $WeightInProduct = $objORM->Fetch(" id = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeight)->Weight;
 
                 if ($WeightInProduct >= $Weight) {
                     continue;
                 } else {
                     $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                    $UCondition = " IdKey = $ListItem->id ";
+                    $UCondition = " id = $ListItem->id ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
                 }
@@ -226,27 +224,27 @@ if (isset($_GET['w_sub2']) and isset($_GET['sub2_name'])) {
 if (isset($_GET['w_sub4']) and isset($_GET['sub4_name'])) {
     $Weight = @$_GET['w_sub4'];
     $sub4_name = $objGlobalVar->getUrlEncode(@$_GET['sub4_name']);
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeight)->id;
 
     if ($iw_product_weight_id != null) {
-        $objORM->DataUpdate("  Name = '$sub4_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebSub4Menu);
+        $objORM->DataUpdate("  Name = '$sub4_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWNewMenu4);
 
         $SCondition = " Attribute REGEXP '$sub4_name' ";
-        foreach ($objORM->FetchAll($SCondition, 'IdKey,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
+        foreach ($objORM->FetchAll($SCondition, 'id,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
 
             if ($ListItem->iw_product_weight_id == '') {
                 $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                $UCondition = " IdKey = $ListItem->id ";
+                $UCondition = " id = $ListItem->id ";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
             } else {
-                $WeightInProduct = $objORM->Fetch(" IdKey = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeightPrice)->Weight;
+                $WeightInProduct = $objORM->Fetch(" id = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeight)->Weight;
 
                 if ($WeightInProduct >= $Weight) {
                     continue;
                 } else {
                     $USet = " iw_product_weight_id = '$iw_product_weight_id'";
-                    $UCondition = " IdKey = $ListItem->id ";
+                    $UCondition = " id = $ListItem->id ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
                 }
@@ -261,10 +259,10 @@ if (isset($_GET['w_sub4']) and isset($_GET['sub4_name'])) {
 // add order number
 if (isset($_GET['order_nu']) and isset($_GET['order_id'])) {
 
-    $IdKey = $_GET['order_id'];
+    $id = $_GET['order_id'];
     $OrderNu = $_GET['order_nu'];
 
-    $UCondition = " id = $IdKey";
+    $UCondition = " id = $id";
     $USet = " OrderNu = '$OrderNu', ChkState = 'bought' ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
 
@@ -273,10 +271,10 @@ if (isset($_GET['order_nu']) and isset($_GET['order_id'])) {
 // add sorting number
 if (isset($_GET['sorting_nu']) and isset($_GET['sorting_id'])) {
 
-    $IdKey = $_GET['sorting_id'];
+    $id = $_GET['sorting_id'];
     $SortingNu = $_GET['sorting_nu'];
 
-    $UCondition = " id = $IdKey";
+    $UCondition = " id = $id";
     $USet = " SortingNu = '$SortingNu', ChkState = 'preparation' ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
 
@@ -301,14 +299,14 @@ if (isset($_GET['tracking_nu']) and isset($_GET['tracking_id'])) {
 // add first page currency
 if (isset($_GET['currency_nu']) and isset($_GET['currency_id'])) {
 
-    $CurrencyIdKey = $_GET['currency_id'];
+    $Currencyid = $_GET['currency_id'];
     $CurrencyNu = $_GET['currency_nu'];
     $CurrencyNu = str_replace(' ', '', $CurrencyNu);
     $CurrencyNu = explode(".",$CurrencyNu);
     $CurrencyNu = str_replace(',', '', $CurrencyNu[0]);
 
-    $UCondition = " IdKey = '$CurrencyIdKey'";
-    $USet = " Rate = '$CurrencyNu',";
+    $UCondition = " id = $Currencyid";
+    $USet = " Rate = $CurrencyNu,";
     $USet .= " modify_ip = '$modify_ip' ,";
     
     

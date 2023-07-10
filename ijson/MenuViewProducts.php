@@ -21,9 +21,9 @@ $Enabled = true;
 if (isset($_POST['url_gender'])) {
     $GroupName = $_POST['url_gender'];
     $SCondition = "Name = '$GroupName'  ";
-    $MenuId = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu)->IdKey;
+    $MenuId = $objORM->Fetch($SCondition, 'id', TableIWNewMenu)->id;
 
-    $SCondition = "GroupIdKey = '$MenuId'  ";
+    $SCondition = "iw_new_menu_id = $MenuId  ";
     echo '<option value="" selected></option>';
     foreach ($objORM->FetchAll($SCondition, 'Name', TableIWNewMenu2) as $ListItem) {
         if ($ListItem->Name == '')
@@ -35,9 +35,9 @@ if (isset($_POST['url_gender'])) {
 if (isset($_POST['url_category'])) {
     $GroupName = $_POST['url_category'];
     $SCondition = "Name = '$GroupName'  ";
-    $MenuId2 = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu2)->IdKey;
+    $MenuId2 = $objORM->Fetch($SCondition, 'id', TableIWNewMenu2)->id;
 
-    $SCondition = "GroupIdKey = '$MenuId2'  ";
+    $SCondition = "iw_new_menu_2_id = $MenuId2  ";
     echo '<option value="" selected></option>';
     foreach ($objORM->FetchAll($SCondition, 'Name', TableIWNewMenu3) as $ListItem) {
         if ($ListItem->Name == '')
@@ -49,9 +49,9 @@ if (isset($_POST['url_category'])) {
 if (isset($_POST['url_group'])) {
     $GroupName = $_POST['url_group'];
     $SCondition = "Name = '$GroupName'  ";
-    $MenuId2 = $objORM->Fetch($SCondition, 'IdKey', TableIWNewMenu3)->IdKey;
+    $MenuId2 = $objORM->Fetch($SCondition, 'id', TableIWNewMenu3)->id;
 
-    $SCondition = "GroupIdKey = '$MenuId2'  ";
+    $SCondition = "iw_new_menu_3_id = $MenuId2  ";
     echo '<option value="" selected></option>';
     foreach ($objORM->FetchAll($SCondition, 'Name', TableIWNewMenu4) as $ListItem) {
         if ($ListItem->Name == '')

@@ -20,10 +20,10 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $Enabled = true;
 if (isset($_GET['NewMenuId'])) {
     $GroupIdKey = $_GET['NewMenuId'];
-    $SCondition = "GroupIdKey = '$GroupIdKey' ";
+    $SCondition = "iw_new_menu_id = $GroupIdKey ";
 
     echo '<option value="" selected></option>';
-    foreach ($objORM->FetchAll($SCondition, 'LocalName,IdKey', TableIWNewMenu2) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'LocalName,id', TableIWNewMenu2) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
         echo '<option value="' . $ListItem->id . '" >' . $ListItem->LocalName . '</option>';
@@ -32,10 +32,10 @@ if (isset($_GET['NewMenuId'])) {
 
 if (isset($_GET['NewMenu2Id'])) {
     $GroupIdKey = $_GET['NewMenu2Id'];
-    $SCondition = "GroupIdKey = '$GroupIdKey' ";
+    $SCondition = "iw_new_menu_2_id = $GroupIdKey ";
 
     echo '<option value="" selected></option>';
-    foreach ($objORM->FetchAll($SCondition, 'LocalName,IdKey', TableIWNewMenu3) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'LocalName,id', TableIWNewMenu3) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
         echo '<option value="' . $ListItem->id . '" >' . $ListItem->LocalName . '</option>';

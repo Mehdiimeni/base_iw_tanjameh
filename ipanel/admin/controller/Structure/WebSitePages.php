@@ -39,5 +39,5 @@ foreach ($objORM->FetchAllWhitoutCondition('title,name,Enabled,id', TableIWWebSi
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSitePages, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSitePages, 0));
 }

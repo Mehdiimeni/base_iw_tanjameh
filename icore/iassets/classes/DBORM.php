@@ -21,10 +21,10 @@ class DBORM extends DBConnect
     }
 
     //------ data select row by idkey
-    public function DataSelectIdKey($IdKey, $SFilds, $TableName)
+    public function DataSelectIdKey($id, $SFilds, $TableName)
     {
 
-        $SCondition = "IdKey='$IdKey' ";
+        $SCondition = "id=$id ";
         return (parent::SelectRowL($SFilds, $TableName, $SCondition));
 
     }

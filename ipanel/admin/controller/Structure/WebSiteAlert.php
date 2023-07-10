@@ -6,7 +6,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array( FA_LC["name"], FA_LC["type"], FA_LC["content"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["name"], FA_LC["type"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -14,7 +14,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('alert_name,alert_type,alert_content,Enabled,id', TableIWWebSiteAlert) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('alert_name,alert_type,Enabled,id', TableIWWebSiteAlert) as $ListItem) {
 
 
     if ($ListItem->Enabled == false) {
@@ -40,5 +40,5 @@ foreach ($objORM->FetchAllWhitoutCondition('alert_name,alert_type,alert_content,
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSiteAlert, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSiteAlert, 0));
 }

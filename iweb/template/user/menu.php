@@ -51,9 +51,6 @@
             <li class="list-active d-inline-block d-lg-block">
               <a href="?user=faq" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">کمک و تماس بگیرید</a>
             </li>
-            <li class="list-active d-inline-block d-lg-block">
-              <a href="?user=myaccount-privacy" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">درخواست یا حذف داده ها</a>
-            </li>
           </ul>
         </li>
       </ul>

@@ -40,5 +40,5 @@ foreach ($objORM->FetchAllWhitoutCondition('website_name,website_title,email,mai
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSiteInfo, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSiteInfo, 0));
 }

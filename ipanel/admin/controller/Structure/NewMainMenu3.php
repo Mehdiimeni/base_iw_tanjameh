@@ -5,7 +5,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array( FA_LC["main_name"], FA_LC["local_name"], FA_LC["main_menu"],FA_LC["main_menu2"], FA_LC["weight"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["main_name"], FA_LC["local_name"], FA_LC["address"], FA_LC["weight"], FA_LC["category"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -13,19 +13,36 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id', TableIWNewMenu3) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Name,LocalName,iw_new_menu_2_id,iw_product_weight_id,CatId,Enabled,id', TableIWNewMenu3) as $ListItem) {
 
-    $ListItem->LocalName = '<input type="text" class="name-sub" maxlength="250" size="25" id="' . $ListItem->id . '" value="' . $ListItem->LocalName . '">';
+    $ListItem->LocalName = '<input type="text" class="name-sub2" maxlength="250" size="25" id="' . $ListItem->id . '" value="' . $ListItem->LocalName . '">';
 
 
-    $SCondition = "id = '$ListItem->GroupIdKey'";
-    $ListItem->GroupIdKey = $objORM->Fetch($SCondition, 'Name', TableIWNewMenu2)->Name;
 
-    $SCondition = "id = '$ListItem->NewMenuId'";
-    $ListItem->NewMenuId = $objORM->Fetch($SCondition, 'Name', TableIWNewMenu)->Name;
+    $obj_menu2 = $objORM->Fetch(
+        "id = $ListItem->iw_new_menu_2_id",
+        'Name,iw_new_menu_id',
+        TableIWNewMenu2
+    );
+
+    $obj_menu = $objORM->Fetch(
+        "id = $obj_menu2->iw_new_menu_id",
+        'Name',
+        TableIWNewMenu
+    );
+
+
+
+    $ListItem->iw_new_menu_2_id = $obj_menu->Name . '/' . $obj_menu2->Name ;
 
     $SCondition = "id = $ListItem->iw_product_weight_id";
-    $ListItem->iw_product_weight_id = '<input type="text" class="weight-sub" maxlength="3" size="3" id="' . $ListItem->Name . '" value="' . @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight . '">';
+    $weight = @$objORM->Fetch(
+        "id = $ListItem->iw_product_weight_id",
+        'Weight',
+        TableIWWebWeight
+    )->Weight;
+
+    $ListItem->iw_product_weight_id = '<input type="text" class="weight-sub2" maxlength="3" size="3" id="' . $ListItem->Name . '" value="' . $weight . '">';
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -50,7 +67,35 @@ foreach ($objORM->FetchAllWhitoutCondition('Name,LocalName,NewMenuId,GroupIdKey,
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 6, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWNewMenu3, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons,5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWNewMenu3, 0));
 }
 
 
+// set file weight
+
+if (@$_GET["www"] == 1) {
+    $csvFile = file(IW_MAIN_ROOT_FROM_PANEL . "changewieght.csv");
+
+    $data = [];
+    foreach ($csvFile as $line) {
+        $data[] = str_getcsv($line);
+    }
+    // 0 idkey newmenu4
+// 1 weight number
+
+    foreach ($data as $rowData) {
+        if ($rowData[1] == null)
+            continue;
+
+        // find weight idkey
+        $SConditionWeight = "Weight = '$rowData[1]' ";
+        $iw_product_weight_id = $objORM->Fetch($SConditionWeight, 'id', TableIWWebWeight)->id;
+
+        // update new menu 4 weight
+
+        $UCondition = " id = '$rowData[0]' ";
+        $USet = " iw_product_weight_id = $iw_product_weight_id ";
+        $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
+
+    }
+}

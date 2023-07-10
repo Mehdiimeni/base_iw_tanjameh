@@ -42,5 +42,5 @@ foreach ($objORM->FetchAllWhitoutCondition('title,name,iw_website_pages_id,Enabl
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSitePagesPart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSitePagesPart, 0));
 }
