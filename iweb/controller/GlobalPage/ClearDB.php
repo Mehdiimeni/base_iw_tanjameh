@@ -12,21 +12,21 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
     $CompanyIdKey = '4a897b83';
     $objTimeTools = new TimeTools();
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
 
 
-    $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+    $now_modify = date("Y-m-d H:i:s");
     $InSet = "";
-    $InSet .= " Enabled = '$Enabled' ,";
+    $InSet .= " Enabled = $Enabled ,";
     $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
     $InSet .= " Count = 0 ,";
     $InSet .= " ExpireDate = '$strExpireDate' ,";
-    $InSet .= " ModifyIP = '$ModifyIP' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
-    $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+    $InSet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $InSet .= " last_modify = '$now_modify' ";
 
     $objORM->DataAdd($InSet, TableIWAPIAllConnect);
 
@@ -40,21 +40,21 @@ if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
 
     $CompanyIdKey = 'e45fef12';
     $objTimeTools = new TimeTools();
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
 
 
-    $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+    $now_modify = date("Y-m-d H:i:s");
     $InSet = "";
-    $InSet .= " Enabled = '$Enabled' ,";
+    $InSet .= " Enabled = $Enabled ,";
     $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
     $InSet .= " Count = 0 ,";
     $InSet .= " ExpireDate = '$strExpireDate' ,";
-    $InSet .= " ModifyIP = '$ModifyIP' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
-    $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+    $InSet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $InSet .= " last_modify = '$now_modify' ";
 
     $objORM->DataAdd($InSet, TableIWSMSAllConnect);
 

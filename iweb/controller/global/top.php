@@ -10,10 +10,15 @@ function set_server()
     return $objIAPI;
 }
 
+function get_currency($currency_id = 1)
+{
+    return $currency_id;
+}
+
 function get_user_id()
 {
-    isset($_REQUEST['_IWUserIdKey']) ? $UserIdKey = $_REQUEST['_IWUserIdKey']  : $UserIdKey = null;
-    return $UserIdKey;
+    isset($_REQUEST['_IWUserId']) ? $UserId = $_REQUEST['_IWUserId']  : $UserId = null;
+    return $UserId;
 
 }
 

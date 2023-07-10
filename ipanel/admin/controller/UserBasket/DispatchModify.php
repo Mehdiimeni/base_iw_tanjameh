@@ -60,19 +60,19 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             }
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
+            $now_modify = date("Y-m-d H:i:s");
 
             $UCondition = " PackingNu = '$PackingNu' ";
             $USet = "";
             $USet .= " ChkState = 'dispatch' ,";
 
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime'";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify'";
 
             if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->CopFile->name != null) {
                 $objFileToolsInit->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'attach/copfile/');

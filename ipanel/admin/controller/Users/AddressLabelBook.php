@@ -10,7 +10,7 @@ $PackingNu = $_GET['PackingNu'];
 $SCondition = "PackingNu = '$PackingNu'  ";
 $stdUserMainCart = $objORM->Fetch($SCondition, '*', TableIWAUserMainCart);
 
-$SCondition = "IdKey = '$stdUserMainCart->UserIdKey' and  Enabled = '$Enabled' ";
+$SCondition = "id = '$stdUserMainCart->UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, '*', TableIWUser);
 
 
@@ -55,7 +55,7 @@ $pdf->SetFont('dejavusans', '', 12);
 
 //Addresse
 
-$SCondition = " Enabled = '$Enabled' and  IdKey = '$stdUserMainCart->UserAddressId'  ";
+$SCondition = " Enabled = $Enabled and  IdKey = '$stdUserMainCart->UserAddressId'  ";
 $stdUserAddress = $objORM->Fetch($SCondition, '*', TableIWUserAddress);
 
 $strAdresses = '';

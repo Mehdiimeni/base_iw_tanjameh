@@ -30,12 +30,12 @@ foreach ($arrAddToCart as $productIdBasket) {
     }
 
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$productIdBasket' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$productIdBasket' ";
 
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    if (!isset($ListItem->IdKey)) {
+    if (!isset($ListItem->id)) {
         if (($key = array_search($productIdBasket, $arrAddToCart)) !== false) {
             unset($arrAddToCart[$key]);
         }
@@ -44,10 +44,10 @@ foreach ($arrAddToCart as $productIdBasket) {
     }
 }
 */
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-$SCondition = "  ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  and ProductId != '' ";
+$SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  and ProductId != '' ";
 $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
 
 $GId = 0;

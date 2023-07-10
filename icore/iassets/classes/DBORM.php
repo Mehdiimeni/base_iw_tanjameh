@@ -11,7 +11,7 @@ class DBORM extends DBConnect
 
     }
 
-    //------ data select row by idrow
+    //------ data select row by id
     public function DataSelect($id, $SFilds, $TableName)
     {
 

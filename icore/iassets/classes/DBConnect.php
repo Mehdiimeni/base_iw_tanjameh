@@ -23,7 +23,8 @@ class DBConnect extends Regularization
         $Query = "SELECT $Fields FROM $Table WHERE $Condition  ";
         $sql = $this->dbConnection->prepare($Query);
         $sql->execute();
-        return $sql->fetch(PDO::FETCH_OBJ);
+        $result = $sql->fetch(PDO::FETCH_OBJ);
+        return $result ? $result : null;
     }
 
     public function SelectColumn($Fields, $Table, $Condition, $IndexSet, $Limit)
@@ -93,18 +94,18 @@ class DBConnect extends Regularization
         return $stmt->rowCount();
     }
 
-    public function Sort2Id($IdRow, $FirstItem, $Table): bool
+    public function Sort2Id($id, $FirstItem, $Table): bool
     {
         $UTable = " $Table ";
-        $USet = " IdRow='0' ";
-        $UCondition = " IdRow='$IdRow' ";
+        $USet = " id='0' ";
+        $UCondition = " id='$id' ";
 
         $this->Update($UTable, $USet, $UCondition);
-        $USet = " IdRow='$IdRow' ";
-        $UCondition = " IdRow='$FirstItem' ";
+        $USet = " id='$id' ";
+        $UCondition = " id='$FirstItem' ";
         $this->Update($UTable, $USet, $UCondition);
-        $USet = " IdRow='$FirstItem' ";
-        $UCondition = " IdRow='0' ";
+        $USet = " id='$FirstItem' ";
+        $UCondition = " id='0' ";
         $this->Update($UTable, $USet, $UCondition);
         return (true);
     }
@@ -174,7 +175,7 @@ class DBConnect extends Regularization
     {
 
         $Query = "CREATE TABLE IF NOT EXISTS $Table (
-                      `IdRow` int(11) NOT NULL AUTO_INCREMENT,
+                      `id` int(11) NOT NULL AUTO_INCREMENT,
                       `IdKey` varchar(11) NOT NULL,
                       `Enabled` tinyint(1) NOT NULL DEFAULT '0',
                       `ModifyIP` varchar(15) NOT NULL,
@@ -182,7 +183,7 @@ class DBConnect extends Regularization
                       `ModifyDate` varchar(10) NOT NULL,
                       `ModifyStrTime` varchar(26) NOT NULL,
                       `ModifyId` varchar(11) NOT NULL,
-                       PRIMARY KEY (`IdRow`),
+                       PRIMARY KEY (`id`),
                        UNIQUE KEY `IdKey` (`IdKey`)
                        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 

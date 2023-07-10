@@ -105,7 +105,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="UserIdKey" class="form-control" required="required">
+                                            <select name="UserId" class="form-control" required="required">
                                                 <?php echo $strUserIdKey; ?>
                                             </select>
                                         </div>

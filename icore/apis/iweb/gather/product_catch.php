@@ -27,9 +27,9 @@ $strExpireDate = date("m-Y");
 if (($objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "Count", TableIWAPIAllConnect)->Count) > 39000)
     exit();
 
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -46,15 +46,15 @@ $TimePriod = $TimePriod["date"];
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
 $SCondition = "ModifyStrTime < '$TimePriod' order by rand() limit 1 ";
 
-foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,WeightIdKey,Enabled,IdRow,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
 
     if (!($objORM->Fetch("IdKey = '$ListItem->NewMenuId' ", "Enabled", TableIWNewMenu)->Enabled)) {
 
-        $UCondition = " IdKey = '$ListItem->IdKey' ";
+        $UCondition = " IdKey = $ListItem->id ";
         $USet = " CreateCad = 1 ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+        
+        
+        $USet .= " last_modify = '$now_modify' ";
 
         $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
 
@@ -73,7 +73,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
     $CatId = $ListItem->CatId;
 
-    $WeightIdKey = $ListItem->WeightIdKey;
+    $iw_product_weight_id = $ListItem->iw_product_weight_id;
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
     $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
 
@@ -232,7 +232,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                                     isOneSize='$isOneSize',
                                     isInStock='$isInStock',
                                     prop65Risk='$prop65Risk',
-                                    WeightIdKey = '$WeightIdKey',
+                                    iw_product_weight_id = '$iw_product_weight_id',
                                             CompanyIdKey = '4a897b83' ,
                                             Enabled = 1 ,
                                             url_gender = '$PGender' ,
@@ -248,6 +248,18 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
                     $objORM->DataAdd($str_change, TableIWAPIProducts);
                     $iw_api_product_id = $objORM->LastId();
+
+
+                    $str_change = " PView = PView + 1 ";
+
+                    $type_condition = "iw_api_products_id = $iw_api_product_id";
+                    if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'id')) {
+
+                        $objORM->DataAdd($str_change, TableIWApiProductStatus);
+                    } else {
+
+                        $objORM->DataUpdate($type_condition, $str_change, TableIWApiProductStatus);
+                    }
 
 
                     foreach ($objProductData['variants'] as $variant) {

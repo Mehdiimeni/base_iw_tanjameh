@@ -48,13 +48,13 @@ if (@$_GET['CountShow'] != '') {
 
 
 $strListBody = '';
-$SCondition = "Enabled != 0 and (ChkState = 'bought' or ChkState = 'preparation') group by UserIdKey";
+$SCondition = "Enabled != 0 and (ChkState = 'bought' or ChkState = 'preparation') group by UserId";
 
-foreach ($objORM->FetchLimit($SCondition, 'UserIdKey', 'ModifyDate ASC', $strLimit, TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'UserId', 'ModifyDate ASC', $strLimit, TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->UserIdKey . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->UserId . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
 
     if (@$ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -66,20 +66,20 @@ foreach ($objORM->FetchLimit($SCondition, 'UserIdKey', 'ModifyDate ASC', $strLim
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64(@$ListItem->IdKey . '::==::' . TableIWAdmin, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64(@$ListItem->id . '::==::' . TableIWAdmin, 0));
 }
 
 

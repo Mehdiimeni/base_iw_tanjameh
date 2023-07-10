@@ -19,7 +19,8 @@ function trend_product_details($trend,$trend_id, $page_condition)
     $filds = array(
         'trend' => $trend,
         'id' => $trend_id,
-        'page_condition' => $page_condition
+        'page_condition' => $page_condition,
+        'currencies_conversion_id' => get_currency()
     );
     return json_decode($objIAPI->GetPostApi('product/trend_product_details', $filds));
 }

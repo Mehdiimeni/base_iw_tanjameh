@@ -4,9 +4,9 @@
 $trend = $_SESSION['trend'];
 $trend_id = $_SESSION['trend_id'];
 $page_offcet_nu = 15;
-(isset($_GET['page']) and $_GET['page'] > 0) ? $str_limit = $_GET['page'] * $page_offcet_nu . ' OFFSET ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
+(isset($_GET['page']) and $_GET['page'] > 1) ? $str_limit = ($_GET['page'] - 1) * $page_offcet_nu . '  , ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
-$page_condition = "order by IdRow DESC LIMIT " . $str_limit;
+$page_condition = "order by id DESC LIMIT " . $str_limit;
 ?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->

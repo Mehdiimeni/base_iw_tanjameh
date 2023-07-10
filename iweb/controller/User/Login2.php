@@ -4,11 +4,11 @@
 (new MakeDirectory)->MKDir(IW_REPOSITORY_FROM_PANEL . 'log/login/', 'user', 0755);
 
 $objGlobalVar = new GlobalVarTools();
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $objAclTools = new ACLTools();
 
 
-if (@$objAclTools->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserIdKey)) {
+if (@$objAclTools->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserId)) {
 
     (new FileCaller)->FileIncluderWithControler(IW_WEB_FROM_PANEL, 'User', 'Login');
 
@@ -36,7 +36,7 @@ if (isset($_POST['SubmitL'])) {
         }
 
         $Enabled = true;
-        $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = '$Enabled' ";
+        $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = $Enabled ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
@@ -49,11 +49,11 @@ if (isset($_POST['SubmitL'])) {
 
             $objTimeTools = new TimeTools();
             $Online = true;
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $now_modify = date("Y-m-d H:i:s");
             $objUserInfo = $objORM->Fetch($SCondition, 'IdKey,ApiId,GroupIdKey,GroupIdKey,Name,CellNumber,NationalCode', TableIWUser);
             $GroupIdKey = $objUserInfo->GroupIdKey;
 
@@ -65,11 +65,11 @@ if (isset($_POST['SubmitL'])) {
             $ModifyId = $objUserInfo->IdKey;
             $InSet = "";
             $InSet .= " Online = '$Online' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWUserObserver);
 
@@ -81,12 +81,12 @@ if (isset($_POST['SubmitL'])) {
             fwrite($FOpen, "$ModifyId==::==$ModifyStrTime==::==in\n");
             fclose($FOpen);
 
-            $objGlobalVar->setSessionVar('_IWUserIdKey', $ModifyId);
-            $objGlobalVar->setCookieVar('_IWUserIdKey', $objAclTools->en2Base64($ModifyId, 1));
+            $objGlobalVar->setSessionVar('_IWUserId', $ModifyId);
+            $objGlobalVar->setCookieVar('_IWUserId', $objAclTools->en2Base64($ModifyId, 1));
 
 
             $UserSessionId = session_id();
-            $SCondition = "  ( UserIdKey = '$ModifyId' or UserSessionId = '$UserSessionId'  ) and ProductId != ''  ";
+            $SCondition = "  ( UserId = '$ModifyId' or UserSessionId = '$UserSessionId'  ) and ProductId != ''  ";
             $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
 
 

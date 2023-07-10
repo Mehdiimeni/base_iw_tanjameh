@@ -20,9 +20,9 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 //Group Name
 $strGroupIdKey = '<option value="">' . FA_LC["select"] . '</option>';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWTradeGroup) as $ListItem) {
-    $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWTradeGroup) as $ListItem) {
+    $strGroupIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 // Trade Name
@@ -69,18 +69,18 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " TradeIdKey = '$TradeIdKey' ,";
             $InSet .= " TypePosition = '$TypePosition' ,";
@@ -88,11 +88,11 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " OpenPosition = '$OpenPosition' ,";
             $InSet .= " ClosePosition = '$ClosePosition' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWTradePosition);
 
@@ -109,23 +109,23 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'GroupIdKey,TradeIdKey,TypePosition,TimePosition,OpenPosition,ClosePosition,Description', TableIWTradePosition);
 
 
     //Group Name
     $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWTradeGroup);
-    $strGroupIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWTradeGroup) as $ListItem) {
-        $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWTradeGroup);
+    $strGroupIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWTradeGroup) as $ListItem) {
+        $strGroupIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     // Trade Name
     $SCondition = "  IdKey = '$objEditView->TradeIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWTrade);
-    $strTradeIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWTrade);
+    $strTradeIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
 
     // Type
     $strTypePosition = '<option value="' . $objEditView->TypePosition . '">' . $objEditView->TypePosition . '</option>';
@@ -158,7 +158,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $ClosePosition = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->ClosePosition);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "( GroupIdKey = '$GroupIdKey' OR TradeIdKey = '$TradeIdKey' )  and IdKey != '$IdKey'  ";
+            $SCondition = "( GroupIdKey = '$GroupIdKey' OR TradeIdKey = '$TradeIdKey' )  and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWTradePosition)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -168,13 +168,13 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " GroupIdKey = '$GroupIdKey' ,";
                 $USet .= " TradeIdKey = '$TradeIdKey' ,";
@@ -183,11 +183,11 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " OpenPosition = '$OpenPosition' ,";
                 $USet .= " ClosePosition = '$ClosePosition' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWTradePosition);

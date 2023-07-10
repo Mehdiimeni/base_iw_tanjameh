@@ -4,16 +4,16 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 
 $strChart = '';
-foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelAdminPart) as $ListItem) {
     $strChart .= '<li><div class="block">';
     $strChart .= '<div class="tags"><span><b>';
     $strChart .= $ListItem->PartName;
     $strChart .= '</b></span></div>';
     $strChart .= '<div class="block_content">';
-    $SCondition = " Enabled = '$Enabled' AND PartIdKey = '$ListItem->IdKey'  ORDER BY IdRow ";
+    $SCondition = " Enabled = $Enabled AND iw_panel_admin_part_id = $ListItem->id  ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'PageName', TableIWPanelAdminPage) as $ListItem2) {
         $strChart .= '<div class="tags"><span>';
         $strChart .= $ListItem2->PageName;
@@ -28,13 +28,13 @@ foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart)
 $strChart = str_replace('<div class="block_content"></div>', '', $strChart);
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
-    case 'add' :
+    case 'add':
         $strModifyTitle = FA_LC["add"];
         break;
-    case 'edit' :
+    case 'edit':
         $strModifyTitle = FA_LC["edit"];
         break;
-    case 'view' :
+    case 'view':
         $strModifyTitle = FA_LC["view"];
         break;
 }
@@ -46,9 +46,9 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 
 //Part Name
 $strPartIdKey = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart) as $ListItem) {
-    $strPartIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->PartName . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelAdminPart) as $ListItem) {
+    $strPartIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->PartName . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -65,11 +65,11 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         if ($TopModify == null)
             $TopModify = 0;
         $PageName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PageName);
-        $PartIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PartIdKey);
+        $iw_panel_admin_part_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_panel_admin_part_id);
         $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
         $Enabled = true;
-        $SCondition = " ( Name = '$Name' OR PageName = '$PageName' ) and PartIdKey = '$PartIdKey' ";
+        $SCondition = " ( Name = '$Name' OR PageName = '$PageName' ) and iw_panel_admin_part_id = '$iw_panel_admin_part_id' ";
 
         if ($objORM->DataExist($SCondition, TableIWPanelAdminPage)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -78,28 +78,20 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-            $IdKey = $objAclTools->IdKey();
-
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
-            $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            $InSet = " Enabled = $Enabled ,";
             $InSet .= " Name = '$Name' ,";
             $InSet .= " PageName = '$PageName' ,";
-            $InSet .= " PartIdKey = '$PartIdKey' ,";
+            $InSet .= " iw_panel_admin_part_id = '$iw_panel_admin_part_id' ,";
             $InSet .= " TableName = '$TableName' ,";
             $InSet .= " TopModify = '$TopModify' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWPanelAdminPage);
 
@@ -116,8 +108,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
-    $objEditView = $objORM->Fetch($SCondition, 'Name,PageName,PartIdKey,Description,TableName,TopModify', TableIWPanelAdminPage);
+    $SCondition = "  id = $IdKey ";
+    $objEditView = $objORM->Fetch($SCondition, 'Name,PageName,iw_panel_admin_part_id,Description,TableName,TopModify', TableIWPanelAdminPage);
 
     //table name
     $strTableNames = '<option selected>' . $objEditView->TableName . '</option>';
@@ -126,12 +118,12 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     }
 
     //Part Name
-    $SCondition = "  IdKey = '$objEditView->PartIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'PartName,IdKey', TableIWPanelAdminPart);
-    $strPartIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->PartName . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart) as $ListItem) {
-        $strPartIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->PartName . '</option>';
+    $SCondition = "  id = $objEditView->iw_panel_admin_part_id ";
+    $Item = $objORM->Fetch($SCondition, 'PartName,id', TableIWPanelAdminPart);
+    $strPartIdKey = '<option selected value="' . $Item->id . '">' . $Item->PartName . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelAdminPart) as $ListItem) {
+        $strPartIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->PartName . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {
@@ -148,11 +140,11 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             if ($TopModify == null)
                 $TopModify = 0;
             $PageName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PageName);
-            $PartIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->PartIdKey);
+            $iw_panel_admin_part_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_panel_admin_part_id);
             $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "( Name = '$Name' OR PageName = '$PageName' ) and PartIdKey = '$PartIdKey' and IdKey != '$IdKey'  ";
+            $SCondition = "( Name = '$Name' OR PageName = '$PageName' ) and iw_panel_admin_part_id = '$iw_panel_admin_part_id' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWPanelAdminPage)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -161,25 +153,21 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             } else {
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " Name = '$Name' ,";
                 $USet .= " PageName = '$PageName' ,";
-                $USet .= " PartIdKey = '$PartIdKey' ,";
+                $USet .= " iw_panel_admin_part_id = '$iw_panel_admin_part_id' ,";
                 $USet .= " TableName = '$TableName' ,";
                 $USet .= " TopModify = '$TopModify' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWPanelAdminPage);
 
@@ -194,5 +182,3 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
     }
 }
-
-

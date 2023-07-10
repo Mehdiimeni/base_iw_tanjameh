@@ -135,8 +135,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 // user profile
         $Enabled = true;
-        $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-        $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+        $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+        $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
         $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
 
         if ($objAclTools->JsonDecodeArray($response)['success'])

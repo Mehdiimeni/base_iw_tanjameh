@@ -4,7 +4,7 @@
 (new MakeDirectory)->MKDir(IW_REPOSITORY_FROM_PANEL . 'log/login/', 'user', 0755);
 
 $objGlobalVar = new GlobalVarTools();
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $objACL = new ACLTools();
 
 if ($objGlobalVar->JsonDecode($objGlobalVar->ServerVarToJson())->HTTP_HOST == 'localhost')
@@ -90,7 +90,7 @@ $objIpanelViewUnity = new IPanelViewUnity(FA_LC["IW"], FA_LC["IW"], IW_PANEL_THE
                 <ul class="header-top-menu">
                     <?php
 
-                    if (@$objACL->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserIdKey)) {
+                    if (@$objACL->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserId)) {
                         ?>
                         <li><a href="?part=User&page=Login"><i class='bx bx-log-in'></i> <?php echo FA_LC["enter"]; ?>
                             </a></li>

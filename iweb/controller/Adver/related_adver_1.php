@@ -20,7 +20,9 @@ function get_related_adver_product($page_name_system, $item, $adver_related)
     $filds = array(
         'page_name_system' => $page_name_system,
         'item' => $item,
-        'adver_related' => $adver_related
+        'adver_related' => $adver_related,
+        'currencies_conversion_id' => get_currency()
+        
     );
     return json_decode($objIAPI->GetPostApi('adver/adver_product_related', $filds));
 }

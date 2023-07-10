@@ -30,27 +30,27 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 
         $objTimeTools = new TimeTools();
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        
+        
 
-        $IdKey = $objAclTools->IdKey();
+        
 
-        $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-        $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+        $now_modify = date("Y-m-d H:i:s");
+        $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
         $InSet = "";
-        $InSet .= " IdKey = '$IdKey' ,";
-        $InSet .= " Enabled = '$Enabled' ,";
+        
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " TicketSubject = '$TicketSubject' ,";
         $InSet .= " SenderTicket = '$SenderTicket' ,";
         $InSet .= " SenderIdKey = '$ModifyId' ,";
         $InSet .= " SetView = '0' ,";
         $InSet .= " SetPart = 'user' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-        $InSet .= " ModifyId = '$ModifyId' ";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $InSet .= " last_modify = '$now_modify' ,";
+        $InSet .= " modify_id = $ModifyId ";
 
         $objORM->DataAdd($InSet, TableIWTicket);
 
@@ -65,7 +65,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'TicketSubject,SenderTicket,AnswerTicket', TableIWTicket);
 
     if (isset($_POST['SubmitM'])) {
@@ -80,21 +80,21 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-            $UCondition = " IdKey = '$IdKey' ";
+            $UCondition = " id = $IdKey ";
             $USet = "";
             $USet .= " SetView = '1' ,";
             $USet .= " AnswerTicket = '$AnswerTicket' ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $USet .= " ModifyId = '$ModifyId' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ,";
+            $USet .= " modify_id = $ModifyId ";
 
             $objORM->DataUpdate($UCondition, $USet, TableIWTicket);
 

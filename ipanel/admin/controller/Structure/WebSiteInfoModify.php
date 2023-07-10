@@ -45,13 +45,13 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
 
-            $IdKey = $objAclTools->IdKey();
-            $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            
+            $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
             $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " website_name = '$website_name' ,";
             $InSet .= " website_title = '$website_title' ,";
             $InSet .= " email = '$email' ,";
@@ -76,7 +76,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, '*', TableIWWebSiteInfo);
 
 
@@ -94,7 +94,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
             $company = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->company);
             $website_address = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->website_address);
 
-            $SCondition = "( website_name = '$website_name'  ) and IdKey != '$IdKey'  ";
+            $SCondition = "( website_name = '$website_name'  ) and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWWebSiteInfo,'id')) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -102,10 +102,10 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
             } else {
 
-                $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
                 $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " website_name = '$website_name' ,";
                 $USet .= " website_title = '$website_title' ,";

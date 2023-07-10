@@ -3,19 +3,19 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 
 $strChart = '';
-foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelAdminPart) as $ListItem) {
     $strChart .= '<li><div class="block">';
     $strChart .= '<div class="tags"><span><b>';
     $strChart .= $ListItem->PartName;
     $strChart .= '</b></span></div>';
     $strChart .= '<div class="block_content">';
-    $SCondition = " Enabled = '$Enabled' AND PartIdKey = '$ListItem->IdKey'  ORDER BY IdRow ";
+    $SCondition = " Enabled = $Enabled AND iw_panel_admin_part_id = $ListItem->id  ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'PageName', TableIWPanelAdminPage) as $ListItem2) {
         $strChart .= '<div class="tags"><span>';
-        $strChart .=  $ListItem2->PageName ;
+        $strChart .= $ListItem2->PageName;
         $strChart .= '</span></div>';
 
     }
@@ -27,27 +27,26 @@ foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey', TableIWPanelAdminPart)
 $strChart = str_replace('<div class="block_content"></div>', '', $strChart);
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
-    case 'add' :
+    case 'add':
         $strModifyTitle = FA_LC["add"];
         break;
-    case 'edit' :
+    case 'edit':
         $strModifyTitle = FA_LC["edit"];
         break;
-    case 'view' :
+    case 'view':
         $strModifyTitle = FA_LC["view"];
         break;
 }
 //table name
 $strTableNames = '';
-foreach ((new ACLTools())->TableNames() as $TableNameList)
-{
-    $strTableNames .= '<option>'.$TableNameList.'</option>';
+foreach ((new ACLTools())->TableNames() as $TableNameList) {
+    $strTableNames .= '<option>' . $TableNameList . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
     $objAclTools = new ACLTools();
 
-    $arrExcept = array( 'Description' => '');
+    $arrExcept = array('Description' => '');
     if ($objAclTools->CheckNullExcept($objAclTools->PostVarToJson(), $arrExcept)) {
         JavaTools::JsAlertWithRefresh(FA_LC['login_field_null_error'], 0, '');
         exit();
@@ -68,27 +67,22 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            $now_modify = date("Y-m-d H:i:s");
 
-            $IdKey = $objAclTools->IdKey();
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
-            $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
+
+            $InSet = " Enabled = $Enabled ,";
             $InSet .= " Name = '$Name' ,";
             $InSet .= " PartName = '$PartName' ,";
             $InSet .= " FaIcon = '$FaIcon' ,";
             $InSet .= " TableName = '$TableName' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWPanelAdminPart);
 
@@ -103,23 +97,21 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 }
 
-if(@$objGlobalVar->RefFormGet()[0] != null)
-{
+if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'Name,PartName,FaIcon,Description,TableName', TableIWPanelAdminPart);
 
     //table name
-    $strTableNames = '<option selected>'.$objEditView->TableName.'</option>';
-    foreach ((new ACLTools())->RmTableNames($objEditView->TableName) as $TableNameList)
-    {
-        $strTableNames .= '<option>'.$TableNameList.'</option>';
+    $strTableNames = '<option selected>' . $objEditView->TableName . '</option>';
+    foreach ((new ACLTools())->RmTableNames($objEditView->TableName) as $TableNameList) {
+        $strTableNames .= '<option>' . $TableNameList . '</option>';
     }
 
-    if (isset($_POST['SubmitM']) ) {
+    if (isset($_POST['SubmitM'])) {
         $objAclTools = new ACLTools();
 
-        $arrExcept = array( 'Description' => '');
+        $arrExcept = array('Description' => '');
         if ($objAclTools->CheckNullExcept($objAclTools->PostVarToJson(), $arrExcept)) {
             JavaTools::JsAlertWithRefresh(FA_LC['login_field_null_error'], 0, '');
             exit();
@@ -131,7 +123,7 @@ if(@$objGlobalVar->RefFormGet()[0] != null)
             $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "( Name = '$Name' OR PartName = '$PartName' ) and IdKey != '$IdKey'  ";
+            $SCondition = "( Name = '$Name' OR PartName = '$PartName' ) and id != $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWPanelAdminPart)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -140,29 +132,25 @@ if(@$objGlobalVar->RefFormGet()[0] != null)
             } else {
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " Name = '$Name' ,";
                 $USet .= " PartName = '$PartName' ,";
                 $USet .= " FaIcon = '$FaIcon' ,";
                 $USet .= " TableName = '$TableName' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
-                $objORM->DataUpdate($UCondition,$USet, TableIWPanelAdminPart);
+                $objORM->DataUpdate($UCondition, $USet, TableIWPanelAdminPart);
 
                 $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
-                JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify','ref')));
+                JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify', 'ref')));
                 exit();
 
             }
@@ -172,4 +160,3 @@ if(@$objGlobalVar->RefFormGet()[0] != null)
 
     }
 }
-

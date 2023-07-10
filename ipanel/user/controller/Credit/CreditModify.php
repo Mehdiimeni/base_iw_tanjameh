@@ -66,9 +66,9 @@ function pecl($strRedirect, $Amount)
     $Enabled = true;
     $objAclTools = new ACLTools();
 
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId,GroupIdKey', TableIWUser);
 
     $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
@@ -80,7 +80,7 @@ function pecl($strRedirect, $Amount)
 
     if ($arrGroupData[0]->TerminalNumber == null) {
         $GroupIdKey = $stdProfile->GroupIdKey;
-        $SCondition = "IdKey = '$GroupIdKey' and  Enabled = '$Enabled' ";
+        $SCondition = "id = '$GroupIdKey' and  Enabled = $Enabled ";
         $arrGroupData[] = $objORM->Fetch($SCondition, 'TerminalNumber,Username,Password', TableIWUserGroup);
     }
     try {
@@ -125,8 +125,8 @@ function pecl($strRedirect, $Amount)
 
 // user profile
     $Enabled = true;
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'ApiId', TableIWUser);
 
     if ($objAclTools->JsonDecodeArray($response)['success'])
@@ -139,9 +139,9 @@ function pecl($strRedirect, $Amount)
 function pep($strRedirect, $Amount)
 {
     /*
-        $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+        $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
     
-        $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+        $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
         $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId,GroupIdKey', TableIWUser);
     
         $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
@@ -153,7 +153,7 @@ function pep($strRedirect, $Amount)
     
         if ($arrGroupData[0]->TerminalNumber == null) {
             $GroupIdKey = $stdProfile->GroupIdKey;
-            $SCondition = "IdKey = '$GroupIdKey' and  Enabled = '$Enabled' ";
+            $SCondition = "id = '$GroupIdKey' and  Enabled = $Enabled ";
             $arrGroupData[] = $objORM->Fetch($SCondition, 'TerminalNumber,Username,Password', TableIWUserGroup);
         }
     

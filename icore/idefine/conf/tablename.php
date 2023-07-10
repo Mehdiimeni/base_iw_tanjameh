@@ -12,6 +12,8 @@ const TableIWAdminAccess = "iw_admin_access";
 const TableIWAdminNotification = "iw_admin_notification";
 const TableIWTicket = "iw_ticket";
 const TableIWAdver = "iw_adver";
+const TableIWAdminStatus = "iw_admin_status";
+const TableIWAdminProfile = "iw_admin_profile";
 // user
 const TableIWUser = "iw_user";
 const TableIWUserGroup = "iw_user_group";
@@ -47,6 +49,7 @@ const TableIWACurrencies = "iw_currencies";
 const TableIWACurrenciesConversion = "iw_currencies_conversion";
 const TableIWAProductPrice = "iw_products_price";
 const TableIWWebWeightPrice = "iw_products_weight_price";
+const TableIWWebWeight = "iw_products_weight";
 const TableIWAProductDeliveryPrice = "iw_products_delivery_price";
 const TableIWACountry = "iw_country";
 const TableIWAPaymentState = "iw_payment_state";
@@ -66,6 +69,7 @@ const TableIWNewMenu4 = "iw_new_menu_4";
 const TableIWApiBrands = "iw_api_brands";
 const TableIWApiProductType = "iw_api_product_type";
 const TableIWApiProductVariants = "iw_api_product_variants";
+const TableIWApiProductStatus = "iw_product_status";
 
 
 

@@ -36,7 +36,7 @@ isset($_POST['Password']) ) {
         $iw_user_group_id = $objORM->Fetch("Name = 'normal' ", "id", TableIWUserGroup)->id;
 
         $InSet = "";
-        $InSet .= " Enabled = '$Enabled' ,";
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " Name = '$Name' ,";
         $InSet .= " Email = '$Email' ,";
         $InSet .= " CellNumber = '$CellNumber' ,";

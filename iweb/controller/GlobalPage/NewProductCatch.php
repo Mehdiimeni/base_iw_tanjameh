@@ -17,10 +17,10 @@ $Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -36,7 +36,7 @@ $TimePriod = $TimePriod["date"];
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
 $SCondition = "1 ";
-foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,WeightIdKey,Enabled,IdRow,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
 
     $PGroup = $ListItem->Name;
     $objPCategory = $objORM->Fetch("IdKey = '$ListItem->GroupIdKey' ", 'Name,GroupIdKey', TableIWNewMenu2);
@@ -49,7 +49,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
     $CatId = $ListItem->CatId;
 
-    $WeightIdKey = $ListItem->WeightIdKey;
+    $iw_product_weight_id = $ListItem->iw_product_weight_id;
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 1500);
     $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
 
@@ -95,22 +95,22 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $USet .= " LastPrice = $ApiLastPrice, ";
             $USet .= " ModifyDateP = '$ModifyDate' ,";
             $USet .= " BrandName = '$BrandName' ,";
-            $USet .= " WeightIdKey = '$WeightIdKey' ,";
+            $USet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $USet .= " Attribute = '$Attribute'  ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ";
 
             $objORM->DataUpdate("   ProductId = '$ProductId'   ", $USet, TableIWAPIProducts);
 
         } else {
 
-            $IdKey = $objAclTools->IdKey();
+            
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " ProductId = '$ProductId' ,";
             $InSet .= " ProductCode = '$ProductCode' ,";
             $InSet .= " Name = '$ProductName' ,";
@@ -126,23 +126,23 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $InSet .= " ModifyDateP = '$ModifyDate' ,";
             $InSet .= " CompanyIdKey = '4a897b83' ,";
             $InSet .= " BrandName = '$BrandName' ,";
-            $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+            $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " Attribute = '$Attribute'  ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime', ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify', ";
             $InSet .= " ModifyId = ' ' ";
             $objORM->DataAdd($InSet, TableIWAPIProducts);
 
         }
 
-        $UCondition = " IdKey = '$ListItem->IdKey' ";
+        $UCondition = " IdKey = $ListItem->id ";
         $USet = " CreateCad = 1 ,";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+        $USet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $USet .= " last_modify = '$now_modify' ";
 
         $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
 
@@ -256,11 +256,11 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                 $USet .= " SizeDis = '$strSizeDis', ";
                 $USet .= " BrandName = '$BrandName' ,";
                 $USet .= " TypeSet = '$TypeSet' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
                 $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime'";
+                $USet .= " last_modify = '$now_modify'";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
 

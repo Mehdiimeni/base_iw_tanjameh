@@ -9,24 +9,24 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["product"], FA_LC["product_code"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["product"], FA_LC["product_code"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
 
 
 $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
-$SCondition = " ChkState = 'none'  order by IdRow DESC limit " . $getStart . " , " . $getEnd;
+$SCondition = " ChkState = 'none'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,ProductId,ProductSizeId,Size,Count,ModifyDate,OrderNu,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,ProductId,ProductSizeId,Size,Count,ModifyDate,OrderNu,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$ListItem->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem->ProductId' ";
 
     $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
@@ -64,7 +64,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
     $strSizeSelect = $ListItem->Size;
     $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
 
-    $ListItem->OrderNu = '<input type="text" class="order_number"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->OrderNu . '">';
+    $ListItem->OrderNu = '<input type="text" class="order_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->OrderNu . '">';
 
 
     if ($ListItem->Enabled == false) {
@@ -73,5 +73,5 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,Produ
         $ToolsIcons[2] = $arrToolsIcon["active"];
     }
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }

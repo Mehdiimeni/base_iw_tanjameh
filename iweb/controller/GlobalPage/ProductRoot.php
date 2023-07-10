@@ -9,10 +9,10 @@ $objAclTools = new ACLTools();
 $objReqular = new Regularization();
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -20,7 +20,7 @@ $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 $objAsos = new AsosConnections();
 
 $SCondition = "   RootDateCheck IS NULL ";
-foreach ($objORM->FetchLimit($SCondition, '*', 'IdRow',2,TableIWAPIProducts) as $objProduct) {
+foreach ($objORM->FetchLimit($SCondition, '*', 'id',2,TableIWAPIProducts) as $objProduct) {
 
     $arrCatId = explode(",", $objProduct->CatId);
     if (is_array($arrCatId)) {
@@ -95,10 +95,10 @@ foreach ($objORM->FetchLimit($SCondition, '*', 'IdRow',2,TableIWAPIProducts) as 
     $USet .= " Size = '$strSize', ";
     $USet .= " SizeDis = '$strSizeDis', ";
     $USet .= " CatId = '$strCatId', ";
-    $USet .= " ModifyIP = '$ModifyIP' ,";
-    $USet .= " ModifyTime = '$ModifyTime' ,";
-    $USet .= " ModifyDate = '$ModifyDate' ,";
-    $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
+    $USet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $USet .= " last_modify = '$now_modify' ,";
     $USet .= " RootDateCheck = '$ModifyStrTime' ,";
     $USet .= " ModifyId = '' ";
 

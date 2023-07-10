@@ -4,7 +4,7 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
@@ -20,21 +20,21 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 }
 //Menu Name
 $strNewMenuId = '<option value="" selected></option>';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey,LocalName', TableIWNewMenu) as $ListItem) {
-    $strNewMenuId .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->LocalName . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id,LocalName', TableIWNewMenu) as $ListItem) {
+    $strNewMenuId .= '<option value="' . $ListItem->id . '">' . $ListItem->LocalName . '</option>';
 }
 
 //Menu Sub menu 4 Add
 $strApiNameSet = '<option value="" selected></option>';
-$SCondition = " 1 ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,CatId,WeightIdKey,LocalName,IdKey', TableIWWebSub4Menu) as $ListItem) {
-    $SCondition = "IdKey = '$ListItem->WeightIdKey'";
+$SCondition = " 1 ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,CatId,iw_product_weight_id,LocalName,IdKey', TableIWWebSub4Menu) as $ListItem) {
+    $SCondition = "id = $ListItem->iw_product_weight_id";
     $Weight = 0;
     if(@$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight != null)
         $Weight = $objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
 
-    $strApiNameSet .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . ' ( CAT ' . $ListItem->CatId . ' W ' . $Weight . ' )</option>';
+    $strApiNameSet .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . ' ( CAT ' . $ListItem->CatId . ' W ' . $Weight . ' )</option>';
 }
 
 
@@ -55,10 +55,10 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
         $ArrName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->ArrName);
         $SCondition = "  IdKey = '$ArrName' ";
-        $TableDataSub4 = $objORM->Fetch($SCondition, 'Name,CatId,WeightIdKey', TableIWWebSub4Menu);
+        $TableDataSub4 = $objORM->Fetch($SCondition, 'Name,CatId,iw_product_weight_id', TableIWWebSub4Menu);
 
         $Name = $TableDataSub4->Name;
-        $WeightIdKey = $TableDataSub4->WeightIdKey;
+        $iw_product_weight_id = $TableDataSub4->iw_product_weight_id;
         $CatId = $TableDataSub4->CatId;
 
 
@@ -77,29 +77,29 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " NewMenuId = '$NewMenuId' ,";
             $InSet .= " Name = '$Name' ,";
             $InSet .= " CatId = '$CatId' ,";
-            $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+            $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " LocalName = '$LocalName' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWNewMenu3);
 
@@ -116,26 +116,26 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'Name,LocalName,GroupIdKey,Description', TableIWNewMenu3);
 
     //Menu2 Name
     $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
-    $ItemMenu2 = $objORM->Fetch($SCondition, 'Name,IdKey,GroupIdKey', TableIWNewMenu2);
+    $ItemMenu2 = $objORM->Fetch($SCondition, 'Name,id,GroupIdKey', TableIWNewMenu2);
     $strMenuIdKey = '<option selected value="' . $ItemMenu2->IdKey . '">' . $ItemMenu2->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWNewMenu2) as $ListItem) {
-        $strMenu2IdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWNewMenu2) as $ListItem) {
+        $strMenu2IdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
 
     //Main Name
     $SCondition = "  IdKey = '$ItemMenu2->GroupIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWNewMenu);
-    $strMenuIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWNewMenu) as $ListItem) {
-        $strMenuIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWNewMenu);
+    $strMenuIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWNewMenu) as $ListItem) {
+        $strMenuIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
 
@@ -153,7 +153,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
             $NewMenuId = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->NewMenuId);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "( Name = '$Name' AND LocalName = '$LocalName' AND GroupIdKey = '$GroupIdKey' ) and IdKey != '$IdKey'  ";
+            $SCondition = "( Name = '$Name' AND LocalName = '$LocalName' AND GroupIdKey = '$GroupIdKey' ) and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWNewMenu3)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -162,24 +162,24 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
             } else {
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " GroupIdKey = '$GroupIdKey' ,";
                 $USet .= " NewMenuId = '$NewMenuId' ,";
                 $USet .= " Name = '$Name' ,";
                 $USet .= " LocalName = '$LocalName' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
 

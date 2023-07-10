@@ -9,7 +9,7 @@ $arrIdAllProduct = array();
 // API Count and Connect
 $objAsos = new AsosConnections();
 
-foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and CatId IS NOT NULL  and SetProductChange = 0   ", '*', 'IdRow DESC', '0,1', TableIWAPIAllProducts) as $ListProducts) {
+foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and CatId IS NOT NULL  and SetProductChange = 0   ", '*', 'id DESC', '0,1', TableIWAPIAllProducts) as $ListProducts) {
 
     $AllProductsContent = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ListProducts->Content));
 
@@ -67,22 +67,22 @@ foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and Cat
                 $USet .= " ModifyDateP = '$ModifyDate' ,";
                 $USet .= " BrandName = '$BrandName' ,";
                 $USet .= " TypeSet = '$TypeSet' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ";
 
                 $objORM->DataUpdate("   ProductId = '$ProductId'   ", $USet, TableIWAPIProducts);
 
             } else {
 
 
-                $IdKey = $objAclTools->IdKey();
+                
 
 
                 $InSet = "";
-                $InSet .= " IdKey = '$IdKey' ,";
-                $InSet .= " Enabled = '$Enabled' ,";
+                
+                $InSet .= " Enabled = $Enabled ,";
                 $InSet .= " ProductId = '$ProductId' ,";
                 $InSet .= " Name = '$ProductName' ,";
                 $InSet .= " ApiContent = '$ApiContent' ,";
@@ -98,10 +98,10 @@ foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and Cat
                 $InSet .= " CompanyIdKey = '4a897b83' ,";
                 $InSet .= " BrandName = '$BrandName' ,";
                 $InSet .= " TypeSet = '$TypeSet' ,";
-                $InSet .= " ModifyIP = '$ModifyIP' ,";
-                $InSet .= " ModifyTime = '$ModifyTime' ,";
-                $InSet .= " ModifyDate = '$ModifyDate' ,";
-                $InSet .= " ModifyStrTime = '$ModifyStrTime', ";
+                $InSet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $InSet .= " last_modify = '$now_modify', ";
                 $InSet .= " ModifyId = ' ' ";
                 $objORM->DataAdd($InSet, TableIWAPIProducts);
 
@@ -216,11 +216,11 @@ foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and Cat
                     $USet .= " CatId = concat_ws(',',CatId,'" . $CatId . "') ,";
                     $USet .= " BrandName = '$BrandName' ,";
                     $USet .= " TypeSet = '$TypeSet' ,";
-                    $USet .= " ModifyIP = '$ModifyIP' ,";
-                    $USet .= " ModifyTime = '$ModifyTime' ,";
-                    $USet .= " ModifyDate = '$ModifyDate' ,";
+                    $USet .= " modify_ip = '$modify_ip' ,";
+                    
+                    
                     $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-                    $USet .= " ModifyStrTime = '$ModifyStrTime'";
+                    $USet .= " last_modify = '$now_modify'";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
 

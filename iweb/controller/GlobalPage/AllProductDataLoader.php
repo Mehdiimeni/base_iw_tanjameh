@@ -8,10 +8,10 @@ $Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -42,11 +42,11 @@ if ($AllProductsContent == '') {
 
 
     if (!$objORM->DataExist(" CatId = '$CatId' ", TableIWAPIAllProducts)) {
-        $IdKey = $objAclTools->IdKey();
+        
 
         $InSet = "";
-        $InSet .= " IdKey = '$IdKey' ,";
-        $InSet .= " Enabled = '$Enabled' ,";
+        
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " CompanyIdKey = '4a897b83' ,";
         $InSet .= " CatId = '$CatId' ,";
         $InSet .= " Content = '$AllProductsContent' ,";
@@ -56,10 +56,10 @@ if ($AllProductsContent == '') {
         $InSet .= " PGroup2 = '$PGroup2' ,";
         $InSet .= " SetProductChange = 0 ,";
         $InSet .= " TypeSet = '$TypeSet' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $InSet .= " last_modify = '$now_modify' ,";
         $InSet .= " ModifyId = '' ";
 
         $objORM->DataAdd($InSet, TableIWAPIAllProducts);
@@ -73,10 +73,10 @@ if ($AllProductsContent == '') {
         $USet .= " PGroup2 = '$PGroup2' ,";
         $USet .= " SetProductChange = 0 ,";
         $USet .= " TypeSet = '$TypeSet' ,";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+        $USet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $USet .= " last_modify = '$now_modify' ";
 
         $objORM->DataUpdate("   CatId = '$CatId'   ", $USet, TableIWAPIAllProducts);
 

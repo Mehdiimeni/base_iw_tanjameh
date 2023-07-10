@@ -7,8 +7,8 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 
 // user profile
 $Enabled = true;
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
 
 $apiMainName = 'customer/'.(int)$stdProfile->ApiId;
@@ -118,8 +118,8 @@ if (@$_GET['backset'] == 't') {
 
 // user profile
     $Enabled = true;
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
     $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
 

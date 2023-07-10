@@ -10,7 +10,7 @@ if ($strUserGroup->SuperUser or $strUserGroup->SuperTrade)
     $strSuper = 1;
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["group_name"], FA_LC["trade_name"], FA_LC["trade_type"], FA_LC["trade_time"], FA_LC["submit_date"],FA_LC["submit_time"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["group_name"], FA_LC["trade_name"], FA_LC["trade_type"], FA_LC["trade_time"], FA_LC["submit_date"],FA_LC["submit_time"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -27,12 +27,12 @@ $impUserTradeIdKey = implode(",",$arrUserTradeIdKey);
 $strListBody = '';
 count($arrUserTradeIdKey) > 1 ? $SCondition = " TradeIdKey IN '$impUserTradeIdKey'" : $SCondition = " TradeIdKey = '$impUserTradeIdKey'";
 
-foreach ($objORM->FetchAll($SCondition,'IdKey,GroupIdKey,TradeIdKey,TypePosition,TimePosition,ModifyDate,ModifyTime,Enabled,IdRow', TableIWTradePosition) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition,'IdKey,GroupIdKey,TradeIdKey,TypePosition,TimePosition,ModifyDate,ModifyTime,Enabled,id', TableIWTradePosition) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->GroupIdKey'";
+    $SCondition = "id = '$ListItem->GroupIdKey'";
     $ListItem->GroupIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWTradeGroup)->Name;
-    $SCondition = "IdKey = '$ListItem->TradeIdKey'";
+    $SCondition = "id = '$ListItem->TradeIdKey'";
     $ListItem->TradeIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWTrade)->Name;
 
     if ($ListItem->Enabled == false) {
@@ -45,16 +45,16 @@ foreach ($objORM->FetchAll($SCondition,'IdKey,GroupIdKey,TradeIdKey,TypePosition
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
@@ -63,7 +63,7 @@ foreach ($objORM->FetchAll($SCondition,'IdKey,GroupIdKey,TradeIdKey,TypePosition
         $ToolsIcons[] = $arrToolsIcon["view"];
     }
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 7, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWTradePosition, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 7, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWTradePosition, 0));
 }
 
 

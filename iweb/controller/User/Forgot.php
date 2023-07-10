@@ -19,7 +19,7 @@ if (isset($_POST['SubmitForget'])) {
         }
 
         $Enabled = true;
-        $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  )  and Enabled = '$Enabled' ";
+        $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  )  and Enabled = $Enabled ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
@@ -32,12 +32,12 @@ if (isset($_POST['SubmitForget'])) {
 
             $objTimeTools = new TimeTools();
             $Online = true;
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $now_modify = date("Y-m-d H:i:s");
             $objUserInfo = $objORM->Fetch($SCondition, 'IdKey,Email,Name,CellNumber', TableIWUser);
             $ModifyId = $objUserInfo->IdKey;
             $randomPass = rand(111111, 999999);
@@ -71,11 +71,11 @@ if (isset($_POST['SubmitForget'])) {
             $USet = "";
             $USet .= " Password = '$Password' ,";
             $USet .= " ChangePass = '1' ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $USet .= " ModifyId = '$ModifyId' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ,";
+            $USet .= " modify_id = $ModifyId ";
 
             $objORM->DataUpdate($UCondition, $USet, TableIWUser);
             JavaTools::JsAlertWithRefresh(FA_LC['forget_data_send'], 0, '?part=User&page=Login');

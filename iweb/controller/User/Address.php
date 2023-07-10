@@ -3,18 +3,18 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $objGlobalVar = new GlobalVarTools();
 $Enabled = true;
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
 //Country
 $strCountryIdKey = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWACountry) as $ListItem) {
-    $strCountryIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACountry) as $ListItem) {
+    $strCountryIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 //Addresses
 $strAdresses = '';
-$SCondition = " Enabled = '$Enabled' and UserIdKey = '$UserIdKey' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled and UserId = '$UserId' ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'NicName,Address', TableIWUserAddress) as $ListItem) {
 
     $strAdresses .= '<br/>';
@@ -41,7 +41,7 @@ if (isset($_POST['SubmitL'])) {
 
 
         $Enabled = true;
-        $SCondition = "   (NicName = '$NicName' OR PostCode = '$PostCode' OR Address = '$Address' ) and UserIdKey = '$UserIdKey' ";
+        $SCondition = "   (NicName = '$NicName' OR PostCode = '$PostCode' OR Address = '$Address' ) and UserId = '$UserId' ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
@@ -52,34 +52,34 @@ if (isset($_POST['SubmitL'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $now_modify = date("Y-m-d H:i:s");
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " CountryIdKey = '$CountryIdKey' ,";
-            $InSet .= " UserIdKey = '$UserIdKey' ,";
+            $InSet .= " UserId = '$UserId' ,";
             $InSet .= " NicName = '$NicName' ,";
             $InSet .= " PostCode = '$PostCode' ,";
             $InSet .= " OtherTel = '$OtherTel' ,";
             $InSet .= " Address = '$Address' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$UserIdKey' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " ModifyId = '$UserId' ";
 
             $objORM->DataAdd($InSet, TableIWUserAddress);
 
 
-            $SCondition = "  UserIdKey = '$UserIdKey'  and ProductId != ''  ";
+            $SCondition = "  UserId = '$UserId'  and ProductId != ''  ";
             $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
 
 

@@ -19,21 +19,21 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 //Group Name
 $strGroupIdKey = '';
-$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = " Enabled = '$Enabled' and ModifyId = '$ModifyId' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWUserGroup) as $ListItem) {
-    $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = " Enabled = $Enabled and modify_id = $ModifyId ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWUserGroup) as $ListItem) {
+    $strGroupIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 //All Access
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 
 $strAllAccess = '';
-foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'PartName,id,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
     $strAllAccess .= '<optgroup  label=' . $ListItem->PartName . '>';
 
-    $SCondition = " Enabled = '$Enabled' AND PartIdKey = '$ListItem->IdKey'  ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'PageName,Name,IdKey', TableIWPanelUserPage) as $ListItem2) {
-        $strAllAccess .= '<option value=' . $ListItem->IdKey . ';' . $ListItem2->IdKey . '>';
+    $SCondition = " Enabled = $Enabled AND iw_panel_user_part_id = $ListItem->id  ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'PageName,Name,id', TableIWPanelUserPage) as $ListItem2) {
+        $strAllAccess .= '<option value=' . $ListItem->id . ';' . $ListItem2->id . '>';
         $strAllAccess .= $ListItem2->PageName;
         $strAllAccess .= '</option>';
 
@@ -81,26 +81,26 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $jsonAllTools = $objAclTools->JsonEncode($AllTools);
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " AllAccess = '$jsonAllAccess' ,";
             $InSet .= " AllTools = '$jsonAllTools' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWUserAccess);
 
@@ -117,33 +117,33 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'AllAccess,AllTools,GroupIdKey,Description', TableIWUserAccess);
 
     //Part Name
     $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWUserGroup);
-    $strGroupIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWUserGroup) as $ListItem) {
-        $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWUserGroup);
+    $strGroupIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWUserGroup) as $ListItem) {
+        $strGroupIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     //All Access
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
     $arrExitViewAccess = ($objGlobalVar->JsonDecodeArray($objEditView->AllAccess));
     $strAllAccess = '';
-    foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'PartName,id,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
         $strAllAccess .= '<optgroup  label=' . $ListItem->PartName . '>';
 
-        $SCondition = " Enabled = '$Enabled' AND PartIdKey = '$ListItem->IdKey'  ORDER BY IdRow ";
-        foreach ($objORM->FetchAll($SCondition, 'PageName,Name,IdKey', TableIWPanelUserPage) as $ListItem2) {
+        $SCondition = " Enabled = $Enabled AND iw_panel_user_part_id = $ListItem->id  ORDER BY id ";
+        foreach ($objORM->FetchAll($SCondition, 'PageName,Name,id', TableIWPanelUserPage) as $ListItem2) {
             $selected = '';
-            if (isset($arrExitViewAccess[$ListItem->IdKey]))
-                if (array_search($ListItem2->IdKey, $arrExitViewAccess[$ListItem->IdKey]) > -1)
+            if (isset($arrExitViewAccess[$ListItem->id]))
+                if (array_search($ListItem2->id, $arrExitViewAccess[$ListItem->id]) > -1)
                     $selected = 'selected';
 
-            $strAllAccess .= '<option value=' . $ListItem->IdKey . ';' . $ListItem2->IdKey . ' ' . $selected . ' >';
+            $strAllAccess .= '<option value=' . $ListItem->id . ';' . $ListItem2->id . ' ' . $selected . ' >';
             $strAllAccess .= $ListItem2->PageName;
             $strAllAccess .= '</option>';
 
@@ -182,7 +182,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $AllTools = $objAclTools->JsonDecode($objAclTools->PostVarToJson())->AllTools;
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "GroupIdKey = '$GroupIdKey' and IdKey != '$IdKey'  ";
+            $SCondition = "GroupIdKey = '$GroupIdKey' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWUserAccess)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -201,23 +201,23 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " GroupIdKey = '$GroupIdKey' ,";
                 $USet .= " AllAccess = '$jsonAllAccess' ,";
                 $USet .= " AllTools = '$jsonAllTools' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWUserAccess);
 

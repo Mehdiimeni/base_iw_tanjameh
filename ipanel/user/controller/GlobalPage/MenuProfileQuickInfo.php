@@ -3,13 +3,13 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 $Enabled = true;
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-$SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+$SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter', TableIWUser);
 
 
-$SCondition = "IdKey = '$stdProfile->GroupIdKey'";
+$SCondition = "id = '$stdProfile->GroupIdKey'";
 $strUserGroupName = @$objORM->Fetch($SCondition,'Name',TableIWUserGroup)->Name;
 
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");

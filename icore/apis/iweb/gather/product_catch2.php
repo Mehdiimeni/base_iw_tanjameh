@@ -25,9 +25,9 @@ $strExpireDate = date("m-Y");
 if (($objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "Count", TableIWAPIAllConnect)->Count) > 39000)
     exit();
 
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -43,16 +43,16 @@ $TimePriod = $TimePriod["date"];
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
 $SCondition = "ModifyStrTime < '$TimePriod' order by rand() limit 1";
-foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,WeightIdKey,Enabled,IdRow,ModifyStrTime', TableIWNewMenu4) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu4) as $ListItem) {
 
     if (!($objORM->Fetch("IdKey = '$ListItem->NewMenuId' ", "Enabled", TableIWNewMenu)->Enabled))
     {
 
-        $UCondition = " IdKey = '$ListItem->IdKey' ";
+        $UCondition = " IdKey = $ListItem->id ";
         $USet = " CreateCad = 1 ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+        
+        
+        $USet .= " last_modify = '$now_modify' ";
 
         $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu4);
 
@@ -72,7 +72,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
     $CatId = $ListItem->CatId;
 
-    $WeightIdKey = $ListItem->WeightIdKey;
+    $iw_product_weight_id = $ListItem->iw_product_weight_id;
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
 
     $strExpireDate = date("m-Y");
@@ -235,7 +235,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                                     isOneSize='$isOneSize',
                                     isInStock='$isInStock',
                                     prop65Risk='$prop65Risk',
-                                    WeightIdKey = '$WeightIdKey',
+                                    iw_product_weight_id = '$iw_product_weight_id',
                                             CompanyIdKey = '4a897b83' ,
                                             Enabled = 1 ,
                                             url_gender = '$PGender' ,

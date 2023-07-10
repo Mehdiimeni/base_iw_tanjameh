@@ -5,7 +5,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["characteristic"], FA_LC["image"], FA_LC["category"], FA_LC["view"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["characteristic"], FA_LC["image"], FA_LC["category"], FA_LC["view"]), FA_LC["tools"]);
 
 // API Count and Connect
 $objAsos = new AsosConnections();
@@ -159,7 +159,7 @@ if (@$_GET['new'] == 'all') {
 
 
 $strListBody = '';
-foreach ($objORM->FetchAll('Content IS NOT NULL and ModifyId IS NOT NULL and AdminOk = 1', 'IdKey,ProductId,Content,PGender,PCategory,PGroup,ModifyId,Enabled,IdRow', TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchAll('Content IS NOT NULL and ModifyId IS NOT NULL and AdminOk = 1', 'IdKey,ProductId,Content,PGender,PCategory,PGroup,ModifyId,Enabled,id', TableIWAPIProducts) as $ListItem) {
 
 
     $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
@@ -181,20 +181,20 @@ foreach ($objORM->FetchAll('Content IS NOT NULL and ModifyId IS NOT NULL and Adm
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAPIProducts, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAPIProducts, 0));
 
 
 }

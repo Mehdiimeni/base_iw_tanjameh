@@ -8,7 +8,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["basket"], FA_LC["state"],FA_LC["amount"],FA_LC["bank"], FA_LC["date"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["basket"], FA_LC["state"],FA_LC["amount"],FA_LC["bank"], FA_LC["date"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -19,14 +19,14 @@ $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 500;
 
-$SCondition = " 1 order by IdRow DESC limit " . $getStart . " , " . $getEnd;
+$SCondition = " 1 order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,State,AmountRial,BankName,ModifyTime,ModifyDate,Enabled', TableIWAPaymentState) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,State,AmountRial,BankName,ModifyTime,ModifyDate,Enabled', TableIWAPaymentState) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -38,20 +38,20 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,BasketIdKey,State
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAPaymentState, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAPaymentState, 0));
 }
 
 

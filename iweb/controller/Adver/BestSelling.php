@@ -11,7 +11,7 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
 $strBestSelling = '';
-$SCondition = "Enabled = '$Enabled' AND Content IS NOT NULL And AdminOk = 1";
+$SCondition = "Enabled = $Enabled AND Content IS NOT NULL And AdminOk = 1";
 if (@$_GET['Gender'] != '') {
     $PGender = $_GET['Gender'];
     $SCondition .= "  AND  PGender = '$PGender'  ";
@@ -30,7 +30,7 @@ if (@$_GET['Group'] != '') {
 foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PGroup2,ImageSet,Name,Content,IdKey,CatId', 'RAND(),PBuy DESC', 6, TableIWAPIProducts) as $ListItem) {
 
     $strPricingPart = '';
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -68,7 +68,7 @@ foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PG
     $objArrayImage = array_values($objArrayImage);
 
     $strBestSelling .= '<div class="col-lg-4 col-md-6 col-sm-6"><div class="single-products-box"><div class="products-image">';
-    $strBestSelling .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strBestSelling .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strBestSelling .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 670, 'class="main-image"');
     $strBestSelling .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[1], $ListItem->Name, 670, 'class="hover-image"');
     $strBestSelling .= '</a><div class="products-button"><ul><li><div class="wishlist-btn">';
@@ -79,7 +79,7 @@ foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PG
     $strBestSelling .= '<i class="bx bx-refresh"></i><span class="tooltip-label">' . FA_LC['comparison'] . '</span></a></div></li>';
     $strBestSelling .= '</ul></div></div>';
     $strBestSelling .= '<div class="products-content"  >';
-    $strBestSelling .= '<h3><a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">' . $ListItem->Name . '</a></h3>';
+    $strBestSelling .= '<h3><a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">' . $ListItem->Name . '</a></h3>';
     $strBestSelling .= '<div class="price">' . $strPricingPart . '</div>';
     $strBestSelling .= '<a href="#" id="ShowAddToCart"  data-basket="' . $ListItem->ProductId . '" class="add-to-cart">' . FA_LC['add_to_cart'] . '</a>';
     $strBestSelling .= '</div></div></div>';

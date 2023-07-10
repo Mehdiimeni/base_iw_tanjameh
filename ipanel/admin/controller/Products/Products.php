@@ -12,7 +12,7 @@ $objAclTools = new ACLTools();
 $strurl_gender = '<option value=""></option>';
 
 
-foreach ($objORM->FetchAll("1 GROUP BY  Name", 'Name,IdKey', TableIWNewMenu) as $objPGander) {
+foreach ($objORM->FetchAll("1 GROUP BY  Name", 'Name,id', TableIWNewMenu) as $objPGander) {
     $strSelected = '';
     if (@$_GET['url_gender'] == $objPGander->Name and isset($_GET['url_gender']))
         $strSelected = 'selected';
@@ -216,9 +216,9 @@ if (@$_GET['PUnweight'] != '') {
     $Unweight = $_GET['PUnweight'];
 
     if ($Unweight == 0) {
-        $SCondition .= "  and ( WeightIdKey IS NOT NULL )";
+        $SCondition .= "  and ( iw_product_weight_id IS NOT NULL )";
     } else {
-        $SCondition .= "  and (NoWeightValue = '$Unweight' or WeightIdKey IS  NULL )";
+        $SCondition .= "  and (NoWeightValue = '$Unweight' or iw_product_weight_id IS  NULL )";
     }
 }
 
@@ -246,7 +246,7 @@ $strListBody = '';
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
     $SCondition = "ProductId LIKE '%$strSearch%' OR 
-                   IdRow LIKE '%$strSearch%' OR 
+                   id LIKE '%$strSearch%' OR 
                    LocalName REGEXP '$strSearch' OR 
                    Name REGEXP '$strSearch' OR 
                    url_gender REGEXP '$strSearch' OR 
@@ -269,47 +269,51 @@ url_group2,
 MainPrice,
 iw_api_product_type_id,
 iw_api_brands_id,
-WeightIdKey,
+iw_product_weight_id,
 Enabled,
 modify_ip,
-IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
+id', 'id ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
 
     $ListItem->modify_ip == null ? $ListItem->modify_ip = FA_LC["no_viewed"] : FA_LC["viewed"];
 
 
     // add  weight product
-    $SCondition = "IdKey = '$ListItem->WeightIdKey'";
-    $ListItem->WeightIdKey = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
-    $ListItem->WeightIdKey = '<input type="text" class="weight-product" maxlength="3" size="3" id="' . $ListItem->ProductId . '" value="' . $ListItem->WeightIdKey . '">';
+    $ListItem->iw_products_weight_price_id = @$objORM->Fetch(
+        "id = ". @$objORM->Fetch("id = $ListItem->iw_products_weight_price_id","iw_product_weight_id",TableIWWebWeightPrice),
+        'Weight',
+        TableIWWebWeight
+    )->Weight;
+
+    $ListItem->iw_products_weight_price_id = '<input type="text" class="weight-product" maxlength="3" size="3" id="' . $ListItem->ProductId . '" value="' . $ListItem->iw_products_weight_price_id . '">';
 
 
     // add weight gender
     $url_gender = $ListItem->url_gender;
-    $MainWeightIdKey = $objORM->Fetch(" Name = '$url_gender'", 'WeightIdKey', TableIWNewMenu)->WeightIdKey;
-    $SCondition = "IdKey = '$MainWeightIdKey'";
-    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
+    $MainWeightIdKey = $objORM->Fetch(" Name = '$url_gender'", 'iw_products_weight_price_id', TableIWNewMenu)->iw_products_weight_price_id;
+    $SCondition = "id = '$MainWeightIdKey'";
+    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeight)->Weight;
     $ListItem->url_gender = $ListItem->url_gender . '<br /><input type="text" class="weight-main" maxlength="3" size="3" id="' . $url_gender . '" value="' . $WeightValue . '">';
 
 
     // add weight category
     $url_category = $ListItem->url_category;
-    $SubWeightIdKey = @$objORM->Fetch(" Name = '$url_category'", 'WeightIdKey', TableIWNewMenu2)->WeightIdKey;
-    $SCondition = "IdKey = '$SubWeightIdKey'";
+    $SubWeightIdKey = @$objORM->Fetch(" Name = '$url_category'", 'iw_products_weight_price_id', TableIWNewMenu2)->iw_products_weight_price_id;
+    $SCondition = "id = '$SubWeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
     $ListItem->url_category = $ListItem->url_category . '<br /><input type="text" class="weight-sub" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_category) . '" value="' . $WeightValue . '">';
 
     // add weight group
     $url_group = $ListItem->url_group;
-    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$url_group'", 'WeightIdKey', TableIWNewMenu3)->WeightIdKey;
-    $SCondition = "IdKey = '$Sub2WeightIdKey'";
+    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$url_group'", 'iw_products_weight_price_id', TableIWNewMenu3)->iw_products_weight_price_id;
+    $SCondition = "id = '$Sub2WeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
     $ListItem->url_group = $ListItem->url_group . '<br /><input type="text" class="weight-sub2" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group) . '" value="' . $WeightValue . '">';
 
     // add weight submit 4
     $url_group2 = $ListItem->url_group2;
-    $Sub4WeightIdKey = @$objORM->Fetch(" Name = '$url_group2'", 'WeightIdKey', TableIWNewMenu4)->WeightIdKey;
-    $SCondition = "IdKey = '$Sub4WeightIdKey'";
+    $Sub4WeightIdKey = @$objORM->Fetch(" Name = '$url_group2'", 'iw_product_weight_id', TableIWNewMenu4)->iw_product_weight_id;
+    $SCondition = "id = '$Sub4WeightIdKey'";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
     $ListItem->url_group2 = $ListItem->url_group2 . '<br /><input type="text" class="weight-sub4" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group2) . '" value="' . $WeightValue . '">';
 
@@ -318,7 +322,7 @@ IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
     //type
     $ListItem->iw_api_product_type_id = @$objORM->Fetch("id = '$ListItem->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
 
-    $SArgument = "'$ListItem->IdRow','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
 
     $objArrayImage = explode("==::==", $ListItem->Content);
 
@@ -338,18 +342,18 @@ IdRow', 'IdRow ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 13, $objGlobalVar->en2Base64($ListItem->IdRow . '::==::' . TableIWAPIProducts, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 13, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAPIProducts, 0));
 }

@@ -135,8 +135,8 @@ if (@$_GET['backset'] == 'pec') {
 
     // user profile
     $Enabled = true;
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
     $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
 
@@ -166,9 +166,9 @@ if (@$_GET['backset'] == 'pecl') {
     $RRN = $_REQUEST ["RRN"];
     $RefNum = $_REQUEST ["RefNum"];
 
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'GroupApiId', TableIWUser);
 
     $apiMainName = 'Agency?$filter=Id%20eq%20' . $stdProfile->GroupApiId;
@@ -180,7 +180,7 @@ if (@$_GET['backset'] == 'pecl') {
 
     if ($arrGroupData[0]->TerminalNumber == null) {
         $GroupIdKey = $stdProfile->GroupIdKey;
-        $SCondition = "IdKey = '$GroupIdKey' and  Enabled = '$Enabled' ";
+        $SCondition = "id = '$GroupIdKey' and  Enabled = $Enabled ";
         $arrGroupData[] = $objORM->Fetch($SCondition, 'TerminalNumber,Username,Password', TableIWUserGroup);
 
 
@@ -225,8 +225,8 @@ if (@$_GET['backset'] == 'pecl') {
 
 // user profile
     $Enabled = true;
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
     $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
 
@@ -252,8 +252,8 @@ if (@$_GET['backset'] == 'pep') {
 
         // user profile
         $Enabled = true;
-        $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-        $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+        $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+        $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
         $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
         $objKMN = new KMNConnection($objFileToolsInit->KeyValueFileReader()['MainApi'] . $apiMainName, $objFileToolsInit->KeyValueFileReader()['ApiAuto']);
 

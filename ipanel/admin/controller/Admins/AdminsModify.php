@@ -27,10 +27,10 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 }
 
 //Group Name
-$strGroupIdKey = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWAdminGroup) as $ListItem) {
-    $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$striw_admin_group_id = '';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdminGroup) as $ListItem) {
+    $striw_admin_group_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -68,14 +68,14 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Name);
         $Email = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Email);
         $CellNumber = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CellNumber);
-        $GroupIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->GroupIdKey);
+        $iw_admin_group_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_admin_group_id);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
         $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Username, 1);
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
         $Enabled = true;
-        $SCondition = " ( Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber' ) and GroupIdKey = '$GroupIdKey' ";
+        $SCondition = " (  Username = '$UsernameL' ) and iw_admin_group_id = $iw_admin_group_id ";
 
         if ($objORM->DataExist($SCondition, TableIWAdmin)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -84,31 +84,17 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-            $IdKey = $objAclTools->IdKey();
-
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
-
-            $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
-            $InSet .= " Name = '$Name' ,";
-            $InSet .= " Email = '$Email' ,";
-            $InSet .= " CellNumber = '$CellNumber' ,";
-            $InSet .= " Image = '$FileNewName' ,";
+            $InSet = " Enabled = $Enabled ,";
             $InSet .= " UserName = '$UsernameL' ,";
             $InSet .= " Password = '$PasswordL' ,";
-            $InSet .= " GroupIdKey = '$GroupIdKey' ,";
-            $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " iw_admin_group_id = $iw_admin_group_id ,";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWAdmin);
             if ( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null ) {
@@ -129,8 +115,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
-    $objEditView = $objORM->Fetch($SCondition, 'Name,CellNumber,GroupIdKey,Description,Email,Image,Username', TableIWAdmin);
+    $SCondition = "  id = $IdKey ";
+    $objEditView = $objORM->Fetch($SCondition, 'iw_admin_group_id,Username', TableIWAdmin);
     //Show decode username
     $objEditView->Username = $objGlobalVar->de2Base64($objEditView->Username);
 
@@ -143,12 +129,12 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
     //Group Name
-    $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWAdminGroup);
-    $strGroupIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWAdminGroup) as $ListItem) {
-        $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $SCondition = "  id = $objEditView->iw_admin_group_id ";
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWAdminGroup);
+    $striw_admin_group_id = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdminGroup) as $ListItem) {
+        $striw_admin_group_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {
@@ -162,13 +148,13 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $Name = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Name);
             $Email = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Email);
             $CellNumber = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CellNumber);
-            $GroupIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->GroupIdKey);
+            $iw_admin_group_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_admin_group_id);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
             $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Username, 1);
             $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-            $SCondition = "( Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' OR CellNumber = '$CellNumber' ) and GroupIdKey = '$GroupIdKey' and IdKey != '$IdKey'  ";
+            $SCondition = "(Username = '$UsernameL'  ) and iw_admin_group_id = $iw_admin_group_id and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWAdmin)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -198,26 +184,20 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 }
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
-                $USet .= " Name = '$Name' ,";
-                $USet .= " Email = '$Email' ,";
-                $USet .= " CellNumber = '$CellNumber' ,";
                 $USet .= " UserName = '$UsernameL' ,";
                 $USet .= " Password = '$PasswordL' ,";
-                $USet .= " GroupIdKey = '$GroupIdKey' ,";
-                $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " iw_admin_group_id = $iw_admin_group_id ,";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
                 if ( $objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null ) {
                     $objStorageTools->SetRootStoryFile('../irepository/img/');

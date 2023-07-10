@@ -9,9 +9,9 @@ $objAclTools = new ACLTools();
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
 $Enabled = true;
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-$SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+$SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, '*', TableIWUser);
 
 
@@ -26,19 +26,19 @@ if ($objGlobalVar->JsonDecode($objGlobalVar->ServerVarToJson())->HTTP_HOST == 'l
     error_reporting(E_ALL);
 
 
-if (@$objAclTools->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserIdKey)) {
+if (@$objAclTools->NormalUserLogin(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $UserId)) {
 
     (new FileCaller)->FileIncluderWithControler(IW_WEB_FROM_PANEL, 'User', 'Login');
 }
 
 
 
-$SCondition = "IdKey = '$stdProfile->GroupIdKey'";
+$SCondition = "id = '$stdProfile->GroupIdKey'";
 $strAdminGroupName = @$objORM->Fetch($SCondition, 'Name', TableIWUserGroup)->Name;
 
 
 // address
-$SCondition = "UserIdKey = '$stdProfile->IdKey'";
+$SCondition = "UserId = '$stdProfile->IdKey'";
 $strAddressUser = @$objORM->Fetch($SCondition, 'Address', TableIWUserAddress)->Address;
 
 
@@ -57,7 +57,7 @@ $strNoteToAll = '';
 
 // Count Property
 $CountProperty = 0;
-$SCondition = "UserIdKey = '$stdProfile->IdKey'";
+$SCondition = "UserId = '$stdProfile->IdKey'";
 $CountProperty = @$objORM->Fetch($SCondition, 'SUM(Count) as CountProperty ', TableIWAUserMainCart)->CountProperty;
 
 // Ticket
@@ -74,27 +74,27 @@ if (isset($_POST['SubmitM'])) {
 
 
         $objTimeTools = new TimeTools();
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        
+        
 
-        $IdKey = $objAclTools->IdKey();
+        
 
-        $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-        $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+        $now_modify = date("Y-m-d H:i:s");
+        $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
         $InSet = "";
-        $InSet .= " IdKey = '$IdKey' ,";
-        $InSet .= " Enabled = '$Enabled' ,";
+        
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " TicketSubject = '$TicketSubject' ,";
         $InSet .= " SenderTicket = '$SenderTicket' ,";
         $InSet .= " SenderIdKey = '$ModifyId' ,";
         $InSet .= " SetView = '0' ,";
         $InSet .= " SetPart = 'user' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-        $InSet .= " ModifyId = '$ModifyId' ";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $InSet .= " last_modify = '$now_modify' ,";
+        $InSet .= " modify_id = $ModifyId ";
 
         $objORM->DataAdd($InSet, TableIWTicket);
         $_POST = array();
@@ -109,8 +109,8 @@ if (isset($_POST['SubmitM'])) {
 
 // All Ticket
 $strTicketAll = '';
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = "SenderIdKey = '$UserIdKey' and Enabled = '$Enabled' ";
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = "SenderIdKey = '$UserId' and Enabled = $Enabled ";
 foreach ($objORM->FetchAll($SCondition, '*', TableIWTicket) as $ListItem) {
 
     $strTicketAll .= '<li class="comment"><article class="comment-body"><footer class="comment-meta"><div class="comment-author vcard">';
@@ -139,10 +139,10 @@ $arrAddToCart = (array)$arrAddToCart;
 if (count($arrAddToCart) > 0)
     $arrAddToCart = array_filter($arrAddToCart);
 */
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-$SCondition = "  ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' ) and ProductId != ''  ";
+$SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and ProductId != ''  ";
 $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
 $strProductsCart = '';
@@ -152,15 +152,15 @@ foreach ($objUserTempCart as $UserTempCart) {
   //  if ($productIdBasket == null)
    //     continue;
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserTempCart->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$UserTempCart->ProductId' ";
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    if (!isset($ListItem->IdKey)) {
+    if (!isset($ListItem->id)) {
         continue;
     }
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -177,12 +177,12 @@ foreach ($objUserTempCart as $UserTempCart) {
     $arrImages = explode('==::==', $ListItem->Content);
 
     $strProductsCart .= '<article class="item">';
-    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsCart .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $arrImages[0], $ListItem->Name, 120, 'class="thumb"');
     $strProductsCart .= '</a>';
     $strProductsCart .= '<div class="info">';
     $strProductsCart .= '<h4 class="title usmall">';
-    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsCart .= $ListItem->Name . '</a></h4>';
     $strProductsCart .= ' </div>';
     $strProductsCart .= $strPricingPart;
@@ -202,14 +202,14 @@ foreach ($arrWishlist as $productIdBasket) {
     if ($productIdBasket == null)
         continue;
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$productIdBasket' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$productIdBasket' ";
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
-    if (!isset($ListItem->IdKey)) {
+    if (!isset($ListItem->id)) {
         continue;
     }
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -224,12 +224,12 @@ foreach ($arrWishlist as $productIdBasket) {
     $arrImages = explode('==::==', $ListItem->Content);
 
     $strProductsWishlist .= '<article class="item">';
-    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsWishlist .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $arrImages[0], $ListItem->Name, 120, 'class="thumb"');
     $strProductsWishlist .= '</a>';
     $strProductsWishlist .= '<div class="info">';
     $strProductsWishlist .= '<h4 class="title usmall">';
-    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsWishlist .= $ListItem->Name . '</a></h4>';
     $strProductsWishlist .= ' </div>';
     $strProductsWishlist .= $strPricingPart;

@@ -19,8 +19,8 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
     $CompanyIdKey = '4a897b83';
     $objTimeTools = new TimeTools();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    
+    
 
     $ModifyStrTime = json_decode($objTimeTools->getDateTimeNow())->date;
     $InSet = "";
@@ -28,9 +28,9 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
     $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
     $InSet .= " Count = 0 ,";
     $InSet .= " ExpireDate = '$strExpireDate' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
-    $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+    
+    
+    $InSet .= " last_modify = '$now_modify' ";
 
     $objORM->DataAdd($InSet, TableIWAPIAllConnect);
 
@@ -44,8 +44,8 @@ if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
 
     $CompanyIdKey = 'e45fef12';
     $objTimeTools = new TimeTools();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    
+    
 
 
     $ModifyStrTime = json_decode($objTimeTools->getDateTimeNow())->date;
@@ -54,9 +54,9 @@ if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
     $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
     $InSet .= " Count = 0 ,";
     $InSet .= " ExpireDate = '$strExpireDate' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
-    $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+    
+    
+    $InSet .= " last_modify = '$now_modify' ";
 
     $objORM->DataAdd($InSet, TableIWSMSAllConnect);
 

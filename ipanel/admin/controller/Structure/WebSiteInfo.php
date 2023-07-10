@@ -6,7 +6,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["name"], FA_LC["title"], FA_LC["email"], FA_LC["tel"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["name"], FA_LC["title"], FA_LC["email"], FA_LC["tel"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -14,7 +14,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('IdKey,website_name,website_title,email,main_phone,Enabled,id', TableIWWebSiteInfo) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('website_name,website_title,email,main_phone,Enabled,id', TableIWWebSiteInfo) as $ListItem) {
 
 
     if ($ListItem->Enabled == false) {
@@ -27,18 +27,18 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,website_name,website_title,ema
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWWebSiteInfo, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSiteInfo, 0));
 }

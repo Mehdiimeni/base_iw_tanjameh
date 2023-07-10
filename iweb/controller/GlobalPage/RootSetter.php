@@ -29,10 +29,10 @@ foreach ($objORM->FetchAll(1, 'Name,ApiId,IdKey', TableIWWebMainMenu) as $MainRo
             $USet .= " PGender = '$PGender' ,";
             $USet .= " PCategoryId = '$PCategoryId' ,";
             $USet .= " PGroupId = '$PGroupId' ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime'";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify'";
 
 
           $strResult =  $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);

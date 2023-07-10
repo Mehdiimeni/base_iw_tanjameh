@@ -3,10 +3,10 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $objGlobalVar = new GlobalVarTools();
 
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-if ($UserIdKey == '') {
+if ($UserId == '') {
     
     JavaTools::JsTimeRefresh(0, './?part=User&page=Login');
     exit();
@@ -21,9 +21,9 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
 $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -34,9 +34,9 @@ $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 //Addresses
 $strAdrresses = '<option readonly="readonly" selected value=""><b>' . FA_LC['select_address'] . '</b> </option>';
 $boolAddress = 1;
-$SCondition = " Enabled = '$Enabled' and UserIdKey = '$UserIdKey' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled and UserId = '$UserId' ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'NicName,Address,IdKey', TableIWUserAddress) as $ListItem) {
-    $strAdrresses .= '<option  value="' . $ListItem->IdKey . '"><b>' . $ListItem->NicName . '</b> </option>';
+    $strAdrresses .= '<option  value="' . $ListItem->id . '"><b>' . $ListItem->NicName . '</b> </option>';
 
 }
 if ($objORM->DataCount($SCondition, TableIWUserAddress) < 1) {
@@ -46,7 +46,7 @@ if ($objORM->DataCount($SCondition, TableIWUserAddress) < 1) {
 $objUserAddressInfo = '';
 if ($_GET['AddId'] != null) {
     $AddressIdKey = $_GET['AddId'];
-    $SCondition = " Enabled = '$Enabled' and UserIdKey = '$UserIdKey' and IdKey = '$AddressIdKey' ";
+    $SCondition = " Enabled = $Enabled and UserId = '$UserId' and IdKey = '$AddressIdKey' ";
     $objUserAddressInfo = $objORM->Fetch($SCondition, 'NicName,Address,IdKey', TableIWUserAddress);
 
 }
@@ -65,7 +65,7 @@ $arrAddToCart = '';
 // url
 $ActualPageLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-$SCondition = "  ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  and ProductId != ''  ";
+$SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  and ProductId != ''  ";
 $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 
 $arrAllProductW = array();
@@ -79,7 +79,7 @@ foreach ($objUserTempCart as $UserTempCart) {
     $strSizeSelect = $UserTempCart->Size;
     $UserTempCart->Count != '' ? $intCountSelect = $UserTempCart->Count : $intCountSelect = 1;
     
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserTempCart->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$UserTempCart->ProductId' ";
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
     $strExistence = FA_LC["available"];
@@ -88,7 +88,7 @@ foreach ($objUserTempCart as $UserTempCart) {
 
     if (!$strOtherData['isInStock']) {
         $objORM->DataUpdate($SCondition, " Enabled = $Disabled", TableIWAPIProducts);
-        $objORM->DeleteRow(" ProductId = '$UserTempCart->ProductId' and ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
+        $objORM->DeleteRow(" ProductId = '$UserTempCart->ProductId' and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
         continue;
     }
 
@@ -107,7 +107,7 @@ foreach ($objUserTempCart as $UserTempCart) {
         $strSize .= '<option ' . $strSelected . '  value="' . $Size . '">' . $Size . '</option>';
     }
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -129,17 +129,17 @@ foreach ($objUserTempCart as $UserTempCart) {
 
     // Shipping part
 
-    $PWIdKey = $ListItem->WeightIdKey;
+    $PWIdKey = $ListItem->iw_product_weight_id;
 
     $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
-    $arrListProductShip[] = array('IdKey' => $ListItem->IdKey,
+    $arrListProductShip[] = array('IdKey' => $ListItem->id,
         'MainPrice' => $ListItem->MainPrice,
         'ValueWeight' => $objShippingTools->FindItemWeight($ListItem));
 
 
     $strProductsFactor .= '<tr>';
     $strProductsFactor .= '<td class="product-name">';
-    $strProductsFactor .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsFactor .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsFactor .= $ListItem->Name;
     $strProductsFactor .= '</a></td>';
     $strProductsFactor .= '<td class="product-total" style="margin:5px; padding:5px; text-align: center; ">';

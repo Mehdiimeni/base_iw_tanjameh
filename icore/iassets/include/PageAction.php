@@ -11,33 +11,32 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'logout') 
 
         $objTimeTools = new TimeTools();
         $Online = false;
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
 
-        $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        $now_modify = date("Y-m-d H:i:s");
+
         if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->type == 'adm') {
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
         } else {
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
         }
         $InSet = "";
-        $InSet .= " Online = '$Online' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-        $InSet .= " ModifyId = '$ModifyId' ";
+        $InSet .= " Online = $Online ,";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        $InSet .= " modify_id = $ModifyId ";
+        
 
         if (@$_REQUEST['type'] == 'usr') {
+            $InSet .= ", iw_user_id = $ModifyId ";
             $objORM->DataAdd($InSet, TableIWUserObserver);
             $FOpen = fopen(IW_REPOSITORY_FROM_PANEL . 'log/login/user/' . $ModifyId . '.iw', 'a+');
         } else {
+            $InSet .= ", iw_admin_id = $ModifyId ";
             $objORM->DataAdd($InSet, TableIWAdminObserver);
             $FOpen = fopen(IW_REPOSITORY_FROM_PANEL . 'log/login/admin/' . $ModifyId . '.iw', 'a+');
         }
 
-        fwrite($FOpen, "$ModifyId==::==$ModifyStrTime==::==out\n");
+        fwrite($FOpen, "$ModifyId==::==$now_modify==::==out\n");
         fclose($FOpen);
 
         (new IPTools(IW_DEFINE_FROM_PANEL))->Destroyer();
@@ -47,10 +46,10 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'logout') 
 
         if (@$_REQUEST['type'] == 'adm') {
 
-            $objGlobalVar->setCookieVarUserNull('_IWAdminIdKey');
+            $objGlobalVar->setCookieVarUserNull('_IWAdminId');
 
         } else {
-            $objGlobalVar->setCookieVarUserNull('_IWUserIdKey');
+            $objGlobalVar->setCookieVarUserNull('_IWUserId');
         }
 
         JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
@@ -63,8 +62,7 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'logout') 
 // Inactive
 if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'inactive') {
     if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->q == 'y') {
-        $IdKey = $objGlobalVar->RefFormGet()[0];
-        $UCondition = " IdKey='$IdKey'  ";
+        $UCondition = "id=".$objGlobalVar->RefFormGet()[0];
         $USet = " Enabled = 0  ";
         $objORM->DataUpdate($UCondition, $USet, $objGlobalVar->RefFormGet()[1]);
         $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
@@ -79,8 +77,7 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'inactive'
 // Active
 if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'active') {
     if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->q == 'y') {
-        $IdKey = $objGlobalVar->RefFormGet()[0];
-        $UCondition = " IdKey='$IdKey'  ";
+        $UCondition = "id=".$objGlobalVar->RefFormGet()[0];
         $USet = " Enabled = 1  ";
         $objORM->DataUpdate($UCondition, $USet, $objGlobalVar->RefFormGet()[1]);
         $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
@@ -94,8 +91,7 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'active') 
 // Delete
 if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'del') {
     if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->q == 'y') {
-        $IdKey = $objGlobalVar->RefFormGet()[0];
-        $DCondition = " IdKey = '$IdKey'  ";
+        $DCondition = "id=".$objGlobalVar->RefFormGet()[0];
         $objORM->DeleteRow($DCondition, $objGlobalVar->RefFormGet()[1]);
         $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
         JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('act', 'q')));
@@ -158,18 +154,16 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'activeapi
 
 if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'reverse') {
     if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->q == 'y') {
-        $IdKey = $objGlobalVar->RefFormGet()[0];
-
-        $SCondition = "IdKey='$IdKey'";
+    
+        $SCondition = "id=".$objGlobalVar->RefFormGet()[0];
         $currentStateValue = $objORM->Fetch($SCondition, 'ChkState', $objGlobalVar->RefFormGet()[1])->ChkState;
 
         $currentStateKey = array_search($currentStateValue, ARR_PRODUCT_SHOP_STATE);
-        if($currentStateKey != 0 )
-        {
+        if ($currentStateKey != 0) {
             $newStateKey = $currentStateKey - 1;
             $newStateValue = ARR_PRODUCT_SHOP_STATE[$newStateKey];
 
-            $UCondition = " IdKey='$IdKey'  ";
+            $UCondition = "id=".$objGlobalVar->RefFormGet()[0];
             $USet = " ChkState = '$newStateValue'  ";
             $objORM->DataUpdate($UCondition, $USet, $objGlobalVar->RefFormGet()[1]);
         }
@@ -188,14 +182,12 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'reverse')
 
 if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'reverse_basket') {
     if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->q == 'y') {
-        $IdKey = $objGlobalVar->RefFormGet()[0];
 
-        $SCondition = "IdKey='$IdKey'";
+        $SCondition = "id=".$objGlobalVar->RefFormGet()[0];
         $objCurrentState = $objORM->Fetch($SCondition, 'ChkState,BasketIdKey', $objGlobalVar->RefFormGet()[1]);
 
         $currentStateKey = array_search($objCurrentState->ChkState, ARR_PRODUCT_SHOP_STATE);
-        if($currentStateKey != 0 )
-        {
+        if ($currentStateKey != 0) {
             $newStateKey = $currentStateKey - 1;
             $newStateValue = ARR_PRODUCT_SHOP_STATE[$newStateKey];
 
@@ -213,4 +205,3 @@ if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->act == 'reverse_b
     $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
     JavaTools::JsConfirm(FA_LC["reverse_tip"], $objGlobalVar->setGetVar('q', 'y'), $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('act', 'q')));
 }
-

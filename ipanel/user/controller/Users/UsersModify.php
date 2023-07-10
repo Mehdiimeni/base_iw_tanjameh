@@ -26,10 +26,10 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 
 //Group Name
 $strGroupIdKey = '';
-$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = " Enabled = '$Enabled' and ModifyId = '$ModifyId' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey,ApiId', TableIWUserGroup) as $ListItem) {
-    $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '::==::'.$ListItem->ApiId.'">' . $ListItem->Name . '</option>';
+$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = " Enabled = $Enabled and modify_id = $ModifyId ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id,ApiId', TableIWUserGroup) as $ListItem) {
+    $strGroupIdKey .= '<option value="' . $ListItem->id . '::==::'.$ListItem->ApiId.'">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -85,14 +85,14 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
             // Guid fro api odata
             $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
@@ -105,8 +105,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $ApiId = $arrApiId['Id'];
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Name = '$Name' ,";
             $InSet .= " Email = '$Email' ,";
             $InSet .= " Image = '$FileNewName' ,";
@@ -115,11 +115,11 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " Password = '$PasswordL' ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId', ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId, ";
             $InSet .= " ApiId = '$ApiId', ";
             $InSet .= " GroupApiId = '$GroupApiId', ";
             $InSet .= " NationalCode = '$NationalCode' ";
@@ -145,20 +145,20 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $objAclTools = new ACLTools();
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, '*', TableIWUser);
     $trueUsername = $objAclTools->de2Base64($objEditView->Username);
 
     //Group Name
     $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey,SuperUser', TableIWUserGroup);
-    $strGroupIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id,SuperUser', TableIWUserGroup);
+    $strGroupIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     if (@$strGroupIdKey->SuperUser )
         $strSuper = 1;
 
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey,ApiId', TableIWUserGroup) as $ListItem) {
-        $strGroupIdKey .= '<option value="' . $ListItem->IdKey . '::==::'.$ListItem->ApiId.'">' . $ListItem->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id,ApiId', TableIWUserGroup) as $ListItem) {
+        $strGroupIdKey .= '<option value="' . $ListItem->id . '::==::'.$ListItem->ApiId.'">' . $ListItem->Name . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {
@@ -208,7 +208,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $UsernameL = $objAclTools->en2Base64($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Username, 1);
             $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
-            $SCondition = "( Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' ) and GroupIdKey = '$GroupIdKey' and IdKey != '$IdKey'  ";
+            $SCondition = "( Name = '$Name' OR Username = '$UsernameL' OR Email = '$Email' ) and GroupIdKey = '$GroupIdKey' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWUser)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -217,13 +217,13 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             } else {
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " Name = '$Name' ,";
                 $USet .= " Email = '$Email' ,";
@@ -232,11 +232,11 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " UserName = '$UsernameL' ,";
                 $USet .= " Password = '$PasswordL' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId', ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId, ";
                 $USet .= " NationalCode = '$NationalCode' ";
 
                 if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null) {

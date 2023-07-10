@@ -5,9 +5,9 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $objGlobalVar = new GlobalVarTools();
 $Enabled = true;
-$UserIdKey = $_GET['IdKey'];
+$UserId = $_GET['IdKey'];
 
-$SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+$SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, '*', TableIWUser);
 
 
@@ -52,7 +52,7 @@ $pdf->SetFont('dejavusans', '', 12);
 
 //Addresses
 
-$SCondition = " Enabled = '$Enabled' and UserIdKey = '$UserIdKey' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled and UserId = '$UserId' ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, '*', TableIWUserAddress) as $ListItem) {
 
     $strAdresses = '';

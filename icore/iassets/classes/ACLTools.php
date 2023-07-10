@@ -18,8 +18,8 @@ class ACLTools extends GlobalVarTools
     {
         if ($UserType == 'admin') {
 
-            if (@$this->jsonCookieVars->_IWAdminIdKey != null) {
-                parent::setSessionVar('_IWAdminIdKey', parent::de2Base64($this->jsonCookieVars->_IWAdminIdKey));
+            if (@$this->jsonCookieVars->_IWAdminId != null) {
+                parent::setSessionVar('_IWAdminId', parent::de2Base64($this->jsonCookieVars->_IWAdminId));
                 return true;
 
             } else {
@@ -30,8 +30,8 @@ class ACLTools extends GlobalVarTools
 
         if ($UserType == 'user') {
 
-            if (@$this->jsonCookieVars->_IWUserIdKey != null) {
-                parent::setSessionVar('_IWUserIdKey', parent::de2Base64($this->jsonCookieVars->_IWUserIdKey));
+            if (@$this->jsonCookieVars->_IWUserId != null) {
+                parent::setSessionVar('_IWUserId', parent::de2Base64($this->jsonCookieVars->_IWUserId));
                 return true;
 
             } else {

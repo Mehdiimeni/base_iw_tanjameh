@@ -10,16 +10,16 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['gender'])) {
     $gender = strtolower($_POST['gender']);
 
-    $gender_id_key = @$objORM->Fetch("Enabled = 1 and Name = '$gender'", "IdKey", TableIWNewMenu)->IdKey;
+    $gender_id_key = @$objORM->Fetch("Enabled = 1 and Name = '$gender'", "id", TableIWNewMenu)->IdKey;
 
     if (isset($_POST['category'])) {
         $category = $_POST['category'];
         $condition = " Enabled = 1 and Name = '$category' ";
 
         if ($objORM->DataExist($condition, TableIWNewMenu2,'id')) {
-            $GroupIdKey = @$objORM->Fetch($condition, "IdKey", TableIWNewMenu2)->IdKey;
+            $iw_new_menu_2_id = @$objORM->Fetch($condition, "id", TableIWNewMenu2)->id;
 
-            $condition = "Enabled = 1 and GroupIdKey = '$GroupIdKey' and NewMenuId = '$gender_id_key' ";
+            $condition = "Enabled = 1 and iw_new_menu_2_id = $iw_new_menu_2_id  ";
             if ($objORM->DataExist($condition, TableIWNewMenu3)) {
                 echo @$objORM->FetchJson(TableIWNewMenu3, $condition, 'Name,LocalName,CatId');
             } else {

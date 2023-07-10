@@ -18,10 +18,10 @@ $intTotalPrice = 0;
 $arrAddToCart = '';
 
 //isset($_COOKIE["addtocart"]) ? $arrAddToCart = json_decode($_COOKIE["addtocart"]) : $arrAddToCart = array();
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-$SCondition = "  ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' ) and ProductId != ''  ";
+$SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and ProductId != ''  ";
 $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart);
 /*
@@ -46,12 +46,12 @@ foreach ($objUserTempCart as $UserTempCart) {
     }
 */
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserTempCart->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$UserTempCart->ProductId' ";
 
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-   /* if (!isset($ListItem->IdKey)) {
+   /* if (!isset($ListItem->id)) {
         if (($key = array_search($productIdBasket, $arrAddToCart)) !== false) {
             unset($arrAddToCart[$key]);
         }
@@ -61,7 +61,7 @@ foreach ($objUserTempCart as $UserTempCart) {
 */
 
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
 
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
@@ -92,12 +92,12 @@ foreach ($objUserTempCart as $UserTempCart) {
     $objArrayImage = array_values($objArrayImage);
 
     $strProductsCart .= '<div class="products-cart"><div class="products-image">';
-    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsCart .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 120, 'class="main-image"');
     $strProductsCart .= '</a></div>';
     $strProductsCart .= '<div class="products-content">';
     $strProductsCart .= '<h3>';
-    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsCart .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsCart .= $ListItem->Name . '</a></h3>';
     $strProductsCart .= '<div class="products-price">';
     $strProductsCart .= $CarentCurrencyPrice;
@@ -118,7 +118,7 @@ if (isset($_COOKIE["quickview"])) {
 
     if ($ProductId != '') {
 
-        $SCondition = "Enabled = '$Enabled' AND  ProductId = $ProductId ";
+        $SCondition = "Enabled = $Enabled AND  ProductId = $ProductId ";
 
         $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
         if (@$ListItem->Content != '') {
@@ -145,18 +145,18 @@ foreach ($arrWishlist as $productIdBasket) {
     }
 
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$productIdBasket' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$productIdBasket' ";
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    if (!isset($ListItem->IdKey)) {
+    if (!isset($ListItem->id)) {
         if (($key = array_search($productIdBasket, $arrWishlist)) !== false) {
             unset($arrWishlist[$key]);
         }
         continue;
     }
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
 
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -182,12 +182,12 @@ foreach ($arrWishlist as $productIdBasket) {
     $objArrayImage = array_values($objArrayImage);
 
     $strProductsWishlist .= '<div class="products-cart"><div class="products-image">';
-    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsWishlist .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 120, 'class="main-image"');
     $strProductsWishlist .= '</a></div>';
     $strProductsWishlist .= '<div class="products-content">';
     $strProductsWishlist .= '<h3>';
-    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsWishlist .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsWishlist .= $ListItem->Name . '</a></h3>';
     $strProductsWishlist .= '<div class="products-price">';
     $strProductsWishlist .= $CarentCurrencyPrice;

@@ -6,15 +6,15 @@ include IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
 
 $Enabled = true;
 
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 
 $strMenu = '';
 $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
 $objGlobalVar->setGetVarNull();
 $arrLinkMenu = array('ln' => @$strGlobalVarLanguage, 'part' => '', 'page' => '');
-foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'PartName,id,Name,FaIcon', TableIWPanelUserPart) as $ListItem) {
 
-    if (!array_key_exists($ListItem->IdKey, $arrAccess))
+    if (!array_key_exists($ListItem->id, $arrAccess))
         continue;
 
     $arrLinkMenu['part'] = $ListItem->Name;
@@ -22,10 +22,10 @@ foreach ($objORM->FetchAll($SCondition, 'PartName,IdKey,Name,FaIcon', TableIWPan
     $strMenu .= $ListItem->PartName;
     $strMenu .= '<span class="fa fa-chevron-down"></span></a>';
     $strMenu .= '<ul class="nav child_menu">';
-    $SCondition = " Enabled = '$Enabled' AND PartIdKey = '$ListItem->IdKey'  ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'PageName,Name,IdKey', TableIWPanelUserPage) as $ListItem2) {
+    $SCondition = " Enabled = $Enabled AND iw_panel_user_part_id = $ListItem->id  ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'PageName,Name,id', TableIWPanelUserPage) as $ListItem2) {
 
-        if (array_search($ListItem2->IdKey, $arrAccess[$ListItem->IdKey]) < 0)
+        if (array_search($ListItem2->id, $arrAccess[$ListItem->id]) < 0)
             continue;
         $arrLinkMenu['page'] = $ListItem2->Name;
         $strLinkMenu = '?ln=' . $arrLinkMenu['ln'] . '&part=' . $arrLinkMenu['part'] . '&page=' . $arrLinkMenu['page'];

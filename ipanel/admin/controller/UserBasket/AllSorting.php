@@ -33,18 +33,18 @@ if (isset($_POST['SubmitF'])) {
         $SCondition .= " Size = '$Size' and ";
 }
 
-$SCondition .= " ChkState = 'bought'  order by IdRow DESC limit " . $getStart . " , " . $getEnd;
+$SCondition .= " ChkState = 'bought'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'IdRow,UserIdKey,ProductId,ProductCode,OrderNu,Size,SortingNu,Count,ModifyIP,ProductSizeId,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,UserId,ProductId,ProductCode,OrderNu,Size,SortingNu,Count,ModifyIP,ProductSizeId,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $objUser = @$objORM->Fetch($SCondition, 'Name,IdRow', TableIWUser);
-    $ListItem->UserIdKey = $objUser->Name;
-    $ListItem->IdRow = $objUser->IdRow;
+    $SCondition = "id = '$ListItem->UserId'";
+    $objUser = @$objORM->Fetch($SCondition, 'Name,id', TableIWUser);
+    $ListItem->UserId = $objUser->Name;
+    $ListItem->id = $objUser->id;
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$ListItem->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem->ProductId' ";
 
     $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
@@ -80,7 +80,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,UserIdKey,ProductId,ProductCode,O
     $strSizeSelect = $ListItem->Size;
     $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
 
-    $ListItem->SortingNu = '<input type="text" class="sorting_number"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->SortingNu . '">';
+    $ListItem->SortingNu = '<input type="text" class="sorting_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->SortingNu . '">';
 
 
     if ($ListItem->Enabled == false) {
@@ -90,7 +90,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,UserIdKey,ProductId,ProductCode,O
     }
 
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }
 
 

@@ -5,7 +5,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"],FA_LC["sender"], FA_LC["subject"],FA_LC["view"], FA_LC["submit_time"], FA_LC["submit_date"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["sender"], FA_LC["subject"],FA_LC["view"], FA_LC["submit_time"], FA_LC["submit_date"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -14,10 +14,10 @@ $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
 $SCondition = " SetPart = 'user'";
-foreach ($objORM->FetchAll($SCondition,'IdKey,SenderIdKey,TicketSubject,SetView,ModifyTime,ModifyDate,Enabled,IdRow', TableIWTicket) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition,'IdKey,SenderIdKey,TicketSubject,SetView,ModifyTime,ModifyDate,Enabled,id', TableIWTicket) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->SenderIdKey'";
+    $SCondition = "id = '$ListItem->SenderIdKey'";
     $ListItem->SenderIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
     if ($ListItem->Enabled == false) {
@@ -30,20 +30,20 @@ foreach ($objORM->FetchAll($SCondition,'IdKey,SenderIdKey,TicketSubject,SetView,
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 6, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWTicket, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 6, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWTicket, 0));
 }
 
 

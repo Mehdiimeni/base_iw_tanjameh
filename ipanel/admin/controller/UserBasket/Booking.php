@@ -11,19 +11,19 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 $Enabled = true;
 $ToolsIcons[] = $arrToolsIcon["reverse_basket"];
 
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"], FA_LC["date"], FA_LC["address_label"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"], FA_LC["date"], FA_LC["address_label"]), FA_LC["tools"]);
 
 
 $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
-$SCondition = " Enabled != 0 and (ChkState = 'packing' ) group by PackingNu  order by IdRow DESC limit " . $getStart . " , " . $getEnd;
-foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,PackingNu,PackWeight,TrackingNu,ModifyDate,ModifyTime,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+$SCondition = " Enabled != 0 and (ChkState = 'packing' ) group by PackingNu  order by id DESC limit " . $getStart . " , " . $getEnd;
+foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,PackingNu,PackWeight,TrackingNu,ModifyDate,ModifyTime,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     $ListItem->TrackingNu = '<input type="text" dir="ltr" class="tracking_number"  size="16" id="' . $ListItem->PackingNu . '" value="' . $ListItem->TrackingNu . '">';
@@ -37,7 +37,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,PackingNu,PackWei
     }
 
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }
 
 

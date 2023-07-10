@@ -24,33 +24,33 @@ $objInitTools = new InitTools($objFileToolsInit->KeyValueFileReader(), IW_REPOSI
 if (isset($_GET['mainname']) and isset($_GET['mainidkey'])) {
     $IdKey = @$_GET['mainidkey'];
     $LocalName = @$_GET['mainname'];
-    $objORM->DataUpdate(" IdKey = '$IdKey'" , "  LocalName = '$LocalName'  ", TableIWWebMainMenu);
+    $objORM->DataUpdate(" id = $IdKey" , "  LocalName = '$LocalName'  ", TableIWWebMainMenu);
 }
 if (isset($_GET['subname']) and isset($_GET['subidkey'])) {
     $IdKey = @$_GET['subidkey'];
     $LocalName = @$_GET['subname'];
-    $objORM->DataUpdate(" IdKey = '$IdKey'" , "  LocalName = '$LocalName'  ", TableIWWebSubMenu);
+    $objORM->DataUpdate(" id = $IdKey" , "  LocalName = '$LocalName'  ", TableIWWebSubMenu);
 }
 if (isset($_GET['sub2name']) and isset($_GET['sub2idkey'])) {
     $IdKey = @$_GET['sub2idkey'];
     $LocalName = @$_GET['sub2name'];
-    $objORM->DataUpdate(" IdKey = '$IdKey'" , "  LocalName = '$LocalName'  ", TableIWWebSub2Menu);
+    $objORM->DataUpdate(" id = $IdKey" , "  LocalName = '$LocalName'  ", TableIWWebSub2Menu);
 }
 
 if (isset($_GET['sub4name']) and isset($_GET['sub4idkey'])) {
     $IdKey = @$_GET['sub4idkey'];
     $LocalName = @$_GET['sub4name'];
-    $objORM->DataUpdate(" IdKey = '$IdKey'" , "  LocalName = '$LocalName'  ", TableIWWebSub4Menu);
+    $objORM->DataUpdate(" id = $IdKey" , "  LocalName = '$LocalName'  ", TableIWWebSub4Menu);
 }
 /*
 // add weight to main
 if (isset($_GET['w_main']) and isset($_GET['main_name']) ) {
     $Weight = @$_GET['w_main'];
     $main_name = @$_GET['main_name'];
-    $WeightIdKey = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
 
-    if ($WeightIdKey != null) {
-        $objORM->DataUpdate("  Name = '$main_name'  ", " WeightIdKey = '$WeightIdKey'", TableIWWebMainMenu);
+    if ($iw_product_weight_id != null) {
+        $objORM->DataUpdate("  Name = '$main_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebMainMenu);
     }
 
 }
@@ -60,10 +60,10 @@ if (isset($_GET['w_main']) and isset($_GET['main_name']) ) {
 if (isset($_GET['w_sub']) and isset($_GET['sub_name']) ) {
     $Weight = @$_GET['w_sub'];
     $sub_name = $objGlobalVar->getUrlEncode(@$_GET['sub_name']);
-    $WeightIdKey = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
 
-    if ($WeightIdKey != null) {
-        $objORM->DataUpdate("  Name = '$sub_name'  ", " WeightIdKey = '$WeightIdKey'", TableIWWebSubMenu);
+    if ($iw_product_weight_id != null) {
+        $objORM->DataUpdate("  Name = '$sub_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebSubMenu);
     }
 
 }
@@ -72,10 +72,10 @@ if (isset($_GET['w_sub']) and isset($_GET['sub_name']) ) {
 if (isset($_GET['w_sub2']) and isset($_GET['sub2_name']) ) {
     $Weight = @$_GET['w_sub2'];
     $sub2_name = $objGlobalVar->getUrlEncode(@$_GET['sub2_name']);
-    $WeightIdKey = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
 
-    if ($WeightIdKey != null) {
-        $objORM->DataUpdate("  Name = '$sub2_name'  ", " WeightIdKey = '$WeightIdKey'", TableIWWebSub2Menu);
+    if ($iw_product_weight_id != null) {
+        $objORM->DataUpdate("  Name = '$sub2_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebSub2Menu);
     }
 
 }

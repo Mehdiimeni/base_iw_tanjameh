@@ -20,9 +20,9 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 //Admin Name
 $strAdminIdKey = '';
-$SCondition = " Enabled = '$Enabled' and CellNumber IS NOT NULL ORDER BY Name ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWAdmin) as $ListItem) {
-    $strAdminIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$SCondition = " Enabled = $Enabled and CellNumber IS NOT NULL ORDER BY Name ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdmin) as $ListItem) {
+    $strAdminIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -41,10 +41,10 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Email = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Email);
         if ($Email == null)
             $Email = 0;
-        $AdminIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->AdminIdKey);
+        $AdminId = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->AdminId);
 
         $Enabled = true;
-        $SCondition = "  AdminIdKey = '$AdminIdKey' ";
+        $SCondition = "  AdminId = '$AdminId' ";
 
         if ($objORM->DataExist($SCondition, TableIWAdminNotification)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -53,26 +53,26 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Sms = '$Sms' ,";
             $InSet .= " Email = '$Email' ,";
-            $InSet .= " AdminIdKey = '$AdminIdKey' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " AdminId = '$AdminId' ,";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWAdminNotification);
 
@@ -90,17 +90,17 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
-    $objEditView = $objORM->Fetch($SCondition, 'Sms,AdminIdKey,Email', TableIWAdminNotification);
+    $SCondition = "  id = $IdKey ";
+    $objEditView = $objORM->Fetch($SCondition, 'Sms,AdminId,Email', TableIWAdminNotification);
 
 
     //Admin Name
-    $SCondition = "  IdKey = '$objEditView->AdminIdKey' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWAdmin);
-    $strAdminIdKey = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' and CellNumber IS NOT NULL ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWAdmin) as $ListItem) {
-        $strAdminIdKey .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $SCondition = "  IdKey = '$objEditView->AdminId' ";
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWAdmin);
+    $strAdminIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled and CellNumber IS NOT NULL ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdmin) as $ListItem) {
+        $strAdminIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {
@@ -118,9 +118,9 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $Email = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Email);
             if ($Email == null)
                 $Email = 0;
-            $AdminIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->AdminIdKey);
+            $AdminId = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->AdminId);
 
-            $SCondition = " AdminIdKey = '$AdminIdKey' and IdKey != '$IdKey'  ";
+            $SCondition = " AdminId = '$AdminId' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWAdminNotification)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -130,22 +130,22 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " Sms = '$Sms' ,";
                 $USet .= " Email = '$Email' ,";
-                $USet .= " AdminIdKey = '$AdminIdKey' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " AdminId = '$AdminId' ,";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWAdminNotification);

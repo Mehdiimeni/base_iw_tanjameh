@@ -16,11 +16,11 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 $objReqular = new Regularization();
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 isset($_COOKIE["comparison"]) ? $arrComparison = json_decode($_COOKIE["comparison"]) : $arrComparison = array();
@@ -52,11 +52,11 @@ foreach ($arrComparison as $productIdBasket) {
 
     $intCounter++;
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$productIdBasket' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$productIdBasket' ";
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    if (!isset($ListItem->IdKey)) {
+    if (!isset($ListItem->id)) {
         if (($key = array_search($productIdBasket, $arrComparison)) !== false) {
             unset($arrComparison[$key]);
         }
@@ -142,12 +142,12 @@ foreach ($arrComparison as $productIdBasket) {
     $USet .= " Color = '$strColor', ";
     $USet .= " Size = '$strSize', ";
     $USet .= " SizeDis = '$strSizeDis', ";
-    $USet .= " ModifyIP = '$ModifyIP' ,";
-    $USet .= " ModifyTime = '$ModifyTime' ,";
-    $USet .= " ModifyDate = '$ModifyDate' ,";
-    $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
+    $USet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $USet .= " last_modify = '$now_modify' ,";
     $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-    $USet .= " ModifyId = '$ModifyId' ";
+    $USet .= " modify_id = $ModifyId ";
 
     if (isset($arrPath[3]))
         $USet .= ", PGroup = '$arrPath[3]' ";
@@ -163,7 +163,7 @@ foreach ($arrComparison as $productIdBasket) {
     $strOtherData = $objProductData;
 
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -188,7 +188,7 @@ foreach ($arrComparison as $productIdBasket) {
 
     $arrImages = explode('==::==', $ListItem->Content);
 
-    @$strLink[$intCounter] = '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    @$strLink[$intCounter] = '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
 
 
     @$strImageOne[$intCounter] = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), $arrImages[0], $ListItem->Name, 120, 'class="main-image"');

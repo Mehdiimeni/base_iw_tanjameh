@@ -15,23 +15,23 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
 
     //User info
 
-    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserIdKey;
-    $SCondition = "  IdKey = '$UserIdKey' ";
+    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserId;
+    $SCondition = "  IdKey = '$UserId' ";
     $objIWUser = $objORM->Fetch($SCondition, '*', TableIWUser);
 
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
-    $ResNum = $UserIdKey.date("YmdHis") . rand(11, 99);
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
+    $ResNum = $UserId.date("YmdHis") . rand(11, 99);
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
     $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 
 
-    $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserIdKey;
+    $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserId;
 
-    if ($UserIdKey == '') {
+    if ($UserId == '') {
 
         JavaTools::JsTimeRefresh(0, './');
 

@@ -13,7 +13,14 @@ function group_product_details($cat_id, $page_condition)
 {
     $objIAPI = set_server();
 
-    $filds = array('cat_id' => $cat_id, 'page_condition' => $page_condition, 'MainUrl' => $objIAPI->MainUrl, 'LocalName' => $objIAPI->LocalName);
+    $filds = array(
+        'cat_id' => $cat_id,
+         'page_condition' => $page_condition,
+          'MainUrl' => $objIAPI->MainUrl, 
+          'LocalName' => $objIAPI->LocalName,
+          'currencies_conversion_id' => get_currency()
+        );
+
     return json_decode($objIAPI->GetPostApi('product/group_product_details', $filds));
 }
 
@@ -35,8 +42,11 @@ function group_product_paging($limit, $total, $actual_link)
 
     $offset = ($page - 1) * $limit;
 
+ 
+
     $start = $offset + 1;
     $end = min(($offset + $limit), $total);
+
 
     // The "back" link
     $prevlink = ($page > 1) ? '<li class="page-item "> <a href="'.$actual_link.'&page=1" class="page-link border-0 bg-white text-body-tertiary"><i class="fa-solid fa-chevron-right"></i></a></li>

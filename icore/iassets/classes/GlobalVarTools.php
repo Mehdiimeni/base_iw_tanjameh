@@ -81,7 +81,7 @@ class GlobalVarTools extends Regularization
 
     public function setCookieVar($name, $value)
     {
-        if ($name == '_IWAdminIdKey'){
+        if ($name == '_IWAdminId'){
             setcookie($name, $value, time() + 86400 , '/');
         }else{
             setcookie($name, $value, time() + 3600, '/');

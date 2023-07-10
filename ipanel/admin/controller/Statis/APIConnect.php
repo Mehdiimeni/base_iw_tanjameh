@@ -14,10 +14,10 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('CompanyIdKey,Count,ExpireDate,Enabled,IdRow', TableIWAPIAllConnect) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('CompanyIdKey,Count,ExpireDate,Enabled,id', TableIWAPIAllConnect) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->CompanyIdKey'";
+    $SCondition = "id = '$ListItem->CompanyIdKey'";
     $ListItem->CompanyIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
 
     if ($ListItem->Enabled == false) {
@@ -30,16 +30,16 @@ foreach ($objORM->FetchAllWhitoutCondition('CompanyIdKey,Count,ExpireDate,Enable
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }

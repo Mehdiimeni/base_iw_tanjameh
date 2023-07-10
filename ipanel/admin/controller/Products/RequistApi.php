@@ -9,10 +9,10 @@ $objAclTools = new ACLTools();
 
 $objTimeTools = new TimeTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
-$ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
+$now_modify = date("Y-m-d H:i:s");
 
 $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -30,9 +30,9 @@ switch (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) 
 
 //Menu Name
 $strNewMenuId = '<option value="" selected></option>';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey,LocalName', TableIWNewMenu) as $ListItem) {
-    $strNewMenuId .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->LocalName . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id,LocalName', TableIWNewMenu) as $ListItem) {
+    $strNewMenuId .= '<option value="' . $ListItem->id . '">' . $ListItem->LocalName . '</option>';
 }
 
 
@@ -72,9 +72,9 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         // cal weight
         if ($Weight != '') {
             $SCondition = "Weight = '$Weight'";
-            $WeightIdKey = @$objORM->Fetch($SCondition, 'IdKey', TableIWWebWeightPrice)->IdKey;
+            $iw_product_weight_id = @$objORM->Fetch($SCondition, 'IdKey', TableIWWebWeightPrice)->IdKey;
         } else {
-            $WeightIdKey = '';
+            $iw_product_weight_id = '';
         }
 
 
@@ -84,14 +84,14 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
             $InSet = "";
             $InSet .= " IdKey = '$Sub4IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Name = '$ArrName' ,";
-            $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+            $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " CatId = '$CatId' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime', ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify', ";
             $InSet .= " ModifyId = '' ";
 
             $objORM->DataAdd($InSet, TableIWWebSub4Menu);
@@ -103,29 +103,29 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         if (!$objORM->DataExist($SCondition, TableIWNewMenu3) and $NewMenu2Id == null) {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " NewMenuId = '$NewMenuId' ,";
             $InSet .= " Name = '$ArrName' ,";
             $InSet .= " CatId = '$CatId' ,";
-            $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+            $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " LocalName = '$LocalName' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWNewMenu3);
 
@@ -146,31 +146,31 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " GroupIdKey = '$GroupIdKey' ,";
             $InSet .= " NewMenuId = '$NewMenuId' ,";
             $InSet .= " NewMenu2Id = '$NewMenu2Id' ,";
             $InSet .= " Name = '$ArrName' ,";
             $InSet .= " CatId = '$CatId' ,";
             $InSet .= " AttributeId = '$Attribute' ,";
-            $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+            $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " LocalName = '$LocalName' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWNewMenu4);
 
@@ -191,10 +191,10 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $objAclTools = new ACLTools();
         $objTimeTools = new TimeTools();
 
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
-        $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        
+        
+        $now_modify = date("Y-m-d H:i:s");
 
         $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -205,7 +205,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 // API Count and Connect
         $objAsos = new AsosConnections();
 
-        /*  foreach ($objORM->FetchLimit("Enabled = $Enabled and CatId = $CatId and Content IS NOT NULL  ", '*', 'IdRow DESC', '0,1', TableIWAPIAllProducts) as $ListProducts) {
+        /*  foreach ($objORM->FetchLimit("Enabled = $Enabled and CatId = $CatId and Content IS NOT NULL  ", '*', 'id DESC', '0,1', TableIWAPIAllProducts) as $ListProducts) {
 
               $UCondition = " IdKey = '$ListProducts->IdKey' ";
               $USet = " SetProductChange = 1 ";
@@ -272,24 +272,24 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $USet .= " ModifyDateP = '$ModifyDate' ,";
                 $USet .= " BrandName = '$BrandName' ,";
                 $USet .= " TypeSet = '$TypeSet' ,";
-                $USet .= " WeightIdKey = '$WeightIdKey' ,";
+                $USet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
                 $USet .= " Attribute = '$ArrName'  ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ";
 
                 $objORM->DataUpdate("   ProductId = '$ProductId'   ", $USet, TableIWAPIProducts);
 
             } else {
 
 
-                $IdKey = $objAclTools->IdKey();
+                
 
 
                 $InSet = "";
-                $InSet .= " IdKey = '$IdKey' ,";
-                $InSet .= " Enabled = '$Enabled' ,";
+                
+                $InSet .= " Enabled = $Enabled ,";
                 $InSet .= " ProductId = '$ProductId' ,";
                 $InSet .= " Name = '$ProductName' ,";
                 $InSet .= " ApiContent = '$ApiContent' ,";
@@ -305,12 +305,12 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $InSet .= " CompanyIdKey = '4a897b83' ,";
                 $InSet .= " BrandName = '$BrandName' ,";
                 $InSet .= " TypeSet = '$TypeSet' ,";
-                $InSet .= " WeightIdKey = '$WeightIdKey' ,";
+                $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
                 $InSet .= " Attribute = '$ArrName'  ,";
-                $InSet .= " ModifyIP = '$ModifyIP' ,";
-                $InSet .= " ModifyTime = '$ModifyTime' ,";
-                $InSet .= " ModifyDate = '$ModifyDate' ,";
-                $InSet .= " ModifyStrTime = '$ModifyStrTime', ";
+                $InSet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $InSet .= " last_modify = '$now_modify', ";
                 $InSet .= " ModifyId = ' ' ";
                 $objORM->DataAdd($InSet, TableIWAPIProducts);
 
@@ -425,11 +425,11 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                         $USet .= " CatId = concat_ws(',',CatId,'" . $CatId . "') ,";
                         $USet .= " BrandName = '$BrandName' ,";
                         $USet .= " TypeSet = '$TypeSet' ,";
-                        $USet .= " ModifyIP = '$ModifyIP' ,";
-                        $USet .= " ModifyTime = '$ModifyTime' ,";
-                        $USet .= " ModifyDate = '$ModifyDate' ,";
+                        $USet .= " modify_ip = '$modify_ip' ,";
+                        
+                        
                         $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-                        $USet .= " ModifyStrTime = '$ModifyStrTime'";
+                        $USet .= " last_modify = '$now_modify'";
                         $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
 

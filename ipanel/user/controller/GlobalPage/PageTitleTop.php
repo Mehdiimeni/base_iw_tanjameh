@@ -18,10 +18,10 @@ $strPart = $objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->part;
 $strPage = $objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->page;
 $strModify = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify;
 
-$SCondition = "Name = '$strPart' and  Enabled = '$Enabled' ";
+$SCondition = "Name = '$strPart' and  Enabled = $Enabled ";
 $stdPart = $objORM->Fetch($SCondition, 'PartName', TableIWPanelUserPart);
 
-$SCondition = "Name = '$strPage' and  Enabled = '$Enabled' ";
+$SCondition = "Name = '$strPage' and  Enabled = $Enabled ";
 $stdPage = $objORM->Fetch($SCondition, 'PageName,TopModify', TableIWPanelUserPage);
 $blModify = $stdPage->TopModify;
 

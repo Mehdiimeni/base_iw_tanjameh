@@ -13,52 +13,55 @@
             <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
-                    <?php echo $AdminProfileImage; ?><?php echo $stdProfile->Name; ?>
+                    <?php echo $AdminProfileImage; ?><?php if (isset($stdProfile->Name))
+                           echo $stdProfile->Name; ?>
                     <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
 
                     <li><a title="<?php echo FA_LC["exit"]; ?>" href="<?php echo $objGlobalVar->setGetVar('type', 'adm');
-                       echo $objGlobalVar->setGetVar('act', 'logout'); ?>"><i
-                                class="fa fa-sign-out pull-right"></i>
+                       echo $objGlobalVar->setGetVar('act', 'logout'); ?>"><i class="fa fa-sign-out pull-right"></i>
                             <?php echo FA_LC['exit']; ?>
                         </a></li>
 
                 </ul>
             </li>
+            <?php if (isset($intCountAllTicket)) { ?>
+                <li role="presentation" class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="badge bg-green">
+                            <?php echo $intCountAllTicket; ?>
+                        </span>
+                    </a>
+                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
 
-            <li role="presentation" class="dropdown">
-                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">
-                        <?php echo $intCountAllTicket; ?>
-                    </span>
-                </a>
-                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <?php echo $strNewTicket; ?>
+                        <li>
+                            <div class="text-center">
+                                <a href="?ln=&part=Ticket&page=UserTicket">
+                                    <strong>
+                                        <?php echo FA_LC["show_all"]; ?>
+                                    </strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
 
-                    <?php echo $strNewTicket; ?>
-                    <li>
-                        <div class="text-center">
-                            <a href="?ln=&part=Ticket&page=UserTicket">
-                                <strong>
-                                    <?php echo FA_LC["show_all"]; ?>
-                                </strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </div>
-                    </li>
+                    </ul>
+                </li>
+            <?php } ?>
+            <?php if (isset($intCountAllShop)) { ?>
+                <li>
+                    <a href="?ln=&part=UserBasket&page=AllBasket" class="dropdown-toggle info-number">
+                        <i class="fa fa-shopping-basket"></i>
+                        <span class="badge bg-green">
+                            <?php echo $intCountAllShop; ?>
+                        </span>
+                    </a>
 
-                </ul>
-            </li>
-            <li>
-                <a href="?ln=&part=UserBasket&page=AllBasket" class="dropdown-toggle info-number">
-                    <i class="fa fa-shopping-basket"></i>
-                    <span class="badge bg-green">
-                        <?php echo $intCountAllShop; ?>
-                    </span>
-                </a>
-
-            </li>
+                </li>
+            <?php } ?>
 
             <li>
                 <a href="?ln=" class="dropdown-toggle info-number">

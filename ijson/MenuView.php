@@ -26,7 +26,7 @@ if(isset($_GET['PGenderIdKey'])) {
     foreach ($objORM->FetchAll($SCondition, 'Name,LocalName,IdKey', TableIWWebSubMenu) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
-        echo '<option value="' . $ListItem->IdKey.'==::=='.$ListItem->Name .'" >' . $ListItem->LocalName . '</option>';
+        echo '<option value="' . $ListItem->id.'==::=='.$ListItem->Name .'" >' . $ListItem->LocalName . '</option>';
     }
 }
 
@@ -38,6 +38,6 @@ if(isset($_GET['PCategoryIdKey'])) {
     foreach ($objORM->FetchAll($SCondition, 'IdKey,LocalName,Name', TableIWWebSub2Menu) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
-        echo '<option value="' . $ListItem->IdKey.'==::=='.$ListItem->Name .'" >' . $ListItem->LocalName . '</option>';
+        echo '<option value="' . $ListItem->id.'==::=='.$ListItem->Name .'" >' . $ListItem->LocalName . '</option>';
     }
 }

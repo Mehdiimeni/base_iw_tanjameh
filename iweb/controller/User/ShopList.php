@@ -14,11 +14,11 @@ $objReqular = new Regularization();
 $objTimeTools = new TimeTools();
 $objAclTools = new ACLTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
@@ -28,10 +28,10 @@ $strProductsShop = '';
 // url
 $ActualPageLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-$SCondition = "   UserIdKey = '$UserIdKey' GROUP BY BasketIdKey ORDER BY IdRow DESC   ";
+$SCondition = "   UserId = '$UserId' GROUP BY BasketIdKey ORDER BY id DESC   ";
 $objUserBasket = $objORM->FetchAll($SCondition, '*', TableIWAUserMainCart);
 
 
@@ -47,7 +47,7 @@ foreach ($objUserBasket as $UserBasket) {
 
         $strSizeSelect = $UserMainCart->Size;
         $UserMainCart->Count != '' ? $intCountSelect = $UserMainCart->Count : $intCountSelect = 1;
-        $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserMainCart->ProductId' ";
+        $SCondition = "Enabled = $Enabled AND  ProductId = '$UserMainCart->ProductId' ";
 
         $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
@@ -83,10 +83,10 @@ foreach ($objUserBasket as $UserBasket) {
 
 
         $strProductsShop .= '<tr><td class="product-thumbnail">';
-        $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+        $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
         $strProductsShop .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 120, 'class="main-image"');
         $strProductsShop .= '</a></td><td class="product-name">';
-        $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+        $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
         $strProductsShop .= $ListItem->Name;
         $strProductsShop .= '</a><ul>';
         $strProductsShop .= '<li>' . FA_LC["color"] . ': <span>' . $ListItem->Color . '</span></li>';

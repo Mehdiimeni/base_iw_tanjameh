@@ -12,17 +12,17 @@ if (isset($_POST['item'])) {
 
     $item = $_POST['item'];
 
-    $condition = "IdRow = '$item' and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
+    $condition = "id = '$item' and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
 
-    if ($objORM->DataExist($condition, TableIWAPIProducts)) {
+    if ($objORM->DataExist($condition, TableIWAPIProducts,'id')) {
 
         // view count
         $USet = "PView = PView + 1";
-        $objORM->DataUpdate($condition, $USet, TableIWAPIProducts);
+        $objORM->DataUpdate("iw_api_products_id = '$item'", $USet, TableIWApiProductStatus);
 
 
         $obj_product = @$objORM->Fetch($condition, "
-        IdRow,
+        id,
         ProductId,
         ProductCode,
         Name,
@@ -30,12 +30,10 @@ if (isset($_POST['item'])) {
         url_category,
         url_group,
         Content,
-        PView,
-        PScore,
         ImageSet,
         MainPrice,
         LastPrice,
-        WeightIdKey,
+        iw_product_weight_id,
         CatIds,
         NoWeightValue,
         Color,
@@ -170,7 +168,7 @@ if (isset($_POST['item'])) {
                 }
 
 
-                $product_condition = "IdRow = $obj_product->IdRow";
+                $product_condition = "id = $obj_product->id";
                 $str_change = " ProductCode='$ProductCode',
                                 Name='$Name',
                                 Url='$Url',
@@ -225,7 +223,7 @@ if (isset($_POST['item'])) {
                                    price_previous= $price_previous,
                                    isProp65Risk=$isProp65Risk,
                                    last_modify = '$now_modify',
-                                   iw_api_products_id = $obj_product->IdRow ";
+                                   iw_api_products_id = $obj_product->id ";
 
                     $variant_condition = "product_id= $product_id";
 
@@ -268,7 +266,7 @@ if (isset($_POST['item'])) {
 
 
         $strPricingPart = '';
-        $SArgument = "'$obj_product->IdRow','c72cc40d','fea9f1bf'";
+        $SArgument = "'$obj_product->id','c72cc40d','fea9f1bf'";
         $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
         $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
         $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -316,7 +314,7 @@ if (isset($_POST['item'])) {
         // shipping price
 
         $strShippingPrice = '';
-        $PWIdKey = $obj_product->WeightIdKey;
+        $PWIdKey = $obj_product->iw_product_weight_id;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
 
@@ -334,7 +332,7 @@ if (isset($_POST['item'])) {
         $strShippingWeight = $objShippingTools->FindItemWeight($obj_product) . ' KG ';
 
 
-        $obj_product_page_url = "?gender=" . urlencode($obj_product->url_gender) . "&category=" . urlencode($obj_product->url_category) . "&group=" . urlencode($obj_product->url_group) . "&item=" . $obj_product->IdRow;
+        $obj_product_page_url = "?gender=" . urlencode($obj_product->url_gender) . "&category=" . urlencode($obj_product->url_category) . "&group=" . urlencode($obj_product->url_group) . "&item=" . $obj_product->id;
 
         $images_address = array();
         foreach ($objArrayImage as $image) {
@@ -351,7 +349,7 @@ if (isset($_POST['item'])) {
 
         //all size 
 
-        $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$obj_product->IdRow' ", 'displaySizeText,brandSize,colour,isInStock', TableIWApiProductVariants);
+        $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$obj_product->id' ", 'displaySizeText,brandSize,colour,isInStock', TableIWApiProductVariants);
 
         $arr_size = array();
         $arr_disabled_size = array();

@@ -20,6 +20,7 @@ function brand_product_details($brand,$id, $page_condition)
         'brand' => $brand,
         'id' => $id,
         'page_condition' => $page_condition,
+        'currencies_conversion_id' => get_currency()
     );
     return json_decode($objIAPI->GetPostApi('product/brand_product_details', $filds));
 }

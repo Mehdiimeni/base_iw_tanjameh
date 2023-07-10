@@ -11,7 +11,7 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
 $strRecent = '';
-$SCondition = "Enabled = '$Enabled' AND Content IS NOT NULL And AdminOk = 1 ";
+$SCondition = "Enabled = $Enabled AND Content IS NOT NULL And AdminOk = 1 ";
 if (@$_GET['Gender'] != '') {
     $PGender = $_GET['Gender'];
     $SCondition .= "  AND  PGender = '$PGender'  ";
@@ -32,7 +32,7 @@ foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PG
 
 
     $strPricingPart = '';
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -69,7 +69,7 @@ foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PG
     $objArrayImage = array_values($objArrayImage);
 
     $strRecent .= '<div class="col-lg-4 col-md-6 col-sm-6"><div class="single-products-box"><div class="products-image">';
-    $strRecent .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey  . '">';
+    $strRecent .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id  . '">';
     $strRecent .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 670, 'class="main-image"');
     $strRecent .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[1], $ListItem->Name, 670, 'class="hover-image"');
     $strRecent .= '</a><div class="products-button"><ul><li><div class="wishlist-btn">';
@@ -80,7 +80,7 @@ foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PG
     $strRecent .= '<i class="bx bx-refresh"></i><span class="tooltip-label">' . FA_LC['comparison'] . '</span></a></div></li>';
     $strRecent .= '</ul></div></div>';
     $strRecent .= '<div class="products-content">';
-    $strRecent .= '<h3><a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey  . '">' . $ListItem->Name . '</a></h3>';
+    $strRecent .= '<h3><a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id  . '">' . $ListItem->Name . '</a></h3>';
     $strRecent .= '<div class="price">' . $strPricingPart . '</div>';
     $strRecent .= '<a href="#"   data-basket="' . $ListItem->ProductId . '" class="add-to-cart">' . FA_LC['add_to_cart'] . '</a>';
     $strRecent .= '</div></div></div>';

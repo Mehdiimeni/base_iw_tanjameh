@@ -7,11 +7,11 @@ $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 
 // user profile
 $Enabled = true;
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
 
-$SCondition = "IdKey = '$stdProfile->GroupIdKey'";
+$SCondition = "id = '$stdProfile->GroupIdKey'";
 $strUserGroup = @$objORM->Fetch($SCondition, 'Name,ApiId,IdKey,SuperUser,SuperTrade', TableIWUserGroup);
 $strUserGroupName = @$strUserGroup->Name;
 

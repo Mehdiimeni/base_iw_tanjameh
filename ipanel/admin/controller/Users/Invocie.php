@@ -63,7 +63,7 @@ foreach ($objORM->FetchAll($SCondition, '*', TableIWAUserInvoice) as $UserInvoic
     $UserAddress = $objORM->Fetch($SCondition, 'NicName,Address,IdKey', TableIWUserAddress);
 
 
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserInvoice->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$UserInvoice->ProductId' ";
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
     $objArrayImage = explode('==::==', $ListItem->Content);
@@ -118,7 +118,7 @@ $strInvocie = '<table width="100%" border="0" cellspacing="1" cellpadding="1">
       <td width="35%" align="right"><table width="100%%" border="0" cellspacing="0" cellpadding="0">
         <tbody>
           <tr>
-            <td align="right"><span> ' . FA_LC["invocie"] . '</span> ' . $UserInvoice->IdRow . '</td>
+            <td align="right"><span> ' . FA_LC["invocie"] . '</span> ' . $UserInvoice->id . '</td>
           </tr>
           <tr>
             <td align="right">' . $UserInvoice->SetDate . '</td>

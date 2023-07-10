@@ -11,7 +11,7 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['id_row'])) {
 
     $id_row = $_POST['id_row'];
-    $condition = "IdRow = $id_row ";
+    $condition = "id = $id_row ";
 
     if ($objORM->DataExist($condition, ViewIWProductRand)) {
 

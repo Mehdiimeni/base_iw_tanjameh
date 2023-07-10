@@ -1,8 +1,6 @@
 <?php
 ///template/GlobalPage/MenuProfileQuickInfo.php
-?>
-<?php
-//MenuProfileQuickInfo.php
+if(isset($stdProfile->Name)){
 ?>
 <div class="profile clearfix">
     <div class="profile_pic">
@@ -14,3 +12,4 @@
         <h2><?php echo $stdProfile->Name; ?></h2>
     </div>
 </div>
+<?php } ?>

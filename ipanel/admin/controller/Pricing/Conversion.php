@@ -5,7 +5,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["currency1"], FA_LC["currency2"], FA_LC["rate"],FA_LC['last_update']), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["currency1"], FA_LC["currency2"], FA_LC["rate"],FA_LC['last_update']), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -13,14 +13,14 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('IdKey,CurrencyIdKey1,CurrencyIdKey2,Rate,ModifyDate,ModifyTime,ModifyId,Enabled,IdRow', TableIWACurrenciesConversion) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
 
     $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
 
-    $SCondition = "IdKey = '$ListItem->CurrencyIdKey1'";
+    $SCondition = "id = '$ListItem->CurrencyIdKey1'";
     $ListItem->CurrencyIdKey1 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
-    $SCondition = "IdKey = '$ListItem->CurrencyIdKey2'";
+    $SCondition = "id = '$ListItem->CurrencyIdKey2'";
     $ListItem->CurrencyIdKey2 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
     $ListItem->Rate = $objGlobalVar->NumberFormat($ListItem->Rate);
@@ -36,20 +36,20 @@ foreach ($objORM->FetchAllWhitoutCondition('IdKey,CurrencyIdKey1,CurrencyIdKey2,
 
         $ToolsIcons[4] = $arrToolsIcon["move"];
 
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->IdKey) {
+    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
         $ToolsIcons[4] = $arrToolsIcon["movein"];
         $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->IdRow);
+        $objGlobalVar->setGetVar('chin', $ListItem->id);
 
 
     } else {
 
         $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->IdRow . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
+        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWACurrenciesConversion, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWACurrenciesConversion, 0));
 }
 
 

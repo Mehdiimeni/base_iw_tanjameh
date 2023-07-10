@@ -19,5 +19,5 @@ $Enabled = true;
 
 $GroupIdKey = $_GET['group_id'];
 $SCondition = "GroupIdKey = '$GroupIdKey'";
-print_r($objGlobalVar->JsonEncode(@$objORM->FetchAll($SCondition, 'Name,IdKey', TableIWTrade)));
+print_r($objGlobalVar->JsonEncode(@$objORM->FetchAll($SCondition, 'Name,id', TableIWTrade)));
 

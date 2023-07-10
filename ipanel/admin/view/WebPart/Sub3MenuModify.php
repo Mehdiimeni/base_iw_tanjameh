@@ -139,7 +139,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="WeightIdKey" class="form-control" required="required">
+                                            <select name="iw_product_weight_id" class="form-control" required="required">
                                                 <?php echo $strWeightIdKey; ?>
                                             </select>
                                         </div>

@@ -9,7 +9,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"], FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"],FA_LC['attached_file'],FA_LC["date"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"],FA_LC['attached_file'],FA_LC["date"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -19,12 +19,12 @@ $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
-$SCondition = " Enabled != 0 and (ChkState = 'booking' or ChkState = 'dispatch' ) group by PackingNu  order by IdRow DESC limit " . $getStart . " , " . $getEnd;
-foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,UserIdKey,PackingNu,PackWeight,TrackingNu,CopFile,ModifyDate,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+$SCondition = " Enabled != 0 and (ChkState = 'booking' or ChkState = 'dispatch' ) group by PackingNu  order by id DESC limit " . $getStart . " , " . $getEnd;
+foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,PackingNu,PackWeight,TrackingNu,CopFile,ModifyDate,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     if ($ListItem->Enabled == false) {

@@ -23,7 +23,7 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 //WebSitePagesPart Name
 $strWebSitePart = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY id ";
+$SCondition = " Enabled = $Enabled ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'id,title,iw_website_pages_id', TableIWWebSitePagesPart) as $ListItem) {
     $page_title = $objORM->Fetch(" id = $ListItem->iw_website_pages_id ","title",TableIWWebSitePages)->title;
     $strWebSitePart .= '<option value="' . $ListItem->id . '">' .$page_title.' | '.$ListItem->title . '</option>';
@@ -54,13 +54,13 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
 
-            $IdKey = $objAclTools->IdKey();
-            $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            
+            $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
             $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " title = '$title' ,";
             $InSet .= " content = '$content' ,";
             $InSet .= " condition_statement = '$condition_statement' ,";
@@ -85,7 +85,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, '*', TableIWWebSiteSpAdver);
 
 
@@ -94,7 +94,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
     $Item = $objORM->Fetch($SCondition, 'title,id,iw_website_pages_id', TableIWWebSitePagesPart);
     $page_title = $objORM->Fetch(" id = $Item->iw_website_pages_id ","title",TableIWWebSitePages)->title;
     $strWebSitePart = '<option selected value="' . $Item->id . '">' .$page_title.' | '. $Item->title . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY id ";
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'title,id,iw_website_pages_id', TableIWWebSitePagesPart) as $ListItem) {
         $page_title = $objORM->Fetch(" id = $ListItem->iw_website_pages_id ","title",TableIWWebSitePages)->title;
         $strWebSitePart .= '<option value="' . $ListItem->id . '">' .$page_title.' | '. $ListItem->title . '</option>';
@@ -115,7 +115,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
             $bottom_link = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->bottom_link);
             $iw_website_pages_part_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_website_pages_part_id);
 
-            $SCondition = "( title = '$title' and iw_website_pages_part_id = '$iw_website_pages_part_id'  ) and IdKey != '$IdKey'  ";
+            $SCondition = "( title = '$title' and iw_website_pages_part_id = '$iw_website_pages_part_id'  ) and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWWebSiteSpAdver, 'id')) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -123,10 +123,10 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
             } else {
 
-                $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
                 $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " title = '$title' ,";
                 $USet .= " content = '$content' ,";

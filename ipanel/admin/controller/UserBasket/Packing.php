@@ -13,11 +13,11 @@ if (isset($_POST['SubmitM'])) {
     $objTimeTools = new TimeTools();
     $objAclTools = new ACLTools();
 
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
-    $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
+    $now_modify = date("Y-m-d H:i:s");
+    $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
     $arrAllImageSelected = $_POST['ImageSelected'];
     $PackWeight = $_POST['PackWeight'];
@@ -37,10 +37,10 @@ if (isset($_POST['SubmitM'])) {
             $USet .= " PackingNu = '$PackingNu' ,";
             $USet .= " PackWeight = '$PackWeight' , ";
             $USet .= " Description = '$Description' , ";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ";
 
             $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
 
@@ -79,15 +79,15 @@ if (@$_GET['IdKey'] != null) {
     $intIdMaker = 0;
     $strListBody = '';
     $intProductIn = 0;
-    $SCondition = "  UserIdKey = '$IdKey' and Enabled != 0  and (ChkState = 'bought' or ChkState = 'preparation') group by BasketIdKey ORDER BY IdRow DESC";
+    $SCondition = "  UserId = '$IdKey' and Enabled != 0  and (ChkState = 'bought' or ChkState = 'preparation') group by BasketIdKey ORDER BY id DESC";
     foreach ($objORM->FetchAll($SCondition, '*', TableIWAUserMainCart) as $ListItem) {
 
         // user
-        $SCondition = "IdKey = '$ListItem->UserIdKey'";
+        $SCondition = "id = '$ListItem->UserId'";
         $objUserData = @$objORM->Fetch($SCondition, '*', TableIWUser);
 
         //address
-        $SCondition = "IdKey = '$ListItem->UserAddressId'";
+        $SCondition = "id = '$ListItem->UserAddressId'";
         $objAddressData = @$objORM->Fetch($SCondition, '*', TableIWUserAddress);
 
         $strListBody .= '<table style="margin:10px; padding:10px; width: 100%; " border="1">';
@@ -97,7 +97,7 @@ if (@$_GET['IdKey'] != null) {
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;">' . FA_LC["email"] . '</td>';
         $strListBody .= '<td style="margin:5px; padding:5px; text-align: center;">' . $objUserData->Email . '</td></tr>';
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;">' . FA_LC["basket"] . '</td>';
-        $strListBody .= '<td style="margin:5px; padding:5px; text-align: center;">' . $ListItem->IdRow . '</td></tr>';
+        $strListBody .= '<td style="margin:5px; padding:5px; text-align: center;">' . $ListItem->id . '</td></tr>';
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;">' . FA_LC["tel"] . '</td>';
         $strListBody .= '<td style="margin:5px; padding:5px; text-align: center;">' . $objAddressData->OtherTel . '</td></tr>';
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;">' . FA_LC["address"] . '</td>';
@@ -105,7 +105,7 @@ if (@$_GET['IdKey'] != null) {
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;">' . FA_LC["post_code"] . '</td>';
         $strListBody .= '<td style="margin:5px; padding:5px; text-align: center;">' . $objAddressData->PostCode . '</td></tr>';
         $strListBody .= '<tr><td style="margin:5px; padding:5px; text-align: center;"><a target="_blank" class="btn btn-success" href="?ln=&part=Users&page=Invocie&PaymentIdKey='.$ListItem->PaymentIdKey.'&BasketIdKey=' . $ListItem->BasketIdKey . '">' . FA_LC["invocie"] . '</a></td>';
-        $strListBody .= '<td style="margin:5px; padding:5px; text-align: right;">'. (new ListTools())->ButtonReflector($arrToolsIcon["reverse_basket"], $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0)) . '</td></tr>';
+        $strListBody .= '<td style="margin:5px; padding:5px; text-align: right;">'. (new ListTools())->ButtonReflector($arrToolsIcon["reverse_basket"], $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0)) . '</td></tr>';
 
         $strListBody .= '<tr>';
         $strListBody .= '<table style="margin:10px; padding:10px; width: 100%; " border="1">';
@@ -114,11 +114,11 @@ if (@$_GET['IdKey'] != null) {
 
         $SCondition = "  BasketIdKey = '$ListItem->BasketIdKey' and Enabled != 0  and (ChkState = 'bought' or ChkState = 'preparation')  ";
         foreach ($objORM->FetchAll($SCondition, '*', TableIWAUserMainCart) as $ListItem2) {
-            $SCondition = "Enabled = '$Enabled' AND  ProductId = '$ListItem2->ProductId' ";
+            $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem2->ProductId' ";
             $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
 
-            $SCondition = "IdKey = '$APIProducts->WeightIdKey'";
+            $SCondition = "id = '$APIProducts->iw_product_weight_id'";
             $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
 
             $objArrayImage = explode("==::==", $APIProducts->Content);
@@ -130,7 +130,7 @@ if (@$_GET['IdKey'] != null) {
             $strListBody .= '<br><b>' . FA_LC["product_code"] . ' : ' . $ListItem2->ProductCode . '  </b>';
             $strListBody .= '<br><b>' . $APIProducts->Name . '  </b></td>';
             $intProductIn++;
-            $strListBody .= '<input name="AllProduct[]" value="' . $ListItem2->IdKey . '" type="hidden">';
+            $strListBody .= '<input name="AllProduct[]" value="' . $ListItem2->id . '" type="hidden">';
         }
         $strListBody .= '</tr>';
         $strListBody .= '</tbody>';

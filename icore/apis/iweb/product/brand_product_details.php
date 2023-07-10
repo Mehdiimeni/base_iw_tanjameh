@@ -11,6 +11,7 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['brand'])) {
 
     $brand = str_replace('%20', ' ',$_POST['brand']);
+    $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
 
     $page_condition = $_POST['page_condition'];
 
@@ -19,9 +20,9 @@ if (isset($_POST['brand'])) {
     $condition = " Enabled = 1 AND Content IS NOT NULL
     AND AdminOk = 1 AND iw_api_brands_id = $brand_id  ". $page_condition;
 
-    if ($objORM->DataExist($condition, TableIWAPIProducts)) {
+    if ($objORM->DataExist($condition, TableIWAPIProducts,'id')) {
 
-        $obj_products = @$objORM->FetchAll($condition, "IdRow,Name,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
+        $obj_products = @$objORM->FetchAll($condition, "id,Name,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
@@ -45,30 +46,41 @@ if (isset($_POST['brand'])) {
             $objArrayImage = array_values($objArrayImage);
 
 
+
+            $argument = "$product->id,$currencies_conversion_id";
+            $CarentCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncPricing)[0]->Result;
+            $PreviousCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncLastPricing)[0]->Result;
+
+            $name_currency = $objORM->Fetch(
+                "id =" . $objORM->Fetch(
+                    "id = $currencies_conversion_id",
+                    "iw_currencies_id2",
+                    TableIWACurrenciesConversion
+                )->iw_currencies_id2,
+                "Name",
+                TableIWACurrencies
+            )->Name;
+
             $strPricingPart = '';
-            $SArgument = "'$product->id','c72cc40d','fea9f1bf'";
-            $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
-            $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
-            $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
-            $PreviousCurrencyPrice = $PreviousCurrencyPrice[0]->Result;
 
             $boolChange = 0;
 
             if ($CarentCurrencyPrice != $PreviousCurrencyPrice and $PreviousCurrencyPrice != 0)
                 $boolChange = 1;
 
+
+
             if ($CarentCurrencyPrice != null) {
                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                $strPricingPart = '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
+                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice .' '. $name_currency .'</h6>';
             }
-
             $strOldPricingPart = 0;
 
             if ($PreviousCurrencyPrice != null and $boolChange) {
                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
             }
 
 

@@ -11,6 +11,8 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['page_name_system'])) {
 
     $website_page_name = trim($_POST['page_name_system']);
+    $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
+
     $condition = " Enabled = 1 and name = '$website_page_name' ";
 
     if ($objORM->DataExist($condition, TableIWWebSitePages, 'id')) {
@@ -55,27 +57,42 @@ if (isset($_POST['page_name_system'])) {
                             $objArrayImage = array_values($objArrayImage);
 
 
+                            $argument = "$product->id,$currencies_conversion_id";
+                            $CarentCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncPricing)[0]->Result;
+                            $PreviousCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncLastPricing)[0]->Result;
+
+                            $name_currency = $objORM->Fetch(
+                                "id =" . $objORM->Fetch(
+                                    "id = $currencies_conversion_id",
+                                    "iw_currencies_id2",
+                                    TableIWACurrenciesConversion
+                                )->iw_currencies_id2,
+                                "Name",
+                                TableIWACurrencies
+                            )->Name;
+
                             $strPricingPart = '';
-                            $CarentCurrencyPrice = $product->MainPrice;
-                            $PreviousCurrencyPrice = $product->LastPrice;
 
                             $boolChange = 0;
 
                             if ($CarentCurrencyPrice != $PreviousCurrencyPrice and $PreviousCurrencyPrice != 0)
                                 $boolChange = 1;
 
+
+
                             if ($CarentCurrencyPrice != null) {
                                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
+                                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice .' '. $name_currency .'</h6>';
                             }
                             $strOldPricingPart = 0;
 
                             if ($PreviousCurrencyPrice != null and $boolChange) {
                                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+                                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
                             }
+
 
 
                             $product_page_url = "?gender=" . urlencode($product->url_gender) . "&category=" . urlencode($product->url_category) . "&group=" . urlencode($product->url_group) . "&item=" . $product->id;

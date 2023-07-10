@@ -38,18 +38,18 @@ if (isset($_POST['RegisterL'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $now_modify = date("Y-m-d H:i:s");
             $ModifyId = $IdKey;
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Name = '$Name' ,";
             $InSet .= " Email = '$Email' ,";
             $InSet .= " CellNumber = '$CellNumber' ,";
@@ -58,22 +58,22 @@ if (isset($_POST['RegisterL'])) {
             $InSet .= " Description = '$UsernameSelect' ,";
             $InSet .= " UserName = '$UsernameL' ,";
             $InSet .= " Password = '$PasswordL' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWUser);
 
             $Online = true;
             $InSet = "";
             $InSet .= " Online = '$Online' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWUserObserver);
 
@@ -86,8 +86,8 @@ if (isset($_POST['RegisterL'])) {
 
             $objGlobalVar = new GlobalVarTools();
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
-            $objGlobalVar->setSessionVar('_IWUserIdKey', $ModifyId);
-            $objGlobalVar->setCookieVar('_IWUserIdKey', $objAclTools->en2Base64($ModifyId, 1));
+            $objGlobalVar->setSessionVar('_IWUserId', $ModifyId);
+            $objGlobalVar->setCookieVar('_IWUserId', $objAclTools->en2Base64($ModifyId, 1));
             JavaTools::JsAlertWithRefresh(FA_LC['welcome_first_time_login'], 0, '?part=User&page=Account');
             exit();
 

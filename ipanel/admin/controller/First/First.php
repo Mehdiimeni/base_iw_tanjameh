@@ -7,7 +7,7 @@ $intCountAllUser = $objORM->DataCount($SCondition, TableIWUser,'id');
 $intCountTempCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
 $intCountPaymentState = $objORM->DataCount($SCondition, TableIWAPaymentState);
 
-
+/*
 $SCondition = " Enabled != 0 and ChkState = 'none' ";
 $intCountMainCartNone = $objORM->DataCount($SCondition, TableIWAUserMainCart);
 
@@ -32,19 +32,20 @@ $intCountMainCartClaim = $objORM->DataCount($SCondition, TableIWAUserMainCart);
 $SCondition = " Enabled != 0 and (ChkState = 'complete' )  ";
 $intCountMainCartAll = $objORM->DataCount($SCondition, TableIWAUserMainCart);
 
+
 //conversation
 $strCurrency = '';
-foreach ($objORM->FetchAllWhitoutCondition('IdKey,CurrencyIdKey1,CurrencyIdKey2,Rate,ModifyDate,ModifyTime,ModifyId,Enabled,IdRow', TableIWACurrenciesConversion) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->CurrencyIdKey1'";
+    $SCondition = "id = '$ListItem->CurrencyIdKey1'";
     $ListItem->CurrencyIdKey1 = @$objORM->Fetch($SCondition, 'Name', TableIWACurrencies)->Name;
 
-    $SCondition = "IdKey = '$ListItem->CurrencyIdKey2'";
+    $SCondition = "id = '$ListItem->CurrencyIdKey2'";
     $ListItem->CurrencyIdKey2 = @$objORM->Fetch($SCondition, 'Name', TableIWACurrencies)->Name;
 
     $ListItem->Rate = $objGlobalVar->NumberFormat($ListItem->Rate);
-    $ListItem->Rate = '<input type="text" class="currency_ex"  size="16" id="' . $ListItem->IdKey . '" value="' . $ListItem->Rate . '">';
+    $ListItem->Rate = '<input type="text" class="currency_ex"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->Rate . '">';
 
     $ListItem->ModifyDate = $ListItem->ModifyTime . ' ' . $ListItem->ModifyDate;
 
@@ -65,7 +66,7 @@ foreach ($objORM->FetchAll($SCondition, 'Count,ExpireDate', TableIWStatusView) a
     $arrSprakLineOne[] = $StatusView->Count;
 }
 
-
+*/
 
 
 

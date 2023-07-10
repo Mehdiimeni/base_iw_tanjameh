@@ -217,7 +217,7 @@ if (isset($_POST['SubmitSearch']) and @$_POST['Search'] != '') {
 
     foreach ($objORM->FetchLimit($SCondition, 'IdKey,Name,ProductId,ImageSet,Content,PGender,PCategory,PGroup,CatId', $strFilter, $strLimit, TableIWAPIProducts) as $ListItem) {
 
-        $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+        $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
         $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
         $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
         if ($CarentCurrencyPrice != null) {
@@ -246,7 +246,7 @@ if (isset($_POST['SubmitSearch']) and @$_POST['Search'] != '') {
         $MainCategorySelected .= '<div class="col-lg-3 col-md-4 col-sm-6 products-col-item">';
         $MainCategorySelected .= '<div class="single-productsBox">';
         $MainCategorySelected .= '<div class="products-image">';
-        $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+        $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
         $MainCategorySelected .= $strMainImage;
         $MainCategorySelected .= $strHoverImage;
         $MainCategorySelected .= '</a>';
@@ -274,7 +274,7 @@ if (isset($_POST['SubmitSearch']) and @$_POST['Search'] != '') {
         $MainCategorySelected .= '<div class="products-content">';
         $MainCategorySelected .= '<span class="category">' . $ListItem->PGroup . '</span>';
         $MainCategorySelected .= '<h3>';
-        $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+        $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
         $MainCategorySelected .= $ListItem->Name . '</a></h3>';
         $MainCategorySelected .= '<div class="price">';
         $MainCategorySelected .= '<span class="new-price">' . $CarentCurrencyPrice . '</span>';

@@ -14,7 +14,7 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
     $PasswordL = $objACLTools->mdShal($_POST['password'], 0);
 
     $Enabled = true;
-    $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = '$Enabled' ";
+    $SCondition = "(Email = '$UserNameL' or CellNumber = '$UserNameL'  or NationalCode = '$UserNameL'  ) and Password = '$PasswordL' and Enabled = $Enabled ";
 
     if (!$objORM->DataExist($SCondition, TableIWUser, 'id')) {
 
@@ -50,8 +50,8 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
         fwrite($FOpen, "$obj_user_info->id==::==$now_modify==::==in\n");
         fclose($FOpen);
 
-        $objGlobalVar->setSessionVar('_IWUserIdKey', $obj_user_info->id);
-        $objGlobalVar->setCookieVar('_IWUserIdKey', $objACLTools->en2Base64($obj_user_info->id, 1));
+        $objGlobalVar->setSessionVar('_IWUserId', $obj_user_info->id);
+        $objGlobalVar->setCookieVar('_IWUserId', $objACLTools->en2Base64($obj_user_info->id, 1));
 
 
         $UserSessionId = session_id();

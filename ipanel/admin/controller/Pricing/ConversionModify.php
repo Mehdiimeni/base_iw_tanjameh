@@ -20,16 +20,16 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 //Currencies 1
 $strCurrencyIdKey1 = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWACurrencies) as $ListItem) {
-    $strCurrencyIdKey1 .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
+    $strCurrencyIdKey1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 //Currencies 2
 $strCurrencyIdKey2 = '';
-$SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWACurrencies) as $ListItem) {
-    $strCurrencyIdKey2 .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+$SCondition = " Enabled = $Enabled ORDER BY id ";
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
+    $strCurrencyIdKey2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -59,27 +59,27 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+            $now_modify = date("Y-m-d H:i:s");
+            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
             $InSet = "";
-            $InSet .= " IdKey = '$IdKey' ,";
-            $InSet .= " Enabled = '$Enabled' ,";
+            
+            $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Rate = $Rate ,";
             $InSet .= " CurrencyIdKey1 = '$CurrencyIdKey1' ,";
             $InSet .= " CurrencyIdKey2 = '$CurrencyIdKey2' ,";
             $InSet .= " Description = '$Description' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $ModifyId ";
 
             $objORM->DataAdd($InSet, TableIWACurrenciesConversion);
 
@@ -97,26 +97,26 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  IdKey = '$IdKey' ";
+    $SCondition = "  id = $IdKey ";
     $objEditView = $objORM->Fetch($SCondition, 'CurrencyIdKey1,CurrencyIdKey2,Rate,Description', TableIWACurrenciesConversion);
 
 
     //Currencies 1
     $SCondition = "  IdKey = '$objEditView->CurrencyIdKey1' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWACurrencies);
-    $strCurrencyIdKey1 = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWACurrencies) as $ListItem) {
-        $strCurrencyIdKey1 .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWACurrencies);
+    $strCurrencyIdKey1 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
+        $strCurrencyIdKey1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     //Currencies 2
     $SCondition = "  IdKey = '$objEditView->CurrencyIdKey2' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,IdKey', TableIWACurrencies);
-    $strCurrencyIdKey2 = '<option selected value="' . $Item->IdKey . '">' . $Item->Name . '</option>';
-    $SCondition = " Enabled = '$Enabled' ORDER BY IdRow ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,IdKey', TableIWACurrencies) as $ListItem) {
-        $strCurrencyIdKey2 .= '<option value="' . $ListItem->IdKey . '">' . $ListItem->Name . '</option>';
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWACurrencies);
+    $strCurrencyIdKey2 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
+        $strCurrencyIdKey2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
 
@@ -135,7 +135,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $CurrencyIdKey2 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CurrencyIdKey2);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "CurrencyIdKey1 = '$CurrencyIdKey1' AND CurrencyIdKey2 = '$CurrencyIdKey1' and IdKey != '$IdKey'  ";
+            $SCondition = "CurrencyIdKey1 = '$CurrencyIdKey1' AND CurrencyIdKey2 = '$CurrencyIdKey1' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWACurrenciesConversion)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -146,23 +146,23 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
 
                 $objTimeTools = new TimeTools();
-                $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-                $ModifyTime = $objTimeTools->jdate("H:i:s");
-                $ModifyDate = $objTimeTools->jdate("Y/m/d");
-                $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+                $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+                
+                
+                $now_modify = date("Y-m-d H:i:s");
+                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " IdKey = '$IdKey' ";
+                $UCondition = " id = $IdKey ";
                 $USet = "";
                 $USet .= " Rate = $Rate ,";
                 $USet .= " CurrencyIdKey1 = '$CurrencyIdKey1' ,";
                 $USet .= " CurrencyIdKey2 = '$CurrencyIdKey2' ,";
                 $USet .= " Description = '$Description' ,";
-                $USet .= " ModifyIP = '$ModifyIP' ,";
-                $USet .= " ModifyTime = '$ModifyTime' ,";
-                $USet .= " ModifyDate = '$ModifyDate' ,";
-                $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-                $USet .= " ModifyId = '$ModifyId' ";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                
+                
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = $ModifyId ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWACurrenciesConversion);
 

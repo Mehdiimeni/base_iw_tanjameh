@@ -5,9 +5,9 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 
 $objTimeTools = new TimeTools();
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
@@ -39,7 +39,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
         $strSizeSelect = $UserMainCart->Size;
         $UserMainCart->Count != '' ? $intCountSelect = $UserMainCart->Count : $intCountSelect = 1;
-        $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserMainCart->ProductId' ";
+        $SCondition = "Enabled = $Enabled AND  ProductId = '$UserMainCart->ProductId' ";
 
         $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
@@ -49,7 +49,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
         if (!$strOtherData['isInStock']) {
             $objORM->DataUpdate($SCondition, " Enabled = $Disabled", TableIWAPIProducts);
-            $objORM->DeleteRow(" ProductId = '$UserMainCart->ProductId' and ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  ", TableIWUserMainCart);
+            $objORM->DeleteRow(" ProductId = '$UserMainCart->ProductId' and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserMainCart);
             continue;
         }
 
@@ -68,7 +68,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $strSize .= '<option ' . $strSelected . '  value="' . $Size . '">' . $Size . '</option>';
         }
 
-        $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+        $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
         $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
         $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
         $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -90,13 +90,13 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
         // Shipping part
 
-        $PWIdKey = $ListItem->WeightIdKey;
+        $PWIdKey = $ListItem->iw_product_weight_id;
 
-        $SCondition = "IdKey = '$ListItem->WeightIdKey'";
+        $SCondition = "id = $ListItem->iw_product_weight_id";
         $WeightNumber = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
-        $arrListProductShip[] = array('IdKey' => $ListItem->IdKey,
+        $arrListProductShip[] = array('IdKey' => $ListItem->id,
             'MainPrice' => $ListItem->MainPrice,
             'ValueWeight' => $objShippingTools->FindItemWeight($ListItem));
 

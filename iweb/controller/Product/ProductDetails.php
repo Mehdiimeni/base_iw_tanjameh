@@ -19,11 +19,11 @@ if (isset($_POST['SubmitM'])) {
     $Count = $_POST['Count'];
     $ProductId = $_POST['ProductId'];
     $strExpireDate = date("m-d-Y", strtotime('+1 day'));
-    $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+    $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
     $UserSessionId = session_id();
 
     $Enabled = true;
-    $SCondition = " ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId' and  ExpireDate = '$strExpireDate' ";
+    $SCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId' and  ExpireDate = '$strExpireDate' ";
 
     if ($objORM->DataExist($SCondition, TableIWUserTempCart)) {
         JavaTools::JsAlertWithRefresh(FA_LC['enter_product_exist'], 0, '');
@@ -32,26 +32,26 @@ if (isset($_POST['SubmitM'])) {
     } else {
 
         $objTimeTools = new TimeTools();
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        
+        
 
 
-        $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+        $now_modify = date("Y-m-d H:i:s");
 
         $InSet = "";
         $InSet .= " Size = '$Size' ,";
-        $InSet .= " Enabled = '$Enabled' ,";
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " Count = '$Count' ,";
         $InSet .= " ProductId = '$ProductId' ,";
         $InSet .= " ProductSizeId = '$ProductSizeId' ,";
         $InSet .= " ExpireDate = '$strExpireDate' ,";
-        $InSet .= " UserIdKey = '$UserIdKey' ,";
+        $InSet .= " UserId = '$UserId' ,";
         $InSet .= " UserSessionId = '$UserSessionId' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $InSet .= " last_modify = '$now_modify' ";
 
         $objORM->DataAdd($InSet, TableIWUserTempCart);
 
@@ -71,14 +71,14 @@ if (isset($_GET['IdKey'])) {
     $objReqular = new Regularization();
     $objTimeTools = new TimeTools();
 
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
-    $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdKey'));
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
+    $now_modify = date("Y-m-d H:i:s");
+    $ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
 
-    $SCondition = "  Content IS NOT NULL AND IdKey = '$IdKey' AND Enabled = '$Enabled' And AdminOk = 1  ";
+    $SCondition = "  Content IS NOT NULL AND id = $IdKey AND Enabled = $Enabled And AdminOk = 1  ";
 
     $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
@@ -176,12 +176,12 @@ if (isset($_GET['IdKey'])) {
         $USet .= " Color = '$strColor', ";
         $USet .= " Size = '$strSize', ";
         $USet .= " SizeDis = '$strSizeDis', ";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
+        $USet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $USet .= " last_modify = '$now_modify' ,";
         $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-        $USet .= " ModifyId = '$ModifyId' ";
+        $USet .= " modify_id = $ModifyId ";
 
         if (isset($arrPath[3]))
             $USet .= ", PGroup = '$arrPath[3]' ";
@@ -250,7 +250,7 @@ if (isset($_GET['IdKey'])) {
         // shipping price
 
         $strShippingPrice = '';
-        $PWIdKey = $objProduct->WeightIdKey;
+        $PWIdKey = $objProduct->iw_product_weight_id;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
 

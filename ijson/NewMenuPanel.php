@@ -26,7 +26,7 @@ if (isset($_GET['NewMenuId'])) {
     foreach ($objORM->FetchAll($SCondition, 'LocalName,IdKey', TableIWNewMenu2) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
-        echo '<option value="' . $ListItem->IdKey . '" >' . $ListItem->LocalName . '</option>';
+        echo '<option value="' . $ListItem->id . '" >' . $ListItem->LocalName . '</option>';
     }
 }
 
@@ -38,6 +38,6 @@ if (isset($_GET['NewMenu2Id'])) {
     foreach ($objORM->FetchAll($SCondition, 'LocalName,IdKey', TableIWNewMenu3) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
-        echo '<option value="' . $ListItem->IdKey . '" >' . $ListItem->LocalName . '</option>';
+        echo '<option value="' . $ListItem->id . '" >' . $ListItem->LocalName . '</option>';
     }
 }

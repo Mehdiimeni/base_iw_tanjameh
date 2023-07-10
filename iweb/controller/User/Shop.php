@@ -15,11 +15,11 @@ $objReqular = new Regularization();
 $objTimeTools = new TimeTools();
 $objAclTools = new ACLTools();
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 if (isset($_POST['SubmitM'])) {
@@ -44,7 +44,7 @@ if (isset($_POST['SubmitM'])) {
         $Count = $arrCount[$intCounter];
 
         $strExpireDate = date("m-d-Y", strtotime('+1 day'));
-        $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+        $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
         $UserSessionId = session_id();
 
 
@@ -52,27 +52,27 @@ if (isset($_POST['SubmitM'])) {
 
 
         $objTimeTools = new TimeTools();
-        $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        $ModifyTime = $objTimeTools->jdate("H:i:s");
-        $ModifyDate = $objTimeTools->jdate("Y/m/d");
+        $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+        
+        
 
 
-        $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+        $now_modify = date("Y-m-d H:i:s");
 
-        $UCondition = " ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId'  ";
+        $UCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId'  ";
 
         $USet = "";
         $USet .= " Size = '$Size' ,";
         $USet .= " ProductSizeId = '$ProductSizeId' ,";
-        $USet .= " Enabled = '$Enabled' ,";
+        $USet .= " Enabled = $Enabled ,";
         $USet .= " Count = '$Count' ,";
         $USet .= " ExpireDate = '$strExpireDate' ,";
-        $USet .= " UserIdKey = '$UserIdKey' ,";
+        $USet .= " UserId = '$UserId' ,";
         $USet .= " UserSessionId = '$UserSessionId' ,";
-        $USet .= " ModifyIP = '$ModifyIP' ,";
-        $USet .= " ModifyTime = '$ModifyTime' ,";
-        $USet .= " ModifyDate = '$ModifyDate' ,";
-        $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+        $USet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $USet .= " last_modify = '$now_modify' ";
 
 
         $objORM->DataUpdate($UCondition, $USet, TableIWUserTempCart);
@@ -97,10 +97,10 @@ $arrAddToCart = '';
 // url
 $ActualPageLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-$UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+$UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $UserSessionId = session_id();
 
-$SCondition = "  ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  and ProductId != ''  ";
+$SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  and ProductId != ''  ";
 $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 
 
@@ -113,9 +113,9 @@ $intCountWeight = 0;
 
 foreach ($objUserTempCart as $UserTempCart) {
 
-    if($UserIdKey != '') {
-        $UCondition = " ( UserIdKey = '' and UserSessionId = '$UserSessionId' ) and  ProductId = '$UserTempCart->ProductId'  ";
-        $USet = " UserIdKey = '$UserIdKey' ";
+    if($UserId != '') {
+        $UCondition = " ( UserId = '' and UserSessionId = '$UserSessionId' ) and  ProductId = '$UserTempCart->ProductId'  ";
+        $USet = " UserId = '$UserId' ";
         $objORM->DataUpdate($UCondition, $USet, TableIWUserTempCart);
     }
 
@@ -128,12 +128,12 @@ foreach ($objUserTempCart as $UserTempCart) {
     if ($UserTempCart->Size == '' or $UserTempCart->Count == '' or $UserTempCart->ProductSizeId == '')
         $boolAllowCheckout = false;
 
-    if ($objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey')) !== null and $UserTempCart->UserIdKey == '')
+    if ($objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId')) !== null and $UserTempCart->UserId == '')
         $boolAllowCheckoutLogin = true;
 
     $strSizeSelect = $UserTempCart->Size;
     $UserTempCart->Count != '' ? $intCountSelect = $UserTempCart->Count : $intCountSelect = 1;
-    $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserTempCart->ProductId' ";
+    $SCondition = "Enabled = $Enabled AND  ProductId = '$UserTempCart->ProductId' ";
 
     $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
     $strExistence = FA_LC["available"];
@@ -151,7 +151,7 @@ foreach ($objUserTempCart as $UserTempCart) {
 
     if (!$objProductData['isInStock']) {
         $strExistence = FA_LC["unavailable"];
-        $objORM->DeleteRow(" ProductId = '$ListItem->ProductId' and ( UserIdKey = '$UserIdKey' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
+        $objORM->DeleteRow(" ProductId = '$ListItem->ProductId' and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
     }
 
     $ProductType = $objProductData['productType']['name'] ?? null;
@@ -214,12 +214,12 @@ foreach ($objUserTempCart as $UserTempCart) {
     $USet .= " Color = '$strColor', ";
     $USet .= " Size = '$strSize', ";
     $USet .= " SizeDis = '$strSizeDis', ";
-    $USet .= " ModifyIP = '$ModifyIP' ,";
-    $USet .= " ModifyTime = '$ModifyTime' ,";
-    $USet .= " ModifyDate = '$ModifyDate' ,";
-    $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
+    $USet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $USet .= " last_modify = '$now_modify' ,";
     $USet .= " RootDateCheck = '$ModifyStrTime' ,";
-    $USet .= " ModifyId = '$ModifyId' ";
+    $USet .= " modify_id = $ModifyId ";
 
     if (isset($arrPath[3]))
         $USet .= ", PGroup = '$arrPath[3]' ";
@@ -257,7 +257,7 @@ foreach ($objUserTempCart as $UserTempCart) {
         $strSize .= '<option ' . $strSelected . '  value="' . $id . '|' . $Size . '">' . $Size . '</option>';
     }
     if ($objProductData['isInStock']) {
-        $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+        $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
         $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
         $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
         $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -279,10 +279,10 @@ foreach ($objUserTempCart as $UserTempCart) {
 
         // Shipping part
 
-        $PWIdKey = $ListItem->WeightIdKey;
+        $PWIdKey = $ListItem->iw_product_weight_id;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
-        $arrListProductShip[] = array('IdKey' => $ListItem->IdKey,
+        $arrListProductShip[] = array('IdKey' => $ListItem->id,
             'MainPrice' => $ListItem->MainPrice,
             'ValueWeight' => $objShippingTools->FindItemWeight($ListItem));
 
@@ -304,10 +304,10 @@ foreach ($objUserTempCart as $UserTempCart) {
 
 
     $strProductsShop .= '<tr><td class="product-thumbnail">';
-    $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsShop .= $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $ListItem->Name, 120, 'class="main-image"');
     $strProductsShop .= '</a></td><td class="product-name">';
-    $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $strProductsShop .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $strProductsShop .= $ListItem->Name;
     $strProductsShop .= '</a><ul>';
     $strProductsShop .= '<li>' . FA_LC["color"] . ': <span>' . $strOtherData['variants'][0]['colour'] . '</span></li>';

@@ -6,9 +6,9 @@ require_once IW_DEFINE_FROM_PANEL . 'conf/tablename.php';
 $objTimeTools = new TimeTools();
 $HourNow = $objTimeTools->jdate("H");
 
-$ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-$ModifyTime = $objTimeTools->jdate("H:i:s");
-$ModifyDate = $objTimeTools->jdate("Y/m/d");
+$modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+
+
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
 
 $NameApi = $objAsos->getName();
@@ -17,7 +17,7 @@ $Enabled = true;
 
 if($ApiGetLive == 0) {
 
-    $SCondition = "  Name = '$NameApi' and Enabled = '$Enabled' and Category = '$ApiCategoryName.$ApivarList'   ";
+    $SCondition = "  Name = '$NameApi' and Enabled = $Enabled and Category = '$ApiCategoryName.$ApivarList'   ";
     $objApiContents = $objORM->Fetch($SCondition, 'ModifyStrTime,Content', TableIWAPIContents);
 
     if ($objORM->DataExist($SCondition, TableIWAPIContents)) {
@@ -35,14 +35,14 @@ if($ApiGetLive == 0) {
             $NewContents = $objAsos->$ApiCategoryName($ApivarList);
 
             $USet = " Content = '$NewContents' , ";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ";
 
             $objORM->DataUpdate($SCondition, $USet, TableIWAPIContents);
 
-            $SCondition = "  Name = '$NameApi' and Enabled = '$Enabled' and Category = '$ApiCategoryName.$ApivarList'   ";
+            $SCondition = "  Name = '$NameApi' and Enabled = $Enabled and Category = '$ApiCategoryName.$ApivarList'   ";
             $objApiContents = $objORM->Fetch($SCondition, 'ModifyStrTime,Content', TableIWAPIContents);
             $ApiContent = $objApiContents->Content;
         }
@@ -57,20 +57,20 @@ if($ApiGetLive == 0) {
             $objAclTools = new ACLTools();
             $ApiContent = $objAsos->$ApiCategoryName($ApivarList);
 
-            $IdKey = $objAclTools->IdKey();
+            
 
-            $InSet = " IdKey = '$IdKey' , ";
+            $InSet = " id = $IdKey , ";
             $InSet .= " Name = '$NameApi' ,";
             $InSet .= " Category = '$ApiCategoryName.$ApivarList' ,";
             $InSet .= " Content = '$ApiContent' ,";
             $InSet .= " ReplacePeriod = '2' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+            $InSet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $InSet .= " last_modify = '$now_modify' ";
 
             $objORM->DataAdd($InSet, TableIWAPIContents);
-            $SCondition = "  Name = '$NameApi' and Enabled = '$Enabled' and Category = '$ApiCategoryName.$ApivarList'   ";
+            $SCondition = "  Name = '$NameApi' and Enabled = $Enabled and Category = '$ApiCategoryName.$ApivarList'   ";
             $objApiContents = $objORM->Fetch($SCondition, 'ModifyStrTime,Content', TableIWAPIContents);
             $ApiContent = $objApiContents->Content;
         }

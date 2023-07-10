@@ -4,8 +4,8 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $objGlobalVar = new GlobalVarTools();
 $Enabled = true;
 
-$UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
-$SCondition = "  IdKey = '$UserIdKey' ";
+$UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+$SCondition = "  IdKey = '$UserId' ";
 $objEditView = $objORM->Fetch($SCondition, '*', TableIWUser);
 
 $strUsernameSelect ='';
@@ -43,7 +43,7 @@ if (isset($_POST['RegisterE'])) {
         $PasswordL = $objAclTools->mdShal($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Password, 0);
 
         $Enabled = true;
-        $SCondition = "      NationalCode = '$NationalCode' and IdKey != '$UserIdKey'  ";
+        $SCondition = "      NationalCode = '$NationalCode' and IdKey != '$UserId'  ";
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 
@@ -54,14 +54,14 @@ if (isset($_POST['RegisterE'])) {
         } else {
 
             $objTimeTools = new TimeTools();
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            
+            
 
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
+            $now_modify = date("Y-m-d H:i:s");
 
-            $UCondition = " IdKey = '$UserIdKey'";
+            $UCondition = " IdKey = '$UserId'";
 
             $USet = "";
             $USet .= " Name = '$Name' ,";
@@ -73,11 +73,11 @@ if (isset($_POST['RegisterE'])) {
             $USet .= " Description = '$UsernameSelect' ,";
             $USet .= " UserName = '$UsernameL' ,";
             $USet .= " Password = '$PasswordL' ,";
-            $USet .= " ModifyIP = '$ModifyIP' ,";
-            $USet .= " ModifyTime = '$ModifyTime' ,";
-            $USet .= " ModifyDate = '$ModifyDate' ,";
-            $USet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $USet .= " ModifyId = '$UserIdKey' ";
+            $USet .= " modify_ip = '$modify_ip' ,";
+            
+            
+            $USet .= " last_modify = '$now_modify' ,";
+            $USet .= " ModifyId = '$UserId' ";
 
             $objORM->DataUpdate($UCondition, $USet, TableIWUser);
 

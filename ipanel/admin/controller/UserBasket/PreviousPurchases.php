@@ -9,7 +9,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["row"],
+$strListHead = (new ListTools())->TableHead(array(
     FA_LC["id"],
     FA_LC["status"],
     FA_LC["user"],
@@ -41,7 +41,7 @@ if (isset($_POST['SubmitSearch'])) {
     $SCondition = "ProductId = '$strSearch' OR 
                    ModifyDate LIKE '%$strSearch%' OR 
                    IdKey = '$strSearch' OR 
-                   UserIdKey = '$strSearch' OR 
+                   UserId = '$strSearch' OR 
                    BasketIdKey = '$strSearch' OR 
                    PaymentIdKey = '$strSearch' OR 
                    ProductCode = '$strSearch' OR 
@@ -57,14 +57,14 @@ if (isset($_POST['SubmitSearch'])) {
     $SCondition = " Enabled != 2  ";
 }
 
-$SCondition .= " and ChkState = 'complete'  order by IdRow DESC limit " . $getStart . " , " . $getEnd;
+$SCondition .= " and ChkState = 'complete'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,ChkState,UserIdKey,BasketIdKey,ProductId,ProductCode,ProductSizeId,Size,Count,ModifyDate,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,IdKey,ChkState,UserId,BasketIdKey,ProductId,ProductCode,ProductSizeId,Size,Count,ModifyDate,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "IdKey = '$ListItem->UserIdKey'";
-    $ListItem->UserIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = '$ListItem->UserId'";
+    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     $SCondition = "  ProductId = '$ListItem->ProductId' ";
@@ -111,7 +111,7 @@ foreach ($objORM->FetchAll($SCondition, 'IdRow,IdKey,ChkState,UserIdKey,BasketId
         $ToolsIcons[2] = $arrToolsIcon["active"];
     }
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 18, $objGlobalVar->en2Base64($ListItem->IdKey . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 18, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }
 
 

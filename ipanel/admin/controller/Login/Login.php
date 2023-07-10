@@ -10,7 +10,7 @@ if (isset($_POST['SubmitL'])) {
         $UsernameL = $objAclTools->en2Base64($_POST['UsernameL'], 1);
         $PasswordL = $objAclTools->mdShal($_POST['PasswordL'], 0);
         $Enabled = true;
-        $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = '$Enabled' ";
+        $SCondition = "Username = '$UsernameL' and Password = '$PasswordL' and Enabled = $Enabled ";
 
 
         require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
@@ -23,36 +23,44 @@ if (isset($_POST['SubmitL'])) {
 
             $objTimeTools = new TimeTools();
             $Online = true;
-            $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            $ModifyTime = $objTimeTools->jdate("H:i:s");
-            $ModifyDate = $objTimeTools->jdate("Y/m/d");
 
+            $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+            $now_modify = date("Y-m-d H:i:s");
+            $iw_admin_id = $objORM->Fetch($SCondition, 'id', TableIWAdmin)->id;
 
-            $ModifyStrTime = $objAclTools->JsonDecode($objTimeTools->getDateTimeNow())->date;
-            $ModifyId = $objORM->Fetch($SCondition, 'IdKey', TableIWAdmin)->IdKey;
-            $InSet = "";
-            $InSet .= " Online = '$Online' ,";
-            $InSet .= " ModifyIP = '$ModifyIP' ,";
-            $InSet .= " ModifyTime = '$ModifyTime' ,";
-            $InSet .= " ModifyDate = '$ModifyDate' ,";
-            $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-            $InSet .= " ModifyId = '$ModifyId' ";
-
+            // observer
+            $InSet =
+                "Online = '$Online',
+                 modify_ip = '$modify_ip',
+                 modify_id = '$iw_admin_id',
+                 last_modify = '$now_modify',
+                 iw_admin_id  = '$iw_admin_id'";
             $objORM->DataAdd($InSet, TableIWAdminObserver);
 
-            $USet = "CountEnter = CountEnter + '1'    ";
-            $objORM->DataUpdate($SCondition, $USet, TableIWAdmin);
+            if (!$objORM->DataExist("iw_admin_id = $iw_admin_id ", TableIWAdminStatus)) {
+                $objORM->DataUpdate(
+                    "iw_admin_id = $iw_admin_id",
+                    "all_count_enter = all_count_enter + 1 ",
+                    TableIWAdminStatus
+                );
+            } else {
+                $objORM->DataAdd(
+                    "iw_admin_id = $iw_admin_id ,
+                    all_count_enter = 1 ",
+                    TableIWAdminStatus
+                );
+            }
 
-            $FOpen = fopen(IW_REPOSITORY_FROM_PANEL . 'log/login/admin/' . $ModifyId . '.iw', 'a+');
-            fwrite($FOpen, "$ModifyId==::==$ModifyStrTime==::==in\n");
+            $FOpen = fopen(IW_REPOSITORY_FROM_PANEL . 'log/login/admin/' . $iw_admin_id . '.iw', 'a+');
+            fwrite($FOpen, "$iw_admin_id ==::==$now_modify==::==in\n");
             fclose($FOpen);
 
             $objGlobalVar = new GlobalVarTools();
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
-            $objGlobalVar->setSessionVar('_IWAdminIdKey', $ModifyId);
-            $objGlobalVar->setCookieVar('_IWAdminIdKey', $objAclTools->en2Base64($ModifyId, 1));
+            $objGlobalVar->setSessionVar('_IWAdminId', $iw_admin_id);
+            $objGlobalVar->setCookieVar('_IWAdminId', $objAclTools->en2Base64($iw_admin_id, 1));
 
-          //  JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
+            JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage));
             exit();
 
         }

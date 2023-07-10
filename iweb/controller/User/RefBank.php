@@ -78,16 +78,16 @@ if ($_POST['Status'] == 2) {
     }
 
 
-    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    
+    
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
     $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
-    $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserIdKey;
+    $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserId;
 
 
-    $IdKey = $objAclTools->IdKey();
+    
     $PaymentIdKey = $IdKey;
 // add to payment
 
@@ -98,8 +98,8 @@ if ($_POST['Status'] == 2) {
     $AmountRial = $objAclTools->de2Base64($_GET['Sec']);
 
     $InSet = "";
-    $InSet .= " IdKey = '$IdKey' ,";
-    $InSet .= " Enabled = '$Enabled' ,";
+    
+    $InSet .= " Enabled = $Enabled ,";
     $InSet .= " ResitId = '$ResitId' ,";
     $InSet .= " State = '$State' ,";
     $InSet .= " Status = '$Status' ,";
@@ -115,36 +115,36 @@ if ($_POST['Status'] == 2) {
     $InSet .= " Wage = '$Wage' ,";
     $InSet .= " SecurePan = '$SecurePan' ,";
     $InSet .= " HashedCardNumber = '$HashedCardNumber' ,";
-    $InSet .= " ModifyIP = '$ModifyIP' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
-    $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
-    $InSet .= " ModifyId = '$UserIdKey' ";
+    $InSet .= " modify_ip = '$modify_ip' ,";
+    
+    
+    $InSet .= " last_modify = '$now_modify' ,";
+    $InSet .= " ModifyId = '$UserId' ";
 
     $objORM->DataAdd($InSet, TableIWAPaymentState);
 
     //add to main basket
 
-    $SCondition = "  UserIdKey = '$UserIdKey' ";
+    $SCondition = "  UserId = '$UserId' ";
     $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 
     foreach ($objUserTempCart as $UserTempCart) {
         $IdKeyCart = $objAclTools->IdKey();
         $InSet = "";
         $InSet .= " IdKey = '$IdKeyCart' ,";
-        $InSet .= " Enabled = '$Enabled' ,";
+        $InSet .= " Enabled = $Enabled ,";
         $InSet .= " ProductId = '$UserTempCart->ProductId' ,";
         $InSet .= " PaymentIdKey = '$PaymentIdKey' ,";
-        $InSet .= " UserIdKey = '$UserIdKey' ,";
+        $InSet .= " UserId = '$UserId' ,";
         $InSet .= " Size = '$UserTempCart->Size' ,";
         $InSet .= " ProductSizeId = '$UserTempCart->ProductSizeId' ";
         $InSet .= " Count = '$UserTempCart->Count' ,";
         $InSet .= " BasketIdKey = '$ResNum' ,";
         $InSet .= " ChkState = 'none' ,";
-        $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
-        $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
+        $InSet .= " modify_ip = '$modify_ip' ,";
+        
+        
+        $InSet .= " last_modify = '$now_modify' ";
 
         $objORM->DataAdd($InSet, TableIWAUserMainCart);
 
@@ -157,7 +157,7 @@ if ($_POST['Status'] == 2) {
 
     $objBankSaman->VerifyTransaction($_POST['ResNum']);
 
-    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
+    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
     $strProfile = $objORM->Fetch($SCondition, 'CellNumber,Name', TableIWUser);
 
     // SMS
@@ -171,7 +171,7 @@ if ($_POST['Status'] == 2) {
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWSMSAllConnect);
 
-    $objORM->DeleteRow("  UserIdKey = '$UserIdKey' ", TableIWUserTempCart);
+    $objORM->DeleteRow("  UserId = '$UserId' ", TableIWUserTempCart);
 
 
 } else {

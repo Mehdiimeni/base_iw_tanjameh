@@ -12,8 +12,8 @@ function set_server()
 
 function get_user_id()
 {
-    isset($_REQUEST['_IWUserIdKey']) ? $UserIdKey = $_REQUEST['_IWUserIdKey']  : $UserIdKey = null;
-    return $UserIdKey;
+    isset($_REQUEST['_IWUserId']) ? $UserId = $_REQUEST['_IWUserId']  : $UserId = null;
+    return $UserId;
 
 }
 

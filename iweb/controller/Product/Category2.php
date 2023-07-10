@@ -38,7 +38,7 @@ if ($_GET['pagein'] != '')
 // filter
 
 $strClear = '';
-$SCondition = "Enabled = '$Enabled' AND Content IS NOT NULL And AdminOk = 1";
+$SCondition = "Enabled = $Enabled AND Content IS NOT NULL And AdminOk = 1";
 
 if (isset($_GET['CatId']) and $_GET['CatId'] != '') {
     $CatId = $_GET['CatId'];
@@ -225,7 +225,7 @@ $strLimit = $startAt . ',' . $perPage;
 
 foreach ($objORM->FetchLimit($SCondition, 'IdKey,Name,ProductId,ImageSet,Content,PGender,PCategory,PGroup,CatId', $strFilter, $strLimit, TableIWAPIProducts) as $ListItem) {
 
-    $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
+    $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
     $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
     $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
     if ($CarentCurrencyPrice != null) {
@@ -253,7 +253,7 @@ foreach ($objORM->FetchLimit($SCondition, 'IdKey,Name,ProductId,ImageSet,Content
 
     if (str_contains($strMainImage, 'no-image')) {
 
-        $DCondition = "IdKey = '$ListItem->IdKey' ";
+        $DCondition = "IdKey = $ListItem->id ";
         // $objORM->DeleteRow($DCondition, TableIWAPIProducts);
         continue;
     }
@@ -262,7 +262,7 @@ foreach ($objORM->FetchLimit($SCondition, 'IdKey,Name,ProductId,ImageSet,Content
     $MainCategorySelected .= '<div class="col-lg-3 col-md-3 col-sm-6 products-col-item">';
     $MainCategorySelected .= '<div class="single-productsBox">';
     $MainCategorySelected .= '<div class="products-image">';
-    $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $MainCategorySelected .= $strMainImage;
     $MainCategorySelected .= $strHoverImage;
     $MainCategorySelected .= '</a>';
@@ -290,7 +290,7 @@ foreach ($objORM->FetchLimit($SCondition, 'IdKey,Name,ProductId,ImageSet,Content
     $MainCategorySelected .= '<div class="products-content">';
     $MainCategorySelected .= '<span class="category">' . $ListItem->PGroup . '</span>';
     $MainCategorySelected .= '<h3>';
-    $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->IdKey . '">';
+    $MainCategorySelected .= '<a href="?Gender=' . $objGlobalVar->getUrlDecode($ListItem->PGender) . '&Category=' . $objGlobalVar->getUrlDecode($ListItem->PCategory) . '&CatId=' . $ListItem->CatId . '&Group=' . $objGlobalVar->getUrlDecode($ListItem->PGroup) . '&part=Product&page=ProductDetails&IdKey=' . $ListItem->id . '">';
     $MainCategorySelected .= $ListItem->Name . '</a></h3>';
     $MainCategorySelected .= '<div class="price">';
     $MainCategorySelected .= '<span class="new-price">' . $CarentCurrencyPrice . '</span>';
