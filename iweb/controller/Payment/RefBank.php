@@ -218,8 +218,8 @@ if ($_POST['Status'] == 2) {
 
 
     // count sms
-    $strExpireDate = date("m-Y");
-    $UCondition = " CompanyIdKey = 'e45fef12' and ExpireDate = '$strExpireDate' ";
+    $expire_date = date("m-Y");
+    $UCondition = " iw_company_id = 'e45fef12' and expire_date = '$expire_date' ";
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWSMSAllConnect);
 

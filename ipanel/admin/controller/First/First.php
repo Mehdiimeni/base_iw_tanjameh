@@ -61,8 +61,8 @@ foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,M
 // main page status
 $arrSprakLineOne = array();
 
-$SCondition = "  Page = 'MainPage' GROUP BY ExpireDate ";
-foreach ($objORM->FetchAll($SCondition, 'Count,ExpireDate', TableIWStatusView) as $StatusView) {
+$SCondition = "  Page = 'MainPage' GROUP BY expire_date ";
+foreach ($objORM->FetchAll($SCondition, 'Count,expire_date', TableIWStatusView) as $StatusView) {
     $arrSprakLineOne[] = $StatusView->Count;
 }
 

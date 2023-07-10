@@ -102,7 +102,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                                 <div class="modal-body">
                                                     <p><b><?php echo($arrUserCardInfo["CardNumber"]); ?></b></p>
                                                     <p><?php echo("CVV2 : " . $arrUserCardInfo["CVV2"]); ?></p>
-                                                    <p><?php echo(FA_LC["expire_date"] . " : " . $arrUserCardInfo["ExpireDate"]); ?></p>
+                                                    <p><?php echo(FA_LC["expire_date"] . " : " . $arrUserCardInfo["expire_date"]); ?></p>
                                                     <p><?php echo(FA_LC["secondary_pin"] . " : " . $arrUserCardInfo["SecondaryPin"]); ?></p>
                                                     <p><?php echo(FA_LC["balance"] . " : " . number_format($arrUserCardInfo["Balance"],0)); ?></p>
                                                 </div>

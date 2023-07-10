@@ -36,7 +36,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
     } else {
 
 
-        $CompanyIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CompanyIdKey);
+        $iw_company_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_company_id);
         $ChangeRate = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->ChangeRate);
         $Smaller = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Smaller);
         $Bigger = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Bigger);
@@ -44,7 +44,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 
         $Enabled = true;
-        $SCondition = " Smaller = '$Smaller' AND Bigger = '$Bigger' AND CompanyIdKey = '$CompanyIdKey' ";
+        $SCondition = " Smaller = '$Smaller' AND Bigger = '$Bigger' AND iw_company_id = '$iw_company_id' ";
 
         if ($objORM->DataExist($SCondition, TableIWAProductDeliveryPrice)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -65,7 +65,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet = "";
             
             $InSet .= " Enabled = $Enabled ,";
-            $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
+            $InSet .= " iw_company_id = '$iw_company_id' ,";
             $InSet .= " ChangeRate = $ChangeRate ,";
             $InSet .= " Smaller = $Smaller ,";
             $InSet .= " Bigger = $Bigger ,";
@@ -93,11 +93,11 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
     $SCondition = "  id = $IdKey ";
-    $objEditView = $objORM->Fetch($SCondition, 'Bigger,CompanyIdKey,ChangeRate,Smaller,Description', TableIWAProductDeliveryPrice);
+    $objEditView = $objORM->Fetch($SCondition, 'Bigger,iw_company_id,ChangeRate,Smaller,Description', TableIWAProductDeliveryPrice);
 
 
     //Currencies
-    $SCondition = "  IdKey = '$objEditView->CompanyIdKey' ";
+    $SCondition = "  IdKey = '$objEditView->iw_company_id' ";
     $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWWebLogo);
     $strCompanyIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     $SCondition = " Enabled = $Enabled ORDER BY id ";
@@ -114,7 +114,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             exit();
         } else {
 
-            $CompanyIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CompanyIdKey);
+            $iw_company_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_company_id);
             $ChangeRate = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->ChangeRate);
             $Smaller = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Smaller);
             $Bigger = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Bigger);
@@ -138,7 +138,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
                 $UCondition = " id = $IdKey ";
                 $USet = "";
-                $USet .= " CompanyIdKey = '$CompanyIdKey' ,";
+                $USet .= " iw_company_id = '$iw_company_id' ,";
                 $USet .= " ChangeRate = $ChangeRate ,";
                 $USet .= " Smaller = $Smaller ,";
                 $USet .= " Bigger = $Bigger ,";

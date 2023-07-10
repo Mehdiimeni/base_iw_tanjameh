@@ -1,14 +1,14 @@
 <?php
 //FooterArea.php
 
-$strExpireDate = date("W m-Y");
-$UCondition = "  ExpireDate = '$strExpireDate' and Page = 'MainPage' ";
+$expire_date = date("W m-Y");
+$UCondition = "  expire_date = '$expire_date' and Page = 'MainPage' ";
 if (!$objORM->DataExist($UCondition, TableIWStatusView)) {
 
     $InSet = "";
     $InSet .= " Count = 0 ,";
     $InSet .= " Page = 'MainPage' ,";
-    $InSet .= " ExpireDate = '$strExpireDate' ";
+    $InSet .= " expire_date = '$expire_date' ";
     $objORM->DataAdd($InSet, TableIWStatusView);
 } else {
     $USet = " Count = Count + 1 ";

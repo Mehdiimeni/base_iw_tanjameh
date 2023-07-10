@@ -20,8 +20,8 @@ $objAPIAllData = $objORM->Fetch("Enabled = $Enabled  and ( CategoryId IS NOT NUL
 
 
 $AllProductsContent = $objAsos->ProductsList($objAPIAllData->CategoryId);
-$strExpireDate = date("m-Y");
-$UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+$expire_date = date("m-Y");
+$UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
 $USet = " Count = Count + 1 ";
 $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
@@ -47,7 +47,7 @@ if ($AllProductsContent == '') {
         $InSet = "";
         
         $InSet .= " Enabled = $Enabled ,";
-        $InSet .= " CompanyIdKey = '4a897b83' ,";
+        $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
         $InSet .= " CatId = '$CatId' ,";
         $InSet .= " Content = '$AllProductsContent' ,";
         $InSet .= " PGender = '$PGender' ,";

@@ -12,6 +12,7 @@ if (isset($_POST['id_row'])) {
 
     $id_row = $_POST['id_row'];
     $condition = "id = $id_row ";
+    $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
 
     if ($objORM->DataExist($condition, ViewIWProductRand)) {
 
@@ -36,29 +37,40 @@ if (isset($_POST['id_row'])) {
         $objArrayImage = array_values($objArrayImage);
 
 
+        $argument = "$obj_row_product->id,$currencies_conversion_id";
+        $CarentCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncPricing)[0]->Result;
+        $PreviousCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncLastPricing)[0]->Result;
+
+        $name_currency = $objORM->Fetch(
+            "id =" . $objORM->Fetch(
+                "id = $currencies_conversion_id",
+                "iw_currencies_id2",
+                TableIWACurrenciesConversion
+            )->iw_currencies_id2,
+            "Name",
+            TableIWACurrencies
+        )->Name;
+
         $strPricingPart = '';
-
-
-        $CarentCurrencyPrice = $obj_row_product->MainPrice;
-        $PreviousCurrencyPrice = $obj_row_product->LastPrice;
 
         $boolChange = 0;
 
         if ($CarentCurrencyPrice != $PreviousCurrencyPrice and $PreviousCurrencyPrice != 0)
             $boolChange = 1;
 
+
+
         if ($CarentCurrencyPrice != null) {
             $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
             $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-            $strPricingPart = '<h6 class="fw-semibold">' . $CarentCurrencyPrice . 'تومان</h6>';
+            $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . ' ' . $name_currency . '</h6>';
         }
-
         $strOldPricingPart = 0;
 
         if ($PreviousCurrencyPrice != null and $boolChange) {
             $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
             $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-            $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . 'تومان</del></h6>';
+            $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . ' ' . $name_currency . '</del></h6>';
         }
 
 
@@ -70,6 +82,7 @@ if (isset($_POST['id_row'])) {
             'brand_name' => $obj_row_product->BrandName,
             'image' => $str_image,
             'str_price' => $strPricingPart
+
         );
         $arr_product_offer = array(
             'offer1' => '<div class="text-bg-light p-1 mb-2"><small>جدید</small></div>'

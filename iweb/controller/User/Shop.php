@@ -43,7 +43,7 @@ if (isset($_POST['SubmitM'])) {
 
         $Count = $arrCount[$intCounter];
 
-        $strExpireDate = date("m-d-Y", strtotime('+1 day'));
+        $expire_date = date("m-d-Y", strtotime('+1 day'));
         $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
         $UserSessionId = session_id();
 
@@ -59,14 +59,14 @@ if (isset($_POST['SubmitM'])) {
 
         $now_modify = date("Y-m-d H:i:s");
 
-        $UCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId'  ";
+        $UCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = $ProductId  ";
 
         $USet = "";
         $USet .= " Size = '$Size' ,";
         $USet .= " ProductSizeId = '$ProductSizeId' ,";
         $USet .= " Enabled = $Enabled ,";
         $USet .= " Count = '$Count' ,";
-        $USet .= " ExpireDate = '$strExpireDate' ,";
+        $USet .= " expire_date = '$expire_date' ,";
         $USet .= " UserId = '$UserId' ,";
         $USet .= " UserSessionId = '$UserSessionId' ,";
         $USet .= " modify_ip = '$modify_ip' ,";
@@ -142,8 +142,8 @@ foreach ($objUserTempCart as $UserTempCart) {
     $objAsos = new AsosConnections();
 
     $ApiContent = $objAsos->ProductsDetail($ListItem->ProductId);
-    $strExpireDate = date("m-Y");
-    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+    $expire_date = date("m-Y");
+    $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
     $objProductData = $objReqular->JsonDecodeArray($objReqular->deBase64($ApiContent));

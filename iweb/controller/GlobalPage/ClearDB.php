@@ -1,16 +1,16 @@
 <?php
 //ClearDB.php
 
-$strExpireDate = date("m-d-Y");
-$DCondition = "   ExpireDate < '$strExpireDate'   ";
+$expire_date = date("m-d-Y");
+$DCondition = "   expire_date < '$expire_date'   ";
 $objORM->DeleteRow($DCondition, TableIWUserTempCart);
 
 //API Conter
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = '4a897b83' ";
+$expire_date = date("m-Y");
+$SCondition = " expire_date = '$expire_date' and  iw_company_id = $obj_product->iw_company_id ";
 if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
-    $CompanyIdKey = '4a897b83';
+    $iw_company_id = $obj_product->iw_company_id;
     $objTimeTools = new TimeTools();
     $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
     
@@ -20,9 +20,9 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
     $now_modify = date("Y-m-d H:i:s");
     $InSet = "";
     $InSet .= " Enabled = $Enabled ,";
-    $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
+    $InSet .= " iw_company_id = '$iw_company_id' ,";
     $InSet .= " Count = 0 ,";
-    $InSet .= " ExpireDate = '$strExpireDate' ,";
+    $InSet .= " expire_date = '$expire_date' ,";
     $InSet .= " modify_ip = '$modify_ip' ,";
     
     
@@ -34,11 +34,11 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
 
 //SMS Conter
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = 'e45fef12' ";
+$expire_date = date("m-Y");
+$SCondition = " expire_date = '$expire_date' and  iw_company_id = 'e45fef12' ";
 if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
 
-    $CompanyIdKey = 'e45fef12';
+    $iw_company_id = 'e45fef12';
     $objTimeTools = new TimeTools();
     $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
     
@@ -48,9 +48,9 @@ if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
     $now_modify = date("Y-m-d H:i:s");
     $InSet = "";
     $InSet .= " Enabled = $Enabled ,";
-    $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
+    $InSet .= " iw_company_id = '$iw_company_id' ,";
     $InSet .= " Count = 0 ,";
-    $InSet .= " ExpireDate = '$strExpireDate' ,";
+    $InSet .= " expire_date = '$expire_date' ,";
     $InSet .= " modify_ip = '$modify_ip' ,";
     
     

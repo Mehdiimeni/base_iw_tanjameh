@@ -19,7 +19,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebMainMenu) as $MainM
             $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Name = '$APIAllCatSub->Sub' ,";
             $InSet .= " GroupIdKey = '$MainMenu->IdKey' ,";
-            $InSet .= " CompanyIdKey = '4a897b83' ,";
+            $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
             $InSet .= " CatId = '$APIAllCatSub->CategoryId' ,";
             $InSet .= " modify_ip = '$modify_ip' ,";
             
@@ -34,7 +34,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebMainMenu) as $MainM
             $USet = "";
             $USet .= " Name = '$APIAllCatSub->Sub' ,";
             $USet .= " GroupIdKey = '$MainMenu->IdKey' ,";
-            $USet .= " CompanyIdKey = '4a897b83' ,";
+            $USet .= " iw_company_id = $obj_product->iw_company_id ,";
             $USet .= " CatId = '$APIAllCatSub->CategoryId' ,";
             $USet .= " modify_ip = '$modify_ip' ,";
             

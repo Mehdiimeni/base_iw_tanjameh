@@ -49,7 +49,7 @@ const TableIWACurrencies = "iw_currencies";
 const TableIWACurrenciesConversion = "iw_currencies_conversion";
 const TableIWAProductPrice = "iw_products_price";
 const TableIWWebWeightPrice = "iw_products_weight_price";
-const TableIWWebWeight = "iw_products_weight";
+const TableIWWebWeight = "iw_product_weight";
 const TableIWAProductDeliveryPrice = "iw_products_delivery_price";
 const TableIWACountry = "iw_country";
 const TableIWAPaymentState = "iw_payment_state";
@@ -70,6 +70,7 @@ const TableIWApiBrands = "iw_api_brands";
 const TableIWApiProductType = "iw_api_product_type";
 const TableIWApiProductVariants = "iw_api_product_variants";
 const TableIWApiProductStatus = "iw_product_status";
+const TableIWCompany = "iw_company";
 
 
 

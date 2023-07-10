@@ -8,16 +8,16 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-$strExpireDate = date("m-d-Y");
-$DCondition = "   ExpireDate < '$strExpireDate'   ";
+$expire_date = date("m-d-Y");
+$DCondition = "   expire_date < '$expire_date'   ";
 $objORM->DeleteRow($DCondition, TableIWUserTempCart);
 
 //API Conter
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = '4a897b83' ";
+$expire_date = date("m-Y");
+$SCondition = " expire_date = '$expire_date' and  iw_company_id = $obj_product->iw_company_id ";
 if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
-    $CompanyIdKey = '4a897b83';
+    $iw_company_id = $obj_product->iw_company_id;
     $objTimeTools = new TimeTools();
     
     
@@ -25,9 +25,9 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
     $ModifyStrTime = json_decode($objTimeTools->getDateTimeNow())->date;
     $InSet = "";
     $InSet .= " Enabled = 1 ,";
-    $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
+    $InSet .= " iw_company_id = '$iw_company_id' ,";
     $InSet .= " Count = 0 ,";
-    $InSet .= " ExpireDate = '$strExpireDate' ,";
+    $InSet .= " expire_date = '$expire_date' ,";
     
     
     $InSet .= " last_modify = '$now_modify' ";
@@ -38,11 +38,11 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
 
 //SMS Conter
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = 'e45fef12' ";
+$expire_date = date("m-Y");
+$SCondition = " expire_date = '$expire_date' and  iw_company_id = 'e45fef12' ";
 if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
 
-    $CompanyIdKey = 'e45fef12';
+    $iw_company_id = 'e45fef12';
     $objTimeTools = new TimeTools();
     
     
@@ -51,9 +51,9 @@ if (!$objORM->DataExist($SCondition, TableIWSMSAllConnect)) {
     $ModifyStrTime = json_decode($objTimeTools->getDateTimeNow())->date;
     $InSet = "";
     $InSet .= " Enabled = 1 ,";
-    $InSet .= " CompanyIdKey = '$CompanyIdKey' ,";
+    $InSet .= " iw_company_id = '$iw_company_id' ,";
     $InSet .= " Count = 0 ,";
-    $InSet .= " ExpireDate = '$strExpireDate' ,";
+    $InSet .= " expire_date = '$expire_date' ,";
     
     
     $InSet .= " last_modify = '$now_modify' ";

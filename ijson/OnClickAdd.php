@@ -82,13 +82,13 @@ if (isset($_GET['basket'])) {
 
 
     $ProductId = @$_GET['basket'];
-    $strExpireDate = date("m-d-Y", strtotime('+1 day'));
+    $expire_date = date("m-d-Y", strtotime('+1 day'));
     $UserId = @$_SESSION['_IWUserId'];
     $UserSessionId = session_id();
 
 
     $Enabled = 1;
-    $SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId' and  ExpireDate = '$strExpireDate' ";
+    $SCondition = "  ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = $ProductId and  expire_date = '$expire_date' ";
 
     if (!$objORM->DataExist($SCondition, TableIWUserTempCart)) {
 
@@ -103,8 +103,8 @@ if (isset($_GET['basket'])) {
 
         $InSet = "";
         $InSet .= " Enabled = $Enabled ,";
-        $InSet .= " ProductId = '$ProductId' ,";
-        $InSet .= " ExpireDate = '$strExpireDate' ,";
+        $InSet .= " ProductId = $ProductId ,";
+        $InSet .= " expire_date = '$expire_date' ,";
         $InSet .= " UserId = '$UserId' ,";
         $InSet .= " UserSessionId = '$UserSessionId' ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
@@ -122,7 +122,7 @@ if ($_GET['rebasket']) {
     $ProductId = @$_GET['rebasket'];
     $UserId = @$_SESSION['_IWUserId'];
     $UserSessionId = session_id();
-    $objORM->DeleteRow(" ProductId = '$ProductId' and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
+    $objORM->DeleteRow(" ProductId = $ProductId and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
 }
 
 
@@ -133,7 +133,7 @@ if (isset($_GET['w_product']) and isset($_GET['product_id'])) {
     $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'IdKey', TableIWWebWeightPrice)->IdKey;
 
     if ($iw_product_weight_id != null) {
-        $objORM->DataUpdate("  ProductId = '$ProductId'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWAPIProducts);
+        $objORM->DataUpdate("  ProductId = $ProductId  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWAPIProducts);
     }
 
 }

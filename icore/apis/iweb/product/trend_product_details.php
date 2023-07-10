@@ -78,7 +78,7 @@ if (isset($_POST['trend'])) {
             if ($PreviousCurrencyPrice != null and $boolChange) {
                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
+                $strOldPricingPart  = '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
             }
 
 

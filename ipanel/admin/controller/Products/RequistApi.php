@@ -253,7 +253,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $ApiContent = $objAclTools->enBase64($objAclTools->JsonEncode($product), 0);
 
 
-            $SCondition = "   ProductId = '$ProductId'   ";
+            $SCondition = "   ProductId = $ProductId   ";
 
             if ($objORM->DataExist($SCondition, TableIWAPIProducts)) {
 
@@ -279,7 +279,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 
                 $USet .= " last_modify = '$now_modify' ";
 
-                $objORM->DataUpdate("   ProductId = '$ProductId'   ", $USet, TableIWAPIProducts);
+                $objORM->DataUpdate("   ProductId = $ProductId   ", $USet, TableIWAPIProducts);
 
             } else {
 
@@ -290,7 +290,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $InSet = "";
                 
                 $InSet .= " Enabled = $Enabled ,";
-                $InSet .= " ProductId = '$ProductId' ,";
+                $InSet .= " ProductId = $ProductId ,";
                 $InSet .= " Name = '$ProductName' ,";
                 $InSet .= " ApiContent = '$ApiContent' ,";
                 $InSet .= " PGender = '$PGender' ,";
@@ -302,7 +302,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $InSet .= " MainPrice = $MainPrice ,";
                 $InSet .= " LastPrice = $ApiLastPrice, ";
                 $InSet .= " ModifyDateP = '$ModifyDate' ,";
-                $InSet .= " CompanyIdKey = '4a897b83' ,";
+                $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
                 $InSet .= " BrandName = '$BrandName' ,";
                 $InSet .= " TypeSet = '$TypeSet' ,";
                 $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
@@ -317,12 +317,12 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             }
 
             if ($AtImage) {
-                if ($objORM->DataExist("Content IS NULL and ProductId = '$ProductId'", TableIWAPIProducts)) {
+                if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts)) {
 
 
                     $arrApiProductDetail = $objAclTools->JsonDecodeArray($objAclTools->deBase64($objAsos->ProductsDetail($ProductId)));
-                    $strExpireDate = date("m-Y");
-                    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+                    $expire_date = date("m-Y");
+                    $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
                     $USet = " Count = Count + 1 ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
@@ -410,7 +410,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 
                         $strImages = implode("==::==", $arrImage);
-                        $UCondition = " ProductId = '$ProductId' ";
+                        $UCondition = " ProductId = $ProductId ";
                         $USet = "Content = '$strImages',";
                         $USet .= " ApiContent = '$ApiContent' ,";
                         $USet .= " PCategory = '$PCategory' ,";

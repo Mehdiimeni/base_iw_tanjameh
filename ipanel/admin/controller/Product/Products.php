@@ -8,8 +8,8 @@ $Enabled = true;
 
 //Api count
 /*
-$strExpireDate = date("m-Y");
-$SCondition = " ExpireDate = '$strExpireDate' and  CompanyIdKey = '4a897b83' ";
+$expire_date = date("m-Y");
+$SCondition = " expire_date = '$expire_date' and  iw_company_id = $obj_product->iw_company_id ";
 $intApiCount = $objORM->DataCount($SCondition, TableIWAPIAllConnect));
 */
 

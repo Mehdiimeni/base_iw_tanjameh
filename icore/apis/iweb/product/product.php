@@ -11,14 +11,23 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['item'])) {
 
     $item = $_POST['item'];
+    $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
 
     $condition = "id = '$item' and Enabled = 1 AND Content IS NOT NULL AND AdminOk = 1   ";
 
-    if ($objORM->DataExist($condition, TableIWAPIProducts,'id')) {
+    if ($objORM->DataExist($condition, TableIWAPIProducts, 'id')) {
 
         // view count
-        $USet = "PView = PView + 1";
-        $objORM->DataUpdate("iw_api_products_id = '$item'", $USet, TableIWApiProductStatus);
+        if ($objORM->DataExist("iw_api_products_id = $item", TableIWApiProductStatus,'iw_api_products_id')) {
+            $USet = "PView = PView + 1";
+            $objORM->DataUpdate("iw_api_products_id = $item", $USet, TableIWApiProductStatus);
+        } else {
+            $objORM->DataAdd(
+                "iw_api_products_id = $item,
+                PView = 1",
+                TableIWApiProductStatus
+            );
+        }
 
 
         $obj_product = @$objORM->Fetch($condition, "
@@ -41,6 +50,7 @@ if (isset($_POST['item'])) {
         isInStock,
         info,
         last_modify,
+        iw_company_id,
         iw_api_product_type_id,
         iw_api_brands_id", TableIWAPIProducts);
 
@@ -50,10 +60,10 @@ if (isset($_POST['item'])) {
 
         // API Count and Connect
         // check api count
-        $strExpireDate = date("m-Y");
-        $obj_api_connect = $objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "*", TableIWAPIAllConnect);
+        $expire_date = date("m-Y");
+        $obj_api_connect = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
-        if ($obj_api_connect != false and (int) ($obj_api_connect->Count) < 50000 and (($curtime - $last_modify) > 21600)) {
+        if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (($curtime - $last_modify) > 21600)) {
 
 
             $whitelist = array(
@@ -63,13 +73,13 @@ if (isset($_POST['item'])) {
 
             if (!in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 
-    
+
                 $objAsos = new AsosConnections();
                 $ApiContent = $objAsos->ProductsDetail($obj_product->ProductId);
 
-                $strExpireDate = date("m-Y");
-                $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
-                $USet = " Count = Count + 1 ";
+                $expire_date = date("m-Y");
+                $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
+                $USet = " all_count = all_count + 1 ";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
                 $objProductData = json_decode(base64_decode($ApiContent), true);
@@ -265,12 +275,19 @@ if (isset($_POST['item'])) {
         $objArrayImage = array_values($objArrayImage);
 
 
-        $strPricingPart = '';
-        $SArgument = "'$obj_product->id','c72cc40d','fea9f1bf'";
-        $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
-        $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
-        $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
-        $PreviousCurrencyPrice = $PreviousCurrencyPrice[0]->Result;
+        $argument = "$obj_product->id,$currencies_conversion_id";
+        $CarentCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncPricing)[0]->Result;
+        $PreviousCurrencyPrice = (float) @$objORM->FetchFunc($argument, FuncIWFuncLastPricing)[0]->Result;
+
+        $name_currency = $objORM->Fetch(
+            "id =" . $objORM->Fetch(
+                "id = $currencies_conversion_id",
+                "iw_currencies_id2",
+                TableIWACurrenciesConversion
+            )->iw_currencies_id2,
+            "Name",
+            TableIWACurrencies
+        )->Name;
 
         //persent
         if ($PreviousCurrencyPrice > $CarentCurrencyPrice) {
@@ -290,14 +307,14 @@ if (isset($_POST['item'])) {
             if ($CarentCurrencyPrice != null) {
                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                $strPricingPart = '<h4 class="d-inline-block me-2 text-danger prices"><span class="product-price">' . $CarentCurrencyPrice . '</span> تومان</h4>';
+                $strPricingPart = '<h4 class="d-inline-block me-2 text-danger prices"><span class="product-price">' . $CarentCurrencyPrice . '</span> ' . $name_currency . '</h4>';
             }
         } else {
 
             if ($CarentCurrencyPrice != null) {
                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                $strPricingPart = '<h4 class="d-inline-block me-2  prices"><span class="product-price">' . $CarentCurrencyPrice . '</span> تومان</h4>';
+                $strPricingPart = '<h4 class="d-inline-block me-2  prices"><span class="product-price">' . $CarentCurrencyPrice . '</span> ' . $name_currency . '</h4>';
             }
 
         }
@@ -307,7 +324,7 @@ if (isset($_POST['item'])) {
         if ($PreviousCurrencyPrice != null and $boolChange) {
             $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
             $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-            $strOldPricingPart = '<del class="d-block">' . $PreviousCurrencyPrice . ' تومان</del>';
+            $strOldPricingPart = '<del class="d-block">' . $PreviousCurrencyPrice . ' ' . $name_currency . '</del>';
         }
 
 
@@ -318,18 +335,26 @@ if (isset($_POST['item'])) {
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
 
+        if($objShippingTools->FindItemWeight($obj_product) == -1)
+        {
+            $product_weight = 2;
+            $objORM->DataUpdate("id = $obj_product->id", " NoWeightValue = 1 ", TableIWAPIProducts);
+        }else{
 
+            $product_weight = $objShippingTools->FindItemWeight($obj_product);
+        }
+   
 
-        $intTotalShipping = $objShippingTools->FindBasketWeightPrice($objShippingTools->FindItemWeight($obj_product), $obj_product->MainPrice, 'پوند', 'تومان');
+        $intTotalShipping = $objShippingTools->FindBasketWeightPrice($product_weight, $obj_product->MainPrice, $currencies_conversion_id);
 
         if ($intTotalShipping != 0) {
             $intTotalShipping = $objGlobalVar->NumberFormat($intTotalShipping, 0, ".", ",");
-            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping) . ' تومان';
+            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping) . $name_currency;
         }
 
         // wieght
 
-        $strShippingWeight = $objShippingTools->FindItemWeight($obj_product) . ' KG ';
+        $strShippingWeight = $product_weight . ' KG ';
 
 
         $obj_product_page_url = "?gender=" . urlencode($obj_product->url_gender) . "&category=" . urlencode($obj_product->url_category) . "&group=" . urlencode($obj_product->url_group) . "&item=" . $obj_product->id;
@@ -342,6 +367,7 @@ if (isset($_POST['item'])) {
         $obj_product_content = $obj_product->url_gender . ' ' . $obj_product->url_category . ' ' . $obj_product->url_group;
         $arr_product_offer = $strOldPricingPart == 0 ? array('offer1' => '') : array('offer1' => '<div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>');
         $count_score = 0;
+        $user_score = 0;
 
 
         $obj_brand_name = @$objORM->Fetch("id = '$obj_product->iw_api_brands_id' ", 'name,id', TableIWApiBrands);
@@ -370,6 +396,61 @@ if (isset($_POST['item'])) {
 
         $arr_info = json_decode($obj_product->info, 1);
 
+
+        //score
+        $product_status = $objORM->Fetch("iw_api_products_id = $item", "*", TableIWApiProductStatus);
+        $all_web_score = ($product_status->PBuy * 100) + $product_status->PView;
+
+        switch ($all_web_score) {
+            case $all_web_score > 10 and $all_web_score < 100:
+                $product_web_score = 0.5;
+                break;
+
+            case $all_web_score > 99 and $all_web_score < 200:
+                $product_web_score = 1;
+                break;
+
+            case $all_web_score > 199 and $all_web_score < 300:
+                $product_web_score = 1.5;
+                break;
+
+            case $all_web_score > 299 and $all_web_score < 400:
+                $product_web_score = 2;
+                break;
+
+            case $all_web_score > 399 and $all_web_score < 500:
+                $product_web_score = 2.5;
+                break;
+
+            case $all_web_score > 499 and $all_web_score < 600:
+                $product_web_score = 3;
+                break;
+
+            case $all_web_score > 599 and $all_web_score < 700:
+                $product_web_score = 3.5;
+                break;
+
+            case $all_web_score > 699 and $all_web_score < 800:
+                $product_web_score = 4;
+                break;
+
+            case $all_web_score > 799 and $all_web_score < 1000:
+                $product_web_score = 4.5;
+                break;
+
+            case $all_web_score > 999:
+                $product_web_score = 5;
+                break;
+
+            default:
+                $product_web_score = 0;
+                break;
+        }
+
+        $product_web_score = round(($product_web_score+$count_score+$user_score)/3);
+
+        $objORM->DataUpdate("iw_api_products_id = $item", "PScore = $product_web_score", TableIWApiProductStatus);
+
         $arr_product_detail = array(
             'name' => $obj_product->Name,
             'product_content' => $obj_product_content,
@@ -380,8 +461,9 @@ if (isset($_POST['item'])) {
             'all_size' => $all_size,
             'all_disabled_size' => $all_disabled_size,
             'discount_persent' => $discount_persent,
-            'score' => $obj_product->PScore,
+            'score' => $product_web_score,
             'count_score' => $count_score,
+            'user_score' => $user_score,
             'product_type' => $obj_product_type->name,
             'product_type_id' => $obj_product_type->id,
             'brand_name' => $obj_brand_name->name,
@@ -390,7 +472,7 @@ if (isset($_POST['item'])) {
             'shipping_weight' => $strShippingWeight,
             'aboutMe' => $arr_info['aboutMe'],
             'sizeAndFit' => $arr_info['sizeAndFit'],
-            'careInfo' => $arr_info['careInfo'],
+            'careInfo' => $arr_info['careInfo']
         );
 
 

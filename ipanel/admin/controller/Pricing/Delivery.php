@@ -13,11 +13,11 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,CompanyIdKey,ChangeRate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWAProductDeliveryPrice) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,iw_company_id,ChangeRate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWAProductDeliveryPrice) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->CompanyIdKey'";
-    $ListItem->CompanyIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
+    $SCondition = "id = '$ListItem->iw_company_id'";
+    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
 
 
     $ListItem->ModifyDate = $ListItem->ModifyTime . ' ' . $ListItem->ModifyDate;

@@ -32,8 +32,8 @@ foreach ($objORM->FetchLimit($SCondition, '*', 'id',2,TableIWAPIProducts) as $ob
 
 
     $ApiContent = $objAsos->ProductsDetail($objProduct->ProductId);
-    $strExpireDate = date("m-Y");
-    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+    $expire_date = date("m-Y");
+    $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
     $objProductData = $objReqular->JsonDecodeArray($objReqular->deBase64($ApiContent));

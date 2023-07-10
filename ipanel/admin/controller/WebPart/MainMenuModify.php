@@ -98,7 +98,7 @@ if (isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $InSet .= " FromApi = '$FromApi' ,";
                 $InSet .= " ApiId = '$CId' ,";
                 $InSet .= " ApiCategoryId = '$ApiCategoryId' ,";
-                $InSet .= " CompanyIdKey = '4a897b83' ,";
+                $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
                 $InSet .= " modify_ip = '$modify_ip' ,";
                 
                 
@@ -187,7 +187,7 @@ if (isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] == null) {
 */
 
 /*
-$SCondition = " CompanyIdKey = '4a897b83' ";
+$SCondition = " iw_company_id = $obj_product->iw_company_id ";
 if ($objORM->DataExist($SCondition, TableIWAPIAllData)) {
     $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
     
@@ -195,7 +195,7 @@ if ($objORM->DataExist($SCondition, TableIWAPIAllData)) {
     $now_modify = date("Y-m-d H:i:s");
     $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-    $UCondition = " CompanyIdKey = '4a897b83' ";
+    $UCondition = " iw_company_id = $obj_product->iw_company_id ";
     $USet = "";
     $USet .= " Content = '$AllCategoriesContent' ,";
     $USet .= " modify_ip = '$modify_ip' ,";
@@ -229,7 +229,7 @@ if ($objORM->DataExist($SCondition, TableIWAPIAllData)) {
     $InSet = "";
     
     $InSet .= " Enabled = $Enabled ,";
-    $InSet .= " CompanyIdKey = '4a897b83' ,";
+    $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
     $InSet .= " ReplacePeriod = 1 ,";
     $InSet .= " Content = '$AllCategoriesContent' ,";
     $InSet .= " modify_ip = '$modify_ip' ,";
@@ -243,7 +243,7 @@ if ($objORM->DataExist($SCondition, TableIWAPIAllData)) {
     $InSet = "";
     
     $InSet .= " Enabled = $Enabled ,";
-    $InSet .= " CompanyIdKey = '4a897b83' ,";
+    $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
     $InSet .= " ReplacePeriod = 1 ,";
     $InSet .= " Content = '$AllProductsContent' ,";
     $InSet .= " modify_ip = '$modify_ip' ,";

@@ -58,7 +58,7 @@ if (get_product_info($item)) {
             <div class="my-rating-readOnly d-inline-block" data-rating="<?php echo get_product_info($item)->score; ?>"
               style="direction: initial;"></div>
             <span>
-              <?php echo get_product_info($item)->count_score; ?>
+              <?php echo get_product_info($item)->score; ?>
             </span>
           </a>
           <!-- color box -->

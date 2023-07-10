@@ -22,40 +22,33 @@ $Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
 
+$iw_company_id = $_POST['iw_company_id'];
+
 // check api count
-$strExpireDate = date("m-Y");
-if (($objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "Count", TableIWAPIAllConnect)->Count) > 39000)
+$expire_date = date("m-Y");
+if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "all_count", TableIWAPIAllConnect)->all_count) > 39000)
     exit();
 
 
 
 $now_modify = date("Y-m-d H:i:s");
-
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$yesterday = date('Y-m-d H:i:s', strtotime("-1 day"));
 
 
 $arrIdAllProduct = array();
 // API Count and Connect
 $objAsos = new AsosConnections();
 
-$TimePriod = $objTimeTools->DateDayStepper("-1");
-
-$TimePriod = $objAclTools->JsonDecodeArray(json_encode($TimePriod));
-$TimePriod = $TimePriod["date"];
-
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-$SCondition = "ModifyStrTime < '$TimePriod' order by rand() limit 1 ";
+$SCondition = "last_modify < '$yesterday' order by rand() limit 1 ";
 
-foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu3) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,iw_product_weight_id,Enabled,id', TableIWNewMenu3) as $ListItem) {
 
-    if (!($objORM->Fetch("IdKey = '$ListItem->NewMenuId' ", "Enabled", TableIWNewMenu)->Enabled)) {
+    if (!($objORM->Fetch("id = $ListItem->iw_new_menu_2_id ", "Enabled", TableIWNewMenu2)->Enabled)) {
 
-        $UCondition = " IdKey = $ListItem->id ";
+        $UCondition = " id = $ListItem->id ";
         $USet = " CreateCad = 1 ,";
-        
-        
         $USet .= " last_modify = '$now_modify' ";
-
         $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
 
         continue;
@@ -63,24 +56,22 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
 
     $PGroup = $ListItem->Name;
-    $objPCategory = $objORM->Fetch("IdKey = '$ListItem->GroupIdKey' ", 'Name,GroupIdKey', TableIWNewMenu2);
+    $objPCategory = $objORM->Fetch("id = $ListItem->iw_new_menu_2_id ", 'Name,iw_new_menu_id', TableIWNewMenu2);
     $PCategory = $objPCategory->Name;
-    $PGender = $objORM->Fetch("IdKey = '$objPCategory->GroupIdKey' ", 'Name', TableIWNewMenu)->Name;
+    $PGender = $objORM->Fetch("id = '$objPCategory->iw_new_menu_id' ", 'Name', TableIWNewMenu)->Name;
 
     $PGroup2 = '';
-    $Attribute = $ListItem->Name;
-
-
     $CatId = $ListItem->CatId;
 
     $iw_product_weight_id = $ListItem->iw_product_weight_id;
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
     $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
 
-    $strExpireDate = date("m-Y");
-    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
-    $USet = " Count = Count + 1 ";
+    $expire_date = date("m-Y");
+    $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
+    $USet = " all_count = all_count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
+
 
     foreach ($ListProductsContentAt['products'] as $product) {
 
@@ -98,16 +89,16 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
         $ProductCode = $product['productCode'];
 
         $ApiContent = $objAclTools->enBase64($objAclTools->JsonEncode($product), 0);
-        $SCondition = "   ProductId = '$ProductId'   ";
+        $SCondition = "ProductId = $ProductId";
 
-        if (!$objORM->DataExist($SCondition, TableIWAPIProducts)) {
+        if (!$objORM->DataExist($SCondition, TableIWAPIProducts,'id')) {
 
             // API Count and Connect
             // check api count
-            $strExpireDate = date("m-Y");
-            $obj_api_connect = $objORM->Fetch("CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ", "*", TableIWAPIAllConnect);
+            $expire_date = date("m-Y");
+            $obj_api_connect = $objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
-            if ($obj_api_connect != false and (int) ($obj_api_connect->Count) < 50000) {
+            if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000) {
 
 
                 $whitelist = array(
@@ -121,9 +112,9 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                     $objAsos = new AsosConnections();
                     $ApiContent = $objAsos->ProductsDetail($ProductId);
 
-                    $strExpireDate = date("m-Y");
-                    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
-                    $USet = " Count = Count + 1 ";
+                    $expire_date = date("m-Y");
+                    $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
+                    $USet = " all_count = all_count + 1 ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
                     $objProductData = json_decode(base64_decode($ApiContent), true);
@@ -220,38 +211,37 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                     }
 
                     $str_change = "
-                    ProductId = '$ProductId' ,
-                                    ProductCode='$ProductCode',
-                                    Name='$Name',
-                                    Url='$Url',
-                                    MainPrice=$MainPrice,
-                                    LastPrice=$LastPrice,
-                                    gender='$gender',
-                                    Color='$Color',
-                                    isNoSize='$isNoSize',
-                                    isOneSize='$isOneSize',
-                                    isInStock='$isInStock',
-                                    prop65Risk='$prop65Risk',
-                                    iw_product_weight_id = '$iw_product_weight_id',
-                                            CompanyIdKey = '4a897b83' ,
-                                            Enabled = 1 ,
-                                            url_gender = '$PGender' ,
-                                            url_category = '$PCategory' ,
-                                            url_group = '$PGroup' ,
-                                            url_group2 = '$PGroup2' ,
-                                    info='$info',
-                                    isDeadProduct='$isDeadProduct',
-                                    rating='$rating',
-                                    CatIds='$CatIds',
-                                    iw_api_brands_id=$iw_api_brands_id,
-                                    iw_api_product_type_id=$iw_api_product_type_id ";
+                                ProductId = $ProductId ,
+                                ProductCode='$ProductCode',
+                                Name='$Name',
+                                Url='$Url',
+                                MainPrice=$MainPrice,
+                                LastPrice=$LastPrice,
+                                gender='$gender',
+                                Color='$Color',
+                                isNoSize='$isNoSize',
+                                isOneSize='$isOneSize',
+                                isInStock='$isInStock',
+                                prop65Risk='$prop65Risk',
+                                iw_product_weight_id = $iw_product_weight_id,
+                                iw_company_id = $iw_company_id ,
+                                Enabled = 1 ,
+                                url_gender = '$PGender' ,
+                                url_category = '$PCategory' ,
+                                url_group = '$PGroup' ,
+                                url_group2 = '$PGroup2' ,
+                                info='$info',
+                                isDeadProduct='$isDeadProduct',
+                                rating='$rating',
+                                CatIds='$CatIds',
+                                iw_api_brands_id=$iw_api_brands_id,
+                                iw_api_product_type_id=$iw_api_product_type_id ";
 
                     $objORM->DataAdd($str_change, TableIWAPIProducts);
                     $iw_api_product_id = $objORM->LastId();
 
 
                     $str_change = " PView = PView + 1 ";
-
                     $type_condition = "iw_api_products_id = $iw_api_product_id";
                     if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'id')) {
 
@@ -280,20 +270,21 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                         $colour = $variant['colour'];
                         $isProp65Risk = $variant['isProp65Risk'] == true ? 1 : 0;
 
-                        $str_change = "   product_id= $product_id,
-                                            name='$name',
-                                            sizeId=$sizeId,
-                                            brandSize='$brandSize',
-                                            sizeDescription='$sizeDescription',
-                                            displaySizeText='$displaySizeText',
-                                            sizeOrder= $sizeOrder,
-                                            isInStock=$isInStock,
-                                            isAvailable=$isAvailable,
-                                            colour='$colour',
-                                            price_current= $price_current,
-                                            price_previous= $price_previous,
-                                            isProp65Risk=$isProp65Risk,
-                                            iw_api_products_id = $iw_api_product_id ";
+                        $str_change = " 
+                                        product_id= $product_id,
+                                        name='$name',
+                                        sizeId=$sizeId,
+                                        brandSize='$brandSize',
+                                        sizeDescription='$sizeDescription',
+                                        displaySizeText='$displaySizeText',
+                                        sizeOrder= $sizeOrder,
+                                        isInStock=$isInStock,
+                                        isAvailable=$isAvailable,
+                                        colour='$colour',
+                                        price_current= $price_current,
+                                        price_previous= $price_previous,
+                                        isProp65Risk=$isProp65Risk,
+                                        iw_api_products_id = $iw_api_product_id ";
 
                         $variant_condition = "product_id= $product_id";
 
@@ -321,13 +312,13 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
 
 
-        if ($objORM->DataExist("Content IS NULL and ProductId = '$ProductId'", TableIWAPIProducts)) {
+        if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts,'id')) {
 
 
             $arrApiProductDetail = $objAclTools->JsonDecodeArray($objAclTools->deBase64($objAsos->ProductsDetail($ProductId)));
-            $strExpireDate = date("m-Y");
-            $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
-            $USet = " Count = Count + 1 ";
+            $expire_date = date("m-Y");
+            $UCondition = " iw_company_id = $iw_company_id and expire_date = '$expire_date' ";
+            $USet = " all_count = all_count + 1 ";
             $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
             if (isset($arrApiProductDetail['media']['images']) and count($arrApiProductDetail['media']['images']) > 0 and $arrApiProductDetail['isInStock']) {
@@ -342,7 +333,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                 foreach ($arrApiProductDetail['media']['images'] as $ProductImage) {
 
                     $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1400');
+                    curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1200');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
                     curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
@@ -369,7 +360,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
                 }
 
                 $strImages = implode("==::==", $arrImage);
-                $UCondition = " ProductId = '$ProductId' ";
+                $UCondition = " ProductId = $ProductId ";
                 $USet = "Content = '$strImages'";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);

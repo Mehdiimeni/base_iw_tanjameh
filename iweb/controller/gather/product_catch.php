@@ -8,8 +8,16 @@ function set_server()
     $objIAPI->SetLocalProjectName('tanjameh');
     return $objIAPI;
 }
+
+function get_currency($currency_id = 1)
+{
+    return $currency_id;
+}
 function product_catch()
 {
     $objIAPI = set_server();
-    return json_decode($objIAPI->GetGeneralApi('gather/product_catch'));
+    $filds = array(
+        'iw_company_id'=> 1 //asos
+    );
+    return json_decode($objIAPI->GetPostApi('gather/product_catch', $filds));
 }

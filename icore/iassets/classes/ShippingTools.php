@@ -7,16 +7,13 @@ class ShippingTools extends DBORM
     public function __construct($dbConnection)
     {
         parent::__construct($dbConnection);
-        $this->ProductWeight = 2;
+        $this->ProductWeight = -1;
     }
 
-    public function FindBasketWeightPrice($Weight, $TotalPrice, $CurrencyName1, $CurrencyName2, $RollNumber = 65, $CoverPrice = 1.1)
+    public function FindBasketWeightPrice($Weight, $TotalPrice, $currencies_conversion_id, $RollNumber = 65, $CoverPrice = 1.1)
     {
         $objWeightPrice = $this->SetPrice($Weight);
-        $CurrencyIdKey1 = $this->FindCurrencyIdKey($CurrencyName1);
-        $CurrencyIdKey2 = $this->FindCurrencyIdKey($CurrencyName2);
-        $ValueRate = $this->CurrenciesConversion($CurrencyIdKey1, $CurrencyIdKey2);
-
+        $ValueRate = $this->CurrenciesConversion($currencies_conversion_id);
         return $this->RollSet($objWeightPrice, $TotalPrice, $ValueRate, $RollNumber, $CoverPrice);
     }
 
@@ -33,22 +30,44 @@ class ShippingTools extends DBORM
 
     public function FindCurrencyIdKey($CurrencyName)
     {
-        return $this->Fetch(" Name = '$CurrencyName' ", 'IdKey', TableIWACurrencies)->IdKey;
+        return $this->Fetch(
+            "Name = '$CurrencyName'",
+            'IdKey',
+            TableIWACurrencies
+        )->IdKey;
     }
 
-    public function CurrenciesConversion($CurrencyIdKey1, $CurrencyIdKey2)
+    public function CurrenciesConversion($currencies_conversion_id)
     {
-        return $this->Fetch("CurrencyIdKey1 = '$CurrencyIdKey1' and CurrencyIdKey2 = '$CurrencyIdKey2'", 'Rate', TableIWACurrenciesConversion)->Rate;
+        return $this->Fetch(
+            "id = $currencies_conversion_id",
+            'Rate',
+            TableIWACurrenciesConversion
+        )->Rate;
     }
 
     public function SetPrice($intWeight)
     {
-        return $this->Fetch(" Weight = '$intWeight' ", 'NormalPrice,ExtraPrice', TableIWWebWeightPrice);
+
+        return $this->Fetch(
+            "iw_product_weight_id = " . $this->Fetch(" Weight = $intWeight", 'id', TableIWWebWeight)->id,
+            'NormalPrice,ExtraPrice',
+            TableIWWebWeightPrice
+        );
     }
 
     public function FindIntWeight($iw_product_weight_id)
     {
-        return $this->Fetch(" IdKey = '$iw_product_weight_id'", 'Weight', TableIWWebWeightPrice)->Weight ?? null;
+
+        if ($iw_product_weight_id == '') {
+            return 0;
+        } else {
+            return $this->Fetch(
+                "id = $iw_product_weight_id",
+                'Weight',
+                TableIWWebWeight
+            )->Weight ?? null;
+        }
     }
 
     public function FindItemWeight($ProductItem)
@@ -85,10 +104,18 @@ class ShippingTools extends DBORM
         $main_cat_id = $arr_cat_id[0];
 
         if ($main_cat_id != '') {
-            $GroupWeightIdKey = @$this->Fetch(" CatId = '$main_cat_id' ", 'iw_product_weight_id', TableIWNewMenu4)->iw_product_weight_id;
+            $GroupWeightIdKey = @$this->Fetch(
+                "CatId = '$main_cat_id' ",
+                'iw_product_weight_id',
+                TableIWNewMenu4
+            )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
             if ($Weight == '') {
-                $GroupWeightIdKey = @$this->Fetch(" CatId = '$main_cat_id' ", 'iw_product_weight_id', TableIWNewMenu3)->iw_product_weight_id;
+                $GroupWeightIdKey = @$this->Fetch(
+                    " CatId = '$main_cat_id' ",
+                    'iw_product_weight_id',
+                    TableIWNewMenu3
+                )->iw_product_weight_id;
                 $Weight = $this->FindIntWeight($GroupWeightIdKey);
             }
 
@@ -105,9 +132,17 @@ class ShippingTools extends DBORM
     {
         if ($iw_api_product_type_id != '') {
 
-            $type_name = @$this->Fetch("id = $iw_api_product_type_id", "name", TableIWApiProductType)->name;
+            $type_name = @$this->Fetch(
+                "id = $iw_api_product_type_id",
+                "name",
+                TableIWApiProductType
+            )->name;
 
-            $GroupWeightIdKey = @$this->Fetch(" Name = '$type_name' ", 'iw_product_weight_id', TableIWNewMenu4)->iw_product_weight_id;
+            $GroupWeightIdKey = @$this->Fetch(
+                " Name = '$type_name' ",
+                'iw_product_weight_id',
+                TableIWNewMenu4
+            )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
 
             if (isset($Weight) and $Weight != 0)
@@ -125,7 +160,11 @@ class ShippingTools extends DBORM
     public function GroupHasWeight($ProductGroupName)
     {
         if ($ProductGroupName != '') {
-            $GroupWeightIdKey = $this->Fetch(" Name LIKE '$ProductGroupName' ", 'iw_product_weight_id', TableIWNewMenu3)->iw_product_weight_id;
+            $GroupWeightIdKey = $this->Fetch(
+                " Name LIKE '$ProductGroupName' ",
+                'iw_product_weight_id',
+                TableIWNewMenu3
+            )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
@@ -140,7 +179,11 @@ class ShippingTools extends DBORM
     public function CategoryHasWeight($ProductCategoryName)
     {
         if ($ProductCategoryName != '') {
-            $CategoryWeightIdKey = $this->Fetch(" Name LIKE '$ProductCategoryName' ", 'iw_product_weight_id', TableIWNewMenu2)->iw_product_weight_id;
+            $CategoryWeightIdKey = $this->Fetch(
+                " Name LIKE '$ProductCategoryName' ",
+                'iw_product_weight_id',
+                TableIWNewMenu2
+            )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($CategoryWeightIdKey);
 
             if (isset($Weight) and $Weight != 0)
@@ -155,7 +198,11 @@ class ShippingTools extends DBORM
     public function MainHasWeight($ProductMainName)
     {
         if ($ProductMainName != '') {
-            $MainWeightIdKey = $this->Fetch(" Name LIKE '$ProductMainName' ", 'iw_product_weight_id', TableIWNewMenu)->iw_product_weight_id;
+            $MainWeightIdKey = $this->Fetch(
+                " Name LIKE '$ProductMainName' ",
+                'iw_product_weight_id',
+                TableIWNewMenu
+            )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($MainWeightIdKey);
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;

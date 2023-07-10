@@ -80,7 +80,7 @@ if (isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $PGroupId = $ListCatId->ApiId;
 
                 $Enabled = true;
-                $SCondition = "   ProductId = '$ProductId'   ";
+                $SCondition = "   ProductId = $ProductId   ";
 
                 if ($objORM->DataExist($SCondition, TableIWAPIProducts)) {
 
@@ -99,7 +99,7 @@ if (isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] == null) {
                     $InSet = "";
                     
                     $InSet .= " Enabled = $Enabled ,";
-                    $InSet .= " ProductId = '$ProductId' ,";
+                    $InSet .= " ProductId = $ProductId ,";
                     $InSet .= " Name = '$ProductName' ,";
                     $InSet .= " PGender = '$PGender' ,";
                     $InSet .= " PCategory = '$PCategory' ,";

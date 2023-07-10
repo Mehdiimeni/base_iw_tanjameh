@@ -18,12 +18,12 @@ if (isset($_POST['SubmitM'])) {
 
     $Count = $_POST['Count'];
     $ProductId = $_POST['ProductId'];
-    $strExpireDate = date("m-d-Y", strtotime('+1 day'));
+    $expire_date = date("m-d-Y", strtotime('+1 day'));
     $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
     $UserSessionId = session_id();
 
     $Enabled = true;
-    $SCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = '$ProductId' and  ExpireDate = '$strExpireDate' ";
+    $SCondition = " ( UserId = '$UserId' or UserSessionId = '$UserSessionId' ) and  ProductId = $ProductId and  expire_date = '$expire_date' ";
 
     if ($objORM->DataExist($SCondition, TableIWUserTempCart)) {
         JavaTools::JsAlertWithRefresh(FA_LC['enter_product_exist'], 0, '');
@@ -43,9 +43,9 @@ if (isset($_POST['SubmitM'])) {
         $InSet .= " Size = '$Size' ,";
         $InSet .= " Enabled = $Enabled ,";
         $InSet .= " Count = '$Count' ,";
-        $InSet .= " ProductId = '$ProductId' ,";
+        $InSet .= " ProductId = $ProductId ,";
         $InSet .= " ProductSizeId = '$ProductSizeId' ,";
-        $InSet .= " ExpireDate = '$strExpireDate' ,";
+        $InSet .= " expire_date = '$expire_date' ,";
         $InSet .= " UserId = '$UserId' ,";
         $InSet .= " UserSessionId = '$UserSessionId' ,";
         $InSet .= " modify_ip = '$modify_ip' ,";
@@ -100,8 +100,8 @@ if (isset($_GET['IdKey'])) {
         $objAsos = new AsosConnections();
 
         $ApiContent = $objAsos->ProductsDetail($objProduct->ProductId);
-        $strExpireDate = date("m-Y");
-        $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+        $expire_date = date("m-Y");
+        $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
         $USet = " Count = Count + 1 ";
         $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
         $objProductData = $objReqular->JsonDecodeArray($objReqular->deBase64($ApiContent));

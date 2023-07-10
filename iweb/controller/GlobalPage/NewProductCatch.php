@@ -53,8 +53,8 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
     $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 1500);
     $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));
 
-    $strExpireDate = date("m-Y");
-    $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+    $expire_date = date("m-Y");
+    $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
@@ -77,7 +77,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
         $product['price']['previous']['value'] != null ? $ApiLastPrice = $product['price']['previous']['value'] : $ApiLastPrice = 0;
         $ProductCode = $product['productCode'];
         $ApiContent = $objAclTools->enBase64($objAclTools->JsonEncode($product), 0);
-        $SCondition = "   ProductId = '$ProductId'   ";
+        $SCondition = "   ProductId = $ProductId   ";
 
         if ($objORM->DataExist($SCondition, TableIWAPIProducts)) {
 
@@ -102,7 +102,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             
             $USet .= " last_modify = '$now_modify' ";
 
-            $objORM->DataUpdate("   ProductId = '$ProductId'   ", $USet, TableIWAPIProducts);
+            $objORM->DataUpdate("   ProductId = $ProductId   ", $USet, TableIWAPIProducts);
 
         } else {
 
@@ -111,7 +111,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $InSet = "";
             
             $InSet .= " Enabled = $Enabled ,";
-            $InSet .= " ProductId = '$ProductId' ,";
+            $InSet .= " ProductId = $ProductId ,";
             $InSet .= " ProductCode = '$ProductCode' ,";
             $InSet .= " Name = '$ProductName' ,";
             $InSet .= " ApiContent = '$ApiContent' ,";
@@ -124,7 +124,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $InSet .= " MainPrice = $MainPrice ,";
             $InSet .= " LastPrice = $ApiLastPrice, ";
             $InSet .= " ModifyDateP = '$ModifyDate' ,";
-            $InSet .= " CompanyIdKey = '4a897b83' ,";
+            $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
             $InSet .= " BrandName = '$BrandName' ,";
             $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $InSet .= " Attribute = '$Attribute'  ,";
@@ -146,12 +146,12 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
         $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu3);
 
-        if ($objORM->DataExist("Content IS NULL and ProductId = '$ProductId'", TableIWAPIProducts)) {
+        if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts)) {
 
 
             $arrApiProductDetail = $objAclTools->JsonDecodeArray($objAclTools->deBase64($objAsos->ProductsDetail($ProductId)));
-            $strExpireDate = date("m-Y");
-            $UCondition = " CompanyIdKey = '4a897b83' and ExpireDate = '$strExpireDate' ";
+            $expire_date = date("m-Y");
+            $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
             $USet = " Count = Count + 1 ";
             $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
@@ -242,7 +242,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
 
 
                 $strImages = implode("==::==", $arrImage);
-                $UCondition = " ProductId = '$ProductId' ";
+                $UCondition = " ProductId = $ProductId ";
                 $USet = "Content = '$strImages',";
                 $USet .= " ApiContent = '$ApiContent' ,";
                 $USet .= " PCategory = '$PCategory' ,";

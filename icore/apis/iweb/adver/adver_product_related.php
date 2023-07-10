@@ -11,6 +11,7 @@ include "../../../iassets/include/DBLoader.php";
 if (isset($_POST['adver_related'])) {
 
     $adver_related = $_POST['adver_related'];
+    $currencies_conversion_id = $_POST['currencies_conversion_id'];
     $item_id = $_POST['item'];
     $condition = "id = $item_id";
     $obj_product = @$objORM->Fetch($condition, "Color,url_group,MainPrice", TableIWAPIProducts);
@@ -30,7 +31,7 @@ if (isset($_POST['adver_related'])) {
             $condition_statement = " url_group = '$url_group_set' LIMIT 10 ";
             break;
         case 'price':
-            $condition_statement = " OrginalPrice BETWEEN $low_price AND $high_price  LIMIT 10 ";
+            $condition_statement = " MainPrice BETWEEN $low_price AND $high_price  LIMIT 10 ";
             break;
     }
 
@@ -96,7 +97,7 @@ if (isset($_POST['adver_related'])) {
             if ($PreviousCurrencyPrice != null and $boolChange) {
                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
+                $strOldPricingPart  = '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
             }
 
 
@@ -122,7 +123,8 @@ if (isset($_POST['adver_related'])) {
                 'image' => $str_image,
                 'str_price' => $strPricingPart,
                 'str_old_price' => $strOldPricingPart,
-                'product_page_url' => $product_page_url
+                'product_page_url' => $product_page_url,
+                'company_id' => $product->company_id
             );
             $arr_product_note = array(
                 'note1' => '<h6 class="m-0">تحویل از راه دور</h6>'

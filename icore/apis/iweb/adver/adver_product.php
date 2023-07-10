@@ -86,7 +86,7 @@ if (isset($_POST['page_name_system'])) {
                             if ($PreviousCurrencyPrice != null and $boolChange) {
                                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                                $strOldPricingPart .= '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
+                                $strOldPricingPart  = '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
                             }
 
 
@@ -110,7 +110,8 @@ if (isset($_POST['page_name_system'])) {
                                 'image' => $str_image,
                                 'str_price' => $strPricingPart,
                                 'str_old_price' => $strOldPricingPart,
-                                'product_page_url' => $product_page_url
+                                'product_page_url' => $product_page_url,
+                                'company_id' => $product->company_id
                             );
                             $arr_product_note = array(
                                 'note1' => '<h6 class="m-0">تحویل از راه دور</h6>'
