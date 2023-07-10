@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-if ($objACLTools->NormalLogin('../../../../irepository/log/login/user/' . $_POST['user_idkey'], 'user')) {
+if (file_exists('../../../../irepository/log/login/user/' . $_POST['user_id'])) {
     echo (true);
 } else {
     echo (false);

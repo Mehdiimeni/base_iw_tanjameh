@@ -30,8 +30,8 @@ class ACLTools extends GlobalVarTools
 
         if ($UserType == 'user') {
 
-            if (@$this->jsonCookieVars->_IWUserId != null) {
-                parent::setSessionVar('_IWUserId', parent::de2Base64($this->jsonCookieVars->_IWUserId));
+            if (@$this->jsonCookieVars->user_id != null) {
+                parent::setSessionVar('user_id', parent::deBase64($this->jsonCookieVars->user_id));
                 return true;
 
             } else {

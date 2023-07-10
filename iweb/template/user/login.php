@@ -4,6 +4,16 @@ if (isset($_POST['registerL'])) {
     $user_signup_result = @user_signup($_POST);
     if ($user_signup_result->stat) {
 
+
+        $_SESSION['user_id'] = $user_signup_result->user_id;
+
+        setcookie(
+            'user_id',
+            base64_encode($user_signup_result->user_id),
+            time() + (7 * 24 * 60 * 60),
+            '/'
+        );
+
         switch ($user_signup_result->stat_detials) {
             case '20':
                 echo "<script>window.location.href = './?user=cart';</script>";
@@ -38,6 +48,16 @@ if (isset($_POST['loginL'])) {
 
     $user_login_result = @user_login($username, $password);
     if ($user_login_result->stat) {
+
+
+        $_SESSION['user_id'] = $user_login_result->user_id;
+
+        setcookie(
+            'user_id',
+            base64_encode($user_login_result->user_id),
+            time() + (7 * 24 * 60 * 60),
+            '/'
+        );
 
         switch (user_login($username, $password)->stat_detials) {
             case '20':

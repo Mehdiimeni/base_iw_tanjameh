@@ -41,10 +41,11 @@ if (get_nav()) {
             </a>
             <ul id="accountDrop" class="dropdown-menu b-animate b-dark border-0 rounded-0 position-absolute">
               <!-- show li when user is not login -->
+              <?php if (!get_user_acl()) { ?>
               <li class="px-3 mt-2"><a class="btn btn-dark w-100 rounded-0" href="./?user=login">
                   <?php echo (_LANG['login']); ?>
                 </a></li>
-              <?php if (!get_user_acl()) { ?>
+              
                 <li class="b-animate b-purple px-3 pt-2">
                   <a class="text-decoration-none text-mediumpurple d-inline-block" href="./?user=login">ثبت نام</a>
                   <span class="font-x-s">- تنها یک دقیقه طول می کشد.</span>
@@ -55,12 +56,12 @@ if (get_nav()) {
               <?php } else { ?>
                 <!-- end show -->
                 <!-- show li when user is login -->
-                <li><a class="dropdown-item" href="#">پروفایلم</a></li>
-                <li><a class="dropdown-item" href="#">سفارشاتم</a></li>
+                <li><a class="dropdown-item" href="?user=myaccount">صفحه کاربری</a></li>
+                <li><a class="dropdown-item" href="?user=cart">سفارشاتم</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">
+                <li><a class="dropdown-item" href="?user=exit">
                     <div class="row fs-6">
                       <!-- <div class="col-9 text-truncate">username نیستی؟</div> -->
                       <div class="col-3">خروج</div>

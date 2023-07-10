@@ -3,7 +3,7 @@
 
 function set_server()
 {
-    $_SERVER['HTTP_HOST'] != 'localhost' ? $server_address = 'https://'.$_SERVER['HTTP_HOST'] : $server_address = $_SERVER['HTTP_HOST'];
+    $_SERVER['HTTP_HOST'] != 'localhost' ? $server_address = 'https://' . $_SERVER['HTTP_HOST'] : $server_address = $_SERVER['HTTP_HOST'];
 
     $objIAPI = new IAPI($server_address, 'iweb');
     $objIAPI->SetLocalProjectName('tanjameh');
@@ -17,7 +17,8 @@ function get_currency($currency_id = 1)
 
 function get_user_id()
 {
-    isset($_REQUEST['_IWUserId']) ? $UserId = $_REQUEST['_IWUserId']  : $UserId = null;
+
+    isset($_SESSION['user_id']) ? $UserId = $_SESSION['user_id'] : $UserId = @base64_decode($_COOKIE['user_id']);
     return $UserId;
 
 }
@@ -27,9 +28,13 @@ function get_user_acl()
     if (get_user_id() == null) {
         return false;
     } else {
-        $filds = array('user_idkey' => get_user_id());
-        $objIAPI = set_server();
-        return $objIAPI->GetPostApi('user/acl', $filds);
+
+        if (file_exists('./irepository/log/login/user/' . get_user_id() . '.iw')) {
+
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

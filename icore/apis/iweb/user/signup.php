@@ -65,9 +65,6 @@ if (
         fwrite($FOpen, "$iw_user_id==::==$now_modify==::==in\n");
         fclose($FOpen);
 
-        $objGlobalVar->setSessionVar('_IWUserId', $iw_user_id);
-        $objGlobalVar->setCookieVar('_IWUserId', $objACLTools->en2Base64($iw_user_id, 1));
-
         $UserSessionId = session_id();
         $SCondition = "  ( iw_user_id = $iw_user_id or session_id = '$UserSessionId'  ) and iw_api_product_variants_id != ''  ";
         $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart, 'id');
@@ -77,10 +74,12 @@ if (
 
             $stat = true;
             $stat_detials = "20"; // temp cart exist
+            $_IWUserId = $iw_user_id; // user id
 
         } else {
             $stat = true;
             $stat_detials = "21"; // temp cart not exist
+            $_IWUserId = $iw_user_id; // user id
         }
 
     }
@@ -95,7 +94,8 @@ if (
 
 $arr_signup_user_detials = array(
     'stat' => $stat,
-    'stat_detials' => $stat_detials
+    'stat_detials' => $stat_detials,
+    'user_id' => $_IWUserId
 );
 
 echo json_encode($arr_signup_user_detials);

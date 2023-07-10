@@ -50,8 +50,6 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
         fwrite($FOpen, "$obj_user_info->id==::==$now_modify==::==in\n");
         fclose($FOpen);
 
-        $objGlobalVar->setSessionVar('_IWUserId', $obj_user_info->id);
-        $objGlobalVar->setCookieVar('_IWUserId', $objACLTools->en2Base64($obj_user_info->id, 1));
 
 
         $UserSessionId = session_id();
@@ -63,10 +61,12 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
 
             $stat = true;
             $stat_detials = "20"; // temp cart exist
+            $_IWUserId = $obj_user_info->id; // user id
 
         } else {
             $stat = true;
             $stat_detials = "21"; // temp cart not exist
+            $_IWUserId = $obj_user_info->id; // user id
         }
 
 
@@ -83,7 +83,8 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
 
 $arr_login_user_detials = array(
     'stat' => $stat,
-    'stat_detials' => $stat_detials
+    'stat_detials' => $stat_detials,
+    'user_id' => $_IWUserId
 );
 
 echo json_encode($arr_login_user_detials);

@@ -12,6 +12,15 @@ if (@$_GET['user'] != '') {
 
 
     switch ($_GET['user']) {
+
+        case 'exit':
+            session_destroy();
+            unset($_COOKIE['user_id']);
+            setcookie('user_id', '', -1, '/');
+            include_once("./iweb/page/index.php");
+            exit();
+            break;
+
         case 'login':
             include_once("./iweb/page/login.php");
             exit();
@@ -24,6 +33,52 @@ if (@$_GET['user'] != '') {
 
         case 'myaccount':
             include_once("./iweb/page/myaccount.php");
+            exit();
+            break;
+
+        case 'myaccount-orders':
+            include_once("./iweb/page/myaccount_orders.php");
+            exit();
+            break;
+
+        case 'myaccount-details':
+            include_once("./iweb/page/myaccount_details.php");
+            exit();
+            break;
+
+
+        case 'myaccount-addresses':
+            include_once("./iweb/page/myaccount_addresses.php");
+            exit();
+            break;
+
+        case 'myaccount-giftvouchers':
+            include_once("./iweb/page/myaccount_giftvouchers.php");
+            exit();
+            break;
+
+        case 'myaccount-messages':
+            include_once("./iweb/page/myaccount_messages.php");
+            exit();
+            break;
+
+        case 'myaccount-owned':
+            include_once("./iweb/page/myaccount_owned.php");
+            exit();
+            break;
+
+        case 'myaccount-preferences':
+            include_once("./iweb/page/myaccount_preferences.php");
+            exit();
+            break;
+
+        case 'faq':
+            include_once("./iweb/page/faq.php");
+            exit();
+            break;
+
+        case 'myaccount-privacy':
+            include_once("./iweb/page/myaccount_privacy.php");
             exit();
             break;
 

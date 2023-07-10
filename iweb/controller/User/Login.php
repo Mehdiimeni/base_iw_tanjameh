@@ -12,7 +12,7 @@ function set_server()
 
 function get_user_id()
 {
-    isset($_REQUEST['_IWUserId']) ? $UserId = $_REQUEST['_IWUserId']  : $UserId = null;
+    isset($_REQUEST['user_id']) ? $UserId = $_REQUEST['user_id']  : $UserId = null;
     return $UserId;
 
 }
@@ -23,7 +23,7 @@ function get_user_acl()
     if (get_user_id() == null) {
         return false;
     } else {
-        $filds = array('user_idkey' => get_user_id());
+        $filds = array('user_id' => get_user_id());
         $objIAPI = set_server();
         return $objIAPI->GetPostApi('user/acl', $filds);
 
@@ -33,7 +33,7 @@ function get_user_acl()
 
 function get_user_cart()
 {
-        $filds = array('user_idkey' => get_user_id());
+        $filds = array('user_id' => get_user_id());
         $objIAPI = set_server();
         return $objIAPI->GetPostApi('user/cart', $filds);
 
