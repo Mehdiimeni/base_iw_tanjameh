@@ -196,7 +196,7 @@ class CodeLocation
                 $preview_offset += strlen($preview_lines[$i]) + 1;
             }
 
-            if (!isset($preview_lines[$i])) {
+            if (!!empty($preview_lines[$i])) {
                 throw new \Exception('Should have offset');
             }
 

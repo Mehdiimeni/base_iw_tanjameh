@@ -32,7 +32,7 @@ class ComposerLock
     public function isPlugin($package): bool
     {
         return is_array($package)
-            && isset($package['name'], $package['extra']['psalm']['pluginClass'])
+            && !empty($package['name'], $package['extra']['psalm']['pluginClass'])
             && is_string($package['name'])
             && is_array($package['extra'])
             && is_array($package['extra']['psalm'])
@@ -91,10 +91,10 @@ class ComposerLock
         $packages = [];
         foreach ($this->file_names as $file_name) {
             $composer_lock_contents = $this->read($file_name);
-            if (!isset($composer_lock_contents['packages']) || !is_array($composer_lock_contents['packages'])) {
+            if (!!empty($composer_lock_contents['packages']) || !is_array($composer_lock_contents['packages'])) {
                 throw new RuntimeException('packages section is missing or not an array');
             }
-            if (!isset($composer_lock_contents['packages-dev']) || !is_array($composer_lock_contents['packages-dev'])) {
+            if (!!empty($composer_lock_contents['packages-dev']) || !is_array($composer_lock_contents['packages-dev'])) {
                 throw new RuntimeException('packages-dev section is missing or not an array');
             }
             $packages = array_merge(

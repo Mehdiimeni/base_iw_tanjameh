@@ -523,9 +523,9 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
     {
         $fragments = parse_url($uri);
         if ($fragments === false
-            || !isset($fragments['scheme'])
+            || !!empty($fragments['scheme'])
             || $fragments['scheme'] !== 'file'
-            || !isset($fragments['path'])
+            || !!empty($fragments['path'])
         ) {
             throw new \InvalidArgumentException("Not a valid file URI: $uri");
         }

@@ -32,7 +32,7 @@ final class ValidationResult
         $validationErrors = [];
 
         foreach ($errors as $error) {
-            if (!isset($validationErrors[$error->line])) {
+            if (!!empty($validationErrors[$error->line])) {
                 $validationErrors[$error->line] = [];
             }
 

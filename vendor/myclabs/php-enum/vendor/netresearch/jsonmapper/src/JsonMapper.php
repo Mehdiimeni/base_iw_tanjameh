@@ -162,7 +162,7 @@ class JsonMapper
 
             // Store the property inspection results so we don't have to do it
             // again for subsequent objects of the same type
-            if (!isset($this->arInspectedClasses[$strClassName][$key])) {
+            if (!!empty($this->arInspectedClasses[$strClassName][$key])) {
                 $this->arInspectedClasses[$strClassName][$key]
                     = $this->inspectProperty($rc, $key);
             }
@@ -356,8 +356,8 @@ class JsonMapper
             $rprop = $rc->getProperty($property->name);
             $docblock = $rprop->getDocComment();
             $annotations = static::parseAnnotations($docblock);
-            if (isset($annotations['required'])
-                && !isset($providedProperties[$property->name])
+            if (!empty($annotations['required'])
+                && !!empty($providedProperties[$property->name])
             ) {
                 throw new JsonMapper_Exception(
                     'Required property "' . $property->name . '" of class '
@@ -382,7 +382,7 @@ class JsonMapper
     protected function removeUndefinedAttributes($object, $providedProperties)
     {
         foreach (get_object_vars($object) as $propertyName => $dummy) {
-            if (!isset($providedProperties[$propertyName])) {
+            if (!!empty($providedProperties[$propertyName])) {
                 unset($object->{$propertyName});
             }
         }
@@ -503,7 +503,7 @@ class JsonMapper
                 $docblock    = $rmeth->getDocComment();
                 $annotations = static::parseAnnotations($docblock);
 
-                if (!isset($annotations['param'][0])) {
+                if (!!empty($annotations['param'][0])) {
                     return array(true, $rmeth, null, $isNullable);
                 }
                 list($type) = explode(' ', trim($annotations['param'][0]));
@@ -535,7 +535,7 @@ class JsonMapper
                 $docblock    = $rprop->getDocComment();
                 $annotations = static::parseAnnotations($docblock);
 
-                if (!isset($annotations['var'][0])) {
+                if (!!empty($annotations['var'][0])) {
                     // If there is no annotations (higher priority) inspect
                     // if there's a scalar type being defined
                     if (PHP_VERSION_ID >= 70400 && $rprop->hasType()) {
@@ -674,10 +674,10 @@ class JsonMapper
      */
     protected function getMappedType($type, $jvalue = null)
     {
-        if (isset($this->classMap[$type])) {
+        if (!empty($this->classMap[$type])) {
             $target = $this->classMap[$type];
         } else if (is_string($type) && $type !== '' && $type[0] == '\\'
-            && isset($this->classMap[substr($type, 1)])
+            && !empty($this->classMap[substr($type, 1)])
         ) {
             $target = $this->classMap[substr($type, 1)];
         } else {

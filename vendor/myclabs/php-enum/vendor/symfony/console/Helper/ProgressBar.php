@@ -586,13 +586,13 @@ final class ProgressBar
         $callback = function ($matches) {
             if ($formatter = $this::getPlaceholderFormatterDefinition($matches[1])) {
                 $text = $formatter($this, $this->output);
-            } elseif (isset($this->messages[$matches[1]])) {
+            } elseif (!empty($this->messages[$matches[1]])) {
                 $text = $this->messages[$matches[1]];
             } else {
                 return $matches[0];
             }
 
-            if (isset($matches[2])) {
+            if (!empty($matches[2])) {
                 $text = sprintf('%'.$matches[2], $text);
             }
 

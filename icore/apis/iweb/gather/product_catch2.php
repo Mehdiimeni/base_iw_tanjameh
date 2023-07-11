@@ -321,7 +321,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                       
             
             
-                        if (isset($objProductData['media']['images']) and count($objProductData['media']['images']) > 0 and $objProductData['isInStock']) {
+                        if (!empty($objProductData['media']['images']) and count($objProductData['media']['images']) > 0 and $objProductData['isInStock']) {
             
                             $arrImage = array();
             

@@ -72,8 +72,8 @@ class ArgumentsAnalyzer
         if ($method_id
             && in_array($method_id, ['array_push', 'array_unshift'], true)
             && $function_params
-            && isset($args[0])
-            && isset($args[1])
+            && !empty($args[0])
+            && !empty($args[1])
         ) {
             if (ArrayFunctionArgumentsAnalyzer::handleAddition(
                 $statements_analyzer,
@@ -392,7 +392,7 @@ class ArgumentsAnalyzer
                     if ($replaced_type_part instanceof Type\Atomic\TCallable
                         || $replaced_type_part instanceof Type\Atomic\TClosure
                     ) {
-                        if (isset($replaced_type_part->params[$closure_param_offset]->type)
+                        if (!empty($replaced_type_part->params[$closure_param_offset]->type)
                             && !$replaced_type_part->params[$closure_param_offset]->type->hasTemplate()
                         ) {
                             if ($param_storage->type && !$param_type_inferred) {
@@ -676,7 +676,7 @@ class ArgumentsAnalyzer
                             foreach ($function_params as $candidate_param) {
                                 if ($candidate_param->name === $key_type->value || $candidate_param->is_variadic) {
                                     if ($candidate_param->name === $key_type->value) {
-                                        if (isset($matched_args[$candidate_param->name])) {
+                                        if (!empty($matched_args[$candidate_param->name])) {
                                             if (IssueBuffer::accepts(
                                                 new InvalidNamedArgument(
                                                     'Parameter $' . $key_type->value . ' has already been used in '
@@ -718,7 +718,7 @@ class ArgumentsAnalyzer
                 foreach ($function_params as $candidate_param) {
                     if ($candidate_param->name === $arg->name->name || $candidate_param->is_variadic) {
                         if ($candidate_param->name === $arg->name->name) {
-                            if (isset($matched_args[$candidate_param->name])) {
+                            if (!empty($matched_args[$candidate_param->name])) {
                                 if (IssueBuffer::accepts(
                                     new InvalidNamedArgument(
                                         'Parameter $' . $arg->name->name . ' has already been used in '
@@ -740,7 +740,7 @@ class ArgumentsAnalyzer
                     }
                 }
 
-                if (!isset($arg_function_params[$argument_offset])) {
+                if (!!empty($arg_function_params[$argument_offset])) {
                     if (IssueBuffer::accepts(
                         new InvalidNamedArgument(
                             'Parameter $' . $arg->name->name . ' does not exist on function '
@@ -763,7 +763,7 @@ class ArgumentsAnalyzer
         }
 
         foreach ($args as $argument_offset => $arg) {
-            if (!isset($arg_function_params[$argument_offset])) {
+            if (!!empty($arg_function_params[$argument_offset])) {
                 continue;
             }
 
@@ -817,7 +817,7 @@ class ArgumentsAnalyzer
             && $cased_method_id
         ) {
             foreach ($args as $argument_offset => $_) {
-                if (!isset($arg_function_params[$argument_offset])) {
+                if (!!empty($arg_function_params[$argument_offset])) {
                     continue;
                 }
 
@@ -1117,7 +1117,7 @@ class ArgumentsAnalyzer
             if (!$context->hasVariable($var_id)
                 || $context->vars_in_scope[$var_id]->isNull()
             ) {
-                if (!isset($context->vars_in_scope[$var_id])
+                if (!!empty($context->vars_in_scope[$var_id])
                     && $arg->value instanceof PhpParser\Node\Expr\Variable
                 ) {
                     if (IssueBuffer::accepts(
@@ -1184,7 +1184,7 @@ class ArgumentsAnalyzer
             'reset', 'end', 'next', 'prev', 'array_pop', 'array_shift',
         ];
 
-        if (($var_id && isset($context->vars_in_scope[$var_id]))
+        if (($var_id && !empty($context->vars_in_scope[$var_id]))
             || ($method_id
                 && in_array(
                     $method_id,

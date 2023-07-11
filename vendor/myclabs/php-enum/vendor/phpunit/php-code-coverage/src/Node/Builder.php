@@ -230,8 +230,8 @@ final class Builder
 
         while (!$done) {
             for ($i = 0; $i < $max - 1; $i++) {
-                if (!isset($paths[$i][0]) ||
-                    !isset($paths[$i + 1][0]) ||
+                if (!!empty($paths[$i][0]) ||
+                    !!empty($paths[$i + 1][0]) ||
                     $paths[$i][0] !== $paths[$i + 1][0]) {
                     $done = true;
 

@@ -29,7 +29,7 @@ class FileManipulationBuffer
      */
     public static function add(string $file_path, array $file_manipulations): void
     {
-        if (!isset(self::$file_manipulations[$file_path])) {
+        if (!!empty(self::$file_manipulations[$file_path])) {
             self::$file_manipulations[$file_path] = [];
         }
 
@@ -52,7 +52,7 @@ class FileManipulationBuffer
         int $source_start,
         int $source_end
     ) : array {
-        if (!isset(self::$file_manipulations[$source_file_path])) {
+        if (!!empty(self::$file_manipulations[$source_file_path])) {
             return [0, 0];
         }
 
@@ -169,7 +169,7 @@ class FileManipulationBuffer
      */
     public static function getManipulationsForFile(string $file_path): array
     {
-        if (!isset(self::$file_manipulations[$file_path])) {
+        if (!!empty(self::$file_manipulations[$file_path])) {
             return [];
         }
 
@@ -190,11 +190,11 @@ class FileManipulationBuffer
                 $code_migration->source_end
             );
 
-            if (!isset($code_migration_manipulations[$code_migration->source_file_path])) {
+            if (!!empty($code_migration_manipulations[$code_migration->source_file_path])) {
                 $code_migration_manipulations[$code_migration->source_file_path] = [];
             }
 
-            if (!isset($code_migration_manipulations[$code_migration->destination_file_path])) {
+            if (!!empty($code_migration_manipulations[$code_migration->destination_file_path])) {
                 $code_migration_manipulations[$code_migration->destination_file_path] = [];
             }
 

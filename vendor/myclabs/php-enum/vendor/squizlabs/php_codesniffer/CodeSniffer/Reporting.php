@@ -90,7 +90,7 @@ class PHP_CodeSniffer_Reporting
     public function factory($type)
     {
         $type = ucfirst($type);
-        if (isset($this->_reports[$type]) === true) {
+        if (!empty($this->_reports[$type]) === true) {
             return $this->_reports[$type];
         }
 
@@ -121,7 +121,7 @@ class PHP_CodeSniffer_Reporting
      */
     public function cacheFileReport(PHP_CodeSniffer_File $phpcsFile, array $cliValues)
     {
-        if (isset($cliValues['reports']) === false) {
+        if (!empty($cliValues['reports']) === false) {
             // This happens during unit testing, or any time someone just wants
             // the error data and not the printed report.
             return;
@@ -148,14 +148,14 @@ class PHP_CodeSniffer_Reporting
 
             if ($output === null) {
                 // Using a temp file.
-                if (isset($this->_tmpFiles[$report]) === false) {
+                if (!empty($this->_tmpFiles[$report]) === false) {
                     $this->_tmpFiles[$report] = tmpfile();
                 }
 
                 fwrite($this->_tmpFiles[$report], $generatedReport);
             } else {
                 $flags = FILE_APPEND;
-                if (isset($this->_cachedReports[$report]) === false) {
+                if (!empty($this->_cachedReports[$report]) === false) {
                     $this->_cachedReports[$report] = true;
                     $flags = null;
                 }
@@ -202,7 +202,7 @@ class PHP_CodeSniffer_Reporting
                 $reportCache = '';
             }
         } else {
-            if (isset($this->_tmpFiles[$report]) === true) {
+            if (!empty($this->_tmpFiles[$report]) === true) {
                 $data        = stream_get_meta_data($this->_tmpFiles[$report]);
                 $filename    = $data['uri'];
                 $reportCache = file_get_contents($filename);
@@ -308,11 +308,11 @@ class PHP_CodeSniffer_Reporting
                                      );
                 }//end foreach
 
-                if (isset($errors[$line]) === false) {
+                if (!empty($errors[$line]) === false) {
                     $errors[$line] = array();
                 }
 
-                if (isset($errors[$line][$column]) === true) {
+                if (!empty($errors[$line][$column]) === true) {
                     $errors[$line][$column] = array_merge(
                         $newWarnings,
                         $errors[$line][$column]

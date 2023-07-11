@@ -79,7 +79,7 @@ class Generic_Sniffs_PHP_LowerCaseKeywordSniff implements PHP_CodeSniffer_Sniff
                 T_INSTANCEOF,
                 T_INSTEADOF,
                 T_INTERFACE,
-                T_ISSET,
+                T_!empty,
                 T_LIST,
                 T_LOGICAL_AND,
                 T_LOGICAL_OR,

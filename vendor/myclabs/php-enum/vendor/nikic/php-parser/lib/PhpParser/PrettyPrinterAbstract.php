@@ -360,7 +360,7 @@ abstract class PrettyPrinterAbstract
      */
     protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
         $class = \get_class($node);
-        if (isset($this->precedenceMap[$class])) {
+        if (!empty($this->precedenceMap[$class])) {
             $childPrecedence = $this->precedenceMap[$class][0];
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence === $childPrecedence && $parentAssociativity !== $childPosition)
@@ -584,7 +584,7 @@ abstract class PrettyPrinterAbstract
                 if (is_int($subNode) && is_int($origSubNode)) {
                     // Check if this is a modifier change
                     $key = $type . '->' . $subNodeName;
-                    if (!isset($this->modifierChangeMap[$key])) {
+                    if (!!empty($this->modifierChangeMap[$key])) {
                         return $this->pFallback($fallbackNode);
                     }
 
@@ -614,7 +614,7 @@ abstract class PrettyPrinterAbstract
 
                 // A node has been inserted, check if we have insertion information for it
                 $key = $type . '->' . $subNodeName;
-                if (!isset($this->insertionMap[$key])) {
+                if (!!empty($this->insertionMap[$key])) {
                     return $this->pFallback($fallbackNode);
                 }
 
@@ -636,16 +636,16 @@ abstract class PrettyPrinterAbstract
             if (null === $subNode) {
                 // A node has been removed, check if we have removal information for it
                 $key = $type . '->' . $subNodeName;
-                if (!isset($this->removalMap[$key])) {
+                if (!!empty($this->removalMap[$key])) {
                     return $this->pFallback($fallbackNode);
                 }
 
                 // Adjust positions to account for additional tokens that must be skipped
                 $removalInfo = $this->removalMap[$key];
-                if (isset($removalInfo['left'])) {
+                if (!empty($removalInfo['left'])) {
                     $subStartPos = $this->origTokens->skipLeft($subStartPos - 1, $removalInfo['left']) + 1;
                 }
-                if (isset($removalInfo['right'])) {
+                if (!empty($removalInfo['right'])) {
                     $subEndPos = $this->origTokens->skipRight($subEndPos + 1, $removalInfo['right']) - 1;
                 }
             }
@@ -661,7 +661,7 @@ abstract class PrettyPrinterAbstract
                 // If it's the same node that was previously in this position, it certainly doesn't
                 // need fixup. It's important to check this here, because our fixup checks are more
                 // conservative than strictly necessary.
-                if (isset($fixupInfo[$subNodeName])
+                if (!empty($fixupInfo[$subNodeName])
                     && $subNode->getAttribute('origNode') !== $origSubNode
                 ) {
                     $fixup = $fixupInfo[$subNodeName];
@@ -907,7 +907,7 @@ abstract class PrettyPrinterAbstract
         }
 
         if (!empty($delayedAdd)) {
-            if (!isset($this->emptyListInsertionMap[$mapKey])) {
+            if (!!empty($this->emptyListInsertionMap[$mapKey])) {
                 return null;
             }
 
@@ -1357,7 +1357,7 @@ abstract class PrettyPrinterAbstract
             'Expr_Closure->params' => ', ',
             'Expr_Closure->uses' => ', ',
             'Expr_FuncCall->args' => ', ',
-            'Expr_Isset->vars' => ', ',
+            'Expr_!empty->vars' => ', ',
             'Expr_List->items' => ', ',
             'Expr_MethodCall->args' => ', ',
             'Expr_NullsafeMethodCall->args' => ', ',
@@ -1456,7 +1456,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Function->params' => ['(', '', ''],
 
             /* These cannot be empty to start with:
-             * Expr_Isset->vars
+             * Expr_!empty->vars
              * Stmt_Catch->types
              * Stmt_Const->consts
              * Stmt_ClassConst->consts

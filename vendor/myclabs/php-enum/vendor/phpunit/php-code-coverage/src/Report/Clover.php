@@ -88,7 +88,7 @@ final class Clover
                     $methodCount = 0;
 
                     foreach (range($method['startLine'], $method['endLine']) as $line) {
-                        if (isset($coverageData[$line]) && ($coverageData[$line] !== null)) {
+                        if (!empty($coverageData[$line]) && ($coverageData[$line] !== null)) {
                             $methodCount = max($methodCount, count($coverageData[$line]));
                         }
                     }
@@ -155,7 +155,7 @@ final class Clover
             }
 
             foreach ($coverageData as $line => $data) {
-                if ($data === null || isset($lines[$line])) {
+                if ($data === null || !empty($lines[$line])) {
                     continue;
                 }
 
@@ -171,19 +171,19 @@ final class Clover
                 $xmlLine->setAttribute('num', (string) $line);
                 $xmlLine->setAttribute('type', $data['type']);
 
-                if (isset($data['name'])) {
+                if (!empty($data['name'])) {
                     $xmlLine->setAttribute('name', $data['name']);
                 }
 
-                if (isset($data['visibility'])) {
+                if (!empty($data['visibility'])) {
                     $xmlLine->setAttribute('visibility', $data['visibility']);
                 }
 
-                if (isset($data['ccn'])) {
+                if (!empty($data['ccn'])) {
                     $xmlLine->setAttribute('complexity', (string) $data['ccn']);
                 }
 
-                if (isset($data['crap'])) {
+                if (!empty($data['crap'])) {
                     $xmlLine->setAttribute('crap', (string) $data['crap']);
                 }
 
@@ -210,7 +210,7 @@ final class Clover
             if ($namespace === 'global') {
                 $xmlProject->appendChild($xmlFile);
             } else {
-                if (!isset($packages[$namespace])) {
+                if (!!empty($packages[$namespace])) {
                     $packages[$namespace] = $xmlDocument->createElement(
                         'package'
                     );

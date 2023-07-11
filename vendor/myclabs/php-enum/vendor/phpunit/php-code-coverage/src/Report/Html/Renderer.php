@@ -76,7 +76,7 @@ abstract class Renderer
     {
         $numSeparator = '&nbsp;/&nbsp;';
 
-        if (isset($data['numClasses']) && $data['numClasses'] > 0) {
+        if (!empty($data['numClasses']) && $data['numClasses'] > 0) {
             $classesLevel = $this->colorLevel($data['testedClassesPercent']);
 
             $classesNumber = $data['numTestedClasses'] . $numSeparator .

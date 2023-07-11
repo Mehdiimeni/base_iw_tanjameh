@@ -93,11 +93,11 @@ class TemplateInferredTypeReplacer
                                 if ($classlike_storage->template_extended_params) {
                                     $defining_class = $atomic_type->defining_class;
 
-                                    if (isset($classlike_storage->template_extended_params[$defining_class])) {
+                                    if (!empty($classlike_storage->template_extended_params[$defining_class])) {
                                         $param_map = $classlike_storage->template_extended_params[$defining_class];
 
-                                        if (isset($param_map[$key])
-                                            && isset($inferred_lower_bounds[(string) $param_map[$key]][$template_class])
+                                        if (!empty($param_map[$key])
+                                            && !empty($inferred_lower_bounds[(string) $param_map[$key]][$template_class])
                                         ) {
                                             $template_name = (string) $param_map[$key];
 
@@ -127,7 +127,7 @@ class TemplateInferredTypeReplacer
                     }
                 }
             } elseif ($atomic_type instanceof Atomic\TTemplateParamClass) {
-                $template_type = isset($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
+                $template_type = !empty($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
                     ? clone TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                         $inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class],
                         $codebase
@@ -169,7 +169,7 @@ class TemplateInferredTypeReplacer
 
                 $template_type = null;
 
-                if (isset($inferred_lower_bounds[$atomic_type->array_param_name][$atomic_type->defining_class])
+                if (!empty($inferred_lower_bounds[$atomic_type->array_param_name][$atomic_type->defining_class])
                     && !empty($inferred_lower_bounds[$atomic_type->offset_param_name])
                 ) {
                     $array_template_type
@@ -195,7 +195,7 @@ class TemplateInferredTypeReplacer
                         if ($array_template_type instanceof Atomic\TKeyedArray
                             && ($offset_template_type instanceof Atomic\TLiteralString
                                 || $offset_template_type instanceof Atomic\TLiteralInt)
-                            && isset($array_template_type->properties[$offset_template_type->value])
+                            && !empty($array_template_type->properties[$offset_template_type->value])
                         ) {
                             $template_type = clone $array_template_type->properties[$offset_template_type->value];
                         }
@@ -216,7 +216,7 @@ class TemplateInferredTypeReplacer
             } elseif ($atomic_type instanceof Atomic\TConditional
                 && $codebase
             ) {
-                $template_type = isset($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
+                $template_type = !empty($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
                     ? clone TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                         $inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class],
                         $codebase

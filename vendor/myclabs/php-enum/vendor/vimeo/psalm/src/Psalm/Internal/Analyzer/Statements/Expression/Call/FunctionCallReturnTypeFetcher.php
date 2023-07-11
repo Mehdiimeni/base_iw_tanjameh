@@ -64,7 +64,7 @@ class FunctionCallReturnTypeFetcher
             if (!$in_call_map || $is_stubbed) {
                 if ($function_storage && $function_storage->template_types) {
                     foreach ($function_storage->template_types as $template_name => $_) {
-                        if (!isset($template_result->lower_bounds[$template_name])) {
+                        if (!!empty($template_result->lower_bounds[$template_name])) {
                             if ($template_name === 'TFunctionArgCount') {
                                 $template_result->lower_bounds[$template_name] = [
                                     'fn-' . $function_id => [
@@ -301,7 +301,7 @@ class FunctionCallReturnTypeFetcher
                         $atomic_types = $first_arg_type->getAtomicTypes();
 
                         if (count($atomic_types) === 1) {
-                            if (isset($atomic_types['array'])) {
+                            if (!empty($atomic_types['array'])) {
                                 if ($atomic_types['array'] instanceof Type\Atomic\TCallableArray
                                     || $atomic_types['array'] instanceof Type\Atomic\TCallableList
                                     || $atomic_types['array'] instanceof Type\Atomic\TCallableKeyedArray
@@ -375,7 +375,7 @@ class FunctionCallReturnTypeFetcher
 
                 case 'min':
                 case 'max':
-                    if (isset($call_args[0])) {
+                    if (!empty($call_args[0])) {
                         $first_arg = $call_args[0]->value;
 
                         if ($first_arg_type = $statements_analyzer->node_data->getType($first_arg)) {
@@ -645,7 +645,7 @@ class FunctionCallReturnTypeFetcher
         array $added_taints = []
     ) : void {
         foreach ($function_storage->return_source_params as $i => $path_type) {
-            if (!isset($args[$i])) {
+            if (!!empty($args[$i])) {
                 continue;
             }
 
@@ -740,7 +740,7 @@ class FunctionCallReturnTypeFetcher
                 return false;
             }
 
-            if (!isset($pattern[$i + 2])) {
+            if (!!empty($pattern[$i + 2])) {
                 return false;
             }
 

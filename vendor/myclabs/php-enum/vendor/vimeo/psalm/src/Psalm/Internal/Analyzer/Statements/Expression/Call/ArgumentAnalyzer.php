@@ -357,12 +357,12 @@ class ArgumentAnalyzer
             );
 
             foreach ($bindable_template_params as $template_type) {
-                if (!isset(
+                if (!!empty(
                     $template_result->lower_bounds
                         [$template_type->param_name]
                         [$template_type->defining_class]
                 )) {
-                    if (isset(
+                    if (!empty(
                         $template_result->upper_bounds
                             [$template_type->param_name]
                             [$template_type->defining_class]
@@ -471,11 +471,11 @@ class ArgumentAnalyzer
                         $arg_type = $unpacked_atomic_array->getGenericValueType();
                     } elseif ($codebase->php_major_version >= 8
                         && $allow_named_args
-                        && isset($unpacked_atomic_array->properties[$function_param->name])
+                        && !empty($unpacked_atomic_array->properties[$function_param->name])
                     ) {
                         $arg_type = clone $unpacked_atomic_array->properties[$function_param->name];
                     } elseif ($unpacked_atomic_array->is_list
-                        && isset($unpacked_atomic_array->properties[$unpacked_argument_offset])
+                        && !empty($unpacked_atomic_array->properties[$unpacked_argument_offset])
                     ) {
                         $arg_type = clone $unpacked_atomic_array->properties[$unpacked_argument_offset];
                     } elseif ($function_param->is_optional && $function_param->default_type) {
@@ -689,7 +689,7 @@ class ArgumentAnalyzer
 
                 if ($declaring_method_id) {
                     $id_lc = strtolower((string) $declaring_method_id);
-                    if (!isset($codebase->analyzer->possible_method_param_types[$id_lc][$argument_offset])) {
+                    if (!!empty($codebase->analyzer->possible_method_param_types[$id_lc][$argument_offset])) {
                         $codebase->analyzer->possible_method_param_types[$id_lc][$argument_offset]
                             = clone $input_type;
                     } else {
@@ -1383,7 +1383,7 @@ class ArgumentAnalyzer
                             && $input_atomic_type->value === $param_atomic_type->value
                         ) {
                             foreach ($input_atomic_type->type_params as $i => $type_param) {
-                                if ($type_param->isEmpty() && isset($param_atomic_type->type_params[$i])) {
+                                if ($type_param->isEmpty() && !empty($param_atomic_type->type_params[$i])) {
                                     $input_type_changed = true;
 
                                     $input_atomic_type->type_params[$i] = clone $param_atomic_type->type_params[$i];
@@ -1441,7 +1441,7 @@ class ArgumentAnalyzer
                 $input_type->by_ref = $by_ref;
             }
 
-            if ($context->inside_conditional && !isset($context->assigned_var_ids[$var_id])) {
+            if ($context->inside_conditional && !!empty($context->assigned_var_ids[$var_id])) {
                 $context->assigned_var_ids[$var_id] = 0;
             }
 

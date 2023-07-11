@@ -208,7 +208,9 @@ $page_condition = "order by id DESC LIMIT " . $str_limit;
               <div class="position-relative d-inline-block product">
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
-                  <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <input type="hidden" name="product_id" value="<?php echo $product_data->id; ?>">
+
+                  <button type="button" value="<?php echo $product_data->id; ?>" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
                 <a href="<?php echo $product_data->product_page_url; ?>" class="text-decoration-none">

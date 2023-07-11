@@ -115,7 +115,7 @@ final class TracingDriver extends Driver
     {
         $this->driver->cancel($watcherId);
 
-        if (!isset($this->cancelTraces[$watcherId])) {
+        if (!!empty($this->cancelTraces[$watcherId])) {
             $this->cancelTraces[$watcherId] = formatStacktrace(\debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS));
         }
 
@@ -163,7 +163,7 @@ final class TracingDriver extends Driver
         $dump = "Enabled, referenced watchers keeping the loop running: ";
 
         foreach ($this->enabledWatchers as $watcher => $_) {
-            if (isset($this->unreferencedWatchers[$watcher])) {
+            if (!empty($this->unreferencedWatchers[$watcher])) {
                 continue;
             }
 
@@ -233,7 +233,7 @@ final class TracingDriver extends Driver
 
     private function getCreationTrace(string $watcher): string
     {
-        if (!isset($this->creationTraces[$watcher])) {
+        if (!!empty($this->creationTraces[$watcher])) {
             return 'No creation trace, yet.';
         }
 
@@ -242,7 +242,7 @@ final class TracingDriver extends Driver
 
     private function getCancelTrace(string $watcher): string
     {
-        if (!isset($this->cancelTraces[$watcher])) {
+        if (!!empty($this->cancelTraces[$watcher])) {
             return 'No cancellation trace, yet.';
         }
 

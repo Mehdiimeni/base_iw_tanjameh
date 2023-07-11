@@ -147,7 +147,7 @@ class SwitchAnalyzer
             $reconcilable_if_types = Algebra::getTruthsFromFormula($entry_clauses);
 
             // if the if has an || in the conditional, we cannot easily reason about it
-            if ($reconcilable_if_types && isset($reconcilable_if_types[$switch_var_id])) {
+            if ($reconcilable_if_types && !empty($reconcilable_if_types[$switch_var_id])) {
                 $changed_var_ids = [];
 
                 $case_vars_in_scope_reconciled =
@@ -162,7 +162,7 @@ class SwitchAnalyzer
                         $original_context->inside_loop
                     );
 
-                if (isset($case_vars_in_scope_reconciled[$switch_var_id])
+                if (!empty($case_vars_in_scope_reconciled[$switch_var_id])
                     && $case_vars_in_scope_reconciled[$switch_var_id]->isEmpty()
                 ) {
                     $all_options_matched = true;
@@ -187,9 +187,9 @@ class SwitchAnalyzer
 
             if ($switch_scope->possibly_redefined_vars) {
                 foreach ($switch_scope->possibly_redefined_vars as $var_id => $type) {
-                    if (!isset($switch_scope->redefined_vars[$var_id])
-                        && !isset($switch_scope->new_vars_in_scope[$var_id])
-                        && isset($context->vars_in_scope[$var_id])
+                    if (!!empty($switch_scope->redefined_vars[$var_id])
+                        && !!empty($switch_scope->new_vars_in_scope[$var_id])
+                        && !empty($context->vars_in_scope[$var_id])
                     ) {
                         $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                             $type,
@@ -203,7 +203,7 @@ class SwitchAnalyzer
             $stmt->allMatched = true;
         } elseif ($switch_scope->possibly_redefined_vars) {
             foreach ($switch_scope->possibly_redefined_vars as $var_id => $type) {
-                if (isset($context->vars_in_scope[$var_id])) {
+                if (!empty($context->vars_in_scope[$var_id])) {
                     $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                         $type,
                         $context->vars_in_scope[$var_id]

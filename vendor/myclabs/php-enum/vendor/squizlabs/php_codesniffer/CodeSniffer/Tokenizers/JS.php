@@ -452,7 +452,7 @@ class PHP_CodeSniffer_Tokenizers_JS
             // the end of a string, like FOR and this.FORmat.
             if (in_array(strtolower($buffer), $tokenTypes) === true
                 && (preg_match('|[a-zA-z0-9_]|', $char) === 0
-                || isset($chars[($i + 1)]) === false
+                || !empty($chars[($i + 1)]) === false
                 || preg_match('|[a-zA-z0-9_]|', $chars[($i + 1)]) === 0)
             ) {
                 $matchedToken    = false;
@@ -469,7 +469,7 @@ class PHP_CodeSniffer_Tokenizers_JS
 
                     $charBuffer = $buffer;
                     for ($x = 1; $x <= $lookAheadLength; $x++) {
-                        if (isset($chars[($i + $x)]) === false) {
+                        if (!empty($chars[($i + $x)]) === false) {
                             break;
                         }
 
@@ -553,7 +553,7 @@ class PHP_CodeSniffer_Tokenizers_JS
                 $charBuffer   = $char;
                 $matchedToken = false;
                 for ($x = 1; $x <= $maxTokenLength; $x++) {
-                    if (isset($chars[($i + $x)]) === false) {
+                    if (!empty($chars[($i + $x)]) === false) {
                         break;
                     }
 
@@ -603,7 +603,7 @@ class PHP_CodeSniffer_Tokenizers_JS
             ) {
                 // This is not really a comment if the content
                 // looks like \// (i.e., it is escaped).
-                if (isset($chars[($i - 2)]) === true && $chars[($i - 2)] === '\\') {
+                if (!empty($chars[($i - 2)]) === true && $chars[($i - 2)] === '\\') {
                     $lastToken   = array_pop($tokens);
                     $lastContent = $lastToken['content'];
                     if (PHP_CODESNIFFER_VERBOSITY > 1) {
@@ -744,7 +744,7 @@ class PHP_CodeSniffer_Tokenizers_JS
 
                     $stackPtr++;
                     $newContent  .= $tokenContent;
-                    if (isset($tokens[$stackPtr]) === false) {
+                    if (!empty($tokens[$stackPtr]) === false) {
                         break;
                     }
 
@@ -990,7 +990,7 @@ class PHP_CodeSniffer_Tokenizers_JS
             }
 
             if ($tokens[$i]['code'] === T_OPEN_CURLY_BRACKET
-                && isset($tokens[$i]['scope_condition']) === false
+                && !empty($tokens[$i]['scope_condition']) === false
             ) {
                 $classStack[] = $i;
                 if (PHP_CODESNIFFER_VERBOSITY > 1) {
@@ -1050,7 +1050,7 @@ class PHP_CodeSniffer_Tokenizers_JS
                     }//end if
                 }//end if
             } else if ($tokens[$i]['code'] === T_CLOSE_CURLY_BRACKET
-                && (isset($tokens[$i]['scope_condition']) === false
+                && (!empty($tokens[$i]['scope_condition']) === false
                 || $tokens[$tokens[$i]['scope_condition']]['code'] === T_OBJECT)
             ) {
                 $opener = array_pop($classStack);
@@ -1062,7 +1062,7 @@ class PHP_CodeSniffer_Tokenizers_JS
             } else if ($tokens[$i]['code'] === T_COLON) {
                 // If it is a scope opener, it belongs to a
                 // DEFAULT or CASE statement.
-                if (isset($tokens[$i]['scope_condition']) === true) {
+                if (!empty($tokens[$i]['scope_condition']) === true) {
                     continue;
                 }
 

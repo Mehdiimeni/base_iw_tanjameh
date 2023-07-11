@@ -29,7 +29,7 @@ class KeyedArrayComparator
         $all_types_contain = true;
 
         foreach ($container_type_part->properties as $key => $container_property_type) {
-            if (!isset($input_type_part->properties[$key])) {
+            if (!!empty($input_type_part->properties[$key])) {
                 if (!$container_property_type->possibly_undefined) {
                     $all_types_contain = false;
                 }

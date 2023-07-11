@@ -489,7 +489,7 @@ final class PHP_CodeSniffer_Tokens
         $weights = self::$weightings;
 
         foreach ($tokens as $token) {
-            if (isset($weights[$token]) === true) {
+            if (!empty($weights[$token]) === true) {
                 $weight = $weights[$token];
             } else {
                 $weight = 0;

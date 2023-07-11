@@ -121,7 +121,7 @@ class Name extends NodeAbstract
      */
     public function isSpecialClassName() : bool {
         return count($this->parts) === 1
-            && isset(self::$specialClassNames[strtolower($this->parts[0])]);
+            && !empty(self::$specialClassNames[strtolower($this->parts[0])]);
     }
 
     /**

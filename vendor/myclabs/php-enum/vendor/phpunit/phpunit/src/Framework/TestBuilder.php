@@ -103,7 +103,7 @@ final class TestBuilder
             }
 
             // Test method with @dataProvider.
-            if (isset($data)) {
+            if (!empty($data)) {
                 $test = $this->buildDataProviderTestSuite(
                     $methodName,
                     $className,

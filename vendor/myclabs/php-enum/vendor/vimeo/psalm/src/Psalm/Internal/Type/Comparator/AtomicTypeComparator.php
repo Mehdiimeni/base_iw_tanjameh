@@ -53,10 +53,10 @@ class AtomicTypeComparator
 
         if (($container_type_part instanceof TTemplateParam
                 || ($container_type_part instanceof TNamedObject
-                    && isset($container_type_part->extra_types)))
+                    && !empty($container_type_part->extra_types)))
             && ($input_type_part instanceof TTemplateParam
                 || ($input_type_part instanceof TNamedObject
-                    && isset($input_type_part->extra_types)))
+                    && !empty($input_type_part->extra_types)))
         ) {
             return ObjectComparator::isShallowlyContainedBy(
                 $codebase,
@@ -558,7 +558,7 @@ class AtomicTypeComparator
                     return true;
                 }
             } elseif ($input_type_part instanceof TObjectWithProperties
-                && isset($input_type_part->methods['__toString'])
+                && !empty($input_type_part->methods['__toString'])
             ) {
                 if ($atomic_comparison_result) {
                     $atomic_comparison_result->to_string_cast = true;

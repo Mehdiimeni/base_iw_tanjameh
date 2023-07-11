@@ -107,7 +107,7 @@ class Squiz_Sniffs_PHP_NonExecutableCodeSniff implements PHP_CodeSniffer_Sniff
             }
         }
 
-        if (isset($tokens[$stackPtr]['scope_opener']) === true) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === true) {
             $owner = $tokens[$stackPtr]['scope_condition'];
             if ($tokens[$owner]['code'] === T_CASE || $tokens[$owner]['code'] === T_DEFAULT) {
                 // This token closes the scope of a CASE or DEFAULT statement
@@ -150,7 +150,7 @@ class Squiz_Sniffs_PHP_NonExecutableCodeSniff implements PHP_CodeSniffer_Sniff
         // If we find a closing parenthesis that belongs to a condition
         // we should ignore this token.
         $prev = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr - 1), null, true);
-        if (isset($tokens[$prev]['parenthesis_owner']) === true) {
+        if (!empty($tokens[$prev]['parenthesis_owner']) === true) {
             $owner  = $tokens[$prev]['parenthesis_owner'];
             $ignore = array(
                        T_IF,
@@ -167,7 +167,7 @@ class Squiz_Sniffs_PHP_NonExecutableCodeSniff implements PHP_CodeSniffer_Sniff
         if (empty($ourConditions) === false) {
             $condition = array_pop($ourConditions);
 
-            if (isset($tokens[$condition]['scope_closer']) === false) {
+            if (!empty($tokens[$condition]['scope_closer']) === false) {
                 return;
             }
 
@@ -189,7 +189,7 @@ class Squiz_Sniffs_PHP_NonExecutableCodeSniff implements PHP_CodeSniffer_Sniff
             // shared opener (if there is one), not to the scope closer.
             $nextOpener = null;
             for ($i = ($stackPtr + 1); $i < $closer; $i++) {
-                if (isset($tokens[$i]['scope_closer']) === true) {
+                if (!empty($tokens[$i]['scope_closer']) === true) {
                     if ($tokens[$i]['scope_closer'] === $closer) {
                         // We found an opener that shares the same
                         // closing token as us.

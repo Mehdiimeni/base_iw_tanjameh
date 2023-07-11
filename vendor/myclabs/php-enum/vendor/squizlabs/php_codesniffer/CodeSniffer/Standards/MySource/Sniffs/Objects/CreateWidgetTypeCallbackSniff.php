@@ -107,7 +107,7 @@ class MySource_Sniffs_Objects_CreateWidgetTypeCallbackSniff implements PHP_CodeS
                     continue;
                 }
             } else if ($tokens[$i]['code'] === T_FUNCTION
-                && isset($tokens[$i]['scope_closer']) === true
+                && !empty($tokens[$i]['scope_closer']) === true
             ) {
                 $nestedFunction = $tokens[$i]['scope_closer'];
                 continue;
@@ -136,14 +136,14 @@ class MySource_Sniffs_Objects_CreateWidgetTypeCallbackSniff implements PHP_CodeS
                 // One last chance; this might be the callback function
                 // being passed to another function, like this
                 // "this.init(something, callback, something)".
-                if (isset($tokens[$i]['nested_parenthesis']) === false) {
+                if (!empty($tokens[$i]['nested_parenthesis']) === false) {
                     continue;
                 }
 
                 // Just make sure those brackets dont belong to anyone,
                 // like an IF or FOR statement.
                 foreach ($tokens[$i]['nested_parenthesis'] as $bracket) {
-                    if (isset($tokens[$bracket]['parenthesis_owner']) === true) {
+                    if (!empty($tokens[$bracket]['parenthesis_owner']) === true) {
                         continue(2);
                     }
                 }

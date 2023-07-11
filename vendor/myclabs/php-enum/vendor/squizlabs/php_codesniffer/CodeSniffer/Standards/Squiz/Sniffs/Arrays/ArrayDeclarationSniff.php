@@ -236,7 +236,7 @@ class Squiz_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
 
             if ($tokens[$nextToken]['code'] === T_COMMA) {
                 $stackPtrCount = 0;
-                if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+                if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
                     $stackPtrCount = count($tokens[$stackPtr]['nested_parenthesis']);
                 }
 
@@ -417,7 +417,7 @@ class Squiz_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
         $arrowStart   = ($indicesStart + $maxLength + 1);
         $valueStart   = ($arrowStart + 3);
         foreach ($indices as $index) {
-            if (isset($index['index']) === false) {
+            if (!empty($index['index']) === false) {
                 // Array value only.
                 if (($tokens[$index['value']]['line'] === $tokens[$stackPtr]['line']) && ($numValues > 1)) {
                     $error = 'The first value in a multi-value array must be on a new line';

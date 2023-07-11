@@ -114,7 +114,7 @@ class MySource_Sniffs_Channels_DisallowSelfActionsSniff implements PHP_CodeSniff
         $errorClassName = substr($className, 0, -7);
 
         foreach ($foundCalls as $token => $funcData) {
-            if (isset($foundFunctions[$funcData['name']]) === false) {
+            if (!empty($foundFunctions[$funcData['name']]) === false) {
                 // Function was not in this class, might have come from the parent.
                 // Either way, we can't really check this.
                 continue;

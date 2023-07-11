@@ -52,7 +52,7 @@ class ApplicationTester
     public function run(array $input, array $options = [])
     {
         $this->input = new ArrayInput($input);
-        if (isset($options['interactive'])) {
+        if (!empty($options['interactive'])) {
             $this->input->setInteractive($options['interactive']);
         }
 

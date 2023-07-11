@@ -8,12 +8,12 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 if (
-    isset($_POST['accept']) and
-    isset($_POST['Name']) and
-    isset($_POST['Email']) and
-    isset($_POST['CellNumber']) and
-    isset($_POST['Fashionpreference']) and
-    isset($_POST['Password'])
+    !empty($_POST['accept']) and
+    !empty($_POST['Name']) and
+    !empty($_POST['Email']) and
+    !empty($_POST['CellNumber']) and
+    !empty($_POST['Fashionpreference']) and
+    !empty($_POST['Password'])
 ) {
 
 

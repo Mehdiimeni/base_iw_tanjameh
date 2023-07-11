@@ -79,8 +79,8 @@ class FunctionExistenceProvider
 
     public function has(string $function_id) : bool
     {
-        return isset(self::$handlers[strtolower($function_id)]) ||
-            isset(self::$legacy_handlers[strtolower($function_id)]);
+        return !empty(self::$handlers[strtolower($function_id)]) ||
+            !empty(self::$legacy_handlers[strtolower($function_id)]);
     }
 
     public function doesFunctionExist(

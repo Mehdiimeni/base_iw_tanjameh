@@ -131,7 +131,7 @@ abstract class ParserAbstract implements Parser
     public function __construct(Lexer $lexer, array $options = []) {
         $this->lexer = $lexer;
 
-        if (isset($options['throwOnError'])) {
+        if (!empty($options['throwOnError'])) {
             throw new \LogicException(
                 '"throwOnError" is no longer supported, use "errorHandler" instead');
         }
@@ -281,7 +281,7 @@ abstract class ParserAbstract implements Parser
                     try {
                         $this->reduceCallbacks[$rule]($stackPos);
                     } catch (Error $e) {
-                        if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
+                        if (-1 === $e->getStartLine() && !empty($startAttributes['startLine'])) {
                             $e->setStartLine($startAttributes['startLine']);
                         }
 
@@ -671,7 +671,7 @@ abstract class ParserAbstract implements Parser
         }
 
         $lowerName = $name->toLowerString();
-        if (!isset($builtinTypes[$lowerName])) {
+        if (!!empty($builtinTypes[$lowerName])) {
             return $name;
         }
 
@@ -753,7 +753,7 @@ abstract class ParserAbstract implements Parser
                     $this->emitError(new Error(
                         'Invalid indentation - tabs and spaces cannot be mixed', $attributes
                     ));
-                } elseif (strlen($prefix) < $indentLen && !isset($matches[2])) {
+                } elseif (strlen($prefix) < $indentLen && !!empty($matches[2])) {
                     $this->emitError(new Error(
                         'Invalid body indentation level ' .
                         '(expecting an indentation level of at least ' . $indentLen . ')',

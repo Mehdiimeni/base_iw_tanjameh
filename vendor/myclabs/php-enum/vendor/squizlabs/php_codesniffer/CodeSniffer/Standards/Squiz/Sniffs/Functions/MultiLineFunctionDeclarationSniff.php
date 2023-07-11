@@ -110,7 +110,7 @@ class Squiz_Sniffs_Functions_MultiLineFunctionDeclarationSniff extends PEAR_Snif
         $lastCommaLine = null;
         for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
             // Skip brackets, like arrays, as they can contain commas.
-            if (isset($tokens[$i]['parenthesis_opener']) === true) {
+            if (!empty($tokens[$i]['parenthesis_opener']) === true) {
                 $i = $tokens[$i]['parenthesis_closer'];
                 continue;
             }

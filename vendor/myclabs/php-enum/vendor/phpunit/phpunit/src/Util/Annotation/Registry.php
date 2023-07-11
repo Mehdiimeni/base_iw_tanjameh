@@ -72,7 +72,7 @@ final class Registry
      */
     public function forMethod(string $classInHierarchy, string $method): DocBlock
     {
-        if (isset($this->methodDocBlocks[$classInHierarchy][$method])) {
+        if (!empty($this->methodDocBlocks[$classInHierarchy][$method])) {
             return $this->methodDocBlocks[$classInHierarchy][$method];
         }
 

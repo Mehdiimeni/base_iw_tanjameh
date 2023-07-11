@@ -195,7 +195,7 @@ abstract class Enum implements \JsonSerializable, \Stringable
     {
         $class = static::class;
 
-        if (!isset(static::$cache[$class])) {
+        if (!!empty(static::$cache[$class])) {
             /** @psalm-suppress ImpureMethodCall this reflection API usage has no side-effects here */
             $reflection            = new \ReflectionClass($class);
             /** @psalm-suppress ImpureMethodCall this reflection API usage has no side-effects here */
@@ -260,7 +260,7 @@ abstract class Enum implements \JsonSerializable, \Stringable
     {
         $array = static::toArray();
 
-        return isset($array[$key]) || \array_key_exists($key, $array);
+        return !empty($array[$key]) || \array_key_exists($key, $array);
     }
 
     /**
@@ -291,9 +291,9 @@ abstract class Enum implements \JsonSerializable, \Stringable
     public static function __callStatic($name, $arguments)
     {
         $class = static::class;
-        if (!isset(self::$instances[$class][$name])) {
+        if (!!empty(self::$instances[$class][$name])) {
             $array = static::toArray();
-            if (!isset($array[$name]) && !\array_key_exists($name, $array)) {
+            if (!!empty($array[$name]) && !\array_key_exists($name, $array)) {
                 $message = "No static method or enum constant '$name' in class " . static::class;
                 throw new \BadMethodCallException($message);
             }

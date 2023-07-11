@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['cat_id'])) {
+if (!empty($_POST['cat_id'])) {
 
     $cat_id = $_POST['cat_id'];
     $gender = urldecode($_POST['gender']);

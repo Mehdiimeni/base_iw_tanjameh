@@ -28,7 +28,7 @@ class ArrayChunkReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
             && $array_arg_type->hasArray()
             && ($array_type = ArrayType::infer($array_arg_type->getAtomicTypes()['array']))
         ) {
-            $preserve_keys = isset($call_args[2])
+            $preserve_keys = !empty($call_args[2])
                 && ($preserve_keys_arg_type = $statements_source->getNodeTypeProvider()->getType($call_args[2]->value))
                 && (string) $preserve_keys_arg_type !== 'false';
 

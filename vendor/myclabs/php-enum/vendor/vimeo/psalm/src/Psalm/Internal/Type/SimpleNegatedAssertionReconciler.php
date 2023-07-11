@@ -337,7 +337,7 @@ class SimpleNegatedAssertionReconciler extends Reconciler
         $old_var_type_string = $existing_var_type->getId();
         $existing_var_atomic_types = $existing_var_type->getAtomicTypes();
 
-        if (isset($existing_var_atomic_types['array'])) {
+        if (!empty($existing_var_atomic_types['array'])) {
             $array_atomic_type = $existing_var_atomic_types['array'];
             $did_remove_type = false;
 
@@ -577,7 +577,7 @@ class SimpleNegatedAssertionReconciler extends Reconciler
                 }
             }
 
-            if (isset($existing_var_atomic_types['string'])) {
+            if (!empty($existing_var_atomic_types['string'])) {
                 $existing_var_type->removeType('string');
 
                 if ($existing_var_atomic_types['string'] instanceof Type\Atomic\TLowercaseString) {
@@ -707,7 +707,7 @@ class SimpleNegatedAssertionReconciler extends Reconciler
             }
         }
 
-        if (isset($existing_var_atomic_types['string'])) {
+        if (!empty($existing_var_atomic_types['string'])) {
             if (!$existing_var_atomic_types['string'] instanceof Type\Atomic\TNonFalsyString
                 && !$existing_var_atomic_types['string'] instanceof Type\Atomic\TClassString
                 && !$existing_var_atomic_types['string'] instanceof Type\Atomic\TDependentGetClass

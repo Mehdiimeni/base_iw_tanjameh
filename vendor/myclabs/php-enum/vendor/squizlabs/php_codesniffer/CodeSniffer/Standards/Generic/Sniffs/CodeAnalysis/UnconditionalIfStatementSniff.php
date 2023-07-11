@@ -75,7 +75,7 @@ class Generic_Sniffs_CodeAnalysis_UnconditionalIfStatementSniff implements PHP_C
         $token  = $tokens[$stackPtr];
 
         // Skip for-loop without body.
-        if (isset($token['parenthesis_opener']) === false) {
+        if (!empty($token['parenthesis_opener']) === false) {
             return;
         }
 

@@ -290,7 +290,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
             }
 
             foreach ($groups as $group) {
-                if (!isset($this->groups[$group])) {
+                if (!!empty($this->groups[$group])) {
                     $this->groups[$group] = [$test];
                 } else {
                     $this->groups[$group][] = $test;

@@ -79,7 +79,7 @@ class TaintFlowGraph extends DataFlowGraph
         $this->specialized_calls += $taint->specialized_calls;
 
         foreach ($taint->forward_edges as $key => $map) {
-            if (!isset($this->forward_edges[$key])) {
+            if (!!empty($this->forward_edges[$key])) {
                 $this->forward_edges[$key] = $map;
             } else {
                 $this->forward_edges[$key] += $map;
@@ -87,7 +87,7 @@ class TaintFlowGraph extends DataFlowGraph
         }
 
         foreach ($taint->specializations as $key => $map) {
-            if (!isset($this->specializations[$key])) {
+            if (!!empty($this->specializations[$key])) {
                 $this->specializations[$key] = $map;
             } else {
                 $this->specializations[$key] += $map;
@@ -244,7 +244,7 @@ class TaintFlowGraph extends DataFlowGraph
             $added_taints = $path->unescaped_taints ?: [];
             $removed_taints = $path->escaped_taints ?: [];
 
-            if (!isset($this->nodes[$to_id])) {
+            if (!!empty($this->nodes[$to_id])) {
                 continue;
             }
 
@@ -259,7 +259,7 @@ class TaintFlowGraph extends DataFlowGraph
 
             \sort($new_taints);
 
-            if (isset($visited_source_ids[$to_id][implode(',', $new_taints)])) {
+            if (!empty($visited_source_ids[$to_id][implode(',', $new_taints)])) {
                 continue;
             }
 
@@ -282,7 +282,7 @@ class TaintFlowGraph extends DataFlowGraph
                 continue;
             }
 
-            if (isset($sinks[$to_id])) {
+            if (!empty($sinks[$to_id])) {
                 $matching_taints = array_intersect($sinks[$to_id]->taints, $new_taints);
 
                 if ($matching_taints && $generated_source->code_location) {
@@ -469,11 +469,11 @@ class TaintFlowGraph extends DataFlowGraph
     {
         $generated_sources = [];
 
-        if (isset($this->forward_edges[$source->id])) {
+        if (!empty($this->forward_edges[$source->id])) {
             return [$source];
         }
 
-        if ($source->specialization_key && isset($this->specialized_calls[$source->specialization_key])) {
+        if ($source->specialization_key && !empty($this->specialized_calls[$source->specialization_key])) {
             $generated_source = clone $source;
 
             $generated_source->id = substr($source->id, 0, -strlen($source->specialization_key) - 1);
@@ -481,9 +481,9 @@ class TaintFlowGraph extends DataFlowGraph
             $generated_source->specialized_calls[$source->specialization_key][$generated_source->id] = true;
 
             $generated_sources[] = $generated_source;
-        } elseif (isset($this->specializations[$source->id])) {
+        } elseif (!empty($this->specializations[$source->id])) {
             foreach ($this->specializations[$source->id] as $specialization => $_) {
-                if (!$source->specialized_calls || isset($source->specialized_calls[$specialization])) {
+                if (!$source->specialized_calls || !empty($source->specialized_calls[$specialization])) {
                     $new_source = clone $source;
 
                     $new_source->id = $source->id . '-' . $specialization;
@@ -495,7 +495,7 @@ class TaintFlowGraph extends DataFlowGraph
             }
         } else {
             foreach ($source->specialized_calls as $key => $map) {
-                if (isset($map[$source->id]) && isset($this->forward_edges[$source->id . '-' . $key])) {
+                if (!empty($map[$source->id]) && !empty($this->forward_edges[$source->id . '-' . $key])) {
                     $new_source = clone $source;
 
                     $new_source->id = $source->id . '-' . $key;
@@ -508,7 +508,7 @@ class TaintFlowGraph extends DataFlowGraph
         return \array_filter(
             $generated_sources,
             function ($new_source): bool {
-                return isset($this->forward_edges[$new_source->id]);
+                return !empty($this->forward_edges[$new_source->id]);
             }
         );
     }

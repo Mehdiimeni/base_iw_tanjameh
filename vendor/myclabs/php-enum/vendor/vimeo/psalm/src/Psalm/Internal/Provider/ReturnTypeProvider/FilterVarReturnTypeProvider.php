@@ -27,7 +27,7 @@ class FilterVarReturnTypeProvider implements \Psalm\Plugin\EventHandler\Function
 
         $filter_type = null;
 
-        if (isset($call_args[1])
+        if (!empty($call_args[1])
             && ($second_arg_type = $statements_source->node_data->getType($call_args[1]->value))
             && $second_arg_type->isSingleIntLiteral()
         ) {
@@ -62,7 +62,7 @@ class FilterVarReturnTypeProvider implements \Psalm\Plugin\EventHandler\Function
             $has_object_like = false;
             $filter_null = false;
 
-            if (isset($call_args[2])
+            if (!empty($call_args[2])
                 && ($third_arg_type = $statements_source->node_data->getType($call_args[2]->value))
                 && $filter_type
             ) {
@@ -70,11 +70,11 @@ class FilterVarReturnTypeProvider implements \Psalm\Plugin\EventHandler\Function
                     if ($atomic_type instanceof Type\Atomic\TKeyedArray) {
                         $has_object_like = true;
 
-                        if (isset($atomic_type->properties['options'])
+                        if (!empty($atomic_type->properties['options'])
                             && $atomic_type->properties['options']->hasArray()
                             && ($options_array = $atomic_type->properties['options']->getAtomicTypes()['array'])
                             && $options_array instanceof Type\Atomic\TKeyedArray
-                            && isset($options_array->properties['default'])
+                            && !empty($options_array->properties['default'])
                         ) {
                             $filter_type = Type::combineUnionTypes(
                                 $filter_type,
@@ -84,7 +84,7 @@ class FilterVarReturnTypeProvider implements \Psalm\Plugin\EventHandler\Function
                             $filter_type->addType(new Type\Atomic\TFalse);
                         }
 
-                        if (isset($atomic_type->properties['flags'])
+                        if (!empty($atomic_type->properties['flags'])
                             && $atomic_type->properties['flags']->isSingleIntLiteral()
                         ) {
                             $filter_flag_type =

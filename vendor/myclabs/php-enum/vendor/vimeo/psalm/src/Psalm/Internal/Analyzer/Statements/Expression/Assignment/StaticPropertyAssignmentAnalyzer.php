@@ -206,7 +206,7 @@ class StaticPropertyAssignmentAnalyzer
                 if ($source_analyzer instanceof ClassAnalyzer
                     && $fq_class_name === $source_analyzer->getFQCLN()
                 ) {
-                    if (isset($source_analyzer->inferred_property_types[$prop_name_name])) {
+                    if (!empty($source_analyzer->inferred_property_types[$prop_name_name])) {
                         $source_analyzer->inferred_property_types[$prop_name_name] = Type::combineUnionTypes(
                             $assignment_value_type,
                             $source_analyzer->inferred_property_types[$prop_name_name]

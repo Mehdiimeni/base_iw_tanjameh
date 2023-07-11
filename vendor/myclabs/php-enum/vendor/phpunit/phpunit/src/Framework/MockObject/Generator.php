@@ -352,7 +352,7 @@ final class Generator
             serialize($callOriginalMethods)
         );
 
-        if (!isset(self::$cache[$key])) {
+        if (!!empty(self::$cache[$key])) {
             self::$cache[$key] = $this->generateMock(
                 $type,
                 $methods,
@@ -845,7 +845,7 @@ final class Generator
 
         $method = '';
 
-        if (!$mockMethods->hasMethod('method') && (!isset($class) || !$class->hasMethod('method'))) {
+        if (!$mockMethods->hasMethod('method') && (!!empty($class) || !$class->hasMethod('method'))) {
             $method = PHP_EOL . '    use \PHPUnit\Framework\MockObject\Method;';
         }
 
@@ -957,7 +957,7 @@ final class Generator
 
     private function isMethodNameExcluded(string $name): bool
     {
-        return isset(self::EXCLUDED_METHOD_NAMES[$name]);
+        return !empty(self::EXCLUDED_METHOD_NAMES[$name]);
     }
 
     /**
@@ -967,7 +967,7 @@ final class Generator
     {
         $filename = __DIR__ . DIRECTORY_SEPARATOR . 'Generator' . DIRECTORY_SEPARATOR . $template;
 
-        if (!isset(self::$templates[$filename])) {
+        if (!!empty(self::$templates[$filename])) {
             try {
                 self::$templates[$filename] = new Template($filename);
             } catch (TemplateException $e) {

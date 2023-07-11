@@ -101,8 +101,8 @@ class OrAnalyzer
             }
 
             foreach ($left_context->vars_in_scope as $var_id => $type) {
-                if (!isset($context->vars_in_scope[$var_id])) {
-                    if (isset($left_context->assigned_var_ids[$var_id])) {
+                if (!!empty($context->vars_in_scope[$var_id])) {
+                    if (!empty($left_context->assigned_var_ids[$var_id])) {
                         $context->vars_in_scope[$var_id] = clone $type;
                     }
                 } else {
@@ -317,7 +317,7 @@ class OrAnalyzer
 
         if (!($stmt->right instanceof PhpParser\Node\Expr\Exit_)) {
             foreach ($right_context->vars_in_scope as $var_id => $type) {
-                if (isset($context->vars_in_scope[$var_id])) {
+                if (!empty($context->vars_in_scope[$var_id])) {
                     $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                         $context->vars_in_scope[$var_id],
                         $type,
@@ -328,7 +328,7 @@ class OrAnalyzer
         } elseif ($stmt->left instanceof PhpParser\Node\Expr\Assign) {
             $var_id = ExpressionIdentifier::getVarId($stmt->left->var, $context->self);
 
-            if ($var_id && isset($left_context->vars_in_scope[$var_id])) {
+            if ($var_id && !empty($left_context->vars_in_scope[$var_id])) {
                 $left_inferred_reconciled = AssertionReconciler::reconcile(
                     '!falsy',
                     clone $left_context->vars_in_scope[$var_id],
@@ -362,13 +362,13 @@ class OrAnalyzer
             $if_context = $context->if_context;
 
             foreach ($right_context->vars_in_scope as $var_id => $type) {
-                if (isset($if_context->vars_in_scope[$var_id])) {
+                if (!empty($if_context->vars_in_scope[$var_id])) {
                     $if_context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                         $type,
                         $if_context->vars_in_scope[$var_id],
                         $codebase
                     );
-                } elseif (isset($left_context->vars_in_scope[$var_id])) {
+                } elseif (!empty($left_context->vars_in_scope[$var_id])) {
                     $if_context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                         $type,
                         $left_context->vars_in_scope[$var_id],

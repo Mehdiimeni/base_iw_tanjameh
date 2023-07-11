@@ -113,7 +113,7 @@ final class ParsingCoveredFileAnalyser implements CoveredFileAnalyser
      */
     private function analyse(string $filename): void
     {
-        if (isset($this->classes[$filename])) {
+        if (!empty($this->classes[$filename])) {
             return;
         }
 

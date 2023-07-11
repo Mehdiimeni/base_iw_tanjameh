@@ -87,7 +87,7 @@ class TypeParser
                 $atomic = Atomic::create($only_token[0], $php_version, $template_type_map, $type_aliases);
                 $atomic->offset_start = 0;
                 $atomic->offset_end = strlen($only_token[0]);
-                $atomic->text = isset($only_token[2]) && $only_token[2] !== $only_token[0] ? $only_token[2] : null;
+                $atomic->text = !empty($only_token[2]) && $only_token[2] !== $only_token[0] ? $only_token[2] : null;
 
                 return new Union([$atomic]);
             }
@@ -158,7 +158,7 @@ class TypeParser
                 throw new \InvalidArgumentException('Parsing callable tree node should return TCallable');
             }
 
-            if (!isset($parse_tree->children[1])) {
+            if (!!empty($parse_tree->children[1])) {
                 throw new TypeParseTreeException('Invalid return type');
             }
 
@@ -184,7 +184,7 @@ class TypeParser
                 throw new TypeParseTreeException('Unterminated parentheses');
             }
 
-            if (!isset($parse_tree->children[0])) {
+            if (!!empty($parse_tree->children[0])) {
                 throw new TypeParseTreeException('Empty parentheses');
             }
 
@@ -198,7 +198,7 @@ class TypeParser
         }
 
         if ($parse_tree instanceof ParseTree\NullableTree) {
-            if (!isset($parse_tree->children[0])) {
+            if (!!empty($parse_tree->children[0])) {
                 throw new TypeParseTreeException('Misplaced question mark');
             }
 
@@ -243,7 +243,7 @@ class TypeParser
         if ($parse_tree instanceof ParseTree\ConditionalTree) {
             $template_param_name = $parse_tree->condition->param_name;
 
-            if (!isset($template_type_map[$template_param_name])) {
+            if (!!empty($template_type_map[$template_param_name])) {
                 throw new TypeParseTreeException('Unrecognized template \'' . $template_param_name . '\'');
             }
 
@@ -310,7 +310,7 @@ class TypeParser
         if (strpos($parse_tree->value, '::')) {
             [$fq_classlike_name, $const_name] = explode('::', $parse_tree->value);
 
-            if (isset($template_type_map[$fq_classlike_name]) && $const_name === 'class') {
+            if (!empty($template_type_map[$fq_classlike_name]) && $const_name === 'class') {
                 $first_class = array_keys($template_type_map[$fq_classlike_name])[0];
 
                 return self::getGenericParamClass(
@@ -581,7 +581,7 @@ class TypeParser
         if ($generic_type_value === 'class-string' || $generic_type_value === 'interface-string') {
             $class_name = (string)$generic_params[0];
 
-            if (isset($template_type_map[$class_name])) {
+            if (!empty($template_type_map[$class_name])) {
                 $first_class = array_keys($template_type_map[$class_name])[0];
 
                 return self::getGenericParamClass(
@@ -645,7 +645,7 @@ class TypeParser
         if ($generic_type_value === 'key-of') {
             $param_name = (string)$generic_params[0];
 
-            if (isset($template_type_map[$param_name])) {
+            if (!empty($template_type_map[$param_name])) {
                 $defining_class = array_keys($template_type_map[$param_name])[0];
 
                 return new Atomic\TTemplateKeyOf(
@@ -822,7 +822,7 @@ class TypeParser
             return new Atomic\TIntRange($min_bound, $max_bound);
         }
 
-        if (isset(TypeTokenizer::PSALM_RESERVED_WORDS[$generic_type_value])
+        if (!empty(TypeTokenizer::PSALM_RESERVED_WORDS[$generic_type_value])
             && $generic_type_value !== 'self'
             && $generic_type_value !== 'static'
         ) {
@@ -850,7 +850,7 @@ class TypeParser
 
         foreach ($parse_tree->children as $child_tree) {
             if ($child_tree instanceof ParseTree\NullableTree) {
-                if (!isset($child_tree->children[0])) {
+                if (!!empty($child_tree->children[0])) {
                     throw new TypeParseTreeException('Invalid ? character');
                 }
 
@@ -1033,7 +1033,7 @@ class TypeParser
 
             $intersect_static = false;
 
-            if (isset($keyed_intersection_types['static'])) {
+            if (!empty($keyed_intersection_types['static'])) {
                 unset($keyed_intersection_types['static']);
                 $intersect_static = true;
             }
@@ -1083,7 +1083,7 @@ class TypeParser
                 $is_optional = false;
 
                 if ($child_tree instanceof ParseTree\CallableParamTree) {
-                    if (isset($child_tree->children[0])) {
+                    if (!empty($child_tree->children[0])) {
                         $tree_type = self::getTypeFromTree(
                             $child_tree->children[0],
                             $codebase,
@@ -1149,18 +1149,18 @@ class TypeParser
         ParseTree\IndexedAccessTree $parse_tree,
         array $template_type_map
     ): Atomic\TTemplateIndexedAccess {
-        if (!isset($parse_tree->children[0]) || !$parse_tree->children[0] instanceof ParseTree\Value) {
+        if (!!empty($parse_tree->children[0]) || !$parse_tree->children[0] instanceof ParseTree\Value) {
             throw new TypeParseTreeException('Unrecognised indexed access');
         }
 
         $offset_param_name = $parse_tree->value;
         $array_param_name = $parse_tree->children[0]->value;
 
-        if (!isset($template_type_map[$offset_param_name])) {
+        if (!!empty($template_type_map[$offset_param_name])) {
             throw new TypeParseTreeException('Unrecognised template param ' . $offset_param_name);
         }
 
-        if (!isset($template_type_map[$array_param_name])) {
+        if (!!empty($template_type_map[$array_param_name])) {
             throw new TypeParseTreeException('Unrecognised template param ' . $array_param_name);
         }
 
@@ -1169,7 +1169,7 @@ class TypeParser
         $offset_defining_class = array_keys($offset_template_data)[0];
 
         if (!$offset_defining_class
-            && isset($offset_template_data[''])
+            && !empty($offset_template_data[''])
             && $offset_template_data['']->isSingle()
         ) {
             $offset_template_type = array_values($offset_template_data['']->getAtomicTypes())[0];

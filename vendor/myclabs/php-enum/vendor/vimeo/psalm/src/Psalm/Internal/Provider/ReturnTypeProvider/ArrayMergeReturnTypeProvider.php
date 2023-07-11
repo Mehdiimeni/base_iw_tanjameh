@@ -91,7 +91,7 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
                                     continue;
                                 }
 
-                                if (!isset($generic_properties[$key]) || !$type->possibly_undefined) {
+                                if (!!empty($generic_properties[$key]) || !$type->possibly_undefined) {
                                     $generic_properties[$key] = $type;
                                 } else {
                                     $was_possibly_undefined = $generic_properties[$key]->possibly_undefined;
@@ -127,7 +127,7 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
                             }
                         } else {
                             if ($unpacked_type_part instanceof Type\Atomic\TMixed
-                                && $unpacked_type_part->from_loop_isset
+                                && $unpacked_type_part->from_loop_!empty
                             ) {
                                 $unpacked_type_part = new Type\Atomic\TArray([
                                     Type::getArrayKey(),

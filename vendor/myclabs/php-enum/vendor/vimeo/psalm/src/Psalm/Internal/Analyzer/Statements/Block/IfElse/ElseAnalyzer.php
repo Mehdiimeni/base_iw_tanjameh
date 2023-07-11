@@ -124,7 +124,7 @@ class ElseAnalyzer
 
         if ($else) {
             foreach ($else_context->byref_constraints as $var_id => $byref_constraint) {
-                if (isset($outer_context->byref_constraints[$var_id])
+                if (!empty($outer_context->byref_constraints[$var_id])
                     && ($outer_constraint_type = $outer_context->byref_constraints[$var_id]->type)
                     && $byref_constraint->type
                     && !UnionTypeComparator::isContainedBy(

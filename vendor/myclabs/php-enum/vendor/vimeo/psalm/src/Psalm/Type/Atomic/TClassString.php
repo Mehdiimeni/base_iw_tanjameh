@@ -93,7 +93,7 @@ class TClassString extends TString
             return 'class-string<' . $this->as . '>';
         }
 
-        if (isset($aliased_classes[strtolower($this->as)])) {
+        if (!empty($aliased_classes[strtolower($this->as)])) {
             return 'class-string<' . $aliased_classes[strtolower($this->as)] . '>';
         }
 

@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['item'])) {
+if (!empty($_POST['item'])) {
 
     $item = $_POST['item'];
     $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
@@ -82,7 +82,7 @@ if (isset($_POST['item'])) {
                 $USet = " all_count = all_count + 1 ";
                 $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
-                $objProductData = json_decode(base64_decode($ApiContent), true);
+                $objProductData = json_decode($ApiContent, true);
 
                 $Name = $objProductData['name'];
                 $Name = str_replace("'", "\'", $Name);
@@ -370,29 +370,25 @@ if (isset($_POST['item'])) {
         $user_score = 0;
 
 
-        $obj_brand_name = @$objORM->Fetch("id = '$obj_product->iw_api_brands_id' ", 'name,id', TableIWApiBrands);
-        $obj_product_type = @$objORM->Fetch("id = '$obj_product->iw_api_product_type_id' ", 'name,id', TableIWApiProductType);
+        $obj_brand_name = @$objORM->Fetch("id = $obj_product->iw_api_brands_id ", 'name,id', TableIWApiBrands);
+        $obj_product_type = @$objORM->Fetch("id = $obj_product->iw_api_product_type_id ", 'name,id', TableIWApiProductType);
 
         //all size 
 
-        $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$obj_product->id' ", 'displaySizeText,brandSize,colour,isInStock', TableIWApiProductVariants);
+        $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = $obj_product->id ", 'product_id,displaySizeText,brandSize,colour,isInStock', TableIWApiProductVariants);
 
         $arr_size = array();
         $arr_disabled_size = array();
         foreach ($obj_product_variants_size as $size) {
             if ($size->isInStock) {
-                $arr_size[] = $size->displaySizeText;
+                $arr_size[$size->product_id] = $size->displaySizeText;
             } else {
-                $arr_disabled_size[] = $size->displaySizeText;
+                $arr_disabled_size[$size->product_id] = $size->displaySizeText;
             }
 
         }
 
-        $str_size = implode(',', $arr_size);
-        $str_disabled_size = implode(',', $arr_disabled_size);
-
-        $all_size = explode(',', $str_size);
-        $all_disabled_size = explode(',', $str_disabled_size);
+ 
 
         $arr_info = json_decode($obj_product->info, 1);
 
@@ -453,13 +449,14 @@ if (isset($_POST['item'])) {
 
         $arr_product_detail = array(
             'name' => $obj_product->Name,
+            'id' => $obj_product->id,
             'product_content' => $obj_product_content,
             'images_address' => $images_address,
             'str_price' => $strPricingPart,
             'str_old_price' => $strOldPricingPart,
             'product_page_url' => $obj_product_page_url,
-            'all_size' => $all_size,
-            'all_disabled_size' => $all_disabled_size,
+            'all_size' => $arr_size,
+            'all_disabled_size' => $arr_disabled_size,
             'discount_persent' => $discount_persent,
             'score' => $product_web_score,
             'count_score' => $count_score,

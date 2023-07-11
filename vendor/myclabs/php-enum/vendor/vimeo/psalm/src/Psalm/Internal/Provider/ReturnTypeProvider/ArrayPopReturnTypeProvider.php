@@ -23,7 +23,7 @@ class ArrayPopReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
             return Type::getMixed();
         }
 
-        $first_arg = isset($call_args[0]->value) ? $call_args[0]->value : null;
+        $first_arg = !empty($call_args[0]->value) ? $call_args[0]->value : null;
 
         $first_arg_array = $first_arg
             && ($first_arg_type = $statements_source->node_data->getType($first_arg))
@@ -60,7 +60,7 @@ class ArrayPopReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
             }
         } else {
             // special case where we know the type of the first element
-            if ($function_id === 'array_shift' && $first_arg_array->is_list && isset($first_arg_array->properties[0])) {
+            if ($function_id === 'array_shift' && $first_arg_array->is_list && !empty($first_arg_array->properties[0])) {
                 $value_type = clone $first_arg_array->properties[0];
             } else {
                 $value_type = $first_arg_array->getGenericValueType();

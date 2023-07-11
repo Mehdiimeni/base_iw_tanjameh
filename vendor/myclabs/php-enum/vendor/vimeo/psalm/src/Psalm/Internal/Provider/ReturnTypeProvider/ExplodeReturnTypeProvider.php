@@ -35,7 +35,7 @@ class ExplodeReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionRe
                     : new Type\Atomic\TString
             ]);
 
-            $can_return_empty = isset($call_args[2])
+            $can_return_empty = !empty($call_args[2])
                 && (
                     !$call_args[2]->value instanceof PhpParser\Node\Scalar\LNumber
                     || $call_args[2]->value->value < 0

@@ -2842,7 +2842,7 @@ abstract class Assert
     private static function createWarning(string $warning): void
     {
         foreach (debug_backtrace() as $step) {
-            if (isset($step['object']) && $step['object'] instanceof TestCase) {
+            if (!empty($step['object']) && $step['object'] instanceof TestCase) {
                 assert($step['object'] instanceof TestCase);
 
                 $step['object']->addWarning($warning);

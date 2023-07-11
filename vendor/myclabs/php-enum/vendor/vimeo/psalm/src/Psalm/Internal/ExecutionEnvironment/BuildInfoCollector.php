@@ -67,7 +67,7 @@ class BuildInfoCollector
      */
     protected function fillTravisCi() : self
     {
-        if (isset($this->env['TRAVIS']) && $this->env['TRAVIS'] && isset($this->env['TRAVIS_JOB_ID'])) {
+        if (!empty($this->env['TRAVIS']) && $this->env['TRAVIS'] && !empty($this->env['TRAVIS_JOB_ID'])) {
             $this->readEnv['CI_JOB_ID'] = $this->env['TRAVIS_JOB_ID'];
             $this->env['CI_NAME'] = 'travis-ci';
 
@@ -110,7 +110,7 @@ class BuildInfoCollector
      */
     protected function fillCircleCi() : self
     {
-        if (isset($this->env['CIRCLECI']) && $this->env['CIRCLECI'] && isset($this->env['CIRCLE_BUILD_NUM'])) {
+        if (!empty($this->env['CIRCLECI']) && $this->env['CIRCLECI'] && !empty($this->env['CIRCLE_BUILD_NUM'])) {
             $this->env['CI_BUILD_NUMBER'] = $this->env['CIRCLE_BUILD_NUM'];
             $this->env['CI_NAME'] = 'circleci';
 
@@ -144,7 +144,7 @@ class BuildInfoCollector
      */
     protected function fillAppVeyor() : self
     {
-        if (isset($this->env['APPVEYOR']) && $this->env['APPVEYOR'] && isset($this->env['APPVEYOR_BUILD_NUMBER'])) {
+        if (!empty($this->env['APPVEYOR']) && $this->env['APPVEYOR'] && !empty($this->env['APPVEYOR_BUILD_NUMBER'])) {
             $this->readEnv['CI_BUILD_NUMBER'] = $this->env['APPVEYOR_BUILD_NUMBER'];
             $this->readEnv['CI_JOB_ID'] = $this->env['APPVEYOR_JOB_NUMBER'];
             $this->readEnv['CI_BRANCH'] = $this->env['APPVEYOR_REPO_BRANCH'];
@@ -192,7 +192,7 @@ class BuildInfoCollector
      */
     protected function fillJenkins() : self
     {
-        if (isset($this->env['JENKINS_URL']) && isset($this->env['BUILD_NUMBER'])) {
+        if (!empty($this->env['JENKINS_URL']) && !empty($this->env['BUILD_NUMBER'])) {
             $this->readEnv['CI_BUILD_NUMBER'] = $this->env['BUILD_NUMBER'];
             $this->readEnv['CI_BUILD_URL'] = $this->env['JENKINS_URL'];
             $this->env['CI_NAME'] = 'jenkins';
@@ -217,7 +217,7 @@ class BuildInfoCollector
      */
     protected function fillScrutinizer() : self
     {
-        if (isset($this->env['SCRUTINIZER']) && $this->env['SCRUTINIZER']) {
+        if (!empty($this->env['SCRUTINIZER']) && $this->env['SCRUTINIZER']) {
             $this->readEnv['CI_JOB_ID'] = $this->env['SCRUTINIZER_INSPECTION_UUID'];
             $this->readEnv['CI_BRANCH'] = $this->env['SCRUTINIZER_BRANCH'];
             $this->readEnv['CI_PR_NUMBER'] = $this->env['SCRUTINIZER_PR_NUMBER'] ?? '';
@@ -251,7 +251,7 @@ class BuildInfoCollector
      */
     protected function fillGithubActions(): BuildInfoCollector
     {
-        if (isset($this->env['GITHUB_ACTIONS'])) {
+        if (!empty($this->env['GITHUB_ACTIONS'])) {
             $this->env['CI_NAME'] = 'github-actions';
             $this->env['CI_JOB_ID'] = $this->env['GITHUB_ACTIONS'];
 
@@ -274,12 +274,12 @@ class BuildInfoCollector
             $this->readEnv['CI_REPO_OWNER'] = $slug_parts[0];
             $this->readEnv['CI_REPO_NAME'] = $slug_parts[1];
 
-            if (isset($this->env['GITHUB_EVENT_PATH'])) {
+            if (!empty($this->env['GITHUB_EVENT_PATH'])) {
                 $event_json = \file_get_contents((string) $this->env['GITHUB_EVENT_PATH']);
                 /** @var array */
                 $event_data = \json_decode($event_json, true);
 
-                if (isset($event_data['head_commit'])) {
+                if (!empty($event_data['head_commit'])) {
                     /**
                      * @var array{
                      *    id: string,

@@ -247,13 +247,13 @@ class TCPDF_COLORS {
 	 * @public static
 	 */
 	public static function getSpotColor($name, &$spotc) {
-		if (isset($spotc[$name])) {
+		if (!empty($spotc[$name])) {
 			return $spotc[$name];
 		}
 		$color = preg_replace('/[\s]*/', '', $name); // remove extra spaces
 		$color = strtolower($color);
-		if (isset(self::$spotcolor[$color])) {
-			if (!isset($spotc[$name])) {
+		if (!empty(self::$spotcolor[$color])) {
+			if (!!empty($spotc[$name])) {
 				$i = (1 + count($spotc));
 				$spotc[$name] = array('C' => self::$spotcolor[$color][0], 'M' => self::$spotcolor[$color][1], 'Y' => self::$spotcolor[$color][2], 'K' => self::$spotcolor[$color][3], 'name' => self::$spotcolor[$color][4], 'i' => $i);
 			}
@@ -353,7 +353,7 @@ class TCPDF_COLORS {
 		}
 		if ($color[0] != '#') {
 			// COLOR NAME
-			if (isset(self::$webcolor[$color])) {
+			if (!empty(self::$webcolor[$color])) {
 				// web color
 				$color_code = self::$webcolor[$color];
 			} else {

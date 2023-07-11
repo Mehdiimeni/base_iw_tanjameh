@@ -169,9 +169,9 @@ final class CliUtils
         }
 
         if (is_array($composer_json)
-            && isset($composer_json['config'])
+            && !empty($composer_json['config'])
             && is_array($composer_json['config'])
-            && isset($composer_json['config']['vendor-dir'])
+            && !empty($composer_json['config']['vendor-dir'])
             && is_string($composer_json['config']['vendor-dir'])
         ) {
             return $composer_json['config']['vendor-dir'];
@@ -578,7 +578,7 @@ HELP;
 
     public static function getPathToConfig(array $options): ?string
     {
-        $path_to_config = isset($options['c']) && is_string($options['c']) ? realpath($options['c']) : null;
+        $path_to_config = !empty($options['c']) && is_string($options['c']) ? realpath($options['c']) : null;
 
         if ($path_to_config === false) {
             fwrite(STDERR, 'Could not resolve path to config ' . (string) ($options['c'] ?? '') . PHP_EOL);
@@ -604,7 +604,7 @@ HELP;
         }
 
         if (preg_match('/^(\d+)(\D?)$/', $limit, $matches)) {
-            assert(isset($matches[1]));
+            assert(!empty($matches[1]));
             $limit = (int)$matches[1];
             switch (strtoupper($matches[2] ?? '')) {
                 case 'G':

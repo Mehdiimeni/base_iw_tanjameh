@@ -126,7 +126,7 @@ class Properties
             }
         }
 
-        if (isset($class_storage->declaring_property_ids[$property_name])) {
+        if (!empty($class_storage->declaring_property_ids[$property_name])) {
             $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
 
             if ($context && $context->calling_method_id) {
@@ -203,7 +203,7 @@ class Properties
 
         $class_storage = $this->classlikes->getStorageFor($fq_class_name);
 
-        if ($class_storage && isset($class_storage->declaring_property_ids[$property_name])) {
+        if ($class_storage && !empty($class_storage->declaring_property_ids[$property_name])) {
             return $class_storage->declaring_property_ids[$property_name];
         }
 
@@ -234,7 +234,7 @@ class Properties
 
         $class_storage = $this->classlikes->getStorageFor($fq_class_name);
 
-        if ($class_storage && isset($class_storage->appearing_property_ids[$property_name])) {
+        if ($class_storage && !empty($class_storage->appearing_property_ids[$property_name])) {
             $appearing_property_id = $class_storage->appearing_property_ids[$property_name];
 
             return explode('::$', $appearing_property_id)[0];
@@ -252,11 +252,11 @@ class Properties
 
         $class_storage = $this->classlike_storage_provider->get($fq_class_name);
 
-        if (isset($class_storage->declaring_property_ids[$property_name])) {
+        if (!empty($class_storage->declaring_property_ids[$property_name])) {
             $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
             $declaring_class_storage = $this->classlike_storage_provider->get($declaring_property_class);
 
-            if (isset($declaring_class_storage->properties[$property_name])) {
+            if (!empty($declaring_class_storage->properties[$property_name])) {
                 return $declaring_class_storage->properties[$property_name];
             }
         }
@@ -273,11 +273,11 @@ class Properties
 
         $class_storage = $this->classlike_storage_provider->get($fq_class_name);
 
-        if (isset($class_storage->declaring_property_ids[$property_name])) {
+        if (!empty($class_storage->declaring_property_ids[$property_name])) {
             $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
             $declaring_class_storage = $this->classlike_storage_provider->get($declaring_property_class);
 
-            return isset($declaring_class_storage->properties[$property_name]);
+            return !empty($declaring_class_storage->properties[$property_name]);
         }
         return false;
     }
@@ -309,11 +309,11 @@ class Properties
 
         $class_storage = $this->classlikes->getStorageFor($fq_class_name);
 
-        if ($class_storage && isset($class_storage->declaring_property_ids[$property_name])) {
+        if ($class_storage && !empty($class_storage->declaring_property_ids[$property_name])) {
             $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
             $declaring_class_storage = $this->classlike_storage_provider->get($declaring_property_class);
 
-            if (isset($declaring_class_storage->properties[$property_name])) {
+            if (!empty($declaring_class_storage->properties[$property_name])) {
                 $storage = $declaring_class_storage->properties[$property_name];
             } else {
                 throw new \UnexpectedValueException('Property ' . $property_id . ' should exist');
@@ -324,11 +324,11 @@ class Properties
 
         if ($storage->type) {
             if ($property_set) {
-                if (isset($class_storage->pseudo_property_set_types[$property_name])) {
+                if (!empty($class_storage->pseudo_property_set_types[$property_name])) {
                     return $class_storage->pseudo_property_set_types[$property_name];
                 }
             } else {
-                if (isset($class_storage->pseudo_property_get_types[$property_name])) {
+                if (!empty($class_storage->pseudo_property_get_types[$property_name])) {
                     return $class_storage->pseudo_property_get_types[$property_name];
                 }
             }
@@ -336,7 +336,7 @@ class Properties
             return $storage->type;
         }
 
-        if (!isset($class_storage->overridden_property_ids[$property_name])) {
+        if (!!empty($class_storage->overridden_property_ids[$property_name])) {
             return null;
         }
 

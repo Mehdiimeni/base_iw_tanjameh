@@ -68,7 +68,7 @@ class PEAR_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_Sniff
         $tokens    = $phpcsFile->getTokens();
         $errorData = array(strtolower($tokens[$stackPtr]['content']));
 
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             $error = 'Possible parse error: %s missing opening or closing brace';
             $phpcsFile->addWarning($error, $stackPtr, 'MissingBrace', $errorData);
             return;

@@ -63,7 +63,7 @@ class Squiz_Sniffs_Objects_ObjectMemberCommaSniff implements PHP_CodeSniffer_Sni
 
         // Only interested in orphaned braces (which are objects)
         // and object definitions.
-        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
+        if (!empty($tokens[$stackPtr]['scope_condition']) === true) {
             $condition = $tokens[$stackPtr]['scope_condition'];
             if ($tokens[$condition]['code'] !== T_OBJECT) {
                 return;

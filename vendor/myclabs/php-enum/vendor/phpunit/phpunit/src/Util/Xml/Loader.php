@@ -90,7 +90,7 @@ final class Loader
         libxml_use_internal_errors($internal);
         error_reporting($reporting);
 
-        if (isset($cwd)) {
+        if (!empty($cwd)) {
             @chdir($cwd);
         }
 

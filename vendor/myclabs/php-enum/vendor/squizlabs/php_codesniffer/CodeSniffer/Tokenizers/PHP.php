@@ -300,7 +300,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
             */
 
             if ($tokenIsArray === true && substr($token[1], -1) === "\r") {
-                if (isset($tokens[($stackPtr + 1)]) === true
+                if (!empty($tokens[($stackPtr + 1)]) === true
                     && is_array($tokens[($stackPtr + 1)]) === true
                     && $tokens[($stackPtr + 1)][1][0] === "\n"
                 ) {
@@ -474,8 +474,8 @@ class PHP_CodeSniffer_Tokenizers_PHP
 
             if ($tokenIsArray === false
                 && $token[0] === '.'
-                && isset($tokens[($stackPtr + 1)]) === true
-                && isset($tokens[($stackPtr + 2)]) === true
+                && !empty($tokens[($stackPtr + 1)]) === true
+                && !empty($tokens[($stackPtr + 2)]) === true
                 && $tokens[($stackPtr + 1)] === '.'
                 && $tokens[($stackPtr + 2)] === '.'
             ) {
@@ -574,7 +574,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
                                 T_NAMESPACE            => true,
                                 T_PAAMAYIM_NEKUDOTAYIM => true,
                                );
-                    if (isset($context[$finalTokens[$lastNotEmptyToken]['code']]) === true) {
+                    if (!empty($context[$finalTokens[$lastNotEmptyToken]['code']]) === true) {
                         $finalTokens[$newStackPtr] = array(
                                                       'content' => $token[1],
                                                       'code'    => T_STRING,
@@ -659,14 +659,14 @@ class PHP_CodeSniffer_Tokenizers_PHP
         $numTokens = count($tokens);
         for ($i = ($numTokens - 1); $i >= 0; $i--) {
             // Check for any unset scope conditions due to alternate IF/ENDIF syntax.
-            if (isset($tokens[$i]['scope_opener']) === true
-                && isset($tokens[$i]['scope_condition']) === false
+            if (!empty($tokens[$i]['scope_opener']) === true
+                && !empty($tokens[$i]['scope_condition']) === false
             ) {
                 $tokens[$i]['scope_condition'] = $tokens[$tokens[$i]['scope_opener']]['scope_condition'];
             }
 
             // Looking for functions that are actually closures.
-            if ($tokens[$i]['code'] === T_FUNCTION && isset($tokens[$i]['scope_opener']) === true) {
+            if ($tokens[$i]['code'] === T_FUNCTION && !empty($tokens[$i]['scope_opener']) === true) {
                 for ($x = ($i + 1); $x < $numTokens; $x++) {
                     if (in_array($tokens[$x]['code'], PHP_CodeSniffer_Tokens::$emptyTokens) === false) {
                         break;
@@ -682,7 +682,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
                     }
 
                     for ($x = ($tokens[$i]['scope_opener'] + 1); $x < $tokens[$i]['scope_closer']; $x++) {
-                        if (isset($tokens[$x]['conditions'][$i]) === false) {
+                        if (!empty($tokens[$x]['conditions'][$i]) === false) {
                             continue;
                         }
 
@@ -712,7 +712,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
                            );
 
                 if (in_array($tokens[$x]['code'], $allowed) === false
-                    && isset($tokens[$i]['bracket_closer']) === true
+                    && !empty($tokens[$i]['bracket_closer']) === true
                 ) {
                     $tokens[$i]['code'] = T_OPEN_SHORT_ARRAY;
                     $tokens[$i]['type'] = 'T_OPEN_SHORT_ARRAY';
@@ -751,7 +751,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
 
             if (($tokens[$i]['code'] !== T_CASE
                 && $tokens[$i]['code'] !== T_DEFAULT)
-                || isset($tokens[$i]['scope_opener']) === false
+                || !empty($tokens[$i]['scope_opener']) === false
             ) {
                 // Only interested in CASE and DEFAULT statements from here on in.
                 continue;
@@ -789,7 +789,7 @@ class PHP_CodeSniffer_Tokenizers_PHP
             }
 
             if ($tokens[$x]['code'] !== T_OPEN_CURLY_BRACKET
-                || isset($tokens[$x]['scope_condition']) === true
+                || !empty($tokens[$x]['scope_condition']) === true
             ) {
                 // Not a CASE with a curly brace opener.
                 continue;

@@ -114,7 +114,7 @@ function resolveMacros($code) {
                 assertArgs(3, $args, $name);
 
                 return '$startAttributes = ' . $args[1] . ';'
-                       . ' if (isset($startAttributes[\'comments\']))'
+                       . ' if (!empty($startAttributes[\'comments\']))'
                        . ' { ' . $args[0] . ' = new Stmt\Nop($startAttributes + ' . $args[2] . '); }'
                        . ' else { ' . $args[0] . ' = null; }';
             }
@@ -123,7 +123,7 @@ function resolveMacros($code) {
                 assertArgs(2, $args, $name);
 
                 return '$startAttributes = ' . $args[1] . ';'
-                       . ' if (isset($startAttributes[\'comments\']))'
+                       . ' if (!empty($startAttributes[\'comments\']))'
                        . ' { ' . $args[0] . ' = new Stmt\Nop($this->createCommentNopAttributes($startAttributes[\'comments\'])); }'
                        . ' else { ' . $args[0] . ' = null; }';
             }

@@ -69,7 +69,7 @@ class Generic_Sniffs_Metrics_NestingLevelSniff implements PHP_CodeSniffer_Sniff
         $tokens = $phpcsFile->getTokens();
 
         // Ignore abstract methods.
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             return;
         }
 

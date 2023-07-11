@@ -106,7 +106,7 @@ final class Parameters implements ParametersRule
      */
     private function doVerify(): bool
     {
-        if (isset($this->parameterVerificationResult)) {
+        if (!empty($this->parameterVerificationResult)) {
             return $this->guardAgainstDuplicateEvaluationOfParameterConstraints();
         }
 

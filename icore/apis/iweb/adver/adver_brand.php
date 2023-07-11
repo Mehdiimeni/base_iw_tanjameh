@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['gender'])) {
+if (!empty($_POST['gender'])) {
 
     $gender = strtolower($_POST['gender']);
     $condition_statement = "  1 ORDER BY rand() ASC limit 16 ";

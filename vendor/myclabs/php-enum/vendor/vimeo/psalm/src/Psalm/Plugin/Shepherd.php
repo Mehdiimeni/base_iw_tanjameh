@@ -51,7 +51,7 @@ class Shepherd implements \Psalm\Plugin\EventHandler\AfterAnalysisInterface
 
         $source_control_data = $source_control_info ? $source_control_info->toArray() : [];
 
-        if (!$source_control_data && isset($build_info['git']) && \is_array($build_info['git'])) {
+        if (!$source_control_data && !empty($build_info['git']) && \is_array($build_info['git'])) {
             $source_control_data = $build_info['git'];
         }
 
@@ -139,7 +139,7 @@ class Shepherd implements \Psalm\Plugin\EventHandler\AfterAnalysisInterface
          */
         $curl_info = curl_getinfo($ch);
 
-        if (isset($curl_info['ssl_verify_result'])
+        if (!empty($curl_info['ssl_verify_result'])
             && $curl_info['ssl_verify_result'] !== 0
         ) {
             switch ($curl_info['ssl_verify_result']) {

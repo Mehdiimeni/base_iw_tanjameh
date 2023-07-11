@@ -133,7 +133,7 @@ class Methods
             $calling_class_name = explode('::', $calling_method_id)[0];
         }
 
-        if (isset($class_storage->declaring_method_ids[$method_name])) {
+        if (!empty($class_storage->declaring_method_ids[$method_name])) {
             $declaring_method_id = $class_storage->declaring_method_ids[$method_name];
 
             if ($calling_method_id === strtolower((string) $declaring_method_id)) {
@@ -158,7 +158,7 @@ class Methods
 
             if ((string) $method_id !== (string) $declaring_method_id
                 && $class_storage->user_defined
-                && isset($class_storage->potential_declaring_method_ids[$method_name])
+                && !empty($class_storage->potential_declaring_method_ids[$method_name])
             ) {
                 foreach ($class_storage->potential_declaring_method_ids[$method_name] as $potential_id => $_) {
                     if ($calling_method_id) {
@@ -228,7 +228,7 @@ class Methods
 
             $declaring_class_storage = $this->classlike_storage_provider->get($declaring_method_class);
 
-            if (isset($declaring_class_storage->overridden_method_ids[$declaring_method_name])) {
+            if (!empty($declaring_class_storage->overridden_method_ids[$declaring_method_name])) {
                 $overridden_method_ids = $declaring_class_storage->overridden_method_ids[$declaring_method_name];
 
                 foreach ($overridden_method_ids as $overridden_method_id) {
@@ -273,7 +273,7 @@ class Methods
             }
         }
 
-        if ($class_storage->abstract && isset($class_storage->overridden_method_ids[$method_name])) {
+        if ($class_storage->abstract && !empty($class_storage->overridden_method_ids[$method_name])) {
             return true;
         }
 
@@ -429,11 +429,11 @@ class Methods
 
             $class_storage = $this->classlike_storage_provider->get($appearing_fq_class_name);
 
-            if (!isset($class_storage->overridden_method_ids[$appearing_method_name])) {
+            if (!!empty($class_storage->overridden_method_ids[$appearing_method_name])) {
                 return $params;
             }
 
-            if (!isset($class_storage->documenting_method_ids[$appearing_method_name])) {
+            if (!!empty($class_storage->documenting_method_ids[$appearing_method_name])) {
                 return $params;
             }
 
@@ -444,7 +444,7 @@ class Methods
             $overriding_fq_class_name = $overridden_method_id->fq_class_name;
 
             foreach ($params as $i => $param) {
-                if (isset($overridden_storage->params[$i]->type)
+                if (!empty($overridden_storage->params[$i]->type)
                     && $overridden_storage->params[$i]->has_docblock_type
                 ) {
                     $params[$i] = clone $param;
@@ -495,7 +495,7 @@ class Methods
         foreach ($type->getAtomicTypes() as $key => $atomic_type) {
             if ($atomic_type instanceof Type\Atomic\TTemplateParam
                 && ($atomic_type->defining_class === $base_fq_class_name
-                    || isset($extends[$atomic_type->defining_class]))
+                    || !empty($extends[$atomic_type->defining_class]))
             ) {
                 $types_to_add = self::getExtendedTemplatedTypes(
                     $atomic_type,
@@ -513,7 +513,7 @@ class Methods
 
             if ($atomic_type instanceof Type\Atomic\TTemplateParamClass) {
                 if ($atomic_type->defining_class === $base_fq_class_name) {
-                    if (isset($extends[$base_fq_class_name][$atomic_type->param_name])) {
+                    if (!empty($extends[$base_fq_class_name][$atomic_type->param_name])) {
                         $extended_param = $extends[$base_fq_class_name][$atomic_type->param_name];
 
                         $types = \array_values($extended_param->getAtomicTypes());
@@ -603,7 +603,7 @@ class Methods
     ) : array {
         $extra_added_types = [];
 
-        if (isset($extends[$atomic_type->defining_class][$atomic_type->param_name])) {
+        if (!empty($extends[$atomic_type->defining_class][$atomic_type->param_name])) {
             $extended_param = clone $extends[$atomic_type->defining_class][$atomic_type->param_name];
 
             foreach ($extended_param->getAtomicTypes() as $extended_atomic_type) {
@@ -658,7 +658,7 @@ class Methods
 
         $original_class_storage = $this->classlike_storage_provider->get($original_fq_class_name);
 
-        if (isset($original_class_storage->pseudo_methods[$original_method_name])) {
+        if (!empty($original_class_storage->pseudo_methods[$original_method_name])) {
             return $original_class_storage->pseudo_methods[$original_method_name]->return_type;
         }
 
@@ -673,7 +673,7 @@ class Methods
         if (!$appearing_method_id) {
             $class_storage = $this->classlike_storage_provider->get($original_fq_class_name);
 
-            if ($class_storage->abstract && isset($class_storage->overridden_method_ids[$original_method_name])) {
+            if ($class_storage->abstract && !empty($class_storage->overridden_method_ids[$original_method_name])) {
                 $appearing_method_id = reset($class_storage->overridden_method_ids[$original_method_name]);
             } else {
                 return null;
@@ -708,7 +708,7 @@ class Methods
             && InternalCallMapHandler::inCallMap((string) $appearing_method_id)
         ) {
             if ((string) $appearing_method_id === 'Closure::fromcallable'
-                && isset($args[0])
+                && !empty($args[0])
                 && $source_analyzer
                 && ($first_arg_type = $source_analyzer->getNodeTypeProvider()->getType($args[0]->value))
                 && $first_arg_type->isSingle()
@@ -769,7 +769,7 @@ class Methods
             return clone $candidate_type;
         }
 
-        if (isset($class_storage->documenting_method_ids[$appearing_method_name])) {
+        if (!empty($class_storage->documenting_method_ids[$appearing_method_name])) {
             $overridden_method_id = $class_storage->documenting_method_ids[$appearing_method_name];
 
             // special override to allow inference of Iterator types
@@ -871,7 +871,7 @@ class Methods
             return clone $candidate_type;
         }
 
-        if (!isset($class_storage->overridden_method_ids[$appearing_method_name])) {
+        if (!!empty($class_storage->overridden_method_ids[$appearing_method_name])) {
             return null;
         }
 
@@ -1039,11 +1039,11 @@ class Methods
 
         $method_name = $method_id->method_name;
 
-        if (isset($class_storage->declaring_method_ids[$method_name])) {
+        if (!empty($class_storage->declaring_method_ids[$method_name])) {
             return $class_storage->declaring_method_ids[$method_name];
         }
 
-        if ($class_storage->abstract && isset($class_storage->overridden_method_ids[$method_name])) {
+        if ($class_storage->abstract && !empty($class_storage->overridden_method_ids[$method_name])) {
             return reset($class_storage->overridden_method_ids[$method_name]);
         }
 
@@ -1062,7 +1062,7 @@ class Methods
 
         $method_name = $method_id->method_name;
 
-        if (isset($class_storage->appearing_method_ids[$method_name])) {
+        if (!empty($class_storage->appearing_method_ids[$method_name])) {
             return $class_storage->appearing_method_ids[$method_name];
         }
 
@@ -1077,7 +1077,7 @@ class Methods
         $class_storage = $this->classlike_storage_provider->get($method_id->fq_class_name);
         $method_name = $method_id->method_name;
 
-        if (isset($class_storage->overridden_method_ids[$method_name])) {
+        if (!empty($class_storage->overridden_method_ids[$method_name])) {
             return $class_storage->overridden_method_ids[$method_name];
         }
 
@@ -1171,7 +1171,7 @@ class Methods
 
         $method_name = $method_id->method_name;
 
-        if (!isset($class_storage->methods[$method_name])) {
+        if (!!empty($class_storage->methods[$method_name])) {
             throw new \UnexpectedValueException(
                 '$storage should not be null for ' . $method_id
             );
@@ -1190,7 +1190,7 @@ class Methods
 
         $method_name = $method_id->method_name;
 
-        if (!isset($class_storage->methods[$method_name])) {
+        if (!!empty($class_storage->methods[$method_name])) {
             return false;
         }
 

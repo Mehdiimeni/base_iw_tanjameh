@@ -75,7 +75,7 @@ class Generic_Sniffs_Metrics_CyclomaticComplexitySniff implements PHP_CodeSniffe
         $tokens = $phpcsFile->getTokens();
 
         // Ignore abstract methods.
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             return;
         }
 

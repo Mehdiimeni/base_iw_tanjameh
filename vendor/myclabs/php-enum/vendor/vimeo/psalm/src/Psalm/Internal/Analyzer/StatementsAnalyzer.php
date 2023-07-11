@@ -297,7 +297,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 && $stmt->expr instanceof PhpParser\Node\Expr\FuncCall
                 && $stmt->expr->name instanceof PhpParser\Node\Name
                 && $stmt->expr->name->parts === ['define']
-                && isset($stmt->expr->args[1])
+                && !empty($stmt->expr->args[1])
             ) {
                 $const_name = ConstFetchAnalyzer::getConstName(
                     $stmt->expr->args[0]->value,
@@ -364,7 +364,7 @@ class StatementsAnalyzer extends SourceAnalyzer
         }
 
         /*
-        if (isset($context->vars_in_scope['$array']) && !$stmt instanceof PhpParser\Node\Stmt\Nop) {
+        if (!empty($context->vars_in_scope['$array']) && !$stmt instanceof PhpParser\Node\Stmt\Nop) {
             var_dump($stmt->getLine(), $context->vars_in_scope['$array']);
         }
         */
@@ -375,7 +375,7 @@ class StatementsAnalyzer extends SourceAnalyzer
         if ($docblock = $stmt->getDocComment()) {
             $statements_analyzer->parseStatementDocblock($docblock, $stmt, $context);
 
-            if (isset($statements_analyzer->parsed_docblock->tags['psalm-trace'])) {
+            if (!empty($statements_analyzer->parsed_docblock->tags['psalm-trace'])) {
                 foreach ($statements_analyzer->parsed_docblock->tags['psalm-trace'] as $traced_variable_line) {
                     $possible_traced_variable_names = preg_split('/[\s]+/', $traced_variable_line);
                     if ($possible_traced_variable_names) {
@@ -387,15 +387,15 @@ class StatementsAnalyzer extends SourceAnalyzer
                 }
             }
 
-            if (isset($statements_analyzer->parsed_docblock->tags['psalm-ignore-variable-method'])) {
+            if (!empty($statements_analyzer->parsed_docblock->tags['psalm-ignore-variable-method'])) {
                 $context->ignore_variable_method = $ignore_variable_method = true;
             }
 
-            if (isset($statements_analyzer->parsed_docblock->tags['psalm-ignore-variable-property'])) {
+            if (!empty($statements_analyzer->parsed_docblock->tags['psalm-ignore-variable-property'])) {
                 $context->ignore_variable_property = $ignore_variable_property = true;
             }
 
-            if (isset($statements_analyzer->parsed_docblock->tags['psalm-suppress'])) {
+            if (!empty($statements_analyzer->parsed_docblock->tags['psalm-suppress'])) {
                 $suppressed = $statements_analyzer->parsed_docblock->tags['psalm-suppress'];
                 if ($suppressed) {
                     $new_issues = [];
@@ -422,7 +422,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 }
             }
 
-            if (isset($statements_analyzer->parsed_docblock->combined_tags['var'])
+            if (!empty($statements_analyzer->parsed_docblock->combined_tags['var'])
                 && !($stmt instanceof PhpParser\Node\Stmt\Expression
                     && $stmt->expr instanceof PhpParser\Node\Expr\Assign)
                 && !$stmt instanceof PhpParser\Node\Stmt\Foreach_
@@ -626,7 +626,7 @@ class StatementsAnalyzer extends SourceAnalyzer
         }
 
         foreach ($traced_variables as $traced_variable) {
-            if (isset($context->vars_in_scope[$traced_variable])) {
+            if (!empty($context->vars_in_scope[$traced_variable])) {
                 if (IssueBuffer::accepts(
                     new Trace(
                         $traced_variable . ': ' . $context->vars_in_scope[$traced_variable]->getId(),
@@ -676,7 +676,7 @@ class StatementsAnalyzer extends SourceAnalyzer
 
         $comments = $this->parsed_docblock;
 
-        if (isset($comments->tags['psalm-scope-this'])) {
+        if (!empty($comments->tags['psalm-scope-this'])) {
             $trimmed = trim(\reset($comments->tags['psalm-scope-this']));
 
             if (!$codebase->classExists($trimmed)) {
@@ -775,15 +775,15 @@ class StatementsAnalyzer extends SourceAnalyzer
 
             $assignment_node = DataFlowNode::getForAssignment($var_id, $original_location);
 
-            if (!isset($this->byref_uses[$var_id])
-                && !isset($context->vars_from_global[$var_id])
+            if (!!empty($this->byref_uses[$var_id])
+                && !!empty($context->vars_from_global[$var_id])
                 && !VariableFetchAnalyzer::isSuperGlobal($var_id)
                 && $this->data_flow_graph instanceof VariableUseGraph
                 && !$this->data_flow_graph->isVariableUsed($assignment_node)
             ) {
                 $is_foreach_var = false;
 
-                if (isset($this->foreach_var_locations[$var_id])) {
+                if (!empty($this->foreach_var_locations[$var_id])) {
                     foreach ($this->foreach_var_locations[$var_id] as $location) {
                         if ($location->raw_file_start === $original_location->raw_file_start) {
                             $is_foreach_var = true;
@@ -807,7 +807,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 if ($codebase->alter_code
                     && $issue instanceof UnusedVariable
                     && !$unused_var_remover->checkIfVarRemoved($var_id, $original_location)
-                    && isset($project_analyzer->getIssuesToFix()['UnusedVariable'])
+                    && !empty($project_analyzer->getIssuesToFix()['UnusedVariable'])
                     && !IssueBuffer::isSuppressed($issue, $this->getSuppressedIssues())
                 ) {
                     $unused_var_remover->findUnusedAssignment(
@@ -832,7 +832,7 @@ class StatementsAnalyzer extends SourceAnalyzer
 
     public function hasVariable(string $var_name): bool
     {
-        return isset($this->all_vars[$var_name]);
+        return !empty($this->all_vars[$var_name]);
     }
 
     public function registerVariable(string $var_id, CodeLocation $location, ?int $branch_point): void
@@ -911,12 +911,12 @@ class StatementsAnalyzer extends SourceAnalyzer
      */
     public function getFirstAppearance(string $var_id): ?CodeLocation
     {
-        return isset($this->all_vars[$var_id]) ? $this->all_vars[$var_id] : null;
+        return !empty($this->all_vars[$var_id]) ? $this->all_vars[$var_id] : null;
     }
 
     public function getBranchPoint(string $var_id): ?int
     {
-        return isset($this->var_branch_points[$var_id]) ? $this->var_branch_points[$var_id] : null;
+        return !empty($this->var_branch_points[$var_id]) ? $this->var_branch_points[$var_id] : null;
     }
 
     public function addVariableInitialization(string $var_id, int $branch_point): void
@@ -972,7 +972,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 );
 
                 foreach ($context->possibly_thrown_exceptions as $possibly_thrown_exception => $codelocations) {
-                    if (isset($ignored_exceptions[strtolower($possibly_thrown_exception)])) {
+                    if (!empty($ignored_exceptions[strtolower($possibly_thrown_exception)])) {
                         continue;
                     }
 

@@ -69,7 +69,7 @@ class PropertyDocblockManipulator
         string $file_path,
         Property $stmt
     ) : self {
-        if (isset(self::$manipulators[$file_path][$stmt->getLine()])) {
+        if (!empty(self::$manipulators[$file_path][$stmt->getLine()])) {
             return self::$manipulators[$file_path][$stmt->getLine()];
         }
 
@@ -177,7 +177,7 @@ class PropertyDocblockManipulator
         $modified_docblock = false;
 
         $old_phpdoc_type = null;
-        if (isset($parsed_docblock->tags['var'])) {
+        if (!empty($parsed_docblock->tags['var'])) {
             $old_phpdoc_type = array_shift($parsed_docblock->tags['var']);
         }
 
@@ -192,7 +192,7 @@ class PropertyDocblockManipulator
         }
 
         $old_psalm_type = null;
-        if (isset($parsed_docblock->tags['psalm-var'])) {
+        if (!empty($parsed_docblock->tags['psalm-var'])) {
             $old_psalm_type = array_shift($parsed_docblock->tags['psalm-var']);
         }
 
@@ -220,7 +220,7 @@ class PropertyDocblockManipulator
      */
     public static function getManipulationsForFile(string $file_path): array
     {
-        if (!isset(self::$manipulators[$file_path])) {
+        if (!!empty(self::$manipulators[$file_path])) {
             return [];
         }
 

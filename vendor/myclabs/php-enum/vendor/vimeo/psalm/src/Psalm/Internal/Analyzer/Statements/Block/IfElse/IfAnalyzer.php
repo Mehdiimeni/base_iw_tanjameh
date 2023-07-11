@@ -95,7 +95,7 @@ class IfAnalyzer
         );
 
         foreach ($if_context->byref_constraints as $var_id => $byref_constraint) {
-            if (isset($outer_context->byref_constraints[$var_id])
+            if (!empty($outer_context->byref_constraints[$var_id])
                 && $byref_constraint->type
                 && ($outer_constraint_type = $outer_context->byref_constraints[$var_id]->type)
                 && !UnionTypeComparator::isContainedBy(
@@ -139,7 +139,7 @@ class IfAnalyzer
                     $if_scope->reasonable_clauses = Context::filterClauses(
                         $var_id,
                         $if_scope->reasonable_clauses,
-                        isset($if_context->vars_in_scope[$var_id]) ? $if_context->vars_in_scope[$var_id] : null,
+                        !empty($if_context->vars_in_scope[$var_id]) ? $if_context->vars_in_scope[$var_id] : null,
                         $statements_analyzer
                     );
                 }
@@ -203,7 +203,7 @@ class IfAnalyzer
             //update $if_context vars to include the pre-assignment else vars
             if (!$stmt->else && !$has_leaving_statements) {
                 foreach ($pre_assignment_else_redefined_vars as $var_id => $type) {
-                    if (isset($if_context->vars_in_scope[$var_id])) {
+                    if (!empty($if_context->vars_in_scope[$var_id])) {
                         $if_context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                             $if_context->vars_in_scope[$var_id],
                             $type,
@@ -304,8 +304,8 @@ class IfAnalyzer
             $first_appearance = $statements_analyzer->getFirstAppearance($var_id);
 
             if ($first_appearance
-                && isset($post_if_context->vars_in_scope[$var_id])
-                && isset($post_if_context_vars_reconciled[$var_id])
+                && !empty($post_if_context->vars_in_scope[$var_id])
+                && !empty($post_if_context_vars_reconciled[$var_id])
                 && $post_if_context->vars_in_scope[$var_id]->hasMixed()
                 && !$post_if_context_vars_reconciled[$var_id]->hasMixed()
             ) {
@@ -321,7 +321,7 @@ class IfAnalyzer
 
                     if (!$functionlike_storage
                             || (!$parent_source->getSource() instanceof \Psalm\Internal\Analyzer\TraitAnalyzer
-                                && !isset($functionlike_storage->param_lookup[substr($var_id, 1)]))
+                                && !!empty($functionlike_storage->param_lookup[substr($var_id, 1)]))
                     ) {
                         $codebase = $statements_analyzer->getCodebase();
                         $codebase->analyzer->decrementMixedCount($statements_analyzer->getFilePath());
@@ -405,7 +405,7 @@ class IfAnalyzer
         $statements_analyzer->node_data = $old_node_data;
 
         foreach ($assigned_in_conditional_var_ids as $var_id => $_) {
-            if (isset($post_leaving_if_context->vars_in_scope[$var_id])) {
+            if (!empty($post_leaving_if_context->vars_in_scope[$var_id])) {
                 $post_if_context->vars_in_scope[$var_id] = clone $post_leaving_if_context->vars_in_scope[$var_id];
             }
         }
@@ -477,8 +477,8 @@ class IfAnalyzer
         $possibly_redefined_vars = $redefined_vars;
 
         foreach ($possibly_redefined_vars as $var_id => $_) {
-            if (!isset($possibly_assigned_var_ids[$var_id])
-                && isset($newly_reconciled_var_ids[$var_id])
+            if (!!empty($possibly_assigned_var_ids[$var_id])
+                && !empty($newly_reconciled_var_ids[$var_id])
             ) {
                 unset($possibly_redefined_vars[$var_id]);
             }
@@ -497,7 +497,7 @@ class IfAnalyzer
             $if_scope->possibly_redefined_vars = $possibly_redefined_vars;
         } else {
             foreach ($if_scope->redefined_vars as $redefined_var => $type) {
-                if (!isset($redefined_vars[$redefined_var])) {
+                if (!!empty($redefined_vars[$redefined_var])) {
                     unset($if_scope->redefined_vars[$redefined_var]);
                 } else {
                     $if_scope->redefined_vars[$redefined_var] = Type::combineUnionTypes(
@@ -506,7 +506,7 @@ class IfAnalyzer
                         $codebase
                     );
 
-                    if (isset($outer_context->vars_in_scope[$redefined_var])
+                    if (!empty($outer_context->vars_in_scope[$redefined_var])
                         && $if_scope->redefined_vars[$redefined_var]->equals(
                             $outer_context->vars_in_scope[$redefined_var]
                         )
@@ -517,7 +517,7 @@ class IfAnalyzer
             }
 
             foreach ($possibly_redefined_vars as $var => $type) {
-                if (isset($if_scope->possibly_redefined_vars[$var])) {
+                if (!empty($if_scope->possibly_redefined_vars[$var])) {
                     $if_scope->possibly_redefined_vars[$var] = Type::combineUnionTypes(
                         $type,
                         $if_scope->possibly_redefined_vars[$var],

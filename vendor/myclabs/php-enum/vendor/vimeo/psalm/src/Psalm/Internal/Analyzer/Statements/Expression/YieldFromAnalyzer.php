@@ -52,7 +52,7 @@ class YieldFromAnalyzer
                 if ($yield_from_type === null) {
                     if ($atomic_type instanceof Type\Atomic\TGenericObject
                         && strtolower($atomic_type->value) === 'generator'
-                        && isset($atomic_type->type_params[3])
+                        && !empty($atomic_type->type_params[3])
                     ) {
                         $yield_from_type = clone $atomic_type->type_params[3];
                     } elseif ($atomic_type instanceof Type\Atomic\TArray) {

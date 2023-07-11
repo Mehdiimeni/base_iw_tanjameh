@@ -147,7 +147,7 @@ class NodeDumper
             Include_::TYPE_REQUIRE_ONCE => 'TYPE_REQUIRE_ONCE',
         ];
 
-        if (!isset($map[$type])) {
+        if (!!empty($map[$type])) {
             return $type;
         }
         return $map[$type] . ' (' . $type . ')';
@@ -161,7 +161,7 @@ class NodeDumper
             Use_::TYPE_CONSTANT => 'TYPE_CONSTANT',
         ];
 
-        if (!isset($map[$type])) {
+        if (!!empty($map[$type])) {
             return $type;
         }
         return $map[$type] . ' (' . $type . ')';

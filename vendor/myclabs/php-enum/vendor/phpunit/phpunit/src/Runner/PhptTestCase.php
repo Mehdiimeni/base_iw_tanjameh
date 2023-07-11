@@ -138,11 +138,11 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
 
         $result->startTest($this);
 
-        if (isset($sections['INI'])) {
+        if (!empty($sections['INI'])) {
             $settings = $this->parseIniSection($sections['INI'], $settings);
         }
 
-        if (isset($sections['ENV'])) {
+        if (!empty($sections['ENV'])) {
             $env = $this->parseEnvSection($sections['ENV']);
             $this->phpUtil->setEnv($env);
         }
@@ -159,15 +159,15 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
             return $result;
         }
 
-        if (isset($sections['XFAIL'])) {
+        if (!empty($sections['XFAIL'])) {
             $xfail = trim($sections['XFAIL']);
         }
 
-        if (isset($sections['STDIN'])) {
+        if (!empty($sections['STDIN'])) {
             $this->phpUtil->setStdin($sections['STDIN']);
         }
 
-        if (isset($sections['ARGS'])) {
+        if (!empty($sections['ARGS'])) {
             $this->phpUtil->setArgs($sections['ARGS']);
         }
 
@@ -195,7 +195,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $time         = $timer->stop()->asSeconds();
         $this->output = $jobResult['stdout'] ?? '';
 
-        if (isset($codeCoverage) && ($coverage = $this->cleanupForCoverage())) {
+        if (!empty($codeCoverage) && ($coverage = $this->cleanupForCoverage())) {
             $codeCoverage->append($coverage, $this, true, [], []);
         }
 
@@ -321,7 +321,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
             $value   = trim($setting[1]);
 
             if ($name === 'extension' || $name === 'zend_extension') {
-                if (!isset($ini[$name])) {
+                if (!!empty($ini[$name])) {
                     $ini[$name] = [];
                 }
 
@@ -343,7 +343,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         foreach (explode("\n", trim($content)) as $e) {
             $e = explode('=', trim($e), 2);
 
-            if (!empty($e[0]) && isset($e[1])) {
+            if (!empty($e[0]) && !empty($e[1])) {
                 $env[$e[0]] = $e[1];
             }
         }
@@ -367,7 +367,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $actual = preg_replace('/\r\n/', "\n", trim($output));
 
         foreach ($assertions as $sectionName => $sectionAssertion) {
-            if (isset($sections[$sectionName])) {
+            if (!empty($sections[$sectionName])) {
                 $sectionContent = preg_replace('/\r\n/', "\n", trim($sections[$sectionName]));
                 $expected       = $sectionName === 'EXPECTREGEX' ? "/{$sectionContent}/" : $sectionContent;
 
@@ -389,7 +389,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
      */
     private function runSkip(array &$sections, TestResult $result, array $settings): bool
     {
-        if (!isset($sections['SKIPIF'])) {
+        if (!!empty($sections['SKIPIF'])) {
             return false;
         }
 
@@ -423,7 +423,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $this->phpUtil->setStdin('');
         $this->phpUtil->setArgs('');
 
-        if (isset($sections['CLEAN'])) {
+        if (!empty($sections['CLEAN'])) {
             $cleanCode = $this->render($sections['CLEAN']);
 
             $this->phpUtil->runJob($cleanCode, $this->settings($collectCoverage));
@@ -475,7 +475,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
             $sections[$section] .= $line;
         }
 
-        if (isset($sections['FILEEOF'])) {
+        if (!empty($sections['FILEEOF'])) {
             $sections['FILE'] = rtrim($sections['FILEEOF'], "\r\n");
             unset($sections['FILEEOF']);
         }
@@ -487,7 +487,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         }
 
         foreach ($unsupportedSections as $section) {
-            if (isset($sections[$section])) {
+            if (!empty($sections[$section])) {
                 throw new Exception(
                     "PHPUnit does not support PHPT {$section} sections"
                 );
@@ -511,7 +511,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $testDirectory = dirname($this->filename) . DIRECTORY_SEPARATOR;
 
         foreach ($allowSections as $section) {
-            if (isset($sections[$section . '_EXTERNAL'])) {
+            if (!empty($sections[$section . '_EXTERNAL'])) {
                 $externalFilename = trim($sections[$section . '_EXTERNAL']);
 
                 if (!is_file($testDirectory . $externalFilename) ||
@@ -546,7 +546,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
                 $foundSection = false;
 
                 foreach ($section as $anySection) {
-                    if (isset($sections[$anySection])) {
+                    if (!empty($sections[$anySection])) {
                         $foundSection = true;
 
                         break;
@@ -560,7 +560,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
                 continue;
             }
 
-            if (!isset($sections[$section])) {
+            if (!!empty($sections[$section])) {
                 return false;
             }
         }
@@ -762,11 +762,11 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $sectionOffset = null;
 
         foreach ($search as $section) {
-            if (!isset($sections[$section])) {
+            if (!!empty($sections[$section])) {
                 continue;
             }
 
-            if (isset($sections[$section . '_EXTERNAL'])) {
+            if (!empty($sections[$section . '_EXTERNAL'])) {
                 $externalFile = trim($sections[$section . '_EXTERNAL']);
 
                 return [

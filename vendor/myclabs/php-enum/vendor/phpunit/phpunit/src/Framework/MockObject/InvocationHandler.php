@@ -69,7 +69,7 @@ final class InvocationHandler
      */
     public function lookupMatcher(string $id): ?Matcher
     {
-        if (isset($this->matcherMap[$id])) {
+        if (!empty($this->matcherMap[$id])) {
             return $this->matcherMap[$id];
         }
 
@@ -87,7 +87,7 @@ final class InvocationHandler
      */
     public function registerMatcher(string $id, Matcher $matcher): void
     {
-        if (isset($this->matcherMap[$id])) {
+        if (!empty($this->matcherMap[$id])) {
             throw new MatcherAlreadyRegisteredException($id);
         }
 

@@ -153,7 +153,7 @@ class Call
      */
     public function getScore(ArgumentsWildcard $wildcard)
     {
-        if (isset($this->scores[$wildcard])) {
+        if (!empty($this->scores[$wildcard])) {
             return $this->scores[$wildcard];
         }
 

@@ -18,7 +18,7 @@ class PdoStatementReturnTypeProvider implements \Psalm\Plugin\EventHandler\Metho
         $method_name_lowercase = $event->getMethodNameLowercase();
         if ($method_name_lowercase === 'fetch'
             && \class_exists('PDO')
-            && isset($call_args[0])
+            && !empty($call_args[0])
             && ($first_arg_type = $source->getNodeTypeProvider()->getType($call_args[0]->value))
             && $first_arg_type->isSingleIntLiteral()
         ) {

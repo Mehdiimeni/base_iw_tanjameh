@@ -7,14 +7,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-if (isset($_POST['gender'])) {
+if (!empty($_POST['gender'])) {
     $gender = strtolower($_POST['gender']);
+    $gender_id_key = @$objORM->Fetch("Enabled = 1 and Name = '$gender'", "id", TableIWNewMenu)->id;
 
-    $gender_id_key = @$objORM->Fetch("Enabled = 1 and Name = '$gender'", "id", TableIWNewMenu)->IdKey;
-
-    if (isset($_POST['category'])) {
+    if (!empty($_POST['category'])) {
         $category = $_POST['category'];
-        $condition = " Enabled = 1 and Name = '$category' ";
+        $condition = " Enabled = 1 and Name = '$category' and iw_new_menu_id = $gender_id_key  ";
 
         if ($objORM->DataExist($condition, TableIWNewMenu2,'id')) {
             $iw_new_menu_2_id = @$objORM->Fetch($condition, "id", TableIWNewMenu2)->id;

@@ -190,11 +190,11 @@ class Parsian
         $client = $this->client ?? new SoapClient(self::CONFIRM_URL);
         $result = $client->ConfirmPayment(['requestData' => $params]);
 
-        if (empty($result) || !isset($result->ConfirmPaymentResult->Status)) {
+        if (empty($result) || !!empty($result->ConfirmPaymentResult->Status)) {
             throw new ParsianException(-4);
         }
 
-        $status = isset($result->ConfirmPaymentResult->Status) ? $result->ConfirmPaymentResult->Status : null;
+        $status = !empty($result->ConfirmPaymentResult->Status) ? $result->ConfirmPaymentResult->Status : null;
 
         if ($status != 0 || !$RRN) {
             throw new ParsianException($status);
@@ -232,7 +232,7 @@ class Parsian
         $client = $this->client ?? new SoapClient(self::REVERSE_URL);
         $result = $client->ReversalRequest(['requestData' => $params]);
 
-        if ($result === false || !isset($result->ReversalRequestResult->Status)) {
+        if ($result === false || !!empty($result->ReversalRequestResult->Status)) {
             throw new ParsianException(-4);
         }
 

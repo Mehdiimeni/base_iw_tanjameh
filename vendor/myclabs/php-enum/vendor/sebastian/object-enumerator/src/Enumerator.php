@@ -36,7 +36,7 @@ class Enumerator
             throw new InvalidArgumentException;
         }
 
-        if (isset(func_get_args()[1])) {
+        if (!empty(func_get_args()[1])) {
             if (!func_get_args()[1] instanceof Context) {
                 throw new InvalidArgumentException;
             }

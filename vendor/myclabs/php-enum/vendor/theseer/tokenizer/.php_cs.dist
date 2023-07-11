@@ -54,7 +54,7 @@ return PhpCsFixer\Config::create()
             // This fixer removes the blank line at class start, no way to disable that, so we disable the fixer :(
             //'class_attributes_separation'                   => ['elements' => ['const', 'method', 'property']],
 
-            'combine_consecutive_issets'                    => true,
+            'combine_consecutive_!emptys'                    => true,
             'combine_consecutive_unsets'                    => true,
             'compact_nullable_typehint'                     => true,
             'concat_space'                                  => ['spacing' => 'one'],

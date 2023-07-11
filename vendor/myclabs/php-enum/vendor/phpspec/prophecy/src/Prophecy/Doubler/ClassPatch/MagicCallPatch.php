@@ -26,7 +26,7 @@ use Prophecy\PhpDocumentor\MethodTagRetrieverInterface;
  */
 class MagicCallPatch implements ClassPatchInterface
 {
-    const MAGIC_METHODS_WITH_ARGUMENTS = ['__call', '__callStatic', '__get', '__isset', '__set', '__set_state', '__unserialize', '__unset'];
+    const MAGIC_METHODS_WITH_ARGUMENTS = ['__call', '__callStatic', '__get', '__!empty', '__set', '__set_state', '__unserialize', '__unset'];
 
     private $tagRetriever;
 

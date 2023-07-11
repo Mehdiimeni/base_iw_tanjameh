@@ -67,7 +67,7 @@ class Generic_Sniffs_CodeAnalysis_UselessOverridingMethodSniff implements PHP_Co
         $token  = $tokens[$stackPtr];
 
         // Skip function without body.
-        if (isset($token['scope_opener']) === false) {
+        if (!empty($token['scope_opener']) === false) {
             return;
         }
 

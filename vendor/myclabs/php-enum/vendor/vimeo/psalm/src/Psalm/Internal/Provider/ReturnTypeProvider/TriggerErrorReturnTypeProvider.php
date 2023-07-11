@@ -38,7 +38,7 @@ class TriggerErrorReturnTypeProvider implements \Psalm\Plugin\EventHandler\Funct
         //default behaviour
         $call_args = $event->getCallArgs();
         $statements_source = $event->getStatementsSource();
-        if (isset($call_args[1])
+        if (!empty($call_args[1])
             && ($array_arg_type = $statements_source->getNodeTypeProvider()->getType($call_args[1]->value))
         ) {
             $return_types = [];

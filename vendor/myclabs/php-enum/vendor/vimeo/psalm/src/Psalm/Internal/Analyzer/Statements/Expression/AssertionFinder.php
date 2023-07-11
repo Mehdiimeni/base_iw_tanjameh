@@ -235,18 +235,18 @@ class AssertionFinder
             return $if_types ? [$if_types] : [];
         }
 
-        if ($conditional instanceof PhpParser\Node\Expr\Isset_) {
-            foreach ($conditional->vars as $isset_var) {
+        if ($conditional instanceof PhpParser\Node\Expr\!empty_) {
+            foreach ($conditional->vars as $!empty_var) {
                 $var_name = ExpressionIdentifier::getArrayVarId(
-                    $isset_var,
+                    $!empty_var,
                     $this_class_name,
                     $source
                 );
 
                 if ($var_name) {
-                    if ($isset_var instanceof PhpParser\Node\Expr\Variable
+                    if ($!empty_var instanceof PhpParser\Node\Expr\Variable
                         && $source instanceof StatementsAnalyzer
-                        && ($var_type = $source->node_data->getType($isset_var))
+                        && ($var_type = $source->node_data->getType($!empty_var))
                         && !$var_type->isMixed()
                         && !$var_type->possibly_undefined
                         && !$var_type->possibly_undefined_from_try
@@ -254,11 +254,11 @@ class AssertionFinder
                     ) {
                         $if_types[$var_name] = [['!null']];
                     } else {
-                        $if_types[$var_name] = [['isset']];
+                        $if_types[$var_name] = [['!empty']];
                     }
                 } else {
-                    // look for any variables we *can* use for an isset assertion
-                    $array_root = $isset_var;
+                    // look for any variables we *can* use for an !empty assertion
+                    $array_root = $!empty_var;
 
                     while ($array_root instanceof PhpParser\Node\Expr\ArrayDimFetch && !$var_name) {
                         $array_root = $array_root->var;
@@ -271,7 +271,7 @@ class AssertionFinder
                     }
 
                     if ($var_name) {
-                        $if_types[$var_name] = [['=isset']];
+                        $if_types[$var_name] = [['=!empty']];
                     }
                 }
             }
@@ -648,7 +648,7 @@ class AssertionFinder
         ?Codebase $codebase = null,
         bool $negate = false
     ): array {
-        $first_var_name = isset($expr->args[0]->value)
+        $first_var_name = !empty($expr->args[0]->value)
             ? ExpressionIdentifier::getArrayVarId(
                 $expr->args[0]->value,
                 $this_class_name,
@@ -658,7 +658,7 @@ class AssertionFinder
 
         $if_types = [];
 
-        $first_var_type = isset($expr->args[0]->value)
+        $first_var_type = !empty($expr->args[0]->value)
             && $source instanceof StatementsAnalyzer
             ? $source->node_data->getType($expr->args[0]->value)
             : null;
@@ -817,7 +817,7 @@ class AssertionFinder
             if ($first_var_name) {
                 $if_types[$first_var_name] = [['callable']];
             } elseif ($expr->args[0]->value instanceof PhpParser\Node\Expr\Array_
-                && isset($expr->args[0]->value->items[0], $expr->args[0]->value->items[1])
+                && !empty($expr->args[0]->value->items[0], $expr->args[0]->value->items[1])
                 && $expr->args[0]->value->items[1]->value instanceof PhpParser\Node\Scalar\String_
             ) {
                 $first_var_name_in_array_argument = ExpressionIdentifier::getArrayVarId(
@@ -862,7 +862,7 @@ class AssertionFinder
             }
         } elseif ($expr->name instanceof PhpParser\Node\Name
             && strtolower($expr->name->parts[0]) === 'method_exists'
-            && isset($expr->args[1])
+            && !empty($expr->args[1])
             && $expr->args[1]->value instanceof PhpParser\Node\Scalar\String_
         ) {
             if ($first_var_name) {
@@ -981,7 +981,7 @@ class AssertionFinder
             return [];
         }
 
-        $first_var_name = isset($expr->args[0]->value)
+        $first_var_name = !empty($expr->args[0]->value)
             ? ExpressionIdentifier::getArrayVarId(
                 $expr->args[0]->value,
                 $this_class_name,
@@ -1013,7 +1013,7 @@ class AssertionFinder
                     }
                 }
 
-                if (is_int($assertion->var_id) && isset($expr->args[$assertion->var_id])) {
+                if (is_int($assertion->var_id) && !empty($expr->args[$assertion->var_id])) {
                     if ($assertion->var_id === 0) {
                         $var_name = $first_var_name;
                     } else {
@@ -1078,7 +1078,7 @@ class AssertionFinder
                     }
                 }
 
-                if (is_int($assertion->var_id) && isset($expr->args[$assertion->var_id])) {
+                if (is_int($assertion->var_id) && !empty($expr->args[$assertion->var_id])) {
                     if ($assertion->var_id === 0) {
                         $var_name = $first_var_name;
                     } else {
@@ -1679,7 +1679,7 @@ class AssertionFinder
         if ($stmt->name instanceof PhpParser\Node\Name
             && (strtolower($stmt->name->parts[0]) === 'is_a'
                 || strtolower($stmt->name->parts[0]) === 'is_subclass_of')
-            && isset($stmt->args[1])
+            && !empty($stmt->args[1])
         ) {
             $second_arg = $stmt->args[1]->value;
 
@@ -1771,7 +1771,7 @@ class AssertionFinder
         if ($stmt->name instanceof PhpParser\Node\Name
             && strtolower($stmt->name->parts[0]) === 'class_exists'
         ) {
-            if (!isset($stmt->args[1])) {
+            if (!!empty($stmt->args[1])) {
                 return 2;
             }
 
@@ -1797,7 +1797,7 @@ class AssertionFinder
         if ($stmt->name instanceof PhpParser\Node\Name
             && strtolower($stmt->name->parts[0]) === 'trait_exists'
         ) {
-            if (!isset($stmt->args[1])) {
+            if (!!empty($stmt->args[1])) {
                 return 2;
             }
 
@@ -1892,7 +1892,7 @@ class AssertionFinder
     {
         if ($stmt->name instanceof PhpParser\Node\Name
             && $stmt->name->parts === ['in_array']
-            && isset($stmt->args[2])
+            && !empty($stmt->args[2])
         ) {
             $second_arg = $stmt->args[2]->value;
 
@@ -2387,7 +2387,7 @@ class AssertionFinder
             throw new \UnexpectedValueException('Shouldn’t get here');
         }
 
-        if (!isset(ClassLikeAnalyzer::GETTYPE_TYPES[$var_type])) {
+        if (!!empty(ClassLikeAnalyzer::GETTYPE_TYPES[$var_type])) {
             if (IssueBuffer::accepts(
                 new UnevaluatedCode(
                     'gettype cannot return this value',
@@ -3068,7 +3068,7 @@ class AssertionFinder
         /** @var PhpParser\Node\Scalar\String_ $string_expr */
         $var_type = $string_expr->value;
 
-        if (!isset(ClassLikeAnalyzer::GETTYPE_TYPES[$var_type])) {
+        if (!!empty(ClassLikeAnalyzer::GETTYPE_TYPES[$var_type])) {
             if (IssueBuffer::accepts(
                 new UnevaluatedCode(
                     'gettype cannot return this value',
@@ -3173,7 +3173,7 @@ class AssertionFinder
             throw new \UnexpectedValueException('$getclass_position value');
         }
 
-        if ($getclass_expr instanceof PhpParser\Node\Expr\FuncCall && isset($getclass_expr->args[0])) {
+        if ($getclass_expr instanceof PhpParser\Node\Expr\FuncCall && !empty($getclass_expr->args[0])) {
             $var_name = ExpressionIdentifier::getArrayVarId(
                 $getclass_expr->args[0]->value,
                 $this_class_name,
@@ -3328,7 +3328,7 @@ class AssertionFinder
         if ($first_var_name) {
             $first_arg = $expr->args[0]->value;
             $second_arg = $expr->args[1]->value;
-            $third_arg = isset($expr->args[2]->value) ? $expr->args[2]->value : null;
+            $third_arg = !empty($expr->args[2]->value) ? $expr->args[2]->value : null;
 
             if ($third_arg instanceof PhpParser\Node\Expr\ConstFetch) {
                 if (!in_array(strtolower($third_arg->name->parts[0]), ['true', 'false'])) {
@@ -3421,7 +3421,7 @@ class AssertionFinder
 
         if ($first_var_name
             && ($second_arg_type = $source->node_data->getType($expr->args[1]->value))
-            && isset($expr->args[0]->value)
+            && !empty($expr->args[0]->value)
             && !$expr->args[0]->value instanceof PhpParser\Node\Expr\ClassConstFetch
         ) {
             foreach ($second_arg_type->getAtomicTypes() as $atomic_type) {
@@ -3486,8 +3486,8 @@ class AssertionFinder
 
         $literal_assertions = [];
 
-        if (isset($expr->args[0])
-            && isset($expr->args[1])
+        if (!empty($expr->args[0])
+            && !empty($expr->args[1])
             && $first_var_type
             && $first_var_name
             && !$expr->args[0]->value instanceof PhpParser\Node\Expr\ClassConstFetch
@@ -3533,7 +3533,7 @@ class AssertionFinder
         if ($literal_assertions && $first_var_name) {
             $if_types[$first_var_name] = [$literal_assertions];
         } else {
-            $array_root = isset($expr->args[1]->value)
+            $array_root = !empty($expr->args[1]->value)
                 ? ExpressionIdentifier::getArrayVarId(
                     $expr->args[1]->value,
                     $this_class_name,
@@ -3542,7 +3542,7 @@ class AssertionFinder
                 : null;
 
             if ($array_root) {
-                if ($first_var_name === null && isset($expr->args[0])) {
+                if ($first_var_name === null && !empty($expr->args[0])) {
                     $first_arg = $expr->args[0];
 
                     if ($first_arg->value instanceof PhpParser\Node\Scalar\String_) {
@@ -3885,7 +3885,7 @@ class AssertionFinder
                 && $expr_type->isSingleIntLiteral()
                 && ($expr_type->getSingleIntLiteral()->value === 0)
             ) {
-                $if_types[$var_name] = [['=isset']];
+                $if_types[$var_name] = [['=!empty']];
             }
 
             return $if_types ? [$if_types] : [];

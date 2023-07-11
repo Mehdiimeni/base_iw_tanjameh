@@ -93,7 +93,7 @@ final class Psalter
 
         self::syncShortOptions($options);
 
-        if (isset($options['c']) && is_array($options['c'])) {
+        if (!empty($options['c']) && is_array($options['c'])) {
             die('Too many config files provided' . PHP_EOL);
         }
 
@@ -160,9 +160,9 @@ HELP;
             exit;
         }
 
-        if (!isset($options['issues']) &&
-            !isset($options['list-supported-issues']) &&
-            (!isset($options['plugin']) || $options['plugin'] === false)
+        if (!!empty($options['issues']) &&
+            !!empty($options['list-supported-issues']) &&
+            (!!empty($options['plugin']) || $options['plugin'] === false)
         ) {
             fwrite(
                 STDERR,
@@ -175,7 +175,7 @@ HELP;
 
         $current_dir = (string)getcwd() . DIRECTORY_SEPARATOR;
 
-        if (isset($options['r']) && is_string($options['r'])) {
+        if (!empty($options['r']) && is_string($options['r'])) {
             $root_path = realpath($options['r']);
 
             if (!$root_path) {
@@ -193,7 +193,7 @@ HELP;
         $include_collector = new IncludeCollector();
         $first_autoloader = $include_collector->runAndCollect(
             function () use ($current_dir, $options, $vendor_dir): ?\Composer\Autoload\ClassLoader {
-                return CliUtils::requireAutoloaders($current_dir, isset($options['r']), $vendor_dir);
+                return CliUtils::requireAutoloaders($current_dir, !empty($options['r']), $vendor_dir);
             }
         );
 
@@ -201,7 +201,7 @@ HELP;
         // If Xdebug is enabled, restart without it
         (new \Composer\XdebugHandler\XdebugHandler('PSALTER'))->check();
 
-        $paths_to_check = CliUtils::getPathsToCheck(isset($options['f']) ? $options['f'] : null);
+        $paths_to_check = CliUtils::getPathsToCheck(!empty($options['f']) ? $options['f'] : null);
 
         $path_to_config = CliUtils::getPathToConfig($options);
 
@@ -218,9 +218,9 @@ HELP;
             chdir($current_dir);
         }
 
-        $threads = isset($options['threads']) ? (int)$options['threads'] : 1;
+        $threads = !empty($options['threads']) ? (int)$options['threads'] : 1;
 
-        if (isset($options['no-cache'])) {
+        if (!empty($options['no-cache'])) {
             $providers = new \Psalm\Internal\Provider\Providers(
                 new \Psalm\Internal\Provider\FileProvider()
             );
@@ -283,11 +283,11 @@ HELP;
             $keyed_issues = [];
         }
 
-        if (!isset($options['php-version'])) {
+        if (!!empty($options['php-version'])) {
             $options['php-version'] = $config->getPhpVersion();
         }
 
-        if (isset($options['php-version'])) {
+        if (!empty($options['php-version'])) {
             if (!is_string($options['php-version'])) {
                 die('Expecting a version number in the format x.y' . PHP_EOL);
             }
@@ -295,7 +295,7 @@ HELP;
             $project_analyzer->setPhpVersion($options['php-version']);
         }
 
-        if (isset($options['codeowner'])) {
+        if (!empty($options['codeowner'])) {
             $codeowner_files = self::loadCodeowners($providers);
 
             $desired_codeowners = is_array($options['codeowner']) ? $options['codeowner'] : [$options['codeowner']];
@@ -306,7 +306,7 @@ HELP;
                 $files_for_codeowners;
         }
 
-        if (isset($options['allow-backwards-incompatible-changes'])) {
+        if (!empty($options['allow-backwards-incompatible-changes'])) {
             $allow_backwards_incompatible_changes = filter_var(
                 $options['allow-backwards-incompatible-changes'],
                 FILTER_VALIDATE_BOOLEAN,
@@ -321,7 +321,7 @@ HELP;
                 = $allow_backwards_incompatible_changes;
         }
 
-        if (isset($options['add-newline-between-docblock-annotations'])) {
+        if (!empty($options['add-newline-between-docblock-annotations'])) {
             $doc_block_add_new_line_before_return = filter_var(
                 $options['add-newline-between-docblock-annotations'],
                 FILTER_VALIDATE_BOOLEAN,
@@ -337,7 +337,7 @@ HELP;
 
         $plugins = [];
 
-        if (isset($options['plugin'])) {
+        if (!empty($options['plugin'])) {
             $plugins = $options['plugin'];
 
             if (!is_array($plugins)) {
@@ -473,11 +473,11 @@ HELP;
             $options['m'] = false;
         }
 
-        if (isset($options['config'])) {
+        if (!empty($options['config'])) {
             $options['c'] = $options['config'];
         }
 
-        if (isset($options['root'])) {
+        if (!empty($options['root'])) {
             $options['r'] = $options['root'];
         }
     }

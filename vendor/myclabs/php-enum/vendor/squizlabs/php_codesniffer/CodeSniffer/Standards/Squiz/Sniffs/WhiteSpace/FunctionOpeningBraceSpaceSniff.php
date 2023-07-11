@@ -66,7 +66,7 @@ class Squiz_Sniffs_WhiteSpace_FunctionOpeningBraceSpaceSniff implements PHP_Code
     {
         $tokens = $phpcsFile->getTokens();
 
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             // Probably an interface method.
             return;
         }
@@ -93,7 +93,7 @@ class Squiz_Sniffs_WhiteSpace_FunctionOpeningBraceSpaceSniff implements PHP_Code
 
         if ($phpcsFile->tokenizerType === 'JS') {
             // Do some additional checking before the function brace.
-            $nestedFunction = ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true || isset($tokens[$stackPtr]['nested_parenthesis']) === true);
+            $nestedFunction = ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true || !empty($tokens[$stackPtr]['nested_parenthesis']) === true);
 
             $functionLine   = $tokens[$tokens[$stackPtr]['parenthesis_closer']]['line'];
             $lineDifference = ($braceLine - $functionLine);

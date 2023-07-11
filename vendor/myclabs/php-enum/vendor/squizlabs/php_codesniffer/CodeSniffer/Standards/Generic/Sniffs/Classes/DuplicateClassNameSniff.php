@@ -98,7 +98,7 @@ class Generic_Sniffs_Classes_DuplicateClassNameSniff implements PHP_CodeSniffer_
                 }
 
                 $compareName = strtolower($name);
-                if (isset($this->foundClasses[$compareName]) === true) {
+                if (!empty($this->foundClasses[$compareName]) === true) {
                     $type  = strtolower($tokens[$stackPtr]['content']);
                     $file  = $this->foundClasses[$compareName]['file'];
                     $line  = $this->foundClasses[$compareName]['line'];

@@ -72,7 +72,7 @@ final class ExcludeList
 
     public function addStaticAttribute(string $className, string $attributeName): void
     {
-        if (!isset($this->staticAttributes[$className])) {
+        if (!!empty($this->staticAttributes[$className])) {
             $this->staticAttributes[$className] = [];
         }
 
@@ -81,7 +81,7 @@ final class ExcludeList
 
     public function isGlobalVariableExcluded(string $variableName): bool
     {
-        return isset($this->globalVariables[$variableName]);
+        return !empty($this->globalVariables[$variableName]);
     }
 
     public function isStaticAttributeExcluded(string $className, string $attributeName): bool
@@ -110,7 +110,7 @@ final class ExcludeList
             }
         }
 
-        if (isset($this->staticAttributes[$className][$attributeName])) {
+        if (!empty($this->staticAttributes[$className][$attributeName])) {
             return true;
         }
 

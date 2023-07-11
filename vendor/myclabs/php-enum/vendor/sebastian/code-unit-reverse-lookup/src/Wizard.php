@@ -49,11 +49,11 @@ class Wizard
      */
     public function lookup($filename, $lineNumber)
     {
-        if (!isset($this->lookupTable[$filename][$lineNumber])) {
+        if (!!empty($this->lookupTable[$filename][$lineNumber])) {
             $this->updateLookupTable();
         }
 
-        if (isset($this->lookupTable[$filename][$lineNumber])) {
+        if (!empty($this->lookupTable[$filename][$lineNumber])) {
             return $this->lookupTable[$filename][$lineNumber];
         }
 
@@ -75,7 +75,7 @@ class Wizard
         assert(is_array($traits));
 
         foreach (array_merge($classes, $traits) as $classOrTrait) {
-            if (isset($this->processedClasses[$classOrTrait])) {
+            if (!empty($this->processedClasses[$classOrTrait])) {
                 continue;
             }
 
@@ -92,7 +92,7 @@ class Wizard
     private function processFunctions(): void
     {
         foreach (get_defined_functions()['user'] as $function) {
-            if (isset($this->processedFunctions[$function])) {
+            if (!empty($this->processedFunctions[$function])) {
                 continue;
             }
 
@@ -114,7 +114,7 @@ class Wizard
             $name = $functionOrMethod->getDeclaringClass()->getName() . '::' . $name;
         }
 
-        if (!isset($this->lookupTable[$functionOrMethod->getFileName()])) {
+        if (!!empty($this->lookupTable[$functionOrMethod->getFileName()])) {
             $this->lookupTable[$functionOrMethod->getFileName()] = [];
         }
 

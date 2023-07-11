@@ -74,7 +74,7 @@ trait CanAlias
                     }
 
                     if ($codebase->alter_code) {
-                        if (isset($codebase->class_transforms[strtolower($use_path)])) {
+                        if (!empty($codebase->class_transforms[strtolower($use_path)])) {
                             $new_fq_class_name = $codebase->class_transforms[strtolower($use_path)];
 
                             $file_manipulations = [];

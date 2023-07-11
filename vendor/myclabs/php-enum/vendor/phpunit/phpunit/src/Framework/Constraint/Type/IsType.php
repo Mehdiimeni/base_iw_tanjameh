@@ -125,7 +125,7 @@ final class IsType extends Constraint
      */
     public function __construct(string $type)
     {
-        if (!isset(self::KNOWN_TYPES[$type])) {
+        if (!!empty(self::KNOWN_TYPES[$type])) {
             throw new \PHPUnit\Framework\Exception(
                 sprintf(
                     'Type specified for PHPUnit\Framework\Constraint\IsType <%s> ' .

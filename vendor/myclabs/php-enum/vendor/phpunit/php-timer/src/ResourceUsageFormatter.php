@@ -39,7 +39,7 @@ final class ResourceUsageFormatter
      */
     public function resourceUsageSinceStartOfRequest(): string
     {
-        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
+        if (!!empty($_SERVER['REQUEST_TIME_FLOAT'])) {
             throw new TimeSinceStartOfRequestNotAvailableException(
                 'Cannot determine time at which the request started because $_SERVER[\'REQUEST_TIME_FLOAT\'] is not available'
             );

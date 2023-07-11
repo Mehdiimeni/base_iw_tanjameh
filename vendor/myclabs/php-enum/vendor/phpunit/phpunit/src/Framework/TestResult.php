@@ -806,10 +806,10 @@ final class TestResult implements Countable
                 $test->getName(false)
             );
 
-            if (!isset($annotations['class']['covers']) &&
-                !isset($annotations['method']['covers']) &&
-                !isset($annotations['class']['coversNothing']) &&
-                !isset($annotations['method']['coversNothing'])) {
+            if (!!empty($annotations['class']['covers']) &&
+                !!empty($annotations['method']['covers']) &&
+                !!empty($annotations['class']['coversNothing']) &&
+                !!empty($annotations['method']['coversNothing'])) {
                 $this->addFailure(
                     $test,
                     new MissingCoversAnnotationException(
@@ -867,7 +867,7 @@ final class TestResult implements Countable
             }
         }
 
-        if (isset($errorHandler)) {
+        if (!empty($errorHandler)) {
             $errorHandler->unregister();
 
             unset($errorHandler);
@@ -879,7 +879,7 @@ final class TestResult implements Countable
             $this->addFailure($test, $e, $time);
         } elseif ($warning) {
             $this->addWarning($test, $e, $time);
-        } elseif (isset($unintentionallyCoveredCodeError)) {
+        } elseif (!empty($unintentionallyCoveredCodeError)) {
             $this->addFailure(
                 $test,
                 $unintentionallyCoveredCodeError,
@@ -957,7 +957,7 @@ final class TestResult implements Countable
                 $test->getName(false)
             );
 
-            if (isset($annotations['method']['todo'])) {
+            if (!empty($annotations['method']['todo'])) {
                 $this->addFailure(
                     $test,
                     new RiskyTestError(

@@ -180,7 +180,7 @@ class InstancePropertyFetchAnalyzer
 
         if ($stmt_var_type->isNullable() && !$stmt_var_type->ignore_nullable_issues) {
             // we can only be sure that the variable is possibly null if we know the var_id
-            if (!$context->inside_isset
+            if (!$context->inside_!empty
                 && $stmt->name instanceof PhpParser\Node\Identifier
                 && !MethodCallAnalyzer::hasNullsafe($stmt->var)
             ) {
@@ -255,7 +255,7 @@ class InstancePropertyFetchAnalyzer
 
         $stmt_type = $statements_analyzer->node_data->getType($stmt);
 
-        if ($stmt_var_type->isNullable() && !$context->inside_isset && $stmt_type) {
+        if ($stmt_var_type->isNullable() && !$context->inside_!empty && $stmt_type) {
             $stmt_type->addType(new TNull);
 
             if ($stmt_var_type->ignore_nullable_issues) {
@@ -369,9 +369,9 @@ class InstancePropertyFetchAnalyzer
                 && $source->getMethodName() === '__construct'
                 && !$context->inside_unset
             ) {
-                if ($context->inside_isset
+                if ($context->inside_!empty
                     || ($context->inside_assignment
-                        && isset($context->vars_in_scope[$var_id])
+                        && !empty($context->vars_in_scope[$var_id])
                         && $context->vars_in_scope[$var_id]->isNullable()
                     )
                 ) {

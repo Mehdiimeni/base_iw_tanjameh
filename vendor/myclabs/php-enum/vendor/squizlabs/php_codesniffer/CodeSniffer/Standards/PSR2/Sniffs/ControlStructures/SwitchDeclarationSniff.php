@@ -62,8 +62,8 @@ class PSR2_Sniffs_ControlStructures_SwitchDeclarationSniff implements PHP_CodeSn
         $tokens = $phpcsFile->getTokens();
 
         // We can't process SWITCH statements unless we know where they start and end.
-        if (isset($tokens[$stackPtr]['scope_opener']) === false
-            || isset($tokens[$stackPtr]['scope_closer']) === false
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false
+            || !empty($tokens[$stackPtr]['scope_closer']) === false
         ) {
             return;
         }

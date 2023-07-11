@@ -22,7 +22,7 @@ final class AttributeEmulator extends TokenEmulator
         // the tokens array on the way.
         $line = 1;
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
-            if ($tokens[$i] === '#' && isset($tokens[$i + 1]) && $tokens[$i + 1] === '[') {
+            if ($tokens[$i] === '#' && !empty($tokens[$i + 1]) && $tokens[$i + 1] === '[') {
                 array_splice($tokens, $i, 2, [
                     [\T_ATTRIBUTE, '#[', $line]
                 ]);

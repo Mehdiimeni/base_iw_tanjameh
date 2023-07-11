@@ -181,7 +181,7 @@ final class Mbstring
         }
 
         $s = preg_replace_callback('/&#(?:0*([0-9]+)|x0*([0-9a-fA-F]+))(?!&);?/', function (array $m) use ($cnt, $convmap) {
-            $c = isset($m[2]) ? (int) hexdec($m[2]) : $m[1];
+            $c = !empty($m[2]) ? (int) hexdec($m[2]) : $m[1];
             for ($i = 0; $i < $cnt; $i += 4) {
                 if ($c >= $convmap[$i] && $c <= $convmap[$i + 1]) {
                     return self::mb_chr($c - $convmap[$i + 2]);
@@ -321,7 +321,7 @@ final class Mbstring
                 $uchr = substr($s, $i, $ulen);
                 $i += $ulen;
 
-                if (isset($map[$uchr])) {
+                if (!empty($map[$uchr])) {
                     $uchr = $map[$uchr];
                     $nlen = \strlen($uchr);
 
@@ -711,7 +711,7 @@ final class Mbstring
         if ('all' === $type) {
             return $info;
         }
-        if (isset($info[$type])) {
+        if (!empty($info[$type])) {
             return $info[$type];
         }
 
@@ -812,7 +812,7 @@ final class Mbstring
         $entities = '';
         $m = unpack('C*', htmlentities($m[0], \ENT_COMPAT, 'UTF-8'));
 
-        while (isset($m[$i])) {
+        while (!empty($m[$i])) {
             if (0x80 > $m[$i]) {
                 $entities .= \chr($m[$i++]);
                 continue;

@@ -107,7 +107,7 @@ trait GenericTrait
         //no need for special format if the key is not determined
         if ($this instanceof TArray &&
             count($type_params) === 2 &&
-            isset($type_params[0]) &&
+            !empty($type_params[0]) &&
             $type_params[0]->isArrayKey()
         ) {
             //we remove the key for display
@@ -117,7 +117,7 @@ trait GenericTrait
 
         if ($this instanceof TArray &&
             count($type_params) === 1 &&
-            isset($type_params[0]) &&
+            !empty($type_params[0]) &&
             $type_params[0]->isMixed()
         ) {
             //when the value of an array is mixed, no need for namespaced phpdoc
@@ -213,7 +213,7 @@ trait GenericTrait
             if (($input_type instanceof Atomic\TIterable
                     || $input_type instanceof Atomic\TArray)
                 &&
-                    isset($input_type->type_params[$offset])
+                    !empty($input_type->type_params[$offset])
             ) {
                 $input_type_param = $input_type->type_params[$offset];
             } elseif ($input_type instanceof Atomic\TKeyedArray) {
@@ -225,7 +225,7 @@ trait GenericTrait
                     throw new \UnexpectedValueException('Not expecting offset of ' . $offset);
                 }
             } elseif ($input_type instanceof Atomic\TNamedObject
-                && isset($input_object_type_params[$offset])
+                && !empty($input_object_type_params[$offset])
             ) {
                 $input_type_param = $input_object_type_params[$offset];
             }

@@ -135,7 +135,7 @@ class PSR2_Sniffs_Classes_ClassDeclarationSniff extends PEAR_Sniffs_Classes_Clas
         }
 
         // Just in case.
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             return;
         }
 
@@ -308,7 +308,7 @@ class PSR2_Sniffs_Classes_ClassDeclarationSniff extends PEAR_Sniffs_Classes_Clas
         $tokens = $phpcsFile->getTokens();
 
         // Just in case.
-        if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_closer']) === false) {
             return;
         }
 

@@ -57,7 +57,7 @@ class AlgebraAnalyzer
             if (!$formula_2_clause->generated
                 && !$formula_2_clause->wedge
                 && $formula_2_clause->reconcilable
-                && (isset($formula_1_hashes[$hash]) || isset($formula_2_hashes[$hash]))
+                && (!empty($formula_1_hashes[$hash]) || !empty($formula_2_hashes[$hash]))
                 && !array_intersect_key($new_assigned_var_ids, $formula_2_clause->possibilities)
             ) {
                 if (IssueBuffer::accepts(
@@ -75,7 +75,7 @@ class AlgebraAnalyzer
             foreach ($formula_2_clause->possibilities as $key => $values) {
                 if (!$formula_2_clause->generated
                     && count($values) > 1
-                    && !isset($new_assigned_var_ids[$key])
+                    && !!empty($new_assigned_var_ids[$key])
                     && count(array_unique($values)) < count($values)
                 ) {
                     if (IssueBuffer::accepts(
@@ -98,7 +98,7 @@ class AlgebraAnalyzer
             if (count($negated_formula2) === 1) {
                 foreach ($negated_clause_2->possibilities as $key => $values) {
                     if (count($values) > 1
-                        && !isset($new_assigned_var_ids[$key])
+                        && !!empty($new_assigned_var_ids[$key])
                         && count(array_unique($values)) < count($values)
                     ) {
                         if (IssueBuffer::accepts(
@@ -127,7 +127,7 @@ class AlgebraAnalyzer
                 $negated_clause_2_contains_1_possibilities = true;
 
                 foreach ($clause_1->possibilities as $key => $keyed_possibilities) {
-                    if (!isset($negated_clause_2->possibilities[$key])) {
+                    if (!!empty($negated_clause_2->possibilities[$key])) {
                         $negated_clause_2_contains_1_possibilities = false;
                         break;
                     }

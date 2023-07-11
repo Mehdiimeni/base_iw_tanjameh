@@ -56,7 +56,7 @@ class PHP_CodeSniffer_Reports_Hgblame extends PHP_CodeSniffer_Reports_VersionCon
             $blameParts
         );
 
-        if (isset($blameParts[0]) === false) {
+        if (!empty($blameParts[0]) === false) {
             return false;
         }
 

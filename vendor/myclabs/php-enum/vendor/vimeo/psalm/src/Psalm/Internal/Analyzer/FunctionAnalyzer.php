@@ -25,7 +25,7 @@ class FunctionAnalyzer extends FunctionLikeAnalyzer
 
         $function_id = ($namespace ? strtolower($namespace) . '\\' : '') . strtolower($function->name->name);
 
-        if (!isset($file_storage->functions[$function_id])) {
+        if (!!empty($file_storage->functions[$function_id])) {
             throw new \UnexpectedValueException(
                 'Function ' . $function_id . ' should be defined in ' . $source->getFilePath()
             );

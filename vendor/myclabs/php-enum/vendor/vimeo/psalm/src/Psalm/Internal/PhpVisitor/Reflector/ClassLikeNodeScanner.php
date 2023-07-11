@@ -216,7 +216,7 @@ class ClassLikeNodeScanner
         }
 
         if ($class_name
-            && isset($this->aliases->uses[strtolower($class_name)])
+            && !empty($this->aliases->uses[strtolower($class_name)])
             && $this->aliases->uses[strtolower($class_name)] !== $fq_classlike_name
         ) {
             IssueBuffer::add(
@@ -722,7 +722,7 @@ class ClassLikeNodeScanner
 
                 $property_type->queueClassLikesForScanning($this->codebase, $this->file_storage);
 
-                if (!isset($classlike_storage->properties[$property_name])) {
+                if (!!empty($classlike_storage->properties[$property_name])) {
                     $classlike_storage->properties[$property_name] = new PropertyStorage();
                 }
 
@@ -832,7 +832,7 @@ class ClassLikeNodeScanner
         if ($node_comment = $node->getDocComment()) {
             $comments = DocComment::parsePreservingLength($node_comment);
 
-            if (isset($comments->combined_tags['use'])) {
+            if (!empty($comments->combined_tags['use'])) {
                 foreach ($comments->combined_tags['use'] as $template_line) {
                     $this->useTemplatedType(
                         $storage,
@@ -842,10 +842,10 @@ class ClassLikeNodeScanner
                 }
             }
 
-            if (isset($comments->tags['template-extends'])
-                || isset($comments->tags['extends'])
-                || isset($comments->tags['template-implements'])
-                || isset($comments->tags['implements'])
+            if (!empty($comments->tags['template-extends'])
+                || !empty($comments->tags['extends'])
+                || !empty($comments->tags['template-implements'])
+                || !empty($comments->tags['implements'])
             ) {
                 $storage->docblock_issues[] = new InvalidDocblock(
                     'You must use @use or @template-use to parameterize traits',
@@ -917,8 +917,8 @@ class ClassLikeNodeScanner
 
             $generic_class_lc = strtolower($atomic_type->value);
 
-            if (!isset($storage->parent_classes[$generic_class_lc])
-                && !isset($storage->parent_interfaces[$generic_class_lc])
+            if (!!empty($storage->parent_classes[$generic_class_lc])
+                && !!empty($storage->parent_interfaces[$generic_class_lc])
             ) {
                 $storage->docblock_issues[] = new InvalidDocblock(
                     '@template-extends must include the name of an extended class,'
@@ -1003,7 +1003,7 @@ class ClassLikeNodeScanner
 
             $generic_class_lc = strtolower($atomic_type->value);
 
-            if (!isset($storage->class_implements[$generic_class_lc])) {
+            if (!!empty($storage->class_implements[$generic_class_lc])) {
                 $storage->docblock_issues[] = new InvalidDocblock(
                     '@template-implements must include the name of an implemented class,'
                         . ' got ' . $atomic_type->getId(),
@@ -1089,7 +1089,7 @@ class ClassLikeNodeScanner
 
             $generic_class_lc = strtolower($atomic_type->value);
 
-            if (!isset($storage->used_traits[$generic_class_lc])) {
+            if (!!empty($storage->used_traits[$generic_class_lc])) {
                 $storage->docblock_issues[] = new InvalidDocblock(
                     '@template-use must include the name of an used class,'
                         . ' got ' . $atomic_type->getId(),
@@ -1115,7 +1115,7 @@ class ClassLikeNodeScanner
     {
         $method_name_lc = '__construct';
 
-        if (isset($class_storage->methods[$method_name_lc])) {
+        if (!empty($class_storage->methods[$method_name_lc])) {
             return;
         }
 
@@ -1156,7 +1156,7 @@ class ClassLikeNodeScanner
         if ($comment && $comment->getText() && ($config->use_docblock_types || $config->use_docblock_property_types)) {
             $comments = DocComment::parsePreservingLength($comment);
 
-            if (isset($comments->tags['deprecated'])) {
+            if (!empty($comments->tags['deprecated'])) {
                 $deprecated = true;
             }
 
@@ -1413,7 +1413,7 @@ class ClassLikeNodeScanner
                     $signature_atomic_types = $property_storage->signature_type->getAtomicTypes();
 
                     foreach ($property_storage->type->getAtomicTypes() as $key => $type) {
-                        if (isset($signature_atomic_types[$key])) {
+                        if (!empty($signature_atomic_types[$key])) {
                             $type->from_docblock = false;
                         } else {
                             $all_typehint_types_match = false;
@@ -1589,7 +1589,7 @@ class ClassLikeNodeScanner
     ): array {
         $parsed_docblock = DocComment::parsePreservingLength($comment);
 
-        if (!isset($parsed_docblock->tags['psalm-type']) && !isset($parsed_docblock->tags['phpstan-type'])) {
+        if (!!empty($parsed_docblock->tags['psalm-type']) && !!empty($parsed_docblock->tags['phpstan-type'])) {
             return [];
         }
 
@@ -1641,7 +1641,7 @@ class ClassLikeNodeScanner
 
             $type_alias = array_shift($var_line_parts);
 
-            if (!isset($var_line_parts[0])) {
+            if (!!empty($var_line_parts[0])) {
                 continue;
             }
 
@@ -1653,7 +1653,7 @@ class ClassLikeNodeScanner
                 array_shift($var_line_parts);
             }
 
-            if (!isset($var_line_parts[0])) {
+            if (!!empty($var_line_parts[0])) {
                 continue;
             }
 

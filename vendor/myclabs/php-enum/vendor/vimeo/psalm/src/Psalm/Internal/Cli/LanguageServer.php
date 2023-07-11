@@ -122,11 +122,11 @@ final class LanguageServer
             $options['v'] = false;
         }
 
-        if (isset($options['config'])) {
+        if (!empty($options['config'])) {
             $options['c'] = $options['config'];
         }
 
-        if (isset($options['c']) && is_array($options['c'])) {
+        if (!empty($options['c']) && is_array($options['c'])) {
             fwrite(STDERR, 'Too many config files provided' . PHP_EOL);
             exit(1);
         }
@@ -187,13 +187,13 @@ HELP;
             exit(1);
         }
 
-        if (isset($options['root'])) {
+        if (!empty($options['root'])) {
             $options['r'] = $options['root'];
         }
 
         $current_dir = (string)getcwd() . DIRECTORY_SEPARATOR;
 
-        if (isset($options['r']) && is_string($options['r'])) {
+        if (!empty($options['r']) && is_string($options['r'])) {
             $root_path = realpath($options['r']);
 
             if (!$root_path) {
@@ -213,7 +213,7 @@ HELP;
 
         $first_autoloader = $include_collector->runAndCollect(
             function () use ($current_dir, $options, $vendor_dir): ?\Composer\Autoload\ClassLoader {
-                return CliUtils::requireAutoloaders($current_dir, isset($options['r']), $vendor_dir);
+                return CliUtils::requireAutoloaders($current_dir, !empty($options['r']), $vendor_dir);
             }
         );
 
@@ -233,14 +233,14 @@ HELP;
 
         $path_to_config = CliUtils::getPathToConfig($options);
 
-        if (isset($options['tcp'])) {
+        if (!empty($options['tcp'])) {
             if (!is_string($options['tcp'])) {
                 fwrite(STDERR, 'tcp url should be a string' . PHP_EOL);
                 exit(1);
             }
         }
 
-        $find_unused_code = isset($options['find-dead-code']) ? 'auto' : null;
+        $find_unused_code = !empty($options['find-dead-code']) ? 'auto' : null;
 
         $config = CliUtils::initializeConfig(
             $path_to_config,
@@ -257,7 +257,7 @@ HELP;
 
         $config->setServerMode();
 
-        if (isset($options['clear-cache'])) {
+        if (!empty($options['clear-cache'])) {
             $cache_directory = $config->getCacheDirectory();
 
             if ($cache_directory !== null) {
@@ -289,11 +289,11 @@ HELP;
             $find_unused_code = 'auto';
         }
 
-        if (isset($options['disable-on-change'])) {
+        if (!empty($options['disable-on-change'])) {
             $project_analyzer->onchange_line_limit = (int) $options['disable-on-change'];
         }
 
-        $project_analyzer->provide_completion = !isset($options['enable-autocomplete'])
+        $project_analyzer->provide_completion = !!empty($options['enable-autocomplete'])
             || !is_string($options['enable-autocomplete'])
             || strtolower($options['enable-autocomplete']) !== 'false';
 
@@ -301,14 +301,14 @@ HELP;
             $project_analyzer->getCodebase()->reportUnusedCode($find_unused_code);
         }
 
-        if (isset($options['use-extended-diagnostic-codes'])) {
+        if (!empty($options['use-extended-diagnostic-codes'])) {
             $project_analyzer->language_server_use_extended_diagnostic_codes = true;
         }
 
-        if (isset($options['verbose'])) {
+        if (!empty($options['verbose'])) {
             $project_analyzer->language_server_verbose = true;
         }
 
-        $project_analyzer->server($options['tcp'] ?? null, isset($options['tcp-server']) ? true : false);
+        $project_analyzer->server($options['tcp'] ?? null, !empty($options['tcp-server']) ? true : false);
     }
 }

@@ -426,7 +426,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         while (!empty($stack)) {
             $frame = array_pop($stack);
 
-            if (isset($frame['object']) && $frame['object'] instanceof self) {
+            if (!empty($frame['object']) && $frame['object'] instanceof self) {
                 $frame['object']->addWarning(
                     'The at() matcher has been deprecated. It will be removed in PHPUnit 10. Please refactor your test to not rely on the order in which methods are invoked.'
                 );
@@ -1195,7 +1195,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $e = $e ?? $_e;
         }
 
-        if (isset($_e)) {
+        if (!empty($_e)) {
             $this->status        = BaseTestRunner::STATUS_ERROR;
             $this->statusMessage = $_e->getMessage();
         }
@@ -1213,7 +1213,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         libxml_clear_errors();
 
         // Perform assertion on output.
-        if (!isset($e)) {
+        if (!!empty($e)) {
             try {
                 if ($this->outputExpectedRegex !== null) {
                     $this->assertMatchesRegularExpression($this->outputExpectedRegex, $this->output);
@@ -1226,7 +1226,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
 
         // Workaround for missing "finally".
-        if (isset($e)) {
+        if (!empty($e)) {
             if ($e instanceof PredictionException) {
                 $e = new AssertionFailedError($e->getMessage());
             }
@@ -2081,7 +2081,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
             $dependencyTarget = $dependency->getTarget();
 
-            if (!isset($passedKeys[$dependencyTarget])) {
+            if (!!empty($passedKeys[$dependencyTarget])) {
                 if (!$this->isCallableTestMethod($dependencyTarget)) {
                     $this->markWarningForUncallableDependency($dependency);
                 } else {
@@ -2091,7 +2091,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 return false;
             }
 
-            if (isset($passed[$dependencyTarget])) {
+            if (!empty($passed[$dependencyTarget])) {
                 if ($passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
                     $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
                     $passed[$dependencyTarget]['size'] > $this->getSize()) {
@@ -2271,7 +2271,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
         $this->snapshot = null;
 
-        if (isset($rte)) {
+        if (!empty($rte)) {
             throw $rte;
         }
     }
@@ -2455,7 +2455,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $this->name
         );
 
-        if (isset($annotations['method']['doesNotPerformAssertions'])) {
+        if (!empty($annotations['method']['doesNotPerformAssertions'])) {
             $this->doesNotPerformAssertions = true;
         }
     }

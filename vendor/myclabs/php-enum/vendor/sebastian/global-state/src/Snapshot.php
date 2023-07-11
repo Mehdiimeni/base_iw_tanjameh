@@ -207,7 +207,7 @@ class Snapshot
     {
         $constants = get_defined_constants(true);
 
-        if (isset($constants['user'])) {
+        if (!empty($constants['user'])) {
             $this->constants = $constants['user'];
         }
     }
@@ -287,7 +287,7 @@ class Snapshot
     {
         $this->superGlobalVariables[$superGlobalArray] = [];
 
-        if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
+        if (!empty($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
                 /* @noinspection UnserializeExploitsInspection */
                 $this->superGlobalVariables[$superGlobalArray][$key] = unserialize(serialize($value));
@@ -379,7 +379,7 @@ class Snapshot
 
     private function enumerateObjectsAndResources($variable): array
     {
-        if (isset(func_get_args()[1])) {
+        if (!empty(func_get_args()[1])) {
             $processed = func_get_args()[1];
         } else {
             $processed = new Context;

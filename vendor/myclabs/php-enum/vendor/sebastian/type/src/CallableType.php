@@ -171,8 +171,8 @@ final class CallableType extends Type
             [$className, $methodName] = $type->value();
         }
 
-        assert(isset($className) && is_string($className) && class_exists($className));
-        assert(isset($methodName) && is_string($methodName));
+        assert(!empty($className) && is_string($className) && class_exists($className));
+        assert(!empty($methodName) && is_string($methodName));
 
         try {
             $class = new ReflectionClass($className);

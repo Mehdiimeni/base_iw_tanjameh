@@ -100,7 +100,7 @@ class EchoAnalyzer
             )) {
                 return false;
             }
-        } elseif (isset($codebase->config->forbidden_functions['echo'])) {
+        } elseif (!empty($codebase->config->forbidden_functions['echo'])) {
             if (IssueBuffer::accepts(
                 new ForbiddenCode(
                     'Use of echo',

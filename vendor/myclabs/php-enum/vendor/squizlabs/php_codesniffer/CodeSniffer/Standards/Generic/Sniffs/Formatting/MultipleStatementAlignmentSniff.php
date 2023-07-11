@@ -94,9 +94,9 @@ class Generic_Sniffs_Formatting_MultipleStatementAlignmentSniff implements PHP_C
         $tokens = $phpcsFile->getTokens();
 
         // Ignore assignments used in a condition, like an IF or FOR.
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             foreach ($tokens[$stackPtr]['nested_parenthesis'] as $start => $end) {
-                if (isset($tokens[$start]['parenthesis_owner']) === true) {
+                if (!empty($tokens[$start]['parenthesis_owner']) === true) {
                     return;
                 }
             }
@@ -122,9 +122,9 @@ class Generic_Sniffs_Formatting_MultipleStatementAlignmentSniff implements PHP_C
             if ($tokens[$nextAssign]['line'] === ($tokens[$lineEnd]['line'] + 1)) {
                 // Assignment may be in the same block as this one. Just make sure
                 // it is not used in a condition, like an IF or FOR.
-                if (isset($tokens[$nextAssign]['nested_parenthesis']) === true) {
+                if (!empty($tokens[$nextAssign]['nested_parenthesis']) === true) {
                     foreach ($tokens[$nextAssign]['nested_parenthesis'] as $start => $end) {
-                        if (isset($tokens[$start]['parenthesis_owner']) === true) {
+                        if (!empty($tokens[$start]['parenthesis_owner']) === true) {
                             // Not an assignment.
                             $isAssign = false;
                             break;
@@ -171,9 +171,9 @@ class Generic_Sniffs_Formatting_MultipleStatementAlignmentSniff implements PHP_C
             }
 
             // Make sure it is not assigned inside a condition (eg. IF, FOR).
-            if (isset($tokens[$prevAssignment]['nested_parenthesis']) === true) {
+            if (!empty($tokens[$prevAssignment]['nested_parenthesis']) === true) {
                 foreach ($tokens[$prevAssignment]['nested_parenthesis'] as $start => $end) {
-                    if (isset($tokens[$start]['parenthesis_owner']) === true) {
+                    if (!empty($tokens[$start]['parenthesis_owner']) === true) {
                         break(2);
                     }
                 }

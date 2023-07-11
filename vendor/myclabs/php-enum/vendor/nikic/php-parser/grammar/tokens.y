@@ -77,7 +77,7 @@
 %right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
 %token T_VAR
 %token T_UNSET
-%token T_ISSET
+%token T_!empty
 %token T_EMPTY
 %token T_HALT_COMPILER
 %token T_CLASS

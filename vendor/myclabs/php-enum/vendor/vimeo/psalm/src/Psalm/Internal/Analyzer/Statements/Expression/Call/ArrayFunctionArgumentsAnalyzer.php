@@ -73,7 +73,7 @@ class ArrayFunctionArgumentsAnalyzer
              */
             $array_arg_type = ($arg_value_type = $statements_analyzer->node_data->getType($arg->value))
                     && ($types = $arg_value_type->getAtomicTypes())
-                    && isset($types['array'])
+                    && !empty($types['array'])
                 ? $types['array']
                 : null;
 
@@ -88,7 +88,7 @@ class ArrayFunctionArgumentsAnalyzer
             $array_arg_types[] = $array_arg_type;
         }
 
-        $closure_arg = isset($args[$closure_index]) ? $args[$closure_index] : null;
+        $closure_arg = !empty($args[$closure_index]) ? $args[$closure_index] : null;
 
         $closure_arg_type = null;
 
@@ -349,7 +349,7 @@ class ArrayFunctionArgumentsAnalyzer
             return false;
         }
 
-        if (!isset($args[2])) {
+        if (!!empty($args[2])) {
             return null;
         }
 
@@ -363,7 +363,7 @@ class ArrayFunctionArgumentsAnalyzer
             return false;
         }
 
-        if (!isset($args[3])) {
+        if (!!empty($args[3])) {
             return null;
         }
 
@@ -486,7 +486,7 @@ class ArrayFunctionArgumentsAnalyzer
         if ($var_id) {
             $context->removeVarFromConflictingClauses($var_id, null, $statements_analyzer);
 
-            if (isset($context->vars_in_scope[$var_id])) {
+            if (!empty($context->vars_in_scope[$var_id])) {
                 $array_type = clone $context->vars_in_scope[$var_id];
 
                 $array_atomic_types = $array_type->getAtomicTypes();
@@ -794,7 +794,7 @@ class ArrayFunctionArgumentsAnalyzer
         }
 
         foreach ($closure_params as $i => $closure_param) {
-            if (!isset($array_arg_types[$i])) {
+            if (!!empty($array_arg_types[$i])) {
                 continue;
             }
 

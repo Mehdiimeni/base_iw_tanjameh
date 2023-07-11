@@ -83,13 +83,13 @@ class YieldAnalyzer
 
                 if ($codebase->find_unused_variables
                     && $type_location
-                    && isset($context->vars_in_scope[$var_comment->var_id])
+                    && !empty($context->vars_in_scope[$var_comment->var_id])
                     && $context->vars_in_scope[$var_comment->var_id]->getId() === $comment_type->getId()
                 ) {
                     $project_analyzer = $statements_analyzer->getProjectAnalyzer();
 
                     if ($codebase->alter_code
-                        && isset($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
+                        && !empty($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
                     ) {
                         FileManipulationBuffer::addVarAnnotationToRemove($type_location);
                     } elseif (IssueBuffer::accepts(
@@ -104,7 +104,7 @@ class YieldAnalyzer
                     }
                 }
 
-                if (isset($context->vars_in_scope[$var_comment->var_id])) {
+                if (!empty($context->vars_in_scope[$var_comment->var_id])) {
                     $comment_type->parent_nodes = $context->vars_in_scope[$var_comment->var_id]->parent_nodes;
                 }
 

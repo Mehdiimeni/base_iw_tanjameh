@@ -87,9 +87,9 @@ class PEAR_Sniffs_Files_IncludingFileSniff implements PHP_CodeSniffer_Sniff
         // Check to see if this including statement is within the parenthesis
         // of a condition. If that's the case then we need to process it as being
         // within a condition, as they are checking the return value.
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             foreach ($tokens[$stackPtr]['nested_parenthesis'] as $left => $right) {
-                if (isset($tokens[$left]['parenthesis_owner']) === true) {
+                if (!empty($tokens[$left]['parenthesis_owner']) === true) {
                     $inCondition = true;
                 }
             }

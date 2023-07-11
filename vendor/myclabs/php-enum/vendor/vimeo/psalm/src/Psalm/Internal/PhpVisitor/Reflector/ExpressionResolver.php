@@ -311,7 +311,7 @@ class ExpressionResolver
         }
 
         if ($function->name->parts === ['function_exists']
-            && isset($function->args[0])
+            && !empty($function->args[0])
             && $function->args[0]->value instanceof PhpParser\Node\Scalar\String_
             && function_exists($function->args[0]->value->value)
         ) {
@@ -325,7 +325,7 @@ class ExpressionResolver
         }
 
         if ($function->name->parts === ['class_exists']
-            && isset($function->args[0])
+            && !empty($function->args[0])
         ) {
             $string_value = null;
 
@@ -355,7 +355,7 @@ class ExpressionResolver
         }
 
         if ($function->name->parts === ['interface_exists']
-            && isset($function->args[0])
+            && !empty($function->args[0])
         ) {
             $string_value = null;
 

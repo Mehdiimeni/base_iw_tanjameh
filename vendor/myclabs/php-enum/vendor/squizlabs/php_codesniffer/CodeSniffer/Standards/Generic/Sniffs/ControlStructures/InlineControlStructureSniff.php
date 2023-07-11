@@ -81,7 +81,7 @@ class Generic_Sniffs_ControlStructures_InlineControlStructureSniff implements PH
     {
         $tokens = $phpcsFile->getTokens();
 
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             // Ignore the ELSE in ELSE IF. We'll process the IF part later.
             if (($tokens[$stackPtr]['code'] === T_ELSE) && ($tokens[($stackPtr + 2)]['code'] === T_IF)) {
                 return;
@@ -92,7 +92,7 @@ class Generic_Sniffs_ControlStructures_InlineControlStructureSniff implements PH
                 $lastContent = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
                 if ($tokens[$lastContent]['code'] === T_CLOSE_CURLY_BRACKET) {
                     $brace = $tokens[$lastContent];
-                    if (isset($brace['scope_condition']) === true) {
+                    if (!empty($brace['scope_condition']) === true) {
                         $condition = $tokens[$brace['scope_condition']];
                         if ($condition['code'] === T_DO) {
                             return;

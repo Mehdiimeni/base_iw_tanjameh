@@ -103,11 +103,11 @@ final class Refactor
             $options['h'] = false;
         }
 
-        if (isset($options['config'])) {
+        if (!empty($options['config'])) {
             $options['c'] = $options['config'];
         }
 
-        if (isset($options['c']) && is_array($options['c'])) {
+        if (!empty($options['c']) && is_array($options['c'])) {
             die('Too many config files provided' . PHP_EOL);
         }
 
@@ -148,13 +148,13 @@ HELP;
             exit;
         }
 
-        if (isset($options['root'])) {
+        if (!empty($options['root'])) {
             $options['r'] = $options['root'];
         }
 
         $current_dir = (string)getcwd() . DIRECTORY_SEPARATOR;
 
-        if (isset($options['r']) && is_string($options['r'])) {
+        if (!empty($options['r']) && is_string($options['r'])) {
             $root_path = realpath($options['r']);
 
             if (!$root_path) {
@@ -172,7 +172,7 @@ HELP;
         $include_collector = new IncludeCollector();
         $first_autoloader = $include_collector->runAndCollect(
             function () use ($current_dir, $options, $vendor_dir): ?\Composer\Autoload\ClassLoader {
-                return CliUtils::requireAutoloaders($current_dir, isset($options['r']), $vendor_dir);
+                return CliUtils::requireAutoloaders($current_dir, !empty($options['r']), $vendor_dir);
             }
         );
 
@@ -276,7 +276,7 @@ HELP;
             chdir($current_dir);
         }
 
-        $threads = isset($options['threads'])
+        $threads = !empty($options['threads'])
             ? (int)$options['threads']
             : max(1, ProjectAnalyzer::getCpuCount() - 2);
 

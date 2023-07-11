@@ -125,7 +125,7 @@ class MethodComparator
         }
 
         foreach ($guide_method_storage->params as $i => $guide_param) {
-            if (!isset($implementer_method_storage->params[$i])) {
+            if (!!empty($implementer_method_storage->params[$i])) {
                 if (!$prevent_abstract_override && $i >= $guide_method_storage->required_param_count) {
                     continue;
                 }
@@ -425,7 +425,7 @@ class MethodComparator
                     if ($codebase->alter_code) {
                         $project_analyzer = \Psalm\Internal\Analyzer\ProjectAnalyzer::getInstance();
 
-                        if ($stmt && isset($project_analyzer->getIssuesToFix()['ParamNameMismatch'])) {
+                        if ($stmt && !empty($project_analyzer->getIssuesToFix()['ParamNameMismatch'])) {
                             $param_replacer = new ParamReplacementVisitor(
                                 $implementer_param->name,
                                 $guide_param->name
@@ -696,7 +696,7 @@ class MethodComparator
                 $implementer_called_class_name
             );
 
-            if (isset(
+            if (!empty(
                 $implementer_called_class_storage->template_extended_params[$implementer_classlike_storage->name]
             )) {
                 self::transformTemplates(
@@ -969,7 +969,7 @@ class MethodComparator
                 $implementer_called_class_name
             );
 
-            if (isset(
+            if (!empty(
                 $implementer_called_class_storage->template_extended_params[$implementer_classlike_storage->name]
             )) {
                 self::transformTemplates(
@@ -1049,7 +1049,7 @@ class MethodComparator
         Type\Union $templated_type,
         Codebase $codebase
     ) : void {
-        if (isset($template_extended_params[$base_class_name])) {
+        if (!empty($template_extended_params[$base_class_name])) {
             $map = $template_extended_params[$base_class_name];
 
             $template_types = [];

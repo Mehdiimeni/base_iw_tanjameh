@@ -292,7 +292,7 @@ class PEAR_Sniffs_Functions_FunctionDeclarationSniff implements PHP_CodeSniffer_
             }
         }//end for
 
-        if (isset($tokens[$stackPtr]['scope_opener']) === true) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === true) {
             // The openning brace needs to be one space away
             // from the closing parenthesis.
             $next = $tokens[($closeBracket + 1)];

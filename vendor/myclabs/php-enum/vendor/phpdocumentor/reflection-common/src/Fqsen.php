@@ -61,7 +61,7 @@ final class Fqsen
 
         $this->fqsen = $fqsen;
 
-        if (isset($matches[2])) {
+        if (!empty($matches[2])) {
             $this->name = $matches[2];
         } else {
             $matches = explode('\\', $fqsen);

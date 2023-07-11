@@ -68,7 +68,7 @@ class Generic_Sniffs_CodeAnalysis_ForLoopShouldBeWhileLoopSniff implements PHP_C
         $token  = $tokens[$stackPtr];
 
         // Skip invalid statement.
-        if (isset($token['parenthesis_opener']) === false) {
+        if (!empty($token['parenthesis_opener']) === false) {
             return;
         }
 

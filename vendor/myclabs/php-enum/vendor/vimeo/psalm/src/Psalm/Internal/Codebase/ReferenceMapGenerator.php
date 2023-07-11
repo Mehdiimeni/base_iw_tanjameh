@@ -19,7 +19,7 @@ class ReferenceMapGenerator
 
             $fq_classlike_name = $storage->name;
 
-            if (isset($expected_references[$fq_classlike_name])) {
+            if (!empty($expected_references[$fq_classlike_name])) {
                 $reference_dictionary[$fq_classlike_name]
                     = $storage->location->file_name
                         . ':' . $storage->location->getLineNumber()
@@ -31,7 +31,7 @@ class ReferenceMapGenerator
                     continue;
                 }
 
-                if (isset($expected_references[$fq_classlike_name . '::' . $method_name . '()'])) {
+                if (!empty($expected_references[$fq_classlike_name . '::' . $method_name . '()'])) {
                     $reference_dictionary[$fq_classlike_name . '::' . $method_name . '()']
                         = $method_storage->location->file_name
                             . ':' . $method_storage->location->getLineNumber()
@@ -44,7 +44,7 @@ class ReferenceMapGenerator
                     continue;
                 }
 
-                if (isset($expected_references[$fq_classlike_name . '::$' . $property_name])) {
+                if (!empty($expected_references[$fq_classlike_name . '::$' . $property_name])) {
                     $reference_dictionary[$fq_classlike_name . '::$' . $property_name]
                         = $property_storage->location->file_name
                             . ':' . $property_storage->location->getLineNumber()

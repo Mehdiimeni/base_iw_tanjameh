@@ -18,7 +18,7 @@ class JsonDecoder
 
     private function decodeRecursive($value) {
         if (\is_array($value)) {
-            if (isset($value['nodeType'])) {
+            if (!empty($value['nodeType'])) {
                 if ($value['nodeType'] === 'Comment' || $value['nodeType'] === 'Comment_Doc') {
                     return $this->decodeComment($value);
                 }
@@ -47,7 +47,7 @@ class JsonDecoder
         /** @var Node $node */
         $node = $reflectionClass->newInstanceWithoutConstructor();
 
-        if (isset($value['attributes'])) {
+        if (!empty($value['attributes'])) {
             if (!\is_array($value['attributes'])) {
                 throw new \RuntimeException('Attributes must be an array');
             }
@@ -68,7 +68,7 @@ class JsonDecoder
 
     private function decodeComment(array $value) : Comment {
         $className = $value['nodeType'] === 'Comment' ? Comment::class : Comment\Doc::class;
-        if (!isset($value['text'])) {
+        if (!!empty($value['text'])) {
             throw new \RuntimeException('Comment must have text');
         }
 
@@ -80,7 +80,7 @@ class JsonDecoder
     }
 
     private function reflectionClassFromNodeType(string $nodeType) : \ReflectionClass {
-        if (!isset($this->reflectionClassCache[$nodeType])) {
+        if (!!empty($this->reflectionClassCache[$nodeType])) {
             $className = $this->classNameFromNodeType($nodeType);
             $this->reflectionClassCache[$nodeType] = new \ReflectionClass($className);
         }

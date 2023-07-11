@@ -21,7 +21,7 @@ class ConstantTypeResolver
     ) : Type\Atomic {
         $c_id = \spl_object_id($c);
 
-        if (isset($visited_constant_ids[$c_id])) {
+        if (!empty($visited_constant_ids[$c_id])) {
             throw new \Psalm\Exception\CircularReferenceException('Found a circular reference');
         }
 

@@ -74,8 +74,8 @@ if (get_nav()) {
           <?php if (get_user_acl()) { ?>
             <!-- wishlist -->
             <li class="nav-item b-drop position-relative">
-              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">2</span>
-              <a class="nav-link" href="#">
+              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">0</span>
+              <a class="nav-link" href="?user=favorite">
                 <svg height="1.3em" width="1.5em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                   aria-labelledby="wish-list-8883410" role="img" aria-hidden="false">
                   <title id="wish-list-8883410">علاقمندی</title>
@@ -110,15 +110,7 @@ if (get_nav()) {
               <h5 id="cartTitle" class="text-center my-3 fw-semibold">سبد خرید شما</h5>
               <ol id="list-item-product">
               </ol>
-              <div id="total-text">
-                <div class="hstack align-items-start mb-2">
-                  <small>تحویل</small>
-                  <small class="ms-auto"><span id="delivery-price">125000</span> تومان</small>
-                </div>
-                <div class="hstack align-items-start">
-                  <h6>جمع <span class="font-x-s text-body-tertiary">(شامل مالیات بر ارزش افزوده)</span></h6>
-                  <h6 class="ms-auto fw-semibold"><span id="total-price"></span> تومان</h6>
-                </div>
+              <div id="total-text">      
                 <a href="#" class="btn btn-dark w-100 my-3">ورود به سبد خرید</a>
               </div>
             </div>

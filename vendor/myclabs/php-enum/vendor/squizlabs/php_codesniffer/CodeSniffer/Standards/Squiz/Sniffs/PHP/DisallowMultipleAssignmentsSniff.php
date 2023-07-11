@@ -77,12 +77,12 @@ class Squiz_Sniffs_PHP_DisallowMultipleAssignmentsSniff implements PHP_CodeSniff
 
         for ($varToken = ($stackPtr - 1); $varToken >= 0; $varToken--) {
             // Skip brackets.
-            if (isset($tokens[$varToken]['parenthesis_opener']) === true && $tokens[$varToken]['parenthesis_opener'] < $varToken) {
+            if (!empty($tokens[$varToken]['parenthesis_opener']) === true && $tokens[$varToken]['parenthesis_opener'] < $varToken) {
                 $varToken = $tokens[$varToken]['parenthesis_opener'];
                 continue;
             }
 
-            if (isset($tokens[$varToken]['bracket_opener']) === true) {
+            if (!empty($tokens[$varToken]['bracket_opener']) === true) {
                 $varToken = $tokens[$varToken]['bracket_opener'];
                 continue;
             }
@@ -160,7 +160,7 @@ class Squiz_Sniffs_PHP_DisallowMultipleAssignmentsSniff implements PHP_CodeSniff
         // Ignore the first part of FOR loops as we are allowed to
         // assign variables there even though the variable is not the
         // first thing on the line. Also ignore WHILE loops.
-        if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS && isset($tokens[$i]['parenthesis_owner']) === true) {
+        if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS && !empty($tokens[$i]['parenthesis_owner']) === true) {
             $owner = $tokens[$i]['parenthesis_owner'];
             if ($tokens[$owner]['code'] === T_FOR || $tokens[$owner]['code'] === T_WHILE) {
                 return;

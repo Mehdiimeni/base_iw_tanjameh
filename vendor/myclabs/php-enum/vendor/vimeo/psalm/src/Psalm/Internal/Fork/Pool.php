@@ -326,7 +326,7 @@ class Pool
                 $err = error_get_last();
 
                 // stream_select returns false when the `select` system call is interrupted by an incoming signal
-                if (isset($err['message']) && stripos($err['message'], 'interrupted system call') === false) {
+                if (!empty($err['message']) && stripos($err['message'], 'interrupted system call') === false) {
                     error_log('unable to select on read stream');
                     exit(self::EXIT_FAILURE);
                 }

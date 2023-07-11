@@ -47,11 +47,11 @@ final class Instantiator implements InstantiatorInterface
      */
     public function instantiate($className)
     {
-        if (isset(self::$cachedCloneables[$className])) {
+        if (!empty(self::$cachedCloneables[$className])) {
             return clone self::$cachedCloneables[$className];
         }
 
-        if (isset(self::$cachedInstantiators[$className])) {
+        if (!empty(self::$cachedInstantiators[$className])) {
             $factory = self::$cachedInstantiators[$className];
 
             return $factory();

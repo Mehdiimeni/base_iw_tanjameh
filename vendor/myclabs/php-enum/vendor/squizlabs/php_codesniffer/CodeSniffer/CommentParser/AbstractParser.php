@@ -280,13 +280,13 @@ abstract class PHP_CodeSniffer_CommentParser_AbstractParser
 
                 // Filter out @ tags in the comment description.
                 // A real comment tag should have whitespace and a newline before it.
-                if (isset($this->words[($wordPos - 1)]) === false
+                if (!empty($this->words[($wordPos - 1)]) === false
                     || trim($this->words[($wordPos - 1)]) !== ''
                 ) {
                     continue;
                 }
 
-                if (isset($this->words[($wordPos - 2)]) === false
+                if (!empty($this->words[($wordPos - 2)]) === false
                     || $this->words[($wordPos - 2)] !== $this->phpcsFile->eolChar
                 ) {
                     continue;

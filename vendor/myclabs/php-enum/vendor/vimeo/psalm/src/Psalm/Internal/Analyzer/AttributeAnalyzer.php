@@ -83,7 +83,7 @@ class AttributeAnalyzer
                 )) {
                     // fall through
                 }
-            } elseif (isset($classlike_storage->methods['__construct'])
+            } elseif (!empty($classlike_storage->methods['__construct'])
                 && $classlike_storage->methods['__construct']->visibility !== ClassLikeAnalyzer::VISIBILITY_PUBLIC
             ) {
                 if (\Psalm\IssueBuffer::accepts(

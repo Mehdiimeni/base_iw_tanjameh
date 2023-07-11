@@ -57,7 +57,7 @@ class Assertion
                         $substitute = false;
 
                         foreach ($rule_tokens as &$rule_token) {
-                            if (isset($inferred_lower_bounds[$rule_token[0]])) {
+                            if (!empty($inferred_lower_bounds[$rule_token[0]])) {
                                 foreach ($inferred_lower_bounds[$rule_token[0]] as $lower_bounds) {
                                     $substitute = true;
 

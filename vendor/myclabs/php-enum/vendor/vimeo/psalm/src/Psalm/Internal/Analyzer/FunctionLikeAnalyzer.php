@@ -146,7 +146,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         $function_stmts = $this->function->getStmts() ?: [];
 
         if ($this->function instanceof ArrowFunction
-            && isset($function_stmts[0])
+            && !empty($function_stmts[0])
             && $function_stmts[0] instanceof PhpParser\Node\Stmt\Return_
             && $function_stmts[0]->expr
         ) {
@@ -164,7 +164,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         $codebase = $this->codebase;
         $project_analyzer = $this->getProjectAnalyzer();
 
-        if ($codebase->track_unused_suppressions && !isset($storage->suppressed_issues[0])) {
+        if ($codebase->track_unused_suppressions && !!empty($storage->suppressed_issues[0])) {
             foreach ($storage->suppressed_issues as $offset => $issue_name) {
                 IssueBuffer::addUnusedSuppression($this->getFilePath(), $offset, $issue_name);
             }
@@ -420,8 +420,8 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         $project_analyzer = $statements_analyzer->getProjectAnalyzer();
 
         if ($codebase->alter_code
-            && (isset($project_analyzer->getIssuesToFix()['MissingPureAnnotation'])
-                || isset($project_analyzer->getIssuesToFix()['MissingImmutableAnnotation']))
+            && (!empty($project_analyzer->getIssuesToFix()['MissingPureAnnotation'])
+                || !empty($project_analyzer->getIssuesToFix()['MissingImmutableAnnotation']))
         ) {
             $this->track_mutations = true;
         } elseif ($this->function instanceof Closure
@@ -433,7 +433,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         $statements_analyzer->analyze($function_stmts, $context, $global_context, true);
 
         if ($codebase->alter_code
-            && isset($project_analyzer->getIssuesToFix()['MissingPureAnnotation'])
+            && !empty($project_analyzer->getIssuesToFix()['MissingPureAnnotation'])
             && !$this->inferred_impure
             && ($this->function instanceof Function_
                 || $this->function instanceof ClassMethod)
@@ -619,7 +619,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                 $expected_exception = $context->self;
             }
 
-            if (isset($storage->throw_locations[$expected_exception])) {
+            if (!empty($storage->throw_locations[$expected_exception])) {
                 if (ClassLikeAnalyzer::checkFullyQualifiedClassLikeName(
                     $statements_analyzer,
                     $expected_exception,
@@ -697,7 +697,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
             && $this->function instanceof ClassMethod
             && $cased_method_id
             && $storage->specialize_call
-            && isset($context->vars_in_scope['$this'])
+            && !empty($context->vars_in_scope['$this'])
             && $context->vars_in_scope['$this']->parent_nodes
         ) {
             $method_source = DataFlowNode::getForMethodReturn(
@@ -882,7 +882,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                     continue;
                 }
 
-                if (isset($class_storage->overridden_method_ids[$method_name_lc])) {
+                if (!empty($class_storage->overridden_method_ids[$method_name_lc])) {
                     $parent_method_id = end($class_storage->overridden_method_ids[$method_name_lc]);
 
                     if ($parent_method_id) {
@@ -890,7 +890,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
 
                         // if the parent method has a param at that position and isn't abstract
                         if (!$parent_method_storage->abstract
-                            && isset($parent_method_storage->params[$position])
+                            && !empty($parent_method_storage->params[$position])
                         ) {
                             continue;
                         }
@@ -910,7 +910,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
             $method_id_lc = strtolower((string) $this->getMethodId());
 
             foreach ($storage->params as $i => $_) {
-                if (!isset($unused_params[$i])) {
+                if (!!empty($unused_params[$i])) {
                     $codebase->file_reference_provider->addMethodParamUse(
                         $method_id_lc,
                         $i,
@@ -919,7 +919,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
 
                     $method_name_lc = strtolower($storage->cased_name);
 
-                    if (!isset($class_storage->overridden_method_ids[$method_name_lc])) {
+                    if (!!empty($class_storage->overridden_method_ids[$method_name_lc])) {
                         continue;
                     }
 
@@ -1104,7 +1104,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                 ) && !$union_comparison_result->type_coerced_from_mixed
                 ) {
                     if ($codebase->alter_code
-                        && isset($project_analyzer->getIssuesToFix()['MismatchingDocblockParamType'])
+                        && !empty($project_analyzer->getIssuesToFix()['MismatchingDocblockParamType'])
                     ) {
                         $this->addOrUpdateParamType($project_analyzer, $function_param->name, $signature_type, true);
 
@@ -1479,7 +1479,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         $storage = $this->getFunctionLikeStorage($statements_analyzer);
 
         foreach ($storage->params as $param) {
-            if ($param->by_ref && isset($context->vars_in_scope['$' . $param->name]) && !$param->is_variadic) {
+            if ($param->by_ref && !empty($context->vars_in_scope['$' . $param->name]) && !$param->is_variadic) {
                 $actual_type = $context->vars_in_scope['$' . $param->name];
                 $param_out_type = $param->out_type ?: $param->type;
 
@@ -1682,7 +1682,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
      */
     public function addSuppressedIssues(array $new_issues): void
     {
-        if (isset($new_issues[0])) {
+        if (!empty($new_issues[0])) {
             $new_issues = \array_combine($new_issues, $new_issues);
         }
 
@@ -1694,7 +1694,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
      */
     public function removeSuppressedIssues(array $new_issues): void
     {
-        if (isset($new_issues[0])) {
+        if (!empty($new_issues[0])) {
             $new_issues = \array_combine($new_issues, $new_issues);
         }
 
@@ -1778,7 +1778,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                     $hash = md5($real_method_id . '::' . $context->getScopeSummary());
 
                     // if we know that the function has no effects on vars, we don't bother rechecking
-                    if (isset(self::$no_effects_hashes[$hash])) {
+                    if (!empty(self::$no_effects_hashes[$hash])) {
                         return null;
                     }
                 }
@@ -1888,14 +1888,14 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                             $declaring_fq_class_name
                         );
 
-                        if (isset($appearing_class_storage->trait_visibility_map[$appearing_method_name])) {
+                        if (!empty($appearing_class_storage->trait_visibility_map[$appearing_method_name])) {
                             $implementer_visibility
                                 = $appearing_class_storage->trait_visibility_map[$appearing_method_name];
                         }
                     }
 
                     // we've already checked this in the class checker
-                    if (!isset($appearing_class_storage->class_implements[strtolower($overridden_fq_class_name)])) {
+                    if (!!empty($appearing_class_storage->class_implements[strtolower($overridden_fq_class_name)])) {
                         MethodComparator::compare(
                             $codebase,
                             \count($overridden_method_ids) === 1 ? $this->function : null,

@@ -123,8 +123,8 @@ class ExpressionScanner
         }
 
         if ($function_id === 'define') {
-            $first_arg_value = isset($node->args[0]) ? $node->args[0]->value : null;
-            $second_arg_value = isset($node->args[1]) ? $node->args[1]->value : null;
+            $first_arg_value = !empty($node->args[0]) ? $node->args[0]->value : null;
+            $second_arg_value = !empty($node->args[1]) ? $node->args[1]->value : null;
             if ($first_arg_value && $second_arg_value) {
                 $type_provider = new \Psalm\Internal\Provider\NodeDataProvider();
                 $const_name = ConstFetchAnalyzer::getConstName(
@@ -162,8 +162,8 @@ class ExpressionScanner
 
         $mapping_function_ids = [];
 
-        if (($function_id === 'array_map' && isset($node->args[0]))
-            || ($function_id === 'array_filter' && isset($node->args[1]))
+        if (($function_id === 'array_map' && !empty($node->args[0]))
+            || ($function_id === 'array_filter' && !empty($node->args[1]))
         ) {
             $node_arg_value = $function_id === 'array_map' ? $node->args[0]->value : $node->args[1]->value;
 

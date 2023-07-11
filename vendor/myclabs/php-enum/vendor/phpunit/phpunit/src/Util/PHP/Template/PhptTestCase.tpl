@@ -21,7 +21,7 @@ if ($composerAutoload) {
 {globals}
 $coverage = null;
 
-if (isset($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
+if (!empty($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
     require_once $GLOBALS['__PHPUNIT_BOOTSTRAP'];
 }
 

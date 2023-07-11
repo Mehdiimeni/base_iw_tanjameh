@@ -101,7 +101,7 @@ trait Placeholder
         if ($this->resolved) {
             $message = "Promise has already been resolved";
 
-            if (isset($this->resolutionTrace)) {
+            if (!empty($this->resolutionTrace)) {
                 $trace = formatStacktrace($this->resolutionTrace);
                 $message .= ". Previous resolution trace:\n\n{$trace}\n\n";
             } else {

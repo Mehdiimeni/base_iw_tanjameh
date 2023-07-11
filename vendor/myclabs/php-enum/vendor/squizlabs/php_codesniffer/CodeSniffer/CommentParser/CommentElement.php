@@ -114,7 +114,7 @@ class PHP_CodeSniffer_CommentParser_CommentElement extends PHP_CodeSniffer_Comme
                     // Include newlines before short description.
                     continue;
                 } else {
-                    if (isset($this->tokens[($pos + 1)]) === true) {
+                    if (!empty($this->tokens[($pos + 1)]) === true) {
                         if ($this->tokens[($pos + 1)] === $this->phpcsFile->eolChar) {
                             return ($pos - 1);
                         }

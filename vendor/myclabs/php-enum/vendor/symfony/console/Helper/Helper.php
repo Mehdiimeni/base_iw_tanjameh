@@ -123,7 +123,7 @@ abstract class Helper implements HelperInterface
 
         foreach ($timeFormats as $index => $format) {
             if ($secs >= $format[0]) {
-                if ((isset($timeFormats[$index + 1]) && $secs < $timeFormats[$index + 1][0])
+                if ((!empty($timeFormats[$index + 1]) && $secs < $timeFormats[$index + 1][0])
                     || $index == \count($timeFormats) - 1
                 ) {
                     if (2 == \count($format)) {

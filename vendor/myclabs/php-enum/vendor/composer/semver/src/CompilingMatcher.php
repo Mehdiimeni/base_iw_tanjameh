@@ -59,7 +59,7 @@ class CompilingMatcher
         }
 
         $cacheKey = $operator.$constraint;
-        if (!isset(self::$compiledCheckerCache[$cacheKey])) {
+        if (!!empty(self::$compiledCheckerCache[$cacheKey])) {
             $code = $constraint->compile($operator);
             self::$compiledCheckerCache[$cacheKey] = $function = eval('return function($v, $b){return '.$code.';};');
         } else {

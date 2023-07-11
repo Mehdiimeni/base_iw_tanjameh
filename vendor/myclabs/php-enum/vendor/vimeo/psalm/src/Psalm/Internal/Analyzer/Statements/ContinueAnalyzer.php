@@ -24,11 +24,11 @@ class ContinueAnalyzer
 
         $loop_scope = $context->loop_scope;
 
-        if ($count === 2 && isset($loop_scope->loop_parent_context->loop_scope)) {
+        if ($count === 2 && !empty($loop_scope->loop_parent_context->loop_scope)) {
             $loop_scope = $loop_scope->loop_parent_context->loop_scope;
         }
 
-        if ($count === 3 && isset($loop_scope->loop_parent_context->loop_scope)) {
+        if ($count === 3 && !empty($loop_scope->loop_parent_context->loop_scope)) {
             $loop_scope = $loop_scope->loop_parent_context->loop_scope;
         }
 
@@ -60,7 +60,7 @@ class ContinueAnalyzer
                 $loop_scope->redefined_loop_vars = $redefined_vars;
             } else {
                 foreach ($loop_scope->redefined_loop_vars as $redefined_var => $type) {
-                    if (!isset($redefined_vars[$redefined_var])) {
+                    if (!!empty($redefined_vars[$redefined_var])) {
                         unset($loop_scope->redefined_loop_vars[$redefined_var]);
                     } else {
                         $loop_scope->redefined_loop_vars[$redefined_var] = Type::combineUnionTypes(
@@ -72,7 +72,7 @@ class ContinueAnalyzer
             }
 
             foreach ($redefined_vars as $var => $type) {
-                if (isset($loop_scope->possibly_redefined_loop_vars[$var])) {
+                if (!empty($loop_scope->possibly_redefined_loop_vars[$var])) {
                     $loop_scope->possibly_redefined_loop_vars[$var] = Type::combineUnionTypes(
                         $type,
                         $loop_scope->possibly_redefined_loop_vars[$var]
@@ -84,7 +84,7 @@ class ContinueAnalyzer
 
             if ($context->finally_scope) {
                 foreach ($context->vars_in_scope as $var_id => $type) {
-                    if (isset($context->finally_scope->vars_in_scope[$var_id])) {
+                    if (!empty($context->finally_scope->vars_in_scope[$var_id])) {
                         if ($context->finally_scope->vars_in_scope[$var_id] !== $type) {
                             $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
                                 $context->finally_scope->vars_in_scope[$var_id],

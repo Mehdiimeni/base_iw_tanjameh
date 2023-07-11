@@ -242,7 +242,7 @@ class AssertionReconciler extends \Psalm\Type\Reconciler
         bool $is_equality,
         array $template_type_map
     ) : Union {
-        if (($assertion === 'isset' && !$is_negation)
+        if (($assertion === '!empty' && !$is_negation)
             || ($assertion === 'empty' && $is_negation)
         ) {
             return Type::getMixed($inside_loop);
@@ -1334,7 +1334,7 @@ class AssertionReconciler extends \Psalm\Type\Reconciler
                     }
                 }
 
-                if (isset($template_type_map[$assertion])) {
+                if (!empty($template_type_map[$assertion])) {
                     $new_type = Type::parseString(
                         'class-string<' . $assertion . '>',
                         null,

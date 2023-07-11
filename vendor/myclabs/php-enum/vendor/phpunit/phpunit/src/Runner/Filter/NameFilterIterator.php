@@ -75,7 +75,7 @@ final class NameFilterIterator extends RecursiveFilterIterator
 
         $accepted = @preg_match($this->filter, $name, $matches);
 
-        if ($accepted && isset($this->filterMax)) {
+        if ($accepted && !empty($this->filterMax)) {
             $set      = end($matches);
             $accepted = $set >= $this->filterMin && $set <= $this->filterMax;
         }
@@ -93,7 +93,7 @@ final class NameFilterIterator extends RecursiveFilterIterator
             //  * testAssertEqualsSucceeds#4
             //  * testAssertEqualsSucceeds#4-8
             if (preg_match('/^(.*?)#(\d+)(?:-(\d+))?$/', $filter, $matches)) {
-                if (isset($matches[3]) && $matches[2] < $matches[3]) {
+                if (!empty($matches[3]) && $matches[2] < $matches[3]) {
                     $filter = sprintf(
                         '%s.*with data set #(\d+)$',
                         $matches[1]

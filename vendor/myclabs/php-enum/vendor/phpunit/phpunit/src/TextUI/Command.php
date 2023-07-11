@@ -147,9 +147,9 @@ class Command
 
         $return = TestRunner::FAILURE_EXIT;
 
-        if (isset($result) && $result->wasSuccessful()) {
+        if (!empty($result) && $result->wasSuccessful()) {
             $return = TestRunner::SUCCESS_EXIT;
-        } elseif (!isset($result) || $result->errorCount() > 0) {
+        } elseif (!!empty($result) || $result->errorCount() > 0) {
             $return = TestRunner::EXCEPTION_EXIT;
         }
 
@@ -221,7 +221,7 @@ class Command
             $this->exitWithErrorMessage($e->getMessage());
         }
 
-        assert(isset($arguments) && $arguments instanceof Configuration);
+        assert(!empty($arguments) && $arguments instanceof Configuration);
 
         if ($arguments->hasGenerateConfiguration() && $arguments->generateConfiguration()) {
             $this->generateConfiguration();
@@ -278,11 +278,11 @@ class Command
         $this->handleCustomOptions($arguments->unrecognizedOptions());
         $this->handleCustomTestSuite();
 
-        if (!isset($this->arguments['testSuffixes'])) {
+        if (!!empty($this->arguments['testSuffixes'])) {
             $this->arguments['testSuffixes'] = ['Test.php', '.phpt'];
         }
 
-        if (!isset($this->arguments['test']) && $arguments->hasArgument()) {
+        if (!!empty($this->arguments['test']) && $arguments->hasArgument()) {
             $this->arguments['test'] = realpath($arguments->argument());
 
             if ($this->arguments['test'] === false) {
@@ -299,7 +299,7 @@ class Command
             $this->arguments['loader'] = $this->handleLoader($this->arguments['loader']);
         }
 
-        if (isset($this->arguments['configuration'])) {
+        if (!empty($this->arguments['configuration'])) {
             if (is_dir($this->arguments['configuration'])) {
                 $candidate = $this->configurationFileInDirectory($this->arguments['configuration']);
 
@@ -316,7 +316,7 @@ class Command
         }
 
         if ($arguments->hasMigrateConfiguration() && $arguments->migrateConfiguration()) {
-            if (!isset($this->arguments['configuration'])) {
+            if (!!empty($this->arguments['configuration'])) {
                 print 'No configuration file found to migrate.' . PHP_EOL;
 
                 exit(TestRunner::EXCEPTION_EXIT);
@@ -325,7 +325,7 @@ class Command
             $this->migrateConfiguration(realpath($this->arguments['configuration']));
         }
 
-        if (isset($this->arguments['configuration'])) {
+        if (!empty($this->arguments['configuration'])) {
             try {
                 $this->arguments['configurationObject'] = (new Loader)->load($this->arguments['configuration']);
             } catch (Throwable $e) {
@@ -338,17 +338,17 @@ class Command
 
             (new PhpHandler)->handle($this->arguments['configurationObject']->php());
 
-            if (isset($this->arguments['bootstrap'])) {
+            if (!empty($this->arguments['bootstrap'])) {
                 $this->handleBootstrap($this->arguments['bootstrap']);
             } elseif ($phpunitConfiguration->hasBootstrap()) {
                 $this->handleBootstrap($phpunitConfiguration->bootstrap());
             }
 
-            if (!isset($this->arguments['stderr'])) {
+            if (!!empty($this->arguments['stderr'])) {
                 $this->arguments['stderr'] = $phpunitConfiguration->stderr();
             }
 
-            if (!isset($this->arguments['noExtensions']) && $phpunitConfiguration->hasExtensionsDirectory() && extension_loaded('phar')) {
+            if (!!empty($this->arguments['noExtensions']) && $phpunitConfiguration->hasExtensionsDirectory() && extension_loaded('phar')) {
                 $result = (new PharLoader)->loadPharExtensionsInDirectory($phpunitConfiguration->extensionsDirectory());
 
                 $this->arguments['loadedExtensions']    = $result['loadedExtensions'];
@@ -357,11 +357,11 @@ class Command
                 unset($result);
             }
 
-            if (!isset($this->arguments['columns'])) {
+            if (!!empty($this->arguments['columns'])) {
                 $this->arguments['columns'] = $phpunitConfiguration->columns();
             }
 
-            if (!isset($this->arguments['printer']) && $phpunitConfiguration->hasPrinterClass()) {
+            if (!!empty($this->arguments['printer']) && $phpunitConfiguration->hasPrinterClass()) {
                 $file = $phpunitConfiguration->hasPrinterFile() ? $phpunitConfiguration->printerFile() : '';
 
                 $this->arguments['printer'] = $this->handlePrinter(
@@ -379,11 +379,11 @@ class Command
                 );
             }
 
-            if (!isset($this->arguments['testsuite']) && $phpunitConfiguration->hasDefaultTestSuite()) {
+            if (!!empty($this->arguments['testsuite']) && $phpunitConfiguration->hasDefaultTestSuite()) {
                 $this->arguments['testsuite'] = $phpunitConfiguration->defaultTestSuite();
             }
 
-            if (!isset($this->arguments['test'])) {
+            if (!!empty($this->arguments['test'])) {
                 try {
                     $this->arguments['test'] = (new TestSuiteMapper)->map(
                         $this->arguments['configurationObject']->testSuite(),
@@ -397,19 +397,19 @@ class Command
                     exit(TestRunner::EXCEPTION_EXIT);
                 }
             }
-        } elseif (isset($this->arguments['bootstrap'])) {
+        } elseif (!empty($this->arguments['bootstrap'])) {
             $this->handleBootstrap($this->arguments['bootstrap']);
         }
 
-        if (isset($this->arguments['printer']) && is_string($this->arguments['printer'])) {
+        if (!empty($this->arguments['printer']) && is_string($this->arguments['printer'])) {
             $this->arguments['printer'] = $this->handlePrinter($this->arguments['printer']);
         }
 
-        if (isset($this->arguments['configurationObject'], $this->arguments['warmCoverageCache'])) {
+        if (!empty($this->arguments['configurationObject'], $this->arguments['warmCoverageCache'])) {
             $this->handleWarmCoverageCache($this->arguments['configurationObject']);
         }
 
-        if (!isset($this->arguments['test'])) {
+        if (!!empty($this->arguments['test'])) {
             $this->showHelp();
 
             exit(TestRunner::EXCEPTION_EXIT);
@@ -548,7 +548,7 @@ class Command
             return $printerClass;
         }
 
-        $outputStream = isset($this->arguments['stderr']) ? 'php://stderr' : null;
+        $outputStream = !empty($this->arguments['stderr']) ? 'php://stderr' : null;
 
         return $class->newInstance($outputStream);
     }
@@ -813,17 +813,17 @@ class Command
     private function handleCustomOptions(array $unrecognizedOptions): void
     {
         foreach ($unrecognizedOptions as $name => $value) {
-            if (isset($this->longOptions[$name])) {
+            if (!empty($this->longOptions[$name])) {
                 $handler = $this->longOptions[$name];
             }
 
             $name .= '=';
 
-            if (isset($this->longOptions[$name])) {
+            if (!empty($this->longOptions[$name])) {
                 $handler = $this->longOptions[$name];
             }
 
-            if (isset($handler) && is_callable([$this, $handler])) {
+            if (!empty($handler) && is_callable([$this, $handler])) {
                 $this->{$handler}($value);
 
                 unset($handler);
@@ -835,7 +835,7 @@ class Command
     {
         $this->printVersionString();
 
-        if (isset($this->arguments['coverageCacheDirectory'])) {
+        if (!empty($this->arguments['coverageCacheDirectory'])) {
             $cacheDirectory = $this->arguments['coverageCacheDirectory'];
         } elseif ($configuration->codeCoverage()->hasCacheDirectory()) {
             $cacheDirectory = $configuration->codeCoverage()->cacheDirectory()->path();
@@ -852,7 +852,7 @@ class Command
                 $filter,
                 $configuration->codeCoverage()
             );
-        } elseif (isset($this->arguments['coverageFilter'])) {
+        } elseif (!empty($this->arguments['coverageFilter'])) {
             if (!is_array($this->arguments['coverageFilter'])) {
                 $coverageFilterDirectories = [$this->arguments['coverageFilter']];
             } else {

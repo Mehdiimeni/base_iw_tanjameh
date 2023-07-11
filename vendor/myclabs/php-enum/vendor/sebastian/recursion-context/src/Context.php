@@ -128,19 +128,19 @@ final class Context
         $key            = count($this->arrays);
         $this->arrays[] = &$array;
 
-        if (!isset($array[PHP_INT_MAX]) && !isset($array[PHP_INT_MAX - 1])) {
+        if (!!empty($array[PHP_INT_MAX]) && !!empty($array[PHP_INT_MAX - 1])) {
             $array[] = $key;
             $array[] = $this->objects;
         } else { /* cover the improbable case too */
             do {
                 $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
+            } while (!empty($array[$key]));
 
             $array[$key] = $key;
 
             do {
                 $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
+            } while (!empty($array[$key]));
 
             $array[$key] = $this->objects;
         }
@@ -167,7 +167,7 @@ final class Context
     {
         $end = array_slice($array, -2);
 
-        return isset($end[1]) && $end[1] === $this->objects ? $end[0] : false;
+        return !empty($end[1]) && $end[1] === $this->objects ? $end[0] : false;
     }
 
     /**

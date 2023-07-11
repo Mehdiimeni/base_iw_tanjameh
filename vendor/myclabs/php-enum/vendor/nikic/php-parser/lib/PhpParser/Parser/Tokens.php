@@ -111,7 +111,7 @@ final class Tokens
     const T_READONLY = 359;
     const T_VAR = 360;
     const T_UNSET = 361;
-    const T_ISSET = 362;
+    const T_!empty = 362;
     const T_EMPTY = 363;
     const T_HALT_COMPILER = 364;
     const T_CLASS = 365;

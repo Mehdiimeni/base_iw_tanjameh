@@ -443,7 +443,7 @@ class AtomicStaticCallAnalyzer
                 $statements_analyzer->getSource()
             )
             || $fake_method_exists
-            || (isset($class_storage->pseudo_static_methods[$method_name_lc])
+            || (!empty($class_storage->pseudo_static_methods[$method_name_lc])
                 && ($config->use_phpdoc_method_without_magic_or_parent || $class_storage->parent_class))
         ) {
             $callstatic_id = new MethodIdentifier(
@@ -494,7 +494,7 @@ class AtomicStaticCallAnalyzer
                     }
                 }
 
-                if (isset($class_storage->pseudo_static_methods[$method_name_lc])) {
+                if (!empty($class_storage->pseudo_static_methods[$method_name_lc])) {
                     $pseudo_method_storage = $class_storage->pseudo_static_methods[$method_name_lc];
 
                     if (self::checkPseudoMethod(
@@ -558,7 +558,7 @@ class AtomicStaticCallAnalyzer
                     $fq_class_name,
                     '__callstatic'
                 );
-            } elseif (isset($class_storage->pseudo_static_methods[$method_name_lc])
+            } elseif (!empty($class_storage->pseudo_static_methods[$method_name_lc])
                 && ($config->use_phpdoc_method_without_magic_or_parent || $class_storage->parent_class)
             ) {
                 $pseudo_method_storage = $class_storage->pseudo_static_methods[$method_name_lc];

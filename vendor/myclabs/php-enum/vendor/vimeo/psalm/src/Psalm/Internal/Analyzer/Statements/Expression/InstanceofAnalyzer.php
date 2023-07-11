@@ -60,7 +60,7 @@ class InstanceofAnalyzer
                     );
                 }
 
-                if (!isset($context->phantom_classes[strtolower($fq_class_name)])) {
+                if (!!empty($context->phantom_classes[strtolower($fq_class_name)])) {
                     if (ClassLikeAnalyzer::checkFullyQualifiedClassLikeName(
                         $statements_analyzer,
                         $fq_class_name,

@@ -339,7 +339,7 @@ final class File extends AbstractNode
         $this->processFunctions($functions);
 
         foreach (range(1, $this->linesOfCode->linesOfCode()) as $lineNumber) {
-            if (isset($this->lineCoverageData[$lineNumber])) {
+            if (!empty($this->lineCoverageData[$lineNumber])) {
                 foreach ($this->codeUnitsByLine[$lineNumber] as &$codeUnit) {
                     $codeUnit['executableLines']++;
                 }
@@ -549,7 +549,7 @@ final class File extends AbstractNode
                 $this->codeUnitsByLine[$lineNumber] = [&$this->functions[$functionName]];
             }
 
-            if (isset($this->functionCoverageData[$functionName]['branches'])) {
+            if (!empty($this->functionCoverageData[$functionName]['branches'])) {
                 $this->functions[$functionName]['executableBranches'] = count(
                     $this->functionCoverageData[$functionName]['branches']
                 );
@@ -564,7 +564,7 @@ final class File extends AbstractNode
                 );
             }
 
-            if (isset($this->functionCoverageData[$functionName]['paths'])) {
+            if (!empty($this->functionCoverageData[$functionName]['paths'])) {
                 $this->functions[$functionName]['executablePaths'] = count(
                     $this->functionCoverageData[$functionName]['paths']
                 );
@@ -608,7 +608,7 @@ final class File extends AbstractNode
 
         $key = $className . '->' . $methodName;
 
-        if (isset($this->functionCoverageData[$key]['branches'])) {
+        if (!empty($this->functionCoverageData[$key]['branches'])) {
             $methodData['executableBranches'] = count(
                 $this->functionCoverageData[$key]['branches']
             );
@@ -623,7 +623,7 @@ final class File extends AbstractNode
             );
         }
 
-        if (isset($this->functionCoverageData[$key]['paths'])) {
+        if (!empty($this->functionCoverageData[$key]['paths'])) {
             $methodData['executablePaths'] = count(
                 $this->functionCoverageData[$key]['paths']
             );

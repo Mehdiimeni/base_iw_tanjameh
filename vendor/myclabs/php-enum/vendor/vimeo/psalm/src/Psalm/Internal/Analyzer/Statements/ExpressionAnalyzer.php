@@ -57,7 +57,7 @@ class ExpressionAnalyzer
                 || $stmt instanceof PhpParser\Node\Expr\Assign
                 || $stmt instanceof PhpParser\Node\Expr\BooleanNot
                 || $stmt instanceof PhpParser\Node\Expr\Empty_
-                || $stmt instanceof PhpParser\Node\Expr\Isset_
+                || $stmt instanceof PhpParser\Node\Expr\!empty_
                 || $stmt instanceof PhpParser\Node\Expr\FuncCall)
         ) {
             $assertions = $statements_analyzer->node_data->getAssertions($stmt);
@@ -194,8 +194,8 @@ class ExpressionAnalyzer
             return Expression\UnaryPlusMinusAnalyzer::analyze($statements_analyzer, $stmt, $context);
         }
 
-        if ($stmt instanceof PhpParser\Node\Expr\Isset_) {
-            Expression\IssetAnalyzer::analyze($statements_analyzer, $stmt, $context);
+        if ($stmt instanceof PhpParser\Node\Expr\!empty_) {
+            Expression\!emptyAnalyzer::analyze($statements_analyzer, $stmt, $context);
             $statements_analyzer->node_data->setType($stmt, Type::getBool());
 
             return true;

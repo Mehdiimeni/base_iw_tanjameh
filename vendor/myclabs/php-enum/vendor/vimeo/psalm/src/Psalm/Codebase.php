@@ -586,7 +586,7 @@ class Codebase
         $fq_class_name_lc = strtolower($fq_class_name);
         $locations = $this->file_reference_provider->getClassLocations($fq_class_name_lc);
 
-        if (isset($this->use_referencing_locations[$fq_class_name_lc])) {
+        if (!empty($this->use_referencing_locations[$fq_class_name_lc])) {
             $locations = array_merge($locations, $this->use_referencing_locations[$fq_class_name_lc]);
         }
 
@@ -598,7 +598,7 @@ class Codebase
         $file_storage = $this->file_storage_provider->get($file_path);
 
         // closures can be returned here
-        if (isset($file_storage->functions[$closure_id])) {
+        if (!empty($file_storage->functions[$closure_id])) {
             return $file_storage->functions[$closure_id];
         }
 
@@ -614,7 +614,7 @@ class Codebase
 
     public function getStubbedConstantType(string $const_id): ?Type\Union
     {
-        return isset(self::$stubbed_constants[$const_id]) ? self::$stubbed_constants[$const_id] : null;
+        return !empty(self::$stubbed_constants[$const_id]) ? self::$stubbed_constants[$const_id] : null;
     }
 
     /**
@@ -949,7 +949,7 @@ class Codebase
         $function_id = strtolower(substr($symbol, 0, -2));
         $file_storage = $this->file_storage_provider->get($file_path);
 
-        if (isset($file_storage->functions[$function_id])) {
+        if (!empty($file_storage->functions[$function_id])) {
             $function_storage = $file_storage->functions[$function_id];
 
             return $function_storage;
@@ -1015,7 +1015,7 @@ class Codebase
                     \ReflectionProperty::IS_PRIVATE
                 );
 
-                if (!isset($class_constants[$const_name])) {
+                if (!!empty($class_constants[$const_name])) {
                     return null;
                 }
 
@@ -1029,7 +1029,7 @@ class Codebase
                 $function_id = strtolower(substr($symbol, 0, -2));
                 $file_storage = $this->file_storage_provider->get($file_path);
 
-                if (isset($file_storage->functions[$function_id])) {
+                if (!empty($file_storage->functions[$function_id])) {
                     $function_storage = $file_storage->functions[$function_id];
 
                     return [
@@ -1074,13 +1074,13 @@ class Codebase
                     $namespace_name,
                     \ReflectionProperty::IS_PUBLIC
                 );
-                if (isset($namespace_constants[$const_name])) {
+                if (!empty($namespace_constants[$const_name])) {
                     $type = $namespace_constants[$const_name];
                     return ['type' => '<?php const ' . $symbol . ' ' . $type];
                 }
             } else {
                 $file_storage = $this->file_storage_provider->get($file_path);
-                if (isset($file_storage->constants[$symbol])) {
+                if (!empty($file_storage->constants[$symbol])) {
                     return ['type' => '<?php const ' . $symbol . ' ' . $file_storage->constants[$symbol]];
                 }
                 $constant = ConstFetchAnalyzer::getGlobalConstType($this, $symbol, $symbol);
@@ -1146,7 +1146,7 @@ class Codebase
                     \ReflectionProperty::IS_PRIVATE
                 );
 
-                if (!isset($class_constants[$const_name])) {
+                if (!!empty($class_constants[$const_name])) {
                     return null;
                 }
 
@@ -1158,7 +1158,7 @@ class Codebase
 
                 $function_id = strtolower(substr($symbol, 0, -2));
 
-                if (isset($file_storage->functions[$function_id])) {
+                if (!empty($file_storage->functions[$function_id])) {
                     return $file_storage->functions[$function_id]->location;
                 }
 

@@ -70,7 +70,7 @@ class IteratorToArrayReturnTypeProvider implements \Psalm\Plugin\EventHandler\Fu
             }
 
             if ($value_type) {
-                $second_arg_type = isset($call_args[1])
+                $second_arg_type = !empty($call_args[1])
                     ? $statements_source->node_data->getType($call_args[1]->value)
                     : null;
 
@@ -83,7 +83,7 @@ class IteratorToArrayReturnTypeProvider implements \Psalm\Plugin\EventHandler\Fu
                 }
 
                 $key_type = $key_type
-                    && (!isset($call_args[1])
+                    && (!!empty($call_args[1])
                         || ($second_arg_type && ((string) $second_arg_type === 'true')))
                     ? $key_type
                     : Type::getArrayKey();

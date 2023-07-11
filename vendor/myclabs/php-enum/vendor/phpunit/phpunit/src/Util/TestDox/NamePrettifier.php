@@ -78,7 +78,7 @@ final class NamePrettifier
         try {
             $annotations = Test::parseTestMethodAnnotations($className);
 
-            if (isset($annotations['class']['testdox'][0])) {
+            if (!empty($annotations['class']['testdox'][0])) {
                 return $annotations['class']['testdox'][0];
             }
         } catch (UtilException $e) {
@@ -152,7 +152,7 @@ final class NamePrettifier
             return sprintf('/%s(?=\b)/', preg_quote($variable, '/'));
         };
 
-        if (isset($annotations['method']['testdox'][0])) {
+        if (!empty($annotations['method']['testdox'][0])) {
             $result = $annotations['method']['testdox'][0];
 
             if (strpos($result, '$') !== false) {

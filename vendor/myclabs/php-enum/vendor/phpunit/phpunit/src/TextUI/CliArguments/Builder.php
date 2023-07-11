@@ -232,7 +232,7 @@ final class Builder
         $version                                    = null;
         $xdebugFilterFile                           = null;
 
-        if (isset($options[1][0])) {
+        if (!empty($options[1][0])) {
             $argument = $options[1][0];
         }
 
@@ -337,8 +337,8 @@ final class Builder
                 case 'd':
                     $tmp = explode('=', $option[1]);
 
-                    if (isset($tmp[0])) {
-                        if (isset($tmp[1])) {
+                    if (!empty($tmp[0])) {
+                        if (!empty($tmp[1])) {
                             $iniSettings[$tmp[0]] = $tmp[1];
                         } else {
                             $iniSettings[$tmp[0]] = '1';

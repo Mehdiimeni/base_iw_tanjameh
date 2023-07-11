@@ -84,7 +84,7 @@ trait HasIntersectionTrait
 
         foreach ($this->extra_types as $extra_type) {
             if ($extra_type instanceof TTemplateParam
-                && isset($template_result->lower_bounds[$extra_type->param_name][$extra_type->defining_class])
+                && !empty($template_result->lower_bounds[$extra_type->param_name][$extra_type->defining_class])
             ) {
                 $template_type = TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                     $template_result->lower_bounds[$extra_type->param_name][$extra_type->defining_class],

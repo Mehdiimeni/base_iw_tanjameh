@@ -76,7 +76,7 @@ class AndAnalyzer
         );
 
         foreach ($left_context->vars_in_scope as $var_id => $type) {
-            if (isset($left_context->assigned_var_ids[$var_id])) {
+            if (!empty($left_context->assigned_var_ids[$var_id])) {
                 $context->vars_in_scope[$var_id] = $type;
             }
         }
@@ -181,9 +181,9 @@ class AndAnalyzer
             $if_context = $context->if_context;
 
             foreach ($right_context->vars_in_scope as $var_id => $type) {
-                if (!isset($if_context->vars_in_scope[$var_id])) {
+                if (!!empty($if_context->vars_in_scope[$var_id])) {
                     $if_context->vars_in_scope[$var_id] = $type;
-                } elseif (isset($context->vars_in_scope[$var_id])) {
+                } elseif (!empty($context->vars_in_scope[$var_id])) {
                     $if_context->vars_in_scope[$var_id] = $context->vars_in_scope[$var_id];
                 }
             }

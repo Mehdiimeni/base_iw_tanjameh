@@ -204,8 +204,8 @@ class ElseIfAnalyzer
         );
 
         foreach ($all_negated_vars as $var_id) {
-            if (isset($negated_elseif_types[$var_id])) {
-                if (isset($if_scope->negated_types[$var_id])) {
+            if (!empty($negated_elseif_types[$var_id])) {
+                if (!empty($if_scope->negated_types[$var_id])) {
                     $if_scope->negated_types[$var_id] = array_merge(
                         $if_scope->negated_types[$var_id],
                         $negated_elseif_types[$var_id]
@@ -282,7 +282,7 @@ class ElseIfAnalyzer
             $pre_stmts_possibly_assigned_var_ids + $new_stmts_possibly_assigned_var_ids;
 
         foreach ($elseif_context->byref_constraints as $var_id => $byref_constraint) {
-            if (isset($outer_context->byref_constraints[$var_id])
+            if (!empty($outer_context->byref_constraints[$var_id])
                 && ($outer_constraint_type = $outer_context->byref_constraints[$var_id]->type)
                 && $byref_constraint->type
                 && !UnionTypeComparator::isContainedBy(

@@ -105,7 +105,7 @@ class Squiz_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
         $tokens = $phpcsFile->getTokens();
 
         $errorToken = ($stackPtr + 1);
-        if (isset($tokens[$errorToken]) === false) {
+        if (!empty($tokens[$errorToken]) === false) {
             $errorToken--;
         }
 

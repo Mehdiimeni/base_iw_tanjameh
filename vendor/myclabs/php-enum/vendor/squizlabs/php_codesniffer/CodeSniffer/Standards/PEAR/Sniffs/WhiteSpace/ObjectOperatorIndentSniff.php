@@ -100,12 +100,12 @@ class PEAR_Sniffs_WhiteSpace_ObjectOperatorIndentSniff implements PHP_CodeSniffe
 
         // Determine the scope of the original object operator.
         $origBrackets = null;
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             $origBrackets = $tokens[$stackPtr]['nested_parenthesis'];
         }
 
         $origConditions = null;
-        if (isset($tokens[$stackPtr]['conditions']) === true) {
+        if (!empty($tokens[$stackPtr]['conditions']) === true) {
             $origConditions = $tokens[$stackPtr]['conditions'];
         }
 
@@ -119,12 +119,12 @@ class PEAR_Sniffs_WhiteSpace_ObjectOperatorIndentSniff implements PHP_CodeSniffe
         while ($next !== false) {
             // Make sure it is in the same scope, otherwise don't check indent.
             $brackets = null;
-            if (isset($tokens[$next]['nested_parenthesis']) === true) {
+            if (!empty($tokens[$next]['nested_parenthesis']) === true) {
                 $brackets = $tokens[$next]['nested_parenthesis'];
             }
 
             $conditions = null;
-            if (isset($tokens[$next]['conditions']) === true) {
+            if (!empty($tokens[$next]['conditions']) === true) {
                 $conditions = $tokens[$next]['conditions'];
             }
 

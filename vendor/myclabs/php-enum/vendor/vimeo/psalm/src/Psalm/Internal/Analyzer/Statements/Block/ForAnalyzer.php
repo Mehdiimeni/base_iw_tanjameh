@@ -108,7 +108,7 @@ class ForAnalyzer
                 && $cond->right instanceof PhpParser\Node\Scalar\LNumber
                 && $cond->left instanceof PhpParser\Node\Expr\Variable
                 && \is_string($cond->left->name)
-                && isset($init_var_types[$cond->left->name])
+                && !empty($init_var_types[$cond->left->name])
                 && $init_var_types[$cond->left->name]->isSingleIntLiteral()
             ) {
                 $init_value = $init_var_types[$cond->left->name]->getSingleIntLiteral()->value;
@@ -150,7 +150,7 @@ class ForAnalyzer
                 if (in_array(ScopeAnalyzer::ACTION_BREAK, $loop_scope->final_actions, true)
                     || in_array(ScopeAnalyzer::ACTION_CONTINUE, $loop_scope->final_actions, true)
                 ) {
-                    if (isset($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
+                    if (!empty($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
                         $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                             $type,
                             $loop_scope->possibly_defined_loop_parent_vars[$var_id]

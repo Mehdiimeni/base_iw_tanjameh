@@ -41,7 +41,7 @@ class UnsetAnalyzer
                     $statements_analyzer
                 );
 
-                if ($root_var_id && isset($context->vars_in_scope[$root_var_id])) {
+                if ($root_var_id && !empty($context->vars_in_scope[$root_var_id])) {
                     $root_type = clone $context->vars_in_scope[$root_var_id];
 
                     foreach ($root_type->getAtomicTypes() as $atomic_root_type) {
@@ -49,7 +49,7 @@ class UnsetAnalyzer
                             if ($var->dim instanceof PhpParser\Node\Scalar\String_
                                 || $var->dim instanceof PhpParser\Node\Scalar\LNumber
                             ) {
-                                if (isset($atomic_root_type->properties[$var->dim->value])) {
+                                if (!empty($atomic_root_type->properties[$var->dim->value])) {
                                     unset($atomic_root_type->properties[$var->dim->value]);
                                     $root_type->bustCache(); //remove id cache
                                 }

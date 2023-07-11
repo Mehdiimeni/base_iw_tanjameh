@@ -861,7 +861,7 @@ class Config
         ];
 
         foreach ($booleanAttributes as $xmlName => $internalName) {
-            if (isset($config_xml[$xmlName])) {
+            if (!empty($config_xml[$xmlName])) {
                 $attribute_text = (string) $config_xml[$xmlName];
                 $config->setBooleanAttribute(
                     $internalName,
@@ -877,11 +877,11 @@ class Config
             $base_dir = $current_dir;
         }
 
-        if (isset($config_xml['phpVersion'])) {
+        if (!empty($config_xml['phpVersion'])) {
             $config->configured_php_version = (string) $config_xml['phpVersion'];
         }
 
-        if (isset($config_xml['autoloader'])) {
+        if (!empty($config_xml['autoloader'])) {
             $autoloader_path = $config->base_dir . DIRECTORY_SEPARATOR . $config_xml['autoloader'];
 
             if (!file_exists($autoloader_path)) {
@@ -891,7 +891,7 @@ class Config
             $config->autoloader = realpath($autoloader_path);
         }
 
-        if (isset($config_xml['cacheDirectory'])) {
+        if (!empty($config_xml['cacheDirectory'])) {
             $config->cache_directory = (string)$config_xml['cacheDirectory'];
         } elseif ($user_cache_dir = (new Xdg())->getHomeCacheDir()) {
             $config->cache_directory = $user_cache_dir . '/psalm';
@@ -918,7 +918,7 @@ class Config
             chdir($cwd);
         }
 
-        if (isset($config_xml['serializer'])) {
+        if (!empty($config_xml['serializer'])) {
             $attribute_text = (string) $config_xml['serializer'];
             $config->use_igbinary = $attribute_text === 'igbinary';
         } elseif ($igbinary_version = phpversion('igbinary')) {
@@ -926,18 +926,18 @@ class Config
         }
 
 
-        if (isset($config_xml['findUnusedCode'])) {
+        if (!empty($config_xml['findUnusedCode'])) {
             $attribute_text = (string) $config_xml['findUnusedCode'];
             $config->find_unused_code = $attribute_text === 'true' || $attribute_text === '1';
             $config->find_unused_variables = $config->find_unused_code;
         }
 
-        if (isset($config_xml['findUnusedVariablesAndParams'])) {
+        if (!empty($config_xml['findUnusedVariablesAndParams'])) {
             $attribute_text = (string) $config_xml['findUnusedVariablesAndParams'];
             $config->find_unused_variables = $attribute_text === 'true' || $attribute_text === '1';
         }
 
-        if (isset($config_xml['errorLevel'])) {
+        if (!empty($config_xml['errorLevel'])) {
             $attribute_text = (int) $config_xml['errorLevel'];
 
             if (!in_array($attribute_text, [1, 2, 3, 4, 5, 6, 7, 8], true)) {
@@ -947,7 +947,7 @@ class Config
             }
 
             $config->level = $attribute_text;
-        } elseif (isset($config_xml['totallyTyped'])) {
+        } elseif (!empty($config_xml['totallyTyped'])) {
             $totally_typed = (string) $config_xml['totallyTyped'];
 
             if ($totally_typed === 'true' || $totally_typed === '1') {
@@ -964,38 +964,38 @@ class Config
         }
 
         // turn on unused variable detection in level 1
-        if (!isset($config_xml['findUnusedCode'])
-            && !isset($config_xml['findUnusedVariablesAndParams'])
+        if (!!empty($config_xml['findUnusedCode'])
+            && !!empty($config_xml['findUnusedVariablesAndParams'])
             && $config->level === 1
             && $config->show_mixed_issues !== false
         ) {
             $config->find_unused_variables = true;
         }
 
-        if (isset($config_xml['errorBaseline'])) {
+        if (!empty($config_xml['errorBaseline'])) {
             $attribute_text = (string) $config_xml['errorBaseline'];
             $config->error_baseline = $attribute_text;
         }
 
-        if (isset($config_xml['maxStringLength'])) {
+        if (!empty($config_xml['maxStringLength'])) {
             $attribute_text = intval($config_xml['maxStringLength']);
             $config->max_string_length = $attribute_text;
         }
 
-        if (isset($config_xml['inferPropertyTypesFromConstructor'])) {
+        if (!empty($config_xml['inferPropertyTypesFromConstructor'])) {
             $attribute_text = (string) $config_xml['inferPropertyTypesFromConstructor'];
             $config->infer_property_types_from_constructor = $attribute_text === 'true' || $attribute_text === '1';
         }
 
-        if (isset($config_xml->projectFiles)) {
+        if (!empty($config_xml->projectFiles)) {
             $config->project_files = ProjectFileFilter::loadFromXMLElement($config_xml->projectFiles, $base_dir, true);
         }
 
-        if (isset($config_xml->extraFiles)) {
+        if (!empty($config_xml->extraFiles)) {
             $config->extra_files = ProjectFileFilter::loadFromXMLElement($config_xml->extraFiles, $base_dir, true);
         }
 
-        if (isset($config_xml->taintAnalysis->ignoreFiles)) {
+        if (!empty($config_xml->taintAnalysis->ignoreFiles)) {
             $config->taint_analysis_ignored_files = TaintAnalysisFileFilter::loadFromXMLElement(
                 $config_xml->taintAnalysis->ignoreFiles,
                 $base_dir,
@@ -1003,20 +1003,20 @@ class Config
             );
         }
 
-        if (isset($config_xml->fileExtensions)) {
+        if (!empty($config_xml->fileExtensions)) {
             $config->file_extensions = [];
 
             $config->loadFileExtensions($config_xml->fileExtensions->extension);
         }
 
-        if (isset($config_xml->mockClasses) && isset($config_xml->mockClasses->class)) {
+        if (!empty($config_xml->mockClasses) && !empty($config_xml->mockClasses->class)) {
             /** @var \SimpleXMLElement $mock_class */
             foreach ($config_xml->mockClasses->class as $mock_class) {
                 $config->mock_classes[] = strtolower((string)$mock_class['name']);
             }
         }
 
-        if (isset($config_xml->universalObjectCrates) && isset($config_xml->universalObjectCrates->class)) {
+        if (!empty($config_xml->universalObjectCrates) && !empty($config_xml->universalObjectCrates->class)) {
             /** @var \SimpleXMLElement $universal_object_crate */
             foreach ($config_xml->universalObjectCrates->class as $universal_object_crate) {
                 /** @var string $classString */
@@ -1025,8 +1025,8 @@ class Config
             }
         }
 
-        if (isset($config_xml->ignoreExceptions)) {
-            if (isset($config_xml->ignoreExceptions->class)) {
+        if (!empty($config_xml->ignoreExceptions)) {
+            if (!empty($config_xml->ignoreExceptions->class)) {
                 /** @var \SimpleXMLElement $exception_class */
                 foreach ($config_xml->ignoreExceptions->class as $exception_class) {
                     $exception_name = (string) $exception_class['name'];
@@ -1037,7 +1037,7 @@ class Config
                     $config->ignored_exceptions_in_global_scope[$exception_name] = true;
                 }
             }
-            if (isset($config_xml->ignoreExceptions->classAndDescendants)) {
+            if (!empty($config_xml->ignoreExceptions->classAndDescendants)) {
                 /** @var \SimpleXMLElement $exception_class */
                 foreach ($config_xml->ignoreExceptions->classAndDescendants as $exception_class) {
                     $exception_name = (string) $exception_class['name'];
@@ -1050,21 +1050,21 @@ class Config
             }
         }
 
-        if (isset($config_xml->forbiddenFunctions) && isset($config_xml->forbiddenFunctions->function)) {
+        if (!empty($config_xml->forbiddenFunctions) && !empty($config_xml->forbiddenFunctions->function)) {
             /** @var \SimpleXMLElement $forbidden_function */
             foreach ($config_xml->forbiddenFunctions->function as $forbidden_function) {
                 $config->forbidden_functions[strtolower((string) $forbidden_function['name'])] = true;
             }
         }
 
-        if (isset($config_xml->exitFunctions) && isset($config_xml->exitFunctions->function)) {
+        if (!empty($config_xml->exitFunctions) && !empty($config_xml->exitFunctions->function)) {
             /** @var \SimpleXMLElement $exit_function */
             foreach ($config_xml->exitFunctions->function as $exit_function) {
                 $config->exit_functions[strtolower((string) $exit_function['name'])] = true;
             }
         }
 
-        if (isset($config_xml->stubs) && isset($config_xml->stubs->file)) {
+        if (!empty($config_xml->stubs) && !empty($config_xml->stubs->file)) {
             /** @var \SimpleXMLElement $stub_file */
             foreach ($config_xml->stubs->file as $stub_file) {
                 $stub_file_name = (string)$stub_file['name'];
@@ -1082,7 +1082,7 @@ class Config
                     );
                 }
 
-                if (isset($stub_file['preloadClasses'])) {
+                if (!empty($stub_file['preloadClasses'])) {
                     $preload_classes = (string)$stub_file['preloadClasses'];
 
                     if ($preload_classes === 'true' || $preload_classes === '1') {
@@ -1097,8 +1097,8 @@ class Config
         }
 
         // this plugin loading system borrows heavily from etsy/phan
-        if (isset($config_xml->plugins)) {
-            if (isset($config_xml->plugins->plugin)) {
+        if (!empty($config_xml->plugins)) {
+            if (!empty($config_xml->plugins->plugin)) {
                 /** @var \SimpleXMLElement $plugin */
                 foreach ($config_xml->plugins->plugin as $plugin) {
                     $plugin_file_name = (string) $plugin['filename'];
@@ -1110,7 +1110,7 @@ class Config
                     $config->addPluginPath($path);
                 }
             }
-            if (isset($config_xml->plugins->pluginClass)) {
+            if (!empty($config_xml->plugins->pluginClass)) {
                 /** @var \SimpleXMLElement $plugin */
                 foreach ($config_xml->plugins->pluginClass as $plugin) {
                     $plugin_class_name = $plugin['class'];
@@ -1125,7 +1125,7 @@ class Config
             }
         }
 
-        if (isset($config_xml->issueHandlers)) {
+        if (!empty($config_xml->issueHandlers)) {
             /** @var \SimpleXMLElement $issue_handler */
             foreach ($config_xml->issueHandlers->children() as $key => $issue_handler) {
                 if ($key === 'PluginIssue') {
@@ -1145,7 +1145,7 @@ class Config
             }
         }
 
-        if (isset($config_xml->globals) && isset($config_xml->globals->var)) {
+        if (!empty($config_xml->globals) && !empty($config_xml->globals->var)) {
             /** @var \SimpleXMLElement $var */
             foreach ($config_xml->globals->var as $var) {
                 $config->globals['$' . (string) $var['name']] = (string) $var['type'];
@@ -1185,7 +1185,7 @@ class Config
             $extension_name = preg_replace('/^\.?/', '', (string)$extension['name']);
             $this->file_extensions[] = $extension_name;
 
-            if (isset($extension['scanner'])) {
+            if (!empty($extension['scanner'])) {
                 $path = $this->base_dir . (string)$extension['scanner'];
 
                 if (!file_exists($path)) {
@@ -1195,7 +1195,7 @@ class Config
                 $this->filetype_scanner_paths[$extension_name] = $path;
             }
 
-            if (isset($extension['checker'])) {
+            if (!empty($extension['checker'])) {
                 $path = $this->base_dir . (string)$extension['checker'];
 
                 if (!file_exists($path)) {
@@ -1640,7 +1640,7 @@ class Config
 
     public function getReportingLevelForFile(string $issue_type, string $file_path): string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForFile($file_path);
         }
 
@@ -1663,7 +1663,7 @@ class Config
 
     public function getReportingLevelForClass(string $issue_type, string $fq_classlike_name): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForClass($fq_classlike_name);
         }
 
@@ -1672,7 +1672,7 @@ class Config
 
     public function getReportingLevelForMethod(string $issue_type, string $method_id): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForMethod($method_id);
         }
 
@@ -1681,7 +1681,7 @@ class Config
 
     public function getReportingLevelForFunction(string $issue_type, string $function_id): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForFunction($function_id);
         }
 
@@ -1690,7 +1690,7 @@ class Config
 
     public function getReportingLevelForArgument(string $issue_type, string $function_id): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForArgument($function_id);
         }
 
@@ -1699,7 +1699,7 @@ class Config
 
     public function getReportingLevelForProperty(string $issue_type, string $property_id): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForProperty($property_id);
         }
 
@@ -1708,7 +1708,7 @@ class Config
 
     public function getReportingLevelForVariable(string $issue_type, string $var_name): ?string
     {
-        if (isset($this->issue_handlers[$issue_type])) {
+        if (!empty($this->issue_handlers[$issue_type])) {
             return $this->issue_handlers[$issue_type]->getReportingLevelForVariable($var_name);
         }
 
@@ -2006,13 +2006,13 @@ class Config
     {
         $defined_functions = get_defined_functions();
 
-        if (isset($defined_functions['user'])) {
+        if (!empty($defined_functions['user'])) {
             foreach ($defined_functions['user'] as $function_name) {
                 $this->predefined_functions[$function_name] = true;
             }
         }
 
-        if (isset($defined_functions['internal'])) {
+        if (!empty($defined_functions['internal'])) {
             foreach ($defined_functions['internal'] as $function_name) {
                 $this->predefined_functions[$function_name] = true;
             }
@@ -2126,7 +2126,7 @@ class Config
         while (false !== $lastPos = strrpos($subPath, '\\')) {
             $subPath = substr($subPath, 0, $lastPos);
             $search = $subPath . '\\';
-            if (isset($psr4_prefixes[$search])) {
+            if (!empty($psr4_prefixes[$search])) {
                 $depth = substr_count($search, '\\');
                 $pathEnd = DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $lastPos + 1);
 
@@ -2183,7 +2183,7 @@ class Config
 
     public function hasStubFile(string $stub_file): bool
     {
-        return isset($this->stub_files[$stub_file]);
+        return !empty($this->stub_files[$stub_file]);
     }
 
     /**
@@ -2201,7 +2201,7 @@ class Config
 
     public function getPhpVersion(): ?string
     {
-        if (isset($this->configured_php_version)) {
+        if (!empty($this->configured_php_version)) {
             return $this->configured_php_version;
         }
 

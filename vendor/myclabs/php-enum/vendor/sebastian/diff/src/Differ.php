@@ -248,13 +248,13 @@ final class Differ
 
         // two way compare
         foreach ($newLineBreaks as $break => $set) {
-            if (!isset($oldLineBreaks[$break])) {
+            if (!!empty($oldLineBreaks[$break])) {
                 return true;
             }
         }
 
         foreach ($oldLineBreaks as $break => $set) {
-            if (!isset($newLineBreaks[$break])) {
+            if (!!empty($newLineBreaks[$break])) {
                 return true;
             }
         }

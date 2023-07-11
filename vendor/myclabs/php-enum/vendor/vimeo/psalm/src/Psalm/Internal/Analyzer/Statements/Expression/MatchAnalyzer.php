@@ -247,7 +247,7 @@ class MatchAnalyzer
                     null
                 );
 
-                if (isset($vars_in_scope_reconciled[$switch_var_id])) {
+                if (!empty($vars_in_scope_reconciled[$switch_var_id])) {
                     $array_literal_types = \array_filter(
                         $vars_in_scope_reconciled[$switch_var_id]->getAtomicTypes(),
                         function ($type) {

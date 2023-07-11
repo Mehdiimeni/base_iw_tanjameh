@@ -109,7 +109,7 @@ class ClassNode
             throw new MethodNotExtendableException($message, $this->getParentClass(), $method->getName());
         }
 
-        if ($force || !isset($this->methods[$method->getName()])) {
+        if ($force || !!empty($this->methods[$method->getName()])) {
             $this->methods[$method->getName()] = $method;
         }
     }
@@ -136,7 +136,7 @@ class ClassNode
      */
     public function hasMethod($name)
     {
-        return isset($this->methods[$name]);
+        return !empty($this->methods[$name]);
     }
 
     /**

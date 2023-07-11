@@ -108,10 +108,10 @@ class FileFilter
             foreach ($e->directory as $directory) {
                 $directory_path = (string) $directory['name'];
                 $ignore_type_stats = strtolower(
-                    isset($directory['ignoreTypeStats']) ? (string) $directory['ignoreTypeStats'] : ''
+                    !empty($directory['ignoreTypeStats']) ? (string) $directory['ignoreTypeStats'] : ''
                 ) === 'true';
                 $declare_strict_types = strtolower(
-                    isset($directory['useStrictTypes']) ? (string) $directory['useStrictTypes'] : ''
+                    !empty($directory['useStrictTypes']) ? (string) $directory['useStrictTypes'] : ''
                 ) === 'true';
 
                 if ($directory_path[0] === '/' && DIRECTORY_SEPARATOR === '/') {

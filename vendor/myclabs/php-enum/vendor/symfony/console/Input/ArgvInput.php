@@ -232,7 +232,7 @@ class ArgvInput extends Input
             // if option accepts an optional or mandatory argument
             // let's see if there is one provided
             $next = array_shift($this->parsed);
-            if ((isset($next[0]) && '-' !== $next[0]) || \in_array($next, ['', null], true)) {
+            if ((!empty($next[0]) && '-' !== $next[0]) || \in_array($next, ['', null], true)) {
                 $value = $next;
             } else {
                 array_unshift($this->parsed, $next);
@@ -264,16 +264,16 @@ class ArgvInput extends Input
         $isOption = false;
         foreach ($this->tokens as $i => $token) {
             if ($token && '-' === $token[0]) {
-                if (str_contains($token, '=') || !isset($this->tokens[$i + 1])) {
+                if (str_contains($token, '=') || !!empty($this->tokens[$i + 1])) {
                     continue;
                 }
 
                 // If it's a long option, consider that everything after "--" is the option name.
                 // Otherwise, use the last char (if it's a short option set, only the last one can take a value with space separator)
                 $name = '-' === $token[1] ? substr($token, 2) : substr($token, -1);
-                if (!isset($this->options[$name]) && !$this->definition->hasShortcut($name)) {
+                if (!!empty($this->options[$name]) && !$this->definition->hasShortcut($name)) {
                     // noop
-                } elseif ((isset($this->options[$name]) || isset($this->options[$name = $this->definition->shortcutToName($name)])) && $this->tokens[$i + 1] === $this->options[$name]) {
+                } elseif ((!empty($this->options[$name]) || !empty($this->options[$name = $this->definition->shortcutToName($name)])) && $this->tokens[$i + 1] === $this->options[$name]) {
                     $isOption = true;
                 }
 

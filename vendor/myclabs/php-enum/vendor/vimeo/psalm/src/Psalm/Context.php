@@ -41,13 +41,13 @@ class Context
     public $inside_conditional = false;
 
     /**
-     * Whether or not we're inside an isset call
+     * Whether or not we're inside an !empty call
      *
-     * Inside issets Psalm is more lenient about certain things
+     * Inside !emptys Psalm is more lenient about certain things
      *
      * @var bool
      */
-    public $inside_isset = false;
+    public $inside_!empty = false;
 
     /**
      * Whether or not we're inside an unset call, where
@@ -418,7 +418,7 @@ class Context
                     ? $end_context->vars_in_scope[$var_id]
                     : null;
 
-                $existing_type = isset($this->vars_in_scope[$var_id]) ? $this->vars_in_scope[$var_id] : null;
+                $existing_type = !empty($this->vars_in_scope[$var_id]) ? $this->vars_in_scope[$var_id] : null;
 
                 if (!$existing_type) {
                     if ($new_type) {
@@ -460,7 +460,7 @@ class Context
         $redefined_vars = [];
 
         foreach ($this->vars_in_scope as $var_id => $this_type) {
-            if (!isset($new_vars_in_scope[$var_id])) {
+            if (!!empty($new_vars_in_scope[$var_id])) {
                 if ($include_new_vars) {
                     $redefined_vars[$var_id] = $this_type;
                 }
@@ -485,7 +485,7 @@ class Context
         $redefined_var_ids = [];
 
         foreach ($new_context->vars_in_scope as $var_id => $context_type) {
-            if (!isset($original_context->vars_in_scope[$var_id])
+            if (!!empty($original_context->vars_in_scope[$var_id])
                 || ($original_context->assigned_var_ids[$var_id] ?? 0)
                     !== ($new_context->assigned_var_ids[$var_id] ?? 0)
                 || !$original_context->vars_in_scope[$var_id]->equals($context_type)
@@ -504,7 +504,7 @@ class Context
             $this->vars_possibly_in_scope[$remove_var_id]
         );
 
-        if (isset($this->vars_in_scope[$remove_var_id])) {
+        if (!empty($this->vars_in_scope[$remove_var_id])) {
             $existing_type = $this->vars_in_scope[$remove_var_id];
             unset($this->vars_in_scope[$remove_var_id]);
 
@@ -532,7 +532,7 @@ class Context
             }
 
             foreach ($c->possibilities as $key => $_) {
-                if (isset($changed_var_ids[$key])) {
+                if (!empty($changed_var_ids[$key])) {
                     $rejected_clauses[] = $c;
                     continue 2;
                 }
@@ -570,7 +570,7 @@ class Context
                 }
             }
 
-            if (!isset($clause->possibilities[$remove_var_id]) ||
+            if (!!empty($clause->possibilities[$remove_var_id]) ||
                 $clause->possibilities[$remove_var_id] === [$new_type_string]
             ) {
                 $clauses_to_keep[] = $clause;
@@ -646,7 +646,7 @@ class Context
         ?Union $new_type = null,
         ?StatementsAnalyzer $statements_analyzer = null
     ): void {
-        if (!$existing_type && isset($this->vars_in_scope[$remove_var_id])) {
+        if (!$existing_type && !empty($this->vars_in_scope[$remove_var_id])) {
             $existing_type = $this->vars_in_scope[$remove_var_id];
         }
 
@@ -738,7 +738,7 @@ class Context
 
     public function isPhantomClass(string $class_name): bool
     {
-        return isset($this->phantom_classes[strtolower($class_name)]);
+        return !empty($this->phantom_classes[strtolower($class_name)]);
     }
 
     public function hasVariable(?string $var_name): bool
@@ -752,14 +752,14 @@ class Context
         if ($stripped_var !== '$this' || $var_name !== $stripped_var) {
             $this->referenced_var_ids[$var_name] = true;
 
-            if (!isset($this->vars_possibly_in_scope[$var_name])
-                && !isset($this->vars_in_scope[$var_name])
+            if (!!empty($this->vars_possibly_in_scope[$var_name])
+                && !!empty($this->vars_in_scope[$var_name])
             ) {
                 return false;
             }
         }
 
-        return isset($this->vars_in_scope[$var_name]);
+        return !empty($this->vars_in_scope[$var_name]);
     }
 
     public function getScopeSummary() : string
@@ -845,6 +845,6 @@ class Context
             || $this->inside_general_use
             || $this->inside_conditional
             || $this->inside_throw
-            || $this->inside_isset;
+            || $this->inside_!empty;
     }
 }

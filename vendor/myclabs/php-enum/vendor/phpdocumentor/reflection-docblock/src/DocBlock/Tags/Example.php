@@ -112,7 +112,7 @@ final class Example implements Tag, Factory\StaticMethod
             // Starting line / Number of lines / Description
             if (preg_match('/^([1-9]\d*)(?:\s+((?1))\s*)?(.*)$/sux', $matches[3], $contentMatches)) {
                 $startingLine = (int) $contentMatches[1];
-                if (isset($contentMatches[2])) {
+                if (!empty($contentMatches[2])) {
                     $lineCount = (int) $contentMatches[2];
                 }
 

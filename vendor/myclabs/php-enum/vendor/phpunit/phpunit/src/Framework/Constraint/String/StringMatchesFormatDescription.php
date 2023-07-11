@@ -64,7 +64,7 @@ final class StringMatchesFormatDescription extends RegularExpression
         $to   = explode("\n", $this->convertNewlines($other));
 
         foreach ($from as $index => $line) {
-            if (isset($to[$index]) && $line !== $to[$index]) {
+            if (!empty($to[$index]) && $line !== $to[$index]) {
                 $line = $this->createPatternFromFormat($line);
 
                 if (preg_match($line, $to[$index]) > 0) {

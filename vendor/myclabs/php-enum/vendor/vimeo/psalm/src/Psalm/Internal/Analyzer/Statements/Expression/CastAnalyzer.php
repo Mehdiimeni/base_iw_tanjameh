@@ -388,7 +388,7 @@ class CastAnalyzer
                     }
 
                     if ($intersection_type instanceof Type\Atomic\TObjectWithProperties
-                        && isset($intersection_type->methods['__toString'])
+                        && !empty($intersection_type->methods['__toString'])
                     ) {
                         $castable_types[] = new TString();
 
@@ -466,7 +466,7 @@ class CastAnalyzer
             );
 
             if ($codebase->alter_code
-                && isset($project_analyzer->getIssuesToFix()['RedundantCastGivenDocblockType'])
+                && !empty($project_analyzer->getIssuesToFix()['RedundantCastGivenDocblockType'])
             ) {
                 $file_manipulation = new \Psalm\FileManipulation(
                     (int) $stmt->getAttribute('startFilePos'),
@@ -481,7 +481,7 @@ class CastAnalyzer
             );
 
             if ($codebase->alter_code
-                && isset($project_analyzer->getIssuesToFix()['RedundantCast'])
+                && !empty($project_analyzer->getIssuesToFix()['RedundantCast'])
             ) {
                 $file_manipulation = new \Psalm\FileManipulation(
                     (int) $stmt->getAttribute('startFilePos'),

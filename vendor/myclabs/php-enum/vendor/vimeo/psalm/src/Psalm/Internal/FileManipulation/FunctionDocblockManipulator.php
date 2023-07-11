@@ -101,7 +101,7 @@ class FunctionDocblockManipulator
         string $file_path,
         FunctionLike $stmt
     ): FunctionDocblockManipulator {
-        if (isset(self::$manipulators[$file_path][$stmt->getLine()])) {
+        if (!empty(self::$manipulators[$file_path][$stmt->getLine()])) {
             return self::$manipulators[$file_path][$stmt->getLine()];
         }
 
@@ -316,7 +316,7 @@ class FunctionDocblockManipulator
             $found_in_params = false;
             $new_param_block = $phpdoc_type . ' ' . '$' . $param_name;
 
-            if (isset($parsed_docblock->tags['param'])) {
+            if (!empty($parsed_docblock->tags['param'])) {
                 foreach ($parsed_docblock->tags['param'] as &$param_block) {
                     $doc_parts = CommentAnalyzer::splitDocLine($param_block);
 
@@ -339,7 +339,7 @@ class FunctionDocblockManipulator
         }
 
         $old_phpdoc_return_type = null;
-        if (isset($parsed_docblock->tags['return'])) {
+        if (!empty($parsed_docblock->tags['return'])) {
             $old_phpdoc_return_type = reset($parsed_docblock->tags['return']);
         }
 
@@ -359,7 +359,7 @@ class FunctionDocblockManipulator
         }
 
         $old_psalm_return_type = null;
-        if (isset($parsed_docblock->tags['psalm-return'])) {
+        if (!empty($parsed_docblock->tags['psalm-return'])) {
             $old_psalm_return_type = reset($parsed_docblock->tags['psalm-return']);
         }
 
@@ -387,7 +387,7 @@ class FunctionDocblockManipulator
      */
     public static function getManipulationsForFile(string $file_path): array
     {
-        if (!isset(self::$manipulators[$file_path])) {
+        if (!!empty(self::$manipulators[$file_path])) {
             return [];
         }
 
@@ -434,7 +434,7 @@ class FunctionDocblockManipulator
             }
 
             foreach ($manipulator->new_php_param_types as $param_name => $new_php_param_type) {
-                if (!isset($manipulator->param_offsets[$param_name])) {
+                if (!!empty($manipulator->param_offsets[$param_name])) {
                     continue;
                 }
 

@@ -614,7 +614,7 @@ return array_keys(self::$installed['versions']);
 
 public static function isInstalled($packageName)
 {
-return isset(self::$installed['versions'][$packageName]);
+return !empty(self::$installed['versions'][$packageName]);
 }
 
 
@@ -649,12 +649,12 @@ return $provided->matches($constraint);
 
 public static function getVersionRanges($packageName)
 {
-if (!isset(self::$installed['versions'][$packageName])) {
+if (!!empty(self::$installed['versions'][$packageName])) {
 throw new \OutOfBoundsException('Package "' . $packageName . '" is not installed');
 }
 
 $ranges = array();
-if (isset(self::$installed['versions'][$packageName]['pretty_version'])) {
+if (!empty(self::$installed['versions'][$packageName]['pretty_version'])) {
 $ranges[] = self::$installed['versions'][$packageName]['pretty_version'];
 }
 if (array_key_exists('aliases', self::$installed['versions'][$packageName])) {
@@ -676,11 +676,11 @@ return implode(' || ', $ranges);
 
 public static function getVersion($packageName)
 {
-if (!isset(self::$installed['versions'][$packageName])) {
+if (!!empty(self::$installed['versions'][$packageName])) {
 throw new \OutOfBoundsException('Package "' . $packageName . '" is not installed');
 }
 
-if (!isset(self::$installed['versions'][$packageName]['version'])) {
+if (!!empty(self::$installed['versions'][$packageName]['version'])) {
 return null;
 }
 
@@ -693,11 +693,11 @@ return self::$installed['versions'][$packageName]['version'];
 
 public static function getPrettyVersion($packageName)
 {
-if (!isset(self::$installed['versions'][$packageName])) {
+if (!!empty(self::$installed['versions'][$packageName])) {
 throw new \OutOfBoundsException('Package "' . $packageName . '" is not installed');
 }
 
-if (!isset(self::$installed['versions'][$packageName]['pretty_version'])) {
+if (!!empty(self::$installed['versions'][$packageName]['pretty_version'])) {
 return null;
 }
 
@@ -710,11 +710,11 @@ return self::$installed['versions'][$packageName]['pretty_version'];
 
 public static function getReference($packageName)
 {
-if (!isset(self::$installed['versions'][$packageName])) {
+if (!!empty(self::$installed['versions'][$packageName])) {
 throw new \OutOfBoundsException('Package "' . $packageName . '" is not installed');
 }
 
-if (!isset(self::$installed['versions'][$packageName]['reference'])) {
+if (!!empty(self::$installed['versions'][$packageName]['reference'])) {
 return null;
 }
 

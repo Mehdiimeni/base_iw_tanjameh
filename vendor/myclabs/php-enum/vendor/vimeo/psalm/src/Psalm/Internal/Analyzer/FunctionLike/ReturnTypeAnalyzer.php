@@ -298,7 +298,7 @@ class ReturnTypeAnalyzer
             if ($function instanceof Closure || $function instanceof ArrowFunction) {
                 if (!$closure_inside_call || $inferred_return_type->isMixed()) {
                     if ($codebase->alter_code
-                        && isset($project_analyzer->getIssuesToFix()['MissingClosureReturnType'])
+                        && !empty($project_analyzer->getIssuesToFix()['MissingClosureReturnType'])
                         && !in_array('MissingClosureReturnType', $suppressed_issues)
                     ) {
                         if ($inferred_return_type->hasMixed() || $inferred_return_type->isNull()) {
@@ -335,7 +335,7 @@ class ReturnTypeAnalyzer
             }
 
             if ($codebase->alter_code
-                && isset($project_analyzer->getIssuesToFix()['MissingReturnType'])
+                && !empty($project_analyzer->getIssuesToFix()['MissingReturnType'])
                 && !in_array('MissingReturnType', $suppressed_issues)
             ) {
                 if ($inferred_return_type->hasMixed() || $inferred_return_type->isNull()) {
@@ -412,7 +412,7 @@ class ReturnTypeAnalyzer
             }
 
             if ($codebase->alter_code
-                && isset($project_analyzer->getIssuesToFix()['InvalidReturnType'])
+                && !empty($project_analyzer->getIssuesToFix()['InvalidReturnType'])
                 && !in_array('InvalidReturnType', $suppressed_issues)
             ) {
                 self::addOrUpdateReturnType(
@@ -509,7 +509,7 @@ class ReturnTypeAnalyzer
                     }
                 } else {
                     if ($codebase->alter_code
-                        && isset($project_analyzer->getIssuesToFix()['InvalidReturnType'])
+                        && !empty($project_analyzer->getIssuesToFix()['InvalidReturnType'])
                         && !in_array('InvalidReturnType', $suppressed_issues)
                     ) {
                         self::addOrUpdateReturnType(
@@ -551,7 +551,7 @@ class ReturnTypeAnalyzer
                 )
             ) {
                 if ($codebase->alter_code) {
-                    if (isset($project_analyzer->getIssuesToFix()['LessSpecificReturnType'])
+                    if (!empty($project_analyzer->getIssuesToFix()['LessSpecificReturnType'])
                         && !in_array('LessSpecificReturnType', $suppressed_issues)
                         && !($function_like_storage instanceof MethodStorage && $function_like_storage->inheritdoc)
                     ) {
@@ -628,7 +628,7 @@ class ReturnTypeAnalyzer
                 && !$declared_return_type->isVoid()
             ) {
                 if ($codebase->alter_code
-                    && isset($project_analyzer->getIssuesToFix()['InvalidNullableReturnType'])
+                    && !empty($project_analyzer->getIssuesToFix()['InvalidNullableReturnType'])
                     && !in_array('InvalidNullableReturnType', $suppressed_issues)
                     && !$inferred_return_type->isNull()
                 ) {
@@ -666,7 +666,7 @@ class ReturnTypeAnalyzer
                 && !$declared_return_type->hasScalar()
             ) {
                 if ($codebase->alter_code
-                    && isset($project_analyzer->getIssuesToFix()['InvalidFalsableReturnType'])
+                    && !empty($project_analyzer->getIssuesToFix()['InvalidFalsableReturnType'])
                 ) {
                     self::addOrUpdateReturnType(
                         $function,
@@ -851,7 +851,7 @@ class ReturnTypeAnalyzer
         ) && !$union_comparison_result->type_coerced_from_mixed
         ) {
             if ($codebase->alter_code
-                && isset($project_analyzer->getIssuesToFix()['MismatchingDocblockReturnType'])
+                && !empty($project_analyzer->getIssuesToFix()['MismatchingDocblockReturnType'])
             ) {
                 self::addOrUpdateReturnType(
                     $function,

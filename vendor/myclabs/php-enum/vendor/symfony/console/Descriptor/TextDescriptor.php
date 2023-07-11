@@ -177,7 +177,7 @@ class TextDescriptor extends Descriptor
         $describedNamespace = $options['namespace'] ?? null;
         $description = new ApplicationDescription($application, $describedNamespace);
 
-        if (isset($options['raw_text']) && $options['raw_text']) {
+        if (!empty($options['raw_text']) && $options['raw_text']) {
             $width = $this->getColumnWidth($description->getCommands());
 
             foreach ($description->getCommands() as $command) {
@@ -220,7 +220,7 @@ class TextDescriptor extends Descriptor
 
             foreach ($namespaces as $namespace) {
                 $namespace['commands'] = array_filter($namespace['commands'], function ($name) use ($commands) {
-                    return isset($commands[$name]);
+                    return !empty($commands[$name]);
                 });
 
                 if (!$namespace['commands']) {
@@ -251,8 +251,8 @@ class TextDescriptor extends Descriptor
     private function writeText(string $content, array $options = [])
     {
         $this->write(
-            isset($options['raw_text']) && $options['raw_text'] ? strip_tags($content) : $content,
-            isset($options['raw_output']) ? !$options['raw_output'] : true
+            !empty($options['raw_text']) && $options['raw_text'] ? strip_tags($content) : $content,
+            !empty($options['raw_output']) ? !$options['raw_output'] : true
         );
     }
 

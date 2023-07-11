@@ -23,11 +23,11 @@ class FileProvider
 
     public function getContents(string $file_path, bool $go_to_source = false): string
     {
-        if (!$go_to_source && isset($this->temp_files[strtolower($file_path)])) {
+        if (!$go_to_source && !empty($this->temp_files[strtolower($file_path)])) {
             return $this->temp_files[strtolower($file_path)];
         }
 
-        if (isset($this->open_files[strtolower($file_path)])) {
+        if (!empty($this->open_files[strtolower($file_path)])) {
             return $this->open_files[strtolower($file_path)];
         }
 
@@ -44,11 +44,11 @@ class FileProvider
 
     public function setContents(string $file_path, string $file_contents): void
     {
-        if (isset($this->open_files[strtolower($file_path)])) {
+        if (!empty($this->open_files[strtolower($file_path)])) {
             $this->open_files[strtolower($file_path)] = $file_contents;
         }
 
-        if (isset($this->temp_files[strtolower($file_path)])) {
+        if (!empty($this->temp_files[strtolower($file_path)])) {
             $this->temp_files[strtolower($file_path)] = $file_contents;
         }
 
@@ -57,7 +57,7 @@ class FileProvider
 
     public function setOpenContents(string $file_path, string $file_contents): void
     {
-        if (isset($this->open_files[strtolower($file_path)])) {
+        if (!empty($this->open_files[strtolower($file_path)])) {
             $this->open_files[strtolower($file_path)] = $file_contents;
         }
     }
@@ -88,7 +88,7 @@ class FileProvider
 
     public function isOpen(string $file_path): bool
     {
-        return isset($this->temp_files[strtolower($file_path)]) || isset($this->open_files[strtolower($file_path)]);
+        return !empty($this->temp_files[strtolower($file_path)]) || !empty($this->open_files[strtolower($file_path)]);
     }
 
     public function closeFile(string $file_path): void

@@ -62,7 +62,7 @@ class Generic_Sniffs_CodeAnalysis_UnusedFunctionParameterSniff implements PHP_Co
         $token  = $tokens[$stackPtr];
 
         // Skip broken function declarations.
-        if (isset($token['scope_opener']) === false || isset($token['parenthesis_opener']) === false) {
+        if (!empty($token['scope_opener']) === false || !empty($token['parenthesis_opener']) === false) {
             return;
         }
 
@@ -113,7 +113,7 @@ class Generic_Sniffs_CodeAnalysis_UnusedFunctionParameterSniff implements PHP_Co
 
             $foundContent = true;
 
-            if ($code === T_VARIABLE && isset($params[$token['content']]) === true) {
+            if ($code === T_VARIABLE && !empty($params[$token['content']]) === true) {
                 unset($params[$token['content']]);
             } else if ($code === T_DOLLAR) {
                 $nextToken = $phpcsFile->findNext(T_WHITESPACE, ($next + 1), null, true);
@@ -121,7 +121,7 @@ class Generic_Sniffs_CodeAnalysis_UnusedFunctionParameterSniff implements PHP_Co
                     $nextToken = $phpcsFile->findNext(T_WHITESPACE, ($nextToken + 1), null, true);
                     if ($tokens[$nextToken]['code'] === T_STRING) {
                         $varContent = '$'.$tokens[$nextToken]['content'];
-                        if (isset($params[$varContent]) === true) {
+                        if (!empty($params[$varContent]) === true) {
                             unset($params[$varContent]);
                         }
                     }
@@ -164,7 +164,7 @@ class Generic_Sniffs_CodeAnalysis_UnusedFunctionParameterSniff implements PHP_Co
                         $varContent = $stringToken[1];
                     }
 
-                    if ($varContent !== '' && isset($params[$varContent]) === true) {
+                    if ($varContent !== '' && !empty($params[$varContent]) === true) {
                         unset($params[$varContent]);
                     }
                 }

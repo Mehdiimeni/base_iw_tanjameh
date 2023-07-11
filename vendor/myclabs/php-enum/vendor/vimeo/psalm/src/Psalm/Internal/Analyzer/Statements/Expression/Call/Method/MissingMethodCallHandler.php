@@ -76,7 +76,7 @@ class MissingMethodCallHandler
             }
         }
 
-        if (isset($class_storage->pseudo_methods[$method_name_lc])) {
+        if (!empty($class_storage->pseudo_methods[$method_name_lc])) {
             $result->has_valid_method_call_type = true;
             $result->existent_method_ids[] = $method_id->__toString();
 
@@ -216,7 +216,7 @@ class MissingMethodCallHandler
         $class_storage = $codebase->classlike_storage_provider->get($fq_class_name);
 
         if (($is_interface || $config->use_phpdoc_method_without_magic_or_parent)
-            && isset($class_storage->pseudo_methods[$method_name_lc])
+            && !empty($class_storage->pseudo_methods[$method_name_lc])
         ) {
             $result->has_valid_method_call_type = true;
             $result->existent_method_ids[] = $method_id->__toString();
@@ -311,7 +311,7 @@ class MissingMethodCallHandler
         }
 
         if ((!$is_interface && !$config->use_phpdoc_method_without_magic_or_parent)
-            || !isset($class_storage->pseudo_methods[$method_name_lc])
+            || !!empty($class_storage->pseudo_methods[$method_name_lc])
         ) {
             if ($is_interface) {
                 $result->non_existent_interface_method_ids[] = $intersection_method_id ?: $cased_method_id;

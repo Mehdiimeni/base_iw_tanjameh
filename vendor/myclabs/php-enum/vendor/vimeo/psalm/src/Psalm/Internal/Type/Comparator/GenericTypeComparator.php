@@ -85,7 +85,7 @@ class GenericTypeComparator
         );
 
         foreach ($input_type_params as $i => $input_param) {
-            if (!isset($container_type_part->type_params[$i])) {
+            if (!!empty($container_type_part->type_params[$i])) {
                 break;
             }
 

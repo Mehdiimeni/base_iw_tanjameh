@@ -46,7 +46,7 @@ class TableCellStyle
             throw new InvalidArgumentException(sprintf('The TableCellStyle does not support the following options: \'%s\'.', implode('\', \'', $diff)));
         }
 
-        if (isset($options['align']) && !\array_key_exists($options['align'], $this->alignMap)) {
+        if (!empty($options['align']) && !\array_key_exists($options['align'], $this->alignMap)) {
             throw new InvalidArgumentException(sprintf('Wrong align value. Value must be following: \'%s\'.', implode('\', \'', array_keys($this->alignMap))));
         }
 
@@ -68,7 +68,7 @@ class TableCellStyle
         return array_filter(
             $this->getOptions(),
             function ($key) {
-                return \in_array($key, $this->tagOptions) && isset($this->options[$key]);
+                return \in_array($key, $this->tagOptions) && !empty($this->options[$key]);
             },
             \ARRAY_FILTER_USE_KEY
         );

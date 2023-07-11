@@ -541,7 +541,7 @@ class ProjectAnalyzer
 
     public function canReportIssues(string $file_path): bool
     {
-        return isset($this->project_files[$file_path]);
+        return !empty($this->project_files[$file_path]);
     }
 
     public function check(string $base_dir, bool $is_diff = false): void
@@ -769,7 +769,7 @@ class ProjectAnalyzer
                         = $this->codebase->classlike_storage_provider->get($destination_parts[0]);
 
                     if (!$source_method_storage->is_static
-                        && !isset(
+                        && !!empty(
                             $destination_class_storage->parent_classes[strtolower($source_method_id->fq_class_name)]
                         )
                     ) {
@@ -838,7 +838,7 @@ class ProjectAnalyzer
                 \ReflectionProperty::IS_PRIVATE
             );
 
-            if (isset($source_class_constants[$source_parts[1]])) {
+            if (!empty($source_class_constants[$source_parts[1]])) {
                 if (!$this->codebase->classlikes->hasFullyQualifiedClassName($destination_parts[0])) {
                     throw new \Psalm\Exception\RefactorException(
                         'Destination class ' . $destination_parts[0] . ' doesn’t exist'
@@ -850,7 +850,7 @@ class ProjectAnalyzer
                     \ReflectionProperty::IS_PRIVATE
                 );
 
-                if (isset($destination_class_constants[$destination_parts[1]])) {
+                if (!empty($destination_class_constants[$destination_parts[1]])) {
                     throw new \Psalm\Exception\RefactorException(
                         'Destination constant ' . $destination . ' already exists'
                     );

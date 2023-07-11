@@ -402,7 +402,7 @@ class FunctionLikeDocblockScanner
             if ($token_body[0] === '$') {
                 foreach ($storage->params as $j => $param_storage) {
                     if ('$' . $param_storage->name === $token_body) {
-                        if (!isset($param_type_mapping[$token_body])) {
+                        if (!!empty($param_type_mapping[$token_body])) {
                             $template_name = 'TGeneratedFromParam' . $j;
 
                             $template_as_type = $param_storage->type
@@ -429,7 +429,7 @@ class FunctionLikeDocblockScanner
 
                         // spaces are allowed before $foo in get(string $foo) magic method
                         // definitions, but we want to remove them in this instance
-                        if (isset($fixed_type_tokens[$i - 1])
+                        if (!empty($fixed_type_tokens[$i - 1])
                             && $fixed_type_tokens[$i - 1][0][0] === ' '
                         ) {
                             unset($fixed_type_tokens[$i - 1]);
@@ -719,7 +719,7 @@ class FunctionLikeDocblockScanner
                         if ($type->isMixed() && $docblock_param['type'] === 'class-string<' . $t . '>') {
                             $storage->template_types[$t][$obj] = Type::getObject();
 
-                            if (isset($function_template_types[$t])) {
+                            if (!empty($function_template_types[$t])) {
                                 $function_template_types[$t][$obj] = $storage->template_types[$t][$obj];
                             }
                         }
@@ -745,7 +745,7 @@ class FunctionLikeDocblockScanner
 
             $existing_param_type_nullable = $storage_param->is_nullable;
 
-            if (isset($docblock_param['description'])) {
+            if (!empty($docblock_param['description'])) {
                 $storage_param->description = $docblock_param['description'];
             }
 
@@ -777,7 +777,7 @@ class FunctionLikeDocblockScanner
             $all_typehint_types_match = true;
 
             foreach ($new_param_type->getAtomicTypes() as $key => $type) {
-                if (isset($storage_param_atomic_types[$key])) {
+                if (!empty($storage_param_atomic_types[$key])) {
                     $type->from_docblock = false;
 
                     if ($storage_param_atomic_types[$key] instanceof Type\Atomic\TArray
@@ -890,7 +890,7 @@ class FunctionLikeDocblockScanner
                 $signature_return_atomic_types = $storage->signature_return_type->getAtomicTypes();
 
                 foreach ($storage->return_type->getAtomicTypes() as $key => $type) {
-                    if (isset($signature_return_atomic_types[$key])) {
+                    if (!empty($signature_return_atomic_types[$key])) {
                         $type->from_docblock = false;
                     } else {
                         $all_typehint_types_match = false;
@@ -958,7 +958,7 @@ class FunctionLikeDocblockScanner
                 $fancy_path_regex = '/-\(([a-z\-]+)\)->/';
 
                 if (preg_match($fancy_path_regex, $flow, $matches)) {
-                    if (isset($matches[1])) {
+                    if (!empty($matches[1])) {
                         $path_type = $matches[1];
                     }
 
@@ -967,7 +967,7 @@ class FunctionLikeDocblockScanner
 
                 $flow_parts = explode('->', $flow);
 
-                if (isset($flow_parts[1]) && trim($flow_parts[1]) === 'return') {
+                if (!empty($flow_parts[1]) && trim($flow_parts[1]) === 'return') {
                     $source_param_string = trim($flow_parts[0]);
 
                     if ($source_param_string[0] === '(' && substr($source_param_string, -1) === ')') {
@@ -985,7 +985,7 @@ class FunctionLikeDocblockScanner
                     }
                 }
 
-                if (isset($flow_parts[0]) && \strpos(trim($flow_parts[0]), 'proxy') === 0) {
+                if (!empty($flow_parts[0]) && \strpos(trim($flow_parts[0]), 'proxy') === 0) {
                     $proxy_call = trim(substr($flow_parts[0], strlen('proxy')));
                     list($fully_qualified_name, $source_param_string) = explode('(', $proxy_call, 2);
 
@@ -1009,7 +1009,7 @@ class FunctionLikeDocblockScanner
                         $storage->proxy_calls[] = [
                             'fqn' => $fully_qualified_name,
                             'params' => $call_params,
-                            'return' => isset($flow_parts[1]) && trim($flow_parts[1]) === 'return'
+                            'return' => !empty($flow_parts[1]) && trim($flow_parts[1]) === 'return'
                         ];
                     }
                 }
@@ -1317,7 +1317,7 @@ class FunctionLikeDocblockScanner
                 $template_type = Type::getMixed();
             }
 
-            if (isset($template_types[$template_name])) {
+            if (!empty($template_types[$template_name])) {
                 $storage->docblock_issues[] = new InvalidDocblock(
                     'Duplicate template param ' . $template_name . ' in docblock for '
                     . $cased_function_id,
@@ -1350,7 +1350,7 @@ class FunctionLikeDocblockScanner
                 $message = 'Docblock tag @' . $tag . ' is not recognized in the function docblock '
                     . 'for ' . $cased_function_id;
 
-                if (isset($details['suggested_replacement'])) {
+                if (!empty($details['suggested_replacement'])) {
                     $message .= ', did you mean to use @' . $details['suggested_replacement'] . '?';
                 }
 

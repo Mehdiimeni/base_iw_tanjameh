@@ -123,7 +123,7 @@ class Table
             self::$styles = self::initStyles();
         }
 
-        if (isset(self::$styles[$name])) {
+        if (!empty(self::$styles[$name])) {
             return self::$styles[$name];
         }
 
@@ -342,7 +342,7 @@ class Table
                     if ($row instanceof TableSeparator) {
                         continue;
                     }
-                    if (isset($row[$i])) {
+                    if (!empty($row[$i])) {
                         $rows[$i][] = $row[$i];
                     } elseif ($rows[$i][0] instanceof TableCell && $rows[$i][0]->getColspan() >= 2) {
                         // Noop, there is a "title"
@@ -571,7 +571,7 @@ class Table
             foreach ($rows[$rowKey] as $column => $cell) {
                 $colspan = $cell instanceof TableCell ? $cell->getColspan() : 1;
 
-                if (isset($this->columnMaxWidths[$column]) && Helper::width(Helper::removeDecoration($formatter, $cell)) > $this->columnMaxWidths[$column]) {
+                if (!empty($this->columnMaxWidths[$column]) && Helper::width(Helper::removeDecoration($formatter, $cell)) > $this->columnMaxWidths[$column]) {
                     $cell = $formatter->formatAndWrap($cell, $this->columnMaxWidths[$column] * $colspan);
                 }
                 if (!strstr($cell ?? '', "\n")) {
@@ -600,7 +600,7 @@ class Table
             foreach ($rows as $rowKey => $row) {
                 yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
 
-                if (isset($unmergedRows[$rowKey])) {
+                if (!empty($unmergedRows[$rowKey])) {
                     foreach ($unmergedRows[$rowKey] as $row) {
                         yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
                     }
@@ -661,7 +661,7 @@ class Table
 
         foreach ($unmergedRows as $unmergedRowKey => $unmergedRow) {
             // we need to know if $unmergedRow will be merged or inserted into $rows
-            if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
+            if (!empty($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
                 foreach ($unmergedRow as $cellKey => $cell) {
                     // insert cell into row at cellKey position
                     array_splice($rows[$unmergedRowKey], $cellKey, 0, [$cell]);
@@ -783,7 +783,7 @@ class Table
     {
         $cellWidth = 0;
 
-        if (isset($row[$column])) {
+        if (!empty($row[$column])) {
             $cell = $row[$column];
             $cellWidth = Helper::width(Helper::removeDecoration($this->output->getFormatter(), $cell));
         }
@@ -791,7 +791,7 @@ class Table
         $columnWidth = $this->columnWidths[$column] ?? 0;
         $cellWidth = max($cellWidth, $columnWidth);
 
-        return isset($this->columnMaxWidths[$column]) ? min($this->columnMaxWidths[$column], $cellWidth) : $cellWidth;
+        return !empty($this->columnMaxWidths[$column]) ? min($this->columnMaxWidths[$column], $cellWidth) : $cellWidth;
     }
 
     /**
@@ -856,7 +856,7 @@ class Table
             return $name;
         }
 
-        if (isset(self::$styles[$name])) {
+        if (!empty(self::$styles[$name])) {
             return self::$styles[$name];
         }
 

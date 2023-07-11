@@ -152,7 +152,7 @@ class MySource_Sniffs_Channels_IncludeSystemSniff extends PHP_CodeSniffer_Standa
 
         for ($i = 0; $i < $condPtr; $i++) {
             // Skip other scopes.
-            if (isset($tokens[$i]['scope_closer']) === true) {
+            if (!empty($tokens[$i]['scope_closer']) === true) {
                 $i = $tokens[$i]['scope_closer'];
                 continue;
             }
@@ -268,7 +268,7 @@ class MySource_Sniffs_Channels_IncludeSystemSniff extends PHP_CodeSniffer_Standa
                             );
 
             if (in_array($tokens[$i]['code'], $ignoreTokens) === true
-                && isset($tokens[$i]['scope_closer']) === true
+                && !empty($tokens[$i]['scope_closer']) === true
             ) {
                 $i = $tokens[$i]['scope_closer'];
                 continue;

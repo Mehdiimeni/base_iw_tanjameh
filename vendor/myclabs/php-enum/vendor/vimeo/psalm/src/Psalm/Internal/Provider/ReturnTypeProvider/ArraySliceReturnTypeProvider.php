@@ -23,7 +23,7 @@ class ArraySliceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
             return Type::getMixed();
         }
 
-        $first_arg = isset($call_args[0]->value) ? $call_args[0]->value : null;
+        $first_arg = !empty($call_args[0]->value) ? $call_args[0]->value : null;
 
         if (!$first_arg) {
             return Type::getArray();
@@ -73,7 +73,7 @@ class ArraySliceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
             throw new \UnexpectedValueException('This should never happen');
         }
 
-        $dont_preserve_int_keys = !isset($call_args[3]->value)
+        $dont_preserve_int_keys = !!empty($call_args[3]->value)
             || (($third_arg_type = $statements_source->node_data->getType($call_args[3]->value))
                 && ((string) $third_arg_type === 'false'));
 

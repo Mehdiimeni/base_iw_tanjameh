@@ -159,7 +159,7 @@ class Populator
 
         $fq_classlike_name_lc = strtolower($storage->name);
 
-        if (isset($dependent_classlikes[$fq_classlike_name_lc])) {
+        if (!empty($dependent_classlikes[$fq_classlike_name_lc])) {
             if ($storage->location && IssueBuffer::accepts(
                 new CircularReference(
                     'Circular reference discovered when loading ' . $storage->name,
@@ -183,8 +183,8 @@ class Populator
         }
 
         if (!strpos($fq_classlike_name_lc, '\\')
-            && !isset($storage->methods['__construct'])
-            && isset($storage->methods[$fq_classlike_name_lc])
+            && !!empty($storage->methods['__construct'])
+            && !empty($storage->methods[$fq_classlike_name_lc])
             && !$storage->is_interface
             && !$storage->is_trait
         ) {
@@ -265,7 +265,7 @@ class Populator
 
         $storage->populated = true;
 
-        if (isset($this->invalid_class_storages[$fq_classlike_name_lc])) {
+        if (!empty($this->invalid_class_storages[$fq_classlike_name_lc])) {
             foreach ($this->invalid_class_storages[$fq_classlike_name_lc] as $dependency) {
                 $dependency->populated = false;
                 $this->populateClassLikeStorage($dependency, $dependent_classlikes);
@@ -281,7 +281,7 @@ class Populator
         $storage->documenting_method_ids = [];
 
         foreach ($storage->methods as $method_name => $method_storage) {
-            if (isset($storage->overridden_method_ids[$method_name])) {
+            if (!empty($storage->overridden_method_ids[$method_name])) {
                 $overridden_method_ids = $storage->overridden_method_ids[$method_name];
 
                 $candidate_overridden_ids = null;
@@ -320,7 +320,7 @@ class Populator
                         && !$method_storage->has_docblock_return_type
                         && $method_storage->inherited_return_type !== null
                     ) {
-                        if (!isset($storage->documenting_method_ids[$method_name])
+                        if (!!empty($storage->documenting_method_ids[$method_name])
                             || (string) $storage->documenting_method_ids[$method_name]
                                 === (string) $declaring_method_id
                         ) {
@@ -394,7 +394,7 @@ class Populator
             if ($trait_storage->template_types) {
                 $storage->template_extended_params[$trait_storage->name] = [];
 
-                if (isset($storage->template_extended_offsets[$trait_storage->name])) {
+                if (!empty($storage->template_extended_offsets[$trait_storage->name])) {
                     foreach ($storage->template_extended_offsets[$trait_storage->name] as $i => $type) {
                         $trait_template_type_names = array_keys($trait_storage->template_types);
 
@@ -502,7 +502,7 @@ class Populator
         if ($parent_storage->template_types) {
             $storage->template_extended_params[$parent_storage->name] = [];
 
-            if (isset($storage->template_extended_offsets[$parent_storage->name])) {
+            if (!empty($storage->template_extended_offsets[$parent_storage->name])) {
                 foreach ($storage->template_extended_offsets[$parent_storage->name] as $i => $type) {
                     $parent_template_type_names = array_keys($parent_storage->template_types);
 
@@ -639,7 +639,7 @@ class Populator
             if ($parent_interface_storage->template_types) {
                 $storage->template_extended_params[$parent_interface_storage->name] = [];
 
-                if (isset($storage->template_extended_offsets[$parent_interface_storage->name])) {
+                if (!empty($storage->template_extended_offsets[$parent_interface_storage->name])) {
                     foreach ($storage->template_extended_offsets[$parent_interface_storage->name] as $i => $type) {
                         $parent_template_type_names = array_keys($parent_interface_storage->template_types);
 
@@ -745,7 +745,7 @@ class Populator
             if ($implemented_interface_storage->template_types) {
                 $storage->template_extended_params[$implemented_interface_storage->name] = [];
 
-                if (isset($storage->template_extended_offsets[$implemented_interface_storage->name])) {
+                if (!empty($storage->template_extended_offsets[$implemented_interface_storage->name])) {
                     foreach ($storage->template_extended_offsets[$implemented_interface_storage->name] as $i => $type) {
                         $parent_template_type_names = array_keys($implemented_interface_storage->template_types);
 
@@ -817,7 +817,7 @@ class Populator
 
         foreach ($interface_method_implementers as $method_name => $interface_method_ids) {
             if (count($interface_method_ids) === 1) {
-                if (isset($storage->methods[$method_name])) {
+                if (!empty($storage->methods[$method_name])) {
                     $method_storage = $storage->methods[$method_name];
 
                     if ($method_storage->signature_return_type
@@ -827,7 +827,7 @@ class Populator
                         $interface_fqcln = $interface_method_ids[0]->fq_class_name;
                         $interface_storage = $storage_provider->get($interface_fqcln);
 
-                        if (isset($interface_storage->methods[$method_name])) {
+                        if (!empty($interface_storage->methods[$method_name])) {
                             $interface_method_storage = $interface_storage->methods[$method_name];
 
                             if ($interface_method_storage->throws
@@ -858,7 +858,7 @@ class Populator
 
         $file_path_lc = strtolower($storage->file_path);
 
-        if (isset($dependent_file_paths[$file_path_lc])) {
+        if (!empty($dependent_file_paths[$file_path_lc])) {
             return;
         }
 
@@ -983,7 +983,7 @@ class Populator
     {
         $atomic_types = $candidate->getAtomicTypes();
 
-        if (isset($atomic_types['array']) && count($atomic_types) > 1 && !isset($atomic_types['null'])) {
+        if (!empty($atomic_types['array']) && count($atomic_types) > 1 && !!empty($atomic_types['null'])) {
             $iterator_name = null;
             $generic_params = null;
             $iterator_key = null;
@@ -1058,7 +1058,7 @@ class Populator
             }
 
             foreach ($aliased_method_names as $aliased_method_name) {
-                if (isset($storage->appearing_method_ids[$aliased_method_name])) {
+                if (!empty($storage->appearing_method_ids[$aliased_method_name])) {
                     continue;
                 }
 
@@ -1072,10 +1072,10 @@ class Populator
 
                 $this_method_id = $fq_class_name_lc . '::' . $method_name_lc;
 
-                if (isset($storage->methods[$aliased_method_name])) {
+                if (!empty($storage->methods[$aliased_method_name])) {
                     $storage->potential_declaring_method_ids[$aliased_method_name] = [$this_method_id => true];
                 } else {
-                    if (isset($parent_storage->potential_declaring_method_ids[$aliased_method_name])) {
+                    if (!empty($parent_storage->potential_declaring_method_ids[$aliased_method_name])) {
                         $storage->potential_declaring_method_ids[$aliased_method_name]
                             = $parent_storage->potential_declaring_method_ids[$aliased_method_name];
                     }
@@ -1097,7 +1097,7 @@ class Populator
                     $declaring_class = $declaring_method_id->fq_class_name;
                     $declaring_class_storage = $this->classlike_storage_provider->get($declaring_class);
 
-                    if (isset($declaring_class_storage->methods[$method_name_lc])
+                    if (!empty($declaring_class_storage->methods[$method_name_lc])
                         && $declaring_class_storage->methods[$method_name_lc]->abstract
                     ) {
                         $storage->overridden_method_ids[$method_name_lc][$declaring_method_id->fq_class_name]
@@ -1108,8 +1108,8 @@ class Populator
                         = $declaring_method_id;
                 }
 
-                if (isset($parent_storage->overridden_method_ids[$method_name_lc])
-                    && isset($storage->overridden_method_ids[$method_name_lc])
+                if (!empty($parent_storage->overridden_method_ids[$method_name_lc])
+                    && !empty($storage->overridden_method_ids[$method_name_lc])
                 ) {
                     $storage->overridden_method_ids[$method_name_lc]
                         += $parent_storage->overridden_method_ids[$method_name_lc];
@@ -1128,7 +1128,7 @@ class Populator
             }
 
             foreach ($aliased_method_names as $aliased_method_name) {
-                if (isset($storage->declaring_method_ids[$aliased_method_name])) {
+                if (!empty($storage->declaring_method_ids[$aliased_method_name])) {
                     $implementing_method_id = $storage->declaring_method_ids[$aliased_method_name];
 
                     $implementing_class_storage = $this->classlike_storage_provider->get(
@@ -1158,12 +1158,12 @@ class Populator
 
         // register where they appear (can never be in a trait)
         foreach ($parent_storage->appearing_property_ids as $property_name => $appearing_property_id) {
-            if (isset($storage->appearing_property_ids[$property_name])) {
+            if (!empty($storage->appearing_property_ids[$property_name])) {
                 continue;
             }
 
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;
@@ -1177,12 +1177,12 @@ class Populator
 
         // register where they're declared
         foreach ($parent_storage->declaring_property_ids as $property_name => $declaring_property_class) {
-            if (isset($storage->declaring_property_ids[$property_name])) {
+            if (!empty($storage->declaring_property_ids[$property_name])) {
                 continue;
             }
 
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;
@@ -1194,7 +1194,7 @@ class Populator
         // register where they're declared
         foreach ($parent_storage->inheritable_property_ids as $property_name => $inheritable_property_id) {
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;

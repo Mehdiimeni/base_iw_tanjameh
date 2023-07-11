@@ -277,7 +277,7 @@ class ClosureAnalyzer extends FunctionLikeAnalyzer
                     return null;
                 }
 
-                if (!isset($context->vars_possibly_in_scope[$use_var_id])) {
+                if (!!empty($context->vars_possibly_in_scope[$use_var_id])) {
                     if ($context->check_variables) {
                         if (IssueBuffer::accepts(
                             new UndefinedVariable(

@@ -225,7 +225,7 @@ class Squiz_Sniffs_Commenting_BlockCommentSniff implements PHP_CodeSniffer_Sniff
 
         // Check that the lines before and after this comment are blank.
         $contentBefore = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
-        if (isset($tokens[$contentBefore]['scope_closer']) === true
+        if (!empty($tokens[$contentBefore]['scope_closer']) === true
             && $tokens[$contentBefore]['scope_opener'] === $contentBefore
         ) {
             if (($tokens[$stackPtr]['line'] - $tokens[$contentBefore]['line']) !== 1) {

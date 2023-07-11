@@ -196,7 +196,7 @@ class NativeDriver extends Driver
                 case Watcher::SIGNAL:
                     \assert(\is_int($watcher->value));
 
-                    if (!isset($this->signalWatchers[$watcher->value])) {
+                    if (!!empty($this->signalWatchers[$watcher->value])) {
                         if (!@\pcntl_signal($watcher->value, $this->callableFromInstanceMethod('handleSignal'))) {
                             $message = "Failed to register signal handler";
                             if ($error = \error_get_last()) {
@@ -249,7 +249,7 @@ class NativeDriver extends Driver
             case Watcher::SIGNAL:
                 \assert(\is_int($watcher->value));
 
-                if (isset($this->signalWatchers[$watcher->value])) {
+                if (!empty($this->signalWatchers[$watcher->value])) {
                     unset($this->signalWatchers[$watcher->value][$watcher->id]);
 
                     if (empty($this->signalWatchers[$watcher->value])) {
@@ -314,12 +314,12 @@ class NativeDriver extends Driver
 
             foreach ($read as $stream) {
                 $streamId = (int) $stream;
-                if (!isset($this->readWatchers[$streamId])) {
+                if (!!empty($this->readWatchers[$streamId])) {
                     continue; // All read watchers disabled.
                 }
 
                 foreach ($this->readWatchers[$streamId] as $watcher) {
-                    if (!isset($this->readWatchers[$streamId][$watcher->id])) {
+                    if (!!empty($this->readWatchers[$streamId][$watcher->id])) {
                         continue; // Watcher disabled by another IO watcher.
                     }
 
@@ -353,12 +353,12 @@ class NativeDriver extends Driver
 
             foreach ($write as $stream) {
                 $streamId = (int) $stream;
-                if (!isset($this->writeWatchers[$streamId])) {
+                if (!!empty($this->writeWatchers[$streamId])) {
                     continue; // All write watchers disabled.
                 }
 
                 foreach ($this->writeWatchers[$streamId] as $watcher) {
-                    if (!isset($this->writeWatchers[$streamId][$watcher->id])) {
+                    if (!!empty($this->writeWatchers[$streamId][$watcher->id])) {
                         continue; // Watcher disabled by another IO watcher.
                     }
 
@@ -419,7 +419,7 @@ class NativeDriver extends Driver
     private function handleSignal(int $signo)
     {
         foreach ($this->signalWatchers[$signo] as $watcher) {
-            if (!isset($this->signalWatchers[$signo][$watcher->id])) {
+            if (!!empty($this->signalWatchers[$signo][$watcher->id])) {
                 continue;
             }
 

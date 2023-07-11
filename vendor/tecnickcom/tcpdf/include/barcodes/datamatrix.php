@@ -771,20 +771,20 @@ class Datamatrix {
 							$temp_cw[] = 30; // upper shift
 							$p += 2;
 						}
-						if (isset($charset[$chr])) {
+						if (!empty($charset[$chr])) {
 							$temp_cw[] = $charset[$chr];
 							++$p;
 						} else {
-							if (isset($this->chset['SH1'][$chr])) {
+							if (!empty($this->chset['SH1'][$chr])) {
 								$temp_cw[] = 0; // shift 1
 								$shiftset = $this->chset['SH1'];
-							} elseif (isset($this->chset['SH2'][$chr])) {
+							} elseif (!empty($this->chset['SH2'][$chr])) {
 								$temp_cw[] = 1; // shift 2
 								$shiftset = $this->chset['SH2'];
-							} elseif (($enc == ENC_C40) AND isset($this->chset['S3C'][$chr])) {
+							} elseif (($enc == ENC_C40) AND !empty($this->chset['S3C'][$chr])) {
 								$temp_cw[] = 2; // shift 3
 								$shiftset = $this->chset['S3C'];
-							} elseif (($enc == ENC_TXT) AND isset($this->chset['S3T'][$chr])) {
+							} elseif (($enc == ENC_TXT) AND !empty($this->chset['S3T'][$chr])) {
 								$temp_cw[] = 2; // shift 3
 								$shiftset = $this->chset['S3T'];
 							} else {

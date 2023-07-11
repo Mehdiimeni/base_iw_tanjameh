@@ -120,7 +120,7 @@ class ReturnAnalyzer
                     continue;
                 }
 
-                if (isset($context->vars_in_scope[$var_comment->var_id])) {
+                if (!empty($context->vars_in_scope[$var_comment->var_id])) {
                     $comment_type->parent_nodes = $context->vars_in_scope[$var_comment->var_id]->parent_nodes;
                 }
 
@@ -189,7 +189,7 @@ class ReturnAnalyzer
 
         if ($context->finally_scope) {
             foreach ($context->vars_in_scope as $var_id => $type) {
-                if (isset($context->finally_scope->vars_in_scope[$var_id])) {
+                if (!empty($context->finally_scope->vars_in_scope[$var_id])) {
                     if ($context->finally_scope->vars_in_scope[$var_id] !== $type) {
                         $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
                             $context->finally_scope->vars_in_scope[$var_id],

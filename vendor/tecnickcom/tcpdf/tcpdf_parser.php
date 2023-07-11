@@ -118,7 +118,7 @@ class TCPDF_PARSER {
 		// parse all document objects
 		$this->objects = array();
 		foreach ($this->xref['xref'] as $obj => $offset) {
-			if (!isset($this->objects[$obj]) AND ($offset > 0)) {
+			if (!!empty($this->objects[$obj]) AND ($offset > 0)) {
 				// decode objects with positive offset
 				$this->objects[$obj] = $this->getIndirectObject($obj, $offset, true);
 			}
@@ -137,13 +137,13 @@ class TCPDF_PARSER {
 	 * @public
 	 */
 	protected function setConfig($cfg) {
-		if (isset($cfg['die_for_errors'])) {
+		if (!empty($cfg['die_for_errors'])) {
 			$this->cfg['die_for_errors'] = !!$cfg['die_for_errors'];
 		}
-		if (isset($cfg['ignore_filter_decoding_errors'])) {
+		if (!empty($cfg['ignore_filter_decoding_errors'])) {
 			$this->cfg['ignore_filter_decoding_errors'] = !!$cfg['ignore_filter_decoding_errors'];
 		}
-		if (isset($cfg['ignore_missing_filter_decoders'])) {
+		if (!empty($cfg['ignore_missing_filter_decoders'])) {
 			$this->cfg['ignore_missing_filter_decoders'] = !!$cfg['ignore_missing_filter_decoders'];
 		}
 	}
@@ -225,7 +225,7 @@ class TCPDF_PARSER {
 				// create unique object index: [object number]_[generation number]
 				$index = $obj_num.'_'.intval($matches[2][0]);
 				// check if object already exist
-				if (!isset($xref['xref'][$index])) {
+				if (!!empty($xref['xref'][$index])) {
 					// store object offset position
 					$xref['xref'][$index] = intval($matches[1][0]);
 				}
@@ -240,7 +240,7 @@ class TCPDF_PARSER {
 		// get trailer data
 		if (preg_match('/trailer[\s]*<<(.*)>>/isU', $this->pdfdata, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
 			$trailer_data = $matches[1][0];
-			if (!isset($xref['trailer']) OR empty($xref['trailer'])) {
+			if (!!empty($xref['trailer']) OR empty($xref['trailer'])) {
 				// get only the last updated version
 				$xref['trailer'] = array();
 				// parse trailer_data
@@ -284,14 +284,14 @@ class TCPDF_PARSER {
 		// try to read Cross-Reference Stream
 		$xrefobj = $this->getRawObject($startxref);
 		$xrefcrs = $this->getIndirectObject($xrefobj[1], $startxref, true);
-		if (!isset($xref['trailer']) OR empty($xref['trailer'])) {
+		if (!!empty($xref['trailer']) OR empty($xref['trailer'])) {
 			// get only the last updated version
 			$xref['trailer'] = array();
 			$filltrailer = true;
 		} else {
 			$filltrailer = false;
 		}
-		if (!isset($xref['xref'])) {
+		if (!!empty($xref['xref'])) {
 			$xref['xref'] = array();
 		}
 		$valid_crs = false;
@@ -301,41 +301,41 @@ class TCPDF_PARSER {
 			$sarr = array();
 		}
 		foreach ($sarr as $k => $v) {
-			if (($v[0] == '/') AND ($v[1] == 'Type') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == '/') AND ($sarr[($k +1)][1] == 'XRef'))) {
+			if (($v[0] == '/') AND ($v[1] == 'Type') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == '/') AND ($sarr[($k +1)][1] == 'XRef'))) {
 				$valid_crs = true;
-			} elseif (($v[0] == '/') AND ($v[1] == 'Index') AND (isset($sarr[($k +1)]))) {
+			} elseif (($v[0] == '/') AND ($v[1] == 'Index') AND (!empty($sarr[($k +1)]))) {
 				// first object number in the subsection
 				$index_first = intval($sarr[($k +1)][1][0][1]);
 				// number of entries in the subsection
 				$index_entries = intval($sarr[($k +1)][1][1][1]);
-			} elseif (($v[0] == '/') AND ($v[1] == 'Prev') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'numeric'))) {
+			} elseif (($v[0] == '/') AND ($v[1] == 'Prev') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'numeric'))) {
 				// get previous xref offset
 				$prevxref = intval($sarr[($k +1)][1]);
-			} elseif (($v[0] == '/') AND ($v[1] == 'W') AND (isset($sarr[($k +1)]))) {
+			} elseif (($v[0] == '/') AND ($v[1] == 'W') AND (!empty($sarr[($k +1)]))) {
 				// number of bytes (in the decoded stream) of the corresponding field
 				$wb = array();
 				$wb[0] = intval($sarr[($k +1)][1][0][1]);
 				$wb[1] = intval($sarr[($k +1)][1][1][1]);
 				$wb[2] = intval($sarr[($k +1)][1][2][1]);
-			} elseif (($v[0] == '/') AND ($v[1] == 'DecodeParms') AND (isset($sarr[($k +1)][1]))) {
+			} elseif (($v[0] == '/') AND ($v[1] == 'DecodeParms') AND (!empty($sarr[($k +1)][1]))) {
 				$decpar = $sarr[($k +1)][1];
 				foreach ($decpar as $kdc => $vdc) {
-					if (($vdc[0] == '/') AND ($vdc[1] == 'Columns') AND (isset($decpar[($kdc +1)]) AND ($decpar[($kdc +1)][0] == 'numeric'))) {
+					if (($vdc[0] == '/') AND ($vdc[1] == 'Columns') AND (!empty($decpar[($kdc +1)]) AND ($decpar[($kdc +1)][0] == 'numeric'))) {
 						$columns = intval($decpar[($kdc +1)][1]);
-					} elseif (($vdc[0] == '/') AND ($vdc[1] == 'Predictor') AND (isset($decpar[($kdc +1)]) AND ($decpar[($kdc +1)][0] == 'numeric'))) {
+					} elseif (($vdc[0] == '/') AND ($vdc[1] == 'Predictor') AND (!empty($decpar[($kdc +1)]) AND ($decpar[($kdc +1)][0] == 'numeric'))) {
 						$predictor = intval($decpar[($kdc +1)][1]);
 					}
 				}
 			} elseif ($filltrailer) {
-				if (($v[0] == '/') AND ($v[1] == 'Size') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'numeric'))) {
+				if (($v[0] == '/') AND ($v[1] == 'Size') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'numeric'))) {
 					$xref['trailer']['size'] = $sarr[($k +1)][1];
-				} elseif (($v[0] == '/') AND ($v[1] == 'Root') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
+				} elseif (($v[0] == '/') AND ($v[1] == 'Root') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
 					$xref['trailer']['root'] = $sarr[($k +1)][1];
-				} elseif (($v[0] == '/') AND ($v[1] == 'Info') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
+				} elseif (($v[0] == '/') AND ($v[1] == 'Info') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
 					$xref['trailer']['info'] = $sarr[($k +1)][1];
-				} elseif (($v[0] == '/') AND ($v[1] == 'Encrypt') AND (isset($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
+				} elseif (($v[0] == '/') AND ($v[1] == 'Encrypt') AND (!empty($sarr[($k +1)]) AND ($sarr[($k +1)][0] == 'objref'))) {
 					$xref['trailer']['encrypt'] = $sarr[($k +1)][1];
-				} elseif (($v[0] == '/') AND ($v[1] == 'ID') AND (isset($sarr[($k +1)]))) {
+				} elseif (($v[0] == '/') AND ($v[1] == 'ID') AND (!empty($sarr[($k +1)]))) {
 					$xref['trailer']['id'] = array();
 					$xref['trailer']['id'][0] = $sarr[($k +1)][1][0][1];
 					$xref['trailer']['id'][1] = $sarr[($k +1)][1][1][1];
@@ -343,7 +343,7 @@ class TCPDF_PARSER {
 			}
 		}
 		// decode data
-		if ($valid_crs AND isset($xrefcrs[1][3][0])) {
+		if ($valid_crs AND !empty($xrefcrs[1][3][0])) {
 			// number of bytes in a row
 			$rowlen = ($columns + 1);
 			// convert the stream into an array of integers
@@ -437,7 +437,7 @@ class TCPDF_PARSER {
 				for ($c = 0; $c < 3; ++$c) {
 					// for every byte on the column
 					for ($b = 0; $b < $wb[$c]; ++$b) {
-						if (isset($row[$i])) {
+						if (!empty($row[$i])) {
 							$sdata[$k][$c] += ($row[$i] << (($wb[$c] - 1 - $b) * 8));
 						}
 						++$i;
@@ -446,7 +446,7 @@ class TCPDF_PARSER {
 			}
 			$ddata = array();
 			// fill xref
-			if (isset($index_first)) {
+			if (!empty($index_first)) {
 				$obj_num = $index_first;
 			} else {
 				$obj_num = 0;
@@ -460,7 +460,7 @@ class TCPDF_PARSER {
 						// create unique object index: [object number]_[generation number]
 						$index = $obj_num.'_'.$row[2];
 						// check if object already exist
-						if (!isset($xref['xref'][$index])) {
+						if (!!empty($xref['xref'][$index])) {
 							// store object offset position
 							$xref['xref'][$index] = $row[1];
 						}
@@ -480,7 +480,7 @@ class TCPDF_PARSER {
 				++$obj_num;
 			}
 		} // end decoding data
-		if (isset($prevxref)) {
+		if (!empty($prevxref)) {
 			// get previous xref
 			$xref = $this->getXrefData($prevxref, $xref);
 		}
@@ -531,7 +531,7 @@ class TCPDF_PARSER {
 				if ($char == '(') {
 					$open_bracket = 1;
 					while ($open_bracket > 0) {
-						if (!isset($this->pdfdata[$strpos])) {
+						if (!!empty($this->pdfdata[$strpos])) {
 							break;
 						}
 						$ch = $this->pdfdata[$strpos];
@@ -578,7 +578,7 @@ class TCPDF_PARSER {
 			}
 			case '<':   // \x3C LESS-THAN SIGN
 			case '>': { // \x3E GREATER-THAN SIGN
-				if (isset($this->pdfdata[($offset + 1)]) AND ($this->pdfdata[($offset + 1)] == $char)) {
+				if (!empty($this->pdfdata[($offset + 1)]) AND ($this->pdfdata[($offset + 1)] == $char)) {
 					// dictionary object
 					$objtype = $char.$char;
 					$offset += 2;
@@ -698,7 +698,7 @@ class TCPDF_PARSER {
 			$element = $this->getRawObject($offset);
 			$offset = $element[2];
 			// decode stream using stream's dictionary information
-			if ($decoding AND ($element[0] == 'stream') AND (isset($objdata[($i - 1)][0])) AND ($objdata[($i - 1)][0] == '<<')) {
+			if ($decoding AND ($element[0] == 'stream') AND (!empty($objdata[($i - 1)][0])) AND ($objdata[($i - 1)][0] == '<<')) {
 				$element[3] = $this->decodeStream($objdata[($i - 1)][1], $element[1]);
 			}
 			$objdata[$i] = $element;
@@ -720,10 +720,10 @@ class TCPDF_PARSER {
 	protected function getObjectVal($obj) {
 		if ($obj[0] == 'objref') {
 			// reference to indirect object
-			if (isset($this->objects[$obj[1]])) {
+			if (!empty($this->objects[$obj[1]])) {
 				// this object has been already parsed
 				return $this->objects[$obj[1]];
-			} elseif (isset($this->xref[$obj[1]])) {
+			} elseif (!empty($this->xref[$obj[1]])) {
 				// parse new object
 				$this->objects[$obj[1]] = $this->getIndirectObject($obj[1], $this->xref[$obj[1]], false);
 				return $this->objects[$obj[1]];
@@ -749,14 +749,14 @@ class TCPDF_PARSER {
 		$filters = array();
 		foreach ($sdic as $k => $v) {
 			if ($v[0] == '/') {
-				if (($v[1] == 'Length') AND (isset($sdic[($k + 1)])) AND ($sdic[($k + 1)][0] == 'numeric')) {
+				if (($v[1] == 'Length') AND (!empty($sdic[($k + 1)])) AND ($sdic[($k + 1)][0] == 'numeric')) {
 					// get declared stream length
 					$declength = intval($sdic[($k + 1)][1]);
 					if ($declength < $slength) {
 						$stream = substr($stream, 0, $declength);
 						$slength = $declength;
 					}
-				} elseif (($v[1] == 'Filter') AND (isset($sdic[($k + 1)]))) {
+				} elseif (($v[1] == 'Filter') AND (!empty($sdic[($k + 1)]))) {
 					// resolve indirect object
 					$objval = $this->getObjectVal($sdic[($k + 1)]);
 					if ($objval[0] == '/') {

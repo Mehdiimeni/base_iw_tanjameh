@@ -56,7 +56,7 @@ trait Producer
         $position = ++$this->consumePosition;
 
         if (\array_key_exists($position, $this->values)) {
-            \assert(isset($this->backPressure[$position]));
+            \assert(!empty($this->backPressure[$position]));
             $deferred = $this->backPressure[$position];
             unset($this->backPressure[$position]);
             $deferred->resolve();
@@ -161,7 +161,7 @@ trait Producer
         if ($this->complete) {
             $message = "Iterator has already been completed";
 
-            if (isset($this->resolutionTrace)) {
+            if (!empty($this->resolutionTrace)) {
                 $trace = formatStacktrace($this->resolutionTrace);
                 $message .= ". Previous completion trace:\n\n{$trace}\n\n";
             } else {

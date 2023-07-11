@@ -72,7 +72,7 @@ class FunctionCallAnalyzer extends CallAnalyzer
         $real_stmt = $stmt;
 
         if ($function_name instanceof PhpParser\Node\Name
-            && isset($stmt->args[0])
+            && !empty($stmt->args[0])
             && !$stmt->args[0]->unpack
         ) {
             $original_function_id = implode('\\', $function_name->parts);
@@ -89,7 +89,7 @@ class FunctionCallAnalyzer extends CallAnalyzer
                 );
             }
 
-            if ($original_function_id === 'call_user_func_array' && isset($stmt->args[1])) {
+            if ($original_function_id === 'call_user_func_array' && !empty($stmt->args[1])) {
                 $function_name = $stmt->args[0]->value;
 
                 $stmt = new VirtualFuncCall(
@@ -232,7 +232,7 @@ class FunctionCallAnalyzer extends CallAnalyzer
 
         if ($function_name instanceof PhpParser\Node\Name
             && $function_name->parts === ['assert']
-            && isset($stmt->args[0])
+            && !empty($stmt->args[0])
         ) {
             self::processAssertFunctionEffects(
                 $statements_analyzer,
@@ -411,8 +411,8 @@ class FunctionCallAnalyzer extends CallAnalyzer
 
         if (!$function_call_info->in_call_map) {
             $predefined_functions = $codebase->config->getPredefinedFunctions();
-            $is_predefined = isset($predefined_functions[strtolower($original_function_id)])
-                || isset($predefined_functions[strtolower($function_call_info->function_id)]);
+            $is_predefined = !empty($predefined_functions[strtolower($original_function_id)])
+                || !empty($predefined_functions[strtolower($function_call_info->function_id)]);
 
             if ($context->check_functions) {
                 if (self::checkFunctionExists(
@@ -887,7 +887,7 @@ class FunctionCallAnalyzer extends CallAnalyzer
                 $first_appearance = $statements_analyzer->getFirstAppearance($var_id);
 
                 if ($first_appearance
-                    && isset($context->vars_in_scope[$var_id])
+                    && !empty($context->vars_in_scope[$var_id])
                     && $context->vars_in_scope[$var_id]->hasMixed()
                 ) {
                     if (!$context->collect_initializations
@@ -907,7 +907,7 @@ class FunctionCallAnalyzer extends CallAnalyzer
                     );
                 }
 
-                if (isset($op_vars_in_scope[$var_id])) {
+                if (!empty($op_vars_in_scope[$var_id])) {
                     $op_vars_in_scope[$var_id]->from_docblock = true;
                 }
             }

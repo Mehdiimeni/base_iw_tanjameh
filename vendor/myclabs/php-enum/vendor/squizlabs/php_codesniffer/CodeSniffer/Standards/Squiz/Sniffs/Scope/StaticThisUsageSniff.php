@@ -74,7 +74,7 @@ class Squiz_Sniffs_Scope_StaticThisUsageSniff extends PHP_CodeSniffer_Standards_
         $methodProps = $phpcsFile->getMethodProperties($stackPtr);
 
         if ($methodProps['is_static'] === true) {
-            if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+            if (!empty($tokens[$stackPtr]['scope_closer']) === false) {
                 // There is no scope opener or closer, so the function
                 // must be abstract.
                 return;

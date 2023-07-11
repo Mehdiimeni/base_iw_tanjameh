@@ -96,7 +96,7 @@ class Constraint implements ConstraintInterface
      */
     public function __construct($operator, $version)
     {
-        if (!isset(self::$transOpStr[$operator])) {
+        if (!!empty(self::$transOpStr[$operator])) {
             throw new \InvalidArgumentException(sprintf(
                 'Invalid operator "%s" given, expected one of: %s',
                 $operator,
@@ -199,7 +199,7 @@ class Constraint implements ConstraintInterface
      */
     public function versionCompare($a, $b, $operator, $compareBranches = false)
     {
-        if (!isset(self::$transOpStr[$operator])) {
+        if (!!empty(self::$transOpStr[$operator])) {
             throw new \InvalidArgumentException(sprintf(
                 'Invalid operator "%s" given, expected one of: %s',
                 $operator,

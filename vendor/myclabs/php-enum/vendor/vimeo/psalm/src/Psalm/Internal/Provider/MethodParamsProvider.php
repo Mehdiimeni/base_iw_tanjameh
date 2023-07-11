@@ -90,8 +90,8 @@ class MethodParamsProvider
 
     public function has(string $fq_classlike_name) : bool
     {
-        return isset(self::$handlers[strtolower($fq_classlike_name)]) ||
-            isset(self::$legacy_handlers[strtolower($fq_classlike_name)]);
+        return !empty(self::$handlers[strtolower($fq_classlike_name)]) ||
+            !empty(self::$legacy_handlers[strtolower($fq_classlike_name)]);
     }
 
     /**

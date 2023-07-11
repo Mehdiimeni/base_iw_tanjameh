@@ -119,7 +119,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                              'pattern_code' => $pattern,
                             );
 
-            if (isset($this->_parsedPatterns[$tokenType]) === false) {
+            if (!empty($this->_parsedPatterns[$tokenType]) === false) {
                 $this->_parsedPatterns[$tokenType] = array();
             }
 
@@ -153,7 +153,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
         $tokenTypes = array();
         foreach ($pattern as $pos => $patternInfo) {
             if ($patternInfo['type'] === 'token') {
-                if (isset($tokenTypes[$patternInfo['token']]) === false) {
+                if (!empty($tokenTypes[$patternInfo['token']]) === false) {
                     $tokenTypes[$patternInfo['token']] = $pos;
                 }
             }
@@ -223,7 +223,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
 
         // If the type is not set, then it must have been a token registered
         // with registerSupplementary().
-        if (isset($this->_parsedPatterns[$type]) === false) {
+        if (!empty($this->_parsedPatterns[$type]) === false) {
             return;
         }
 
@@ -244,7 +244,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
             }
 
             foreach ($errors as $stackPtr => $error) {
-                if (isset($this->_errorPos[$stackPtr]) === false) {
+                if (!empty($this->_errorPos[$stackPtr]) === false) {
                     $this->_errorPos[$stackPtr] = true;
                     $allErrors[$stackPtr]       = $error;
                 }
@@ -336,7 +336,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
 
                         $found = $tokens[$prev]['content'].$tokenContent.$found;
 
-                        if (isset($pattern[($i - 1)]) === true
+                        if (!empty($pattern[($i - 1)]) === true
                             && $pattern[($i - 1)]['type'] === 'skip'
                         ) {
                             $stackPtr = $prev;
@@ -360,7 +360,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                         true
                     );
 
-                    if ($next === false || isset($tokens[$next][$to]) === false) {
+                    if ($next === false || !empty($tokens[$next][$to]) === false) {
                         // If there was not opener, then we must be
                         // using the wrong pattern.
                         return false;
@@ -459,7 +459,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
 
                     $tokenContent = '';
                     if ($tokens[$stackPtr]['code'] === T_WHITESPACE) {
-                        if (isset($pattern[($i + 1)]) === false) {
+                        if (!empty($pattern[($i + 1)]) === false) {
                             // This is the last token in the pattern, so just compare
                             // the next token of content.
                             $tokenContent = $tokens[$stackPtr]['content'];
@@ -491,7 +491,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                         }
                     }//end if
 
-                    if (isset($pattern[($i + 1)]) === true
+                    if (!empty($pattern[($i + 1)]) === true
                         && $pattern[($i + 1)]['type'] === 'skip'
                     ) {
                         // The next token is a skip token, so we just need to make
@@ -526,7 +526,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                     if ($lastAddedStackPtr !== null) {
                         if (($tokens[$next]['code'] === T_OPEN_CURLY_BRACKET
                             || $tokens[$next]['code'] === T_CLOSE_CURLY_BRACKET)
-                            && isset($tokens[$next]['scope_condition']) === true
+                            && !empty($tokens[$next]['scope_condition']) === true
                             && $tokens[$next]['scope_condition'] > $lastAddedStackPtr
                         ) {
                             // This is a brace, but the owner of it is after the current
@@ -537,7 +537,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
 
                         if (($tokens[$next]['code'] === T_OPEN_PARENTHESIS
                             || $tokens[$next]['code'] === T_CLOSE_PARENTHESIS)
-                            && isset($tokens[$next]['parenthesis_owner']) === true
+                            && !empty($tokens[$next]['parenthesis_owner']) === true
                             && $tokens[$next]['parenthesis_owner'] > $lastAddedStackPtr
                         ) {
                             // This is a bracket, but the owner of it is after the current
@@ -582,7 +582,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                         $lastAddedStackPtr = $next;
                     }
 
-                    if (isset($pattern[($i + 1)]) === true
+                    if (!empty($pattern[($i + 1)]) === true
                         && $pattern[($i + 1)]['type'] === 'skip'
                     ) {
                         $stackPtr = $next;
@@ -613,7 +613,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                     );
 
                     if ($next === false
-                        || isset($tokens[$next][$pattern[$i]['to']]) === false
+                        || !empty($tokens[$next][$pattern[$i]['to']]) === false
                     ) {
                         // If there was not opener, then we must
                         // be using the wrong pattern.
@@ -907,12 +907,12 @@ abstract class PHP_CodeSniffer_Standards_AbstractPatternSniff implements PHP_Cod
                 break;
             }
 
-            if (isset($skip['to']) === true) {
+            if (!empty($skip['to']) === true) {
                 break;
             }
         }
 
-        if (isset($skip['to']) === false) {
+        if (!empty($skip['to']) === false) {
             $skip['to'] = 'unknown';
         }
 

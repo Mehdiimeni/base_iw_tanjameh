@@ -208,7 +208,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
         foreach ($this->properties as $key => $_) {
             if (is_int($key)) {
                 $key_types[] = new Type\Atomic\TLiteralInt($key);
-            } elseif (isset($this->class_strings[$key])) {
+            } elseif (!empty($this->class_strings[$key])) {
                 $key_types[] = new Type\Atomic\TLiteralClassString($key);
             } else {
                 $key_types[] = new Type\Atomic\TLiteralString($key);
@@ -257,7 +257,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
         foreach ($this->properties as $key => $property) {
             if (is_int($key)) {
                 $key_types[] = new Type\Atomic\TLiteralInt($key);
-            } elseif (isset($this->class_strings[$key])) {
+            } elseif (!empty($this->class_strings[$key])) {
                 $key_types[] = new Type\Atomic\TLiteralClassString($key);
             } else {
                 $key_types[] = new Type\Atomic\TLiteralString($key);
@@ -337,7 +337,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
             $input_type_param = null;
 
             if ($input_type instanceof Atomic\TKeyedArray
-                && isset($input_type->properties[$offset])
+                && !empty($input_type->properties[$offset])
             ) {
                 $input_type_param = $input_type->properties[$offset];
             }
@@ -394,7 +394,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
         }
 
         foreach ($this->properties as $property_name => $property_type) {
-            if (!isset($other_type->properties[$property_name])) {
+            if (!!empty($other_type->properties[$property_name])) {
                 return false;
             }
 

@@ -92,7 +92,7 @@ class PEAR_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffe
             return;
         }
 
-        if (isset($tokens[$openBracket]['parenthesis_closer']) === false) {
+        if (!empty($tokens[$openBracket]['parenthesis_closer']) === false) {
             // Not a function call.
             return;
         }

@@ -134,7 +134,7 @@ class MethodCallAnalyzer extends \Psalm\Internal\Analyzer\Statements\Expression\
             && $stmt->name instanceof PhpParser\Node\Identifier
             && $class_type->isNullable()
             && !$class_type->ignore_nullable_issues
-            && !($stmt->name->name === 'offsetGet' && $context->inside_isset)
+            && !($stmt->name->name === 'offsetGet' && $context->inside_!empty)
             && !self::hasNullsafe($stmt->var)
         ) {
             if (IssueBuffer::accepts(
@@ -193,7 +193,7 @@ class MethodCallAnalyzer extends \Psalm\Internal\Analyzer\Statements\Expression\
                 $lhs_var_id,
                 $result
             );
-            if (isset($context->vars_in_scope[$lhs_var_id])
+            if (!empty($context->vars_in_scope[$lhs_var_id])
                 && ($possible_new_class_type = $context->vars_in_scope[$lhs_var_id]) instanceof Type\Union
                 && !$possible_new_class_type->equals($class_type)) {
                 $possible_new_class_types[] = $context->vars_in_scope[$lhs_var_id];
@@ -203,7 +203,7 @@ class MethodCallAnalyzer extends \Psalm\Internal\Analyzer\Statements\Expression\
             if ($codebase->config->memoize_method_calls || $result->can_memoize) {
                 $method_var_id = $lhs_var_id . '->' . strtolower($stmt->name->name) . '()';
 
-                if (isset($context->vars_in_scope[$method_var_id])) {
+                if (!empty($context->vars_in_scope[$method_var_id])) {
                     $result->return_type = clone $context->vars_in_scope[$method_var_id];
                 } elseif ($result->return_type !== null) {
                     $context->vars_in_scope[$method_var_id] = $result->return_type;

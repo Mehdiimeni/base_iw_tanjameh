@@ -181,7 +181,7 @@ class PEAR_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
         }
 
         $errorToken = ($stackPtr + 1);
-        if (isset($tokens[$errorToken]) === false) {
+        if (!empty($tokens[$errorToken]) === false) {
             $errorToken--;
         }
 

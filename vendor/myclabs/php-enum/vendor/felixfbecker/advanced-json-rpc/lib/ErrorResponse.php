@@ -25,7 +25,7 @@ class ErrorResponse extends Response
      */
     public static function isErrorResponse($msg): bool
     {
-        return is_object($msg) && isset($msg->id) && isset($msg->error);
+        return is_object($msg) && !empty($msg->id) && !empty($msg->error);
     }
 
     /**

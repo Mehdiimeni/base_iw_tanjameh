@@ -53,10 +53,10 @@ class Squiz_Sniffs_PHP_DisallowBooleanStatementSniff implements PHP_CodeSniffer_
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             $foundOwner = false;
             foreach ($tokens[$stackPtr]['nested_parenthesis'] as $open => $close) {
-                if (isset($tokens[$open]['parenthesis_owner']) === true) {
+                if (!empty($tokens[$open]['parenthesis_owner']) === true) {
                     // Any owner means we are not just a simple statement.
                     return;
                 }

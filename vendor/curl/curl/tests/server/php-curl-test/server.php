@@ -1,8 +1,8 @@
 <?php
-$request_method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '';
+$request_method = !empty($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '';
 $data_values = $request_method === 'POST' ? $_POST : $_GET;
-$test = isset($data_values['test']) ? $data_values['test'] : '';
-$key = isset($data_values['key']) ? $data_values['key'] : '';
+$test = !empty($data_values['test']) ? $data_values['test'] : '';
+$key = !empty($data_values['key']) ? $data_values['key'] : '';
 
 if ($test === 'put_file_handle') {
     $tmp_filename = tempnam('/tmp', 'php-curl-class.');
@@ -22,9 +22,9 @@ $data_mapping = array(
     'server' => '_SERVER',
 );
 
-if(isset($data_mapping[$test])) {
+if(!empty($data_mapping[$test])) {
     $data = ${$data_mapping[$test]};
-    $value = isset($data[$key]) ? $data[$key] : '';
+    $value = !empty($data[$key]) ? $data[$key] : '';
 echo $value;
 } else {
     echo "Error.";

@@ -58,7 +58,7 @@ class TypeCombination
     public $non_empty_mixed = false;
 
     /** @var ?bool */
-    public $mixed_from_loop_isset = null;
+    public $mixed_from_loop_!empty = null;
 
     /** @var array<string, Atomic\TLiteralString>|null */
     public $strings = [];

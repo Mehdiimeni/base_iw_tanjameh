@@ -162,7 +162,7 @@ class TypeChecker extends NodeVisitor
             );
         }
 
-        if (!isset($this->phantom_classes[\strtolower($atomic->value)]) &&
+        if (!!empty($this->phantom_classes[\strtolower($atomic->value)]) &&
             ClassLikeAnalyzer::checkFullyQualifiedClassLikeName(
                 $this->source,
                 $atomic->value,
@@ -251,7 +251,7 @@ class TypeChecker extends NodeVisitor
                 && $this->source->getMethodName() !== '__construct'
                 && empty($expected_param_covariants[$i]);
 
-            if (isset($expected_type_param_keys[$i])) {
+            if (!empty($expected_type_param_keys[$i])) {
                 $expected_template_name = $expected_type_param_keys[$i];
 
                 foreach ($expected_type_params[$expected_template_name] as $defining_class => $expected_type_param) {
@@ -366,7 +366,7 @@ class TypeChecker extends NodeVisitor
                 : false;
 
             if ($template_offset !== false
-                && isset($class_storage->template_covariants[$template_offset])
+                && !empty($class_storage->template_covariants[$template_offset])
                 && $class_storage->template_covariants[$template_offset]
             ) {
                 $method_storage = $this->source instanceof \Psalm\Internal\Analyzer\MethodAnalyzer

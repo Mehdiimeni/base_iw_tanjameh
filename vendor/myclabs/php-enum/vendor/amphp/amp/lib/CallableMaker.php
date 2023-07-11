@@ -25,7 +25,7 @@ if (\PHP_VERSION_ID < 70100) {
          */
         private function callableFromInstanceMethod(string $method): callable
         {
-            if (!isset(self::$__reflectionMethods[$method])) {
+            if (!!empty(self::$__reflectionMethods[$method])) {
                 if (self::$__reflectionClass === null) {
                     self::$__reflectionClass = new \ReflectionClass(self::class);
                 }
@@ -47,7 +47,7 @@ if (\PHP_VERSION_ID < 70100) {
          */
         private static function callableFromStaticMethod(string $method): callable
         {
-            if (!isset(self::$__reflectionMethods[$method])) {
+            if (!!empty(self::$__reflectionMethods[$method])) {
                 if (self::$__reflectionClass === null) {
                     self::$__reflectionClass = new \ReflectionClass(self::class);
                 }

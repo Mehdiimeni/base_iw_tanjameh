@@ -29,7 +29,7 @@ class IssueHandler
     {
         $handler = new self();
 
-        if (isset($e['errorLevel'])) {
+        if (!empty($e['errorLevel'])) {
             $handler->error_level = (string) $e['errorLevel'];
 
             if (!in_array($handler->error_level, \Psalm\Config::$ERROR_LEVELS, true)) {

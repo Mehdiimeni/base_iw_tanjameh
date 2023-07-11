@@ -60,10 +60,10 @@ class NamedFunctionCallHandler
             return;
         }
 
-        $first_arg = isset($stmt->args[0]) ? $stmt->args[0] : null;
+        $first_arg = !empty($stmt->args[0]) ? $stmt->args[0] : null;
 
         if ($function_id === 'method_exists') {
-            $second_arg = isset($stmt->args[1]) ? $stmt->args[1] : null;
+            $second_arg = !empty($stmt->args[1]) ? $stmt->args[1] : null;
 
             if ($first_arg
                 && $first_arg->value instanceof PhpParser\Node\Expr\Variable
@@ -254,7 +254,7 @@ class NamedFunctionCallHandler
             }
         }
 
-        if (isset($codebase->config->forbidden_functions[strtolower((string) $function_name)])) {
+        if (!empty($codebase->config->forbidden_functions[strtolower((string) $function_name)])) {
             if (IssueBuffer::accepts(
                 new ForbiddenCode(
                     'You have forbidden the use of ' . $function_name,
@@ -277,7 +277,7 @@ class NamedFunctionCallHandler
                     $statements_analyzer->getAliases()
                 );
 
-                if ($fq_const_name !== null && isset($stmt->args[1])) {
+                if ($fq_const_name !== null && !empty($stmt->args[1])) {
                     $second_arg = $stmt->args[1];
                     $was_in_call = $context->inside_call;
                     $context->inside_call = true;
@@ -442,7 +442,7 @@ class NamedFunctionCallHandler
         ?string $function_id,
         Context $context
     ) : void {
-        $first_arg = isset($stmt->args[0]) ? $stmt->args[0] : null;
+        $first_arg = !empty($stmt->args[0]) ? $stmt->args[0] : null;
 
         if ($first_arg) {
             $var = $first_arg->value;
@@ -452,7 +452,7 @@ class NamedFunctionCallHandler
             ) {
                 $var_id = '$' . $var->name;
 
-                if (isset($context->vars_in_scope[$var_id])) {
+                if (!empty($context->vars_in_scope[$var_id])) {
                     if (!$context->vars_in_scope[$var_id]->hasTemplate()) {
                         if ($function_id === 'get_class') {
                             $atomic_type = new Type\Atomic\TDependentGetClass(

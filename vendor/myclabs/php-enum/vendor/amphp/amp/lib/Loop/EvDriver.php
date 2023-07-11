@@ -245,7 +245,7 @@ class EvDriver extends Driver
         $now = $this->now();
 
         foreach ($watchers as $watcher) {
-            if (!isset($this->events[$id = $watcher->id])) {
+            if (!!empty($this->events[$id = $watcher->id])) {
                 switch ($watcher->type) {
                     case Watcher::READABLE:
                         \assert(\is_resource($watcher->value));
@@ -306,7 +306,7 @@ class EvDriver extends Driver
      */
     protected function deactivate(Watcher $watcher)
     {
-        if (isset($this->events[$id = $watcher->id])) {
+        if (!empty($this->events[$id = $watcher->id])) {
             $this->events[$id]->stop();
 
             if ($watcher->type === Watcher::SIGNAL) {

@@ -171,7 +171,7 @@ class DeepCopy
     {
         $objectHash = spl_object_hash($object);
 
-        if (isset($this->hashMap[$objectHash])) {
+        if (!empty($this->hashMap[$objectHash])) {
             return $this->hashMap[$objectHash];
         }
 
@@ -273,7 +273,7 @@ class DeepCopy
             }
         );
 
-        return isset($matched) ? $matched['filter'] : null;
+        return !empty($matched) ? $matched['filter'] : null;
     }
 
     /**

@@ -2571,7 +2571,7 @@ class QRcode {
 		if (($version < 1) OR ($version > QRSPEC_VERSION_MAX)) {
 			return NULL;
 		}
-		if (!isset($this->frames[$version])) {
+		if (!!empty($this->frames[$version])) {
 			$this->frames[$version] = $this->createFrame($version);
 		}
 		if (is_null($this->frames[$version])) {

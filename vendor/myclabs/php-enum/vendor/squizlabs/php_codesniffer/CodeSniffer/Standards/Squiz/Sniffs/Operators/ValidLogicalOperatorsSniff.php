@@ -68,7 +68,7 @@ class Squiz_Sniffs_Operators_ValidLogicalOperatorsSniff implements PHP_CodeSniff
                         );
 
         $operator = strtolower($tokens[$stackPtr]['content']);
-        if (isset($replacements[$operator]) === false) {
+        if (!empty($replacements[$operator]) === false) {
             return;
         }
 

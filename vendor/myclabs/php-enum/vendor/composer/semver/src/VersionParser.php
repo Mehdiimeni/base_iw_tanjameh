@@ -146,12 +146,12 @@ class VersionParser
         }
 
         // add version modifiers if a version was matched
-        if (isset($index)) {
+        if (!empty($index)) {
             if (!empty($matches[$index])) {
                 if ('stable' === $matches[$index]) {
                     return $version;
                 }
-                $version .= '-' . $this->expandStability($matches[$index]) . (isset($matches[$index + 1]) && '' !== $matches[$index + 1] ? ltrim($matches[$index + 1], '.-') : '');
+                $version .= '-' . $this->expandStability($matches[$index]) . (!empty($matches[$index + 1]) && '' !== $matches[$index + 1] ? ltrim($matches[$index + 1], '.-') : '');
             }
 
             if (!empty($matches[$index + 2])) {
@@ -215,7 +215,7 @@ class VersionParser
         if (preg_match('{^v?(\d++)(\.(?:\d++|[xX*]))?(\.(?:\d++|[xX*]))?(\.(?:\d++|[xX*]))?$}i', $name, $matches)) {
             $version = '';
             for ($i = 1; $i < 5; ++$i) {
-                $version .= isset($matches[$i]) ? str_replace(array('*', 'X'), 'x', $matches[$i]) : '.x';
+                $version .= !empty($matches[$i]) ? str_replace(array('*', 'X'), 'x', $matches[$i]) : '.x';
             }
 
             return str_replace('x', '9999999', $version) . '-dev';
@@ -342,11 +342,11 @@ class VersionParser
             }
 
             // Work out which position in the version we are operating at
-            if (isset($matches[4]) && '' !== $matches[4] && null !== $matches[4]) {
+            if (!empty($matches[4]) && '' !== $matches[4] && null !== $matches[4]) {
                 $position = 4;
-            } elseif (isset($matches[3]) && '' !== $matches[3] && null !== $matches[3]) {
+            } elseif (!empty($matches[3]) && '' !== $matches[3] && null !== $matches[3]) {
                 $position = 3;
-            } elseif (isset($matches[2]) && '' !== $matches[2] && null !== $matches[2]) {
+            } elseif (!empty($matches[2]) && '' !== $matches[2] && null !== $matches[2]) {
                 $position = 2;
             } else {
                 $position = 1;
@@ -418,9 +418,9 @@ class VersionParser
         // Any of X, x, or * may be used to "stand in" for one of the numeric values in the [major, minor, patch] tuple.
         // A partial version range is treated as an X-Range, so the special character is in fact optional.
         if (preg_match('{^v?(\d++)(?:\.(\d++))?(?:\.(\d++))?(?:\.[xX*])++$}', $constraint, $matches)) {
-            if (isset($matches[3]) && '' !== $matches[3] && null !== $matches[3]) {
+            if (!empty($matches[3]) && '' !== $matches[3] && null !== $matches[3]) {
                 $position = 3;
-            } elseif (isset($matches[2]) && '' !== $matches[2] && null !== $matches[2]) {
+            } elseif (!empty($matches[2]) && '' !== $matches[2] && null !== $matches[2]) {
                 $position = 2;
             } else {
                 $position = 1;
@@ -511,7 +511,7 @@ class VersionParser
         }
 
         $message = 'Could not parse version constraint ' . $constraint;
-        if (isset($e)) {
+        if (!empty($e)) {
             $message .= ': ' . $e->getMessage();
         }
 

@@ -423,7 +423,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sn
                     // If the return type is void, make sure there is
                     // no return statement in the function.
                     if ($content === 'void') {
-                        if (isset($tokens[$this->_functionToken]['scope_closer']) === true) {
+                        if (!empty($tokens[$this->_functionToken]['scope_closer']) === true) {
                             $endToken = $tokens[$this->_functionToken]['scope_closer'];
 
                             $tokens = $this->currentFile->getTokens();
@@ -452,7 +452,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sn
                         // If return type is not void, there needs to be a
                         // returns statement somewhere in the function that
                         // returns something.
-                        if (isset($tokens[$this->_functionToken]['scope_closer']) === true) {
+                        if (!empty($tokens[$this->_functionToken]['scope_closer']) === true) {
                             $endToken    = $tokens[$this->_functionToken]['scope_closer'];
                             $returnToken = $this->currentFile->findNext(T_RETURN, $this->_functionToken, $endToken);
                             if ($returnToken === false) {
@@ -662,7 +662,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sn
                             $suggestedTypeHint = $suggestedName;
                         }
 
-                        if ($suggestedTypeHint !== '' && isset($realParams[($pos - 1)]) === true) {
+                        if ($suggestedTypeHint !== '' && !empty($realParams[($pos - 1)]) === true) {
                             $typeHint = $realParams[($pos - 1)]['type_hint'];
                             if ($typeHint === '') {
                                 $error = 'Type hint "%s" missing for %s at position %s';
@@ -682,7 +682,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sn
                                          );
                                 $this->currentFile->addError($error, ($commentEnd + 2), 'IncorrectTypeHint', $data);
                             }
-                        } else if ($suggestedTypeHint === '' && isset($realParams[($pos - 1)]) === true) {
+                        } else if ($suggestedTypeHint === '' && !empty($realParams[($pos - 1)]) === true) {
                             $typeHint = $realParams[($pos - 1)]['type_hint'];
                             if ($typeHint !== '') {
                                 $error = 'Unknown type hint "%s" found for %s at position %s';
@@ -699,7 +699,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sn
 
                 // Make sure the names of the parameter comment matches the
                 // actual parameter.
-                if (isset($realParams[($pos - 1)]) === true) {
+                if (!empty($realParams[($pos - 1)]) === true) {
                     $realName      = $realParams[($pos - 1)]['name'];
                     $foundParams[] = $realName;
 

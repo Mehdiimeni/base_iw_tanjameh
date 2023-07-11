@@ -139,10 +139,10 @@ trait TesterTrait
         $this->captureStreamsIndependently = \array_key_exists('capture_stderr_separately', $options) && $options['capture_stderr_separately'];
         if (!$this->captureStreamsIndependently) {
             $this->output = new StreamOutput(fopen('php://memory', 'w', false));
-            if (isset($options['decorated'])) {
+            if (!empty($options['decorated'])) {
                 $this->output->setDecorated($options['decorated']);
             }
-            if (isset($options['verbosity'])) {
+            if (!empty($options['verbosity'])) {
                 $this->output->setVerbosity($options['verbosity']);
             }
         } else {

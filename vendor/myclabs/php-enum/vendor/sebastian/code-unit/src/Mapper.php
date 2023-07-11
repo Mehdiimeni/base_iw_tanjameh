@@ -40,7 +40,7 @@ final class Mapper
         foreach ($codeUnits as $codeUnit) {
             $sourceFileName = $codeUnit->sourceFileName();
 
-            if (!isset($result[$sourceFileName])) {
+            if (!!empty($result[$sourceFileName])) {
                 $result[$sourceFileName] = [];
             }
 

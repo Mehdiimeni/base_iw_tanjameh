@@ -138,13 +138,13 @@ class Squiz_Sniffs_Operators_ComparisonOperatorUsageSniff implements PHP_CodeSni
                     } else if ($tokens[$i]['code'] === T_CLOSE_CURLY_BRACKET) {
                         // Stop if this is the closing brace of
                         // a code block.
-                        if (isset($tokens[$i]['scope_opener']) === true) {
+                        if (!empty($tokens[$i]['scope_opener']) === true) {
                             break;
                         }
                     } else if ($tokens[$i]['code'] === T_OPEN_CURLY_BRACKET) {
                         // Stop if this is the opening brace of
                         // a code block.
-                        if (isset($tokens[$i]['scope_closer']) === true) {
+                        if (!empty($tokens[$i]['scope_closer']) === true) {
                             break;
                         }
                     }

@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['cat_id'])) {
+if (!empty($_POST['cat_id'])) {
 
     $cat_id = $_POST['cat_id'];
     $gender = $_POST['gender'];
@@ -110,6 +110,7 @@ if (isset($_POST['cat_id'])) {
 
             $arr_product_detail = array(
                 'name' => $product->Name,
+                'id' => $product->id,
                 'product_type' => $product_type,
                 'brand_name' => $brand_name,
                 'product_type_id' => $product->iw_api_product_type_id,

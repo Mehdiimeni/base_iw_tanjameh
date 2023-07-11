@@ -188,7 +188,7 @@ final class Facade
 
     private function processUnit(array $unit, Report $report): void
     {
-        if (isset($unit['className'])) {
+        if (!empty($unit['className'])) {
             $unitObject = $report->classObject($unit['className']);
         } else {
             $unitObject = $report->traitObject($unit['traitName']);

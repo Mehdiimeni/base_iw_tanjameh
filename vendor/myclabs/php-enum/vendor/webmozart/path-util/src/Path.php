@@ -89,7 +89,7 @@ final class Path
         // This method is called by many other methods in this class. Buffer
         // the canonicalized paths to make up for the severe performance
         // decrease.
-        if (isset(self::$buffer[$path])) {
+        if (!empty(self::$buffer[$path])) {
             return self::$buffer[$path];
         }
 
@@ -722,7 +722,7 @@ final class Path
         $match = true;
 
         foreach ($baseParts as $i => $basePart) {
-            if ($match && isset($parts[$i]) && $basePart === $parts[$i]) {
+            if ($match && !empty($parts[$i]) && $basePart === $parts[$i]) {
                 unset($parts[$i]);
 
                 continue;

@@ -276,7 +276,7 @@ class MethodCallReturnTypeFetcher
 
         if ($method_storage->specialize_call
             && $var_id
-            && isset($context->vars_in_scope[$var_id])
+            && !empty($context->vars_in_scope[$var_id])
             && $statements_analyzer->data_flow_graph instanceof TaintFlowGraph
         ) {
             $var_nodes = [];
@@ -526,7 +526,7 @@ class MethodCallReturnTypeFetcher
 
             foreach ($bindable_template_types as $template_type) {
                 if ($template_type->defining_class !== $method_id->fq_class_name
-                    && !isset(
+                    && !!empty(
                         $template_result->lower_bounds
                             [$template_type->param_name]
                             [$template_type->defining_class]

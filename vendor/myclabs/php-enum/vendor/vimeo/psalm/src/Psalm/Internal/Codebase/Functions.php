@@ -75,7 +75,7 @@ class Functions
             $function_id = substr($function_id, 1);
         }
 
-        if (isset(self::$stubbed_functions[$function_id])) {
+        if (!empty(self::$stubbed_functions[$function_id])) {
             return self::$stubbed_functions[$function_id];
         }
 
@@ -89,16 +89,16 @@ class Functions
 
             $function_analyzers = $statements_analyzer->getFunctionAnalyzers();
 
-            if (isset($function_analyzers[$function_id])) {
+            if (!empty($function_analyzers[$function_id])) {
                 $function_id = $function_analyzers[$function_id]->getFunctionId();
 
-                if (isset($file_storage->functions[$function_id])) {
+                if (!empty($file_storage->functions[$function_id])) {
                     return $file_storage->functions[$function_id];
                 }
             }
 
             // closures can be returned here
-            if (isset($file_storage->functions[$function_id])) {
+            if (!empty($file_storage->functions[$function_id])) {
                 return $file_storage->functions[$function_id];
             }
         }
@@ -117,11 +117,11 @@ class Functions
             return $this->reflection->getFunctionStorage($function_id);
         }
 
-        if (!isset($file_storage->declaring_function_ids[$function_id])) {
+        if (!!empty($file_storage->declaring_function_ids[$function_id])) {
             if ($checked_file_path !== $root_file_path) {
                 $file_storage = $this->file_storage_provider->get($checked_file_path);
 
-                if (isset($file_storage->functions[$function_id])) {
+                if (!empty($file_storage->functions[$function_id])) {
                     return $file_storage->functions[$function_id];
                 }
             }
@@ -135,7 +135,7 @@ class Functions
 
         $declaring_file_storage = $this->file_storage_provider->get($declaring_file_path);
 
-        if (!isset($declaring_file_storage->functions[$function_id])) {
+        if (!!empty($declaring_file_storage->functions[$function_id])) {
             throw new \UnexpectedValueException(
                 'Not expecting ' . $function_id . ' to not have storage in ' . $declaring_file_path
             );
@@ -151,7 +151,7 @@ class Functions
 
     public function hasStubbedFunction(string $function_id): bool
     {
-        return isset(self::$stubbed_functions[strtolower($function_id)]);
+        return !empty(self::$stubbed_functions[strtolower($function_id)]);
     }
 
     /**
@@ -179,7 +179,7 @@ class Functions
 
         $file_storage = $this->file_storage_provider->get($statements_analyzer->getRootFilePath());
 
-        if (isset($file_storage->declaring_function_ids[$function_id])) {
+        if (!empty($file_storage->declaring_function_ids[$function_id])) {
             return true;
         }
 
@@ -187,17 +187,17 @@ class Functions
             return true;
         }
 
-        if (isset(self::$stubbed_functions[$function_id])) {
+        if (!empty(self::$stubbed_functions[$function_id])) {
             return true;
         }
 
-        if (isset($statements_analyzer->getFunctionAnalyzers()[$function_id])) {
+        if (!empty($statements_analyzer->getFunctionAnalyzers()[$function_id])) {
             return true;
         }
 
         $predefined_functions = $statements_analyzer->getCodebase()->config->getPredefinedFunctions();
 
-        if (isset($predefined_functions[$function_id])) {
+        if (!empty($predefined_functions[$function_id])) {
             /** @psalm-suppress ArgumentTypeCoercion */
             if ($this->reflection->registerFunction($function_id) === false) {
                 return false;
@@ -238,15 +238,15 @@ class Functions
             $first_namespace = array_shift($function_name_parts);
             $first_namespace_lcase = strtolower($first_namespace);
 
-            if (isset($imported_namespaces[$first_namespace_lcase])) {
+            if (!empty($imported_namespaces[$first_namespace_lcase])) {
                 return $imported_namespaces[$first_namespace_lcase] . '\\' . implode('\\', $function_name_parts);
             }
 
-            if (isset($imported_function_namespaces[$first_namespace_lcase])) {
+            if (!empty($imported_function_namespaces[$first_namespace_lcase])) {
                 return $imported_function_namespaces[$first_namespace_lcase] . '\\' .
                     implode('\\', $function_name_parts);
             }
-        } elseif (isset($imported_function_namespaces[$function_name_lcase])) {
+        } elseif (!empty($imported_function_namespaces[$function_name_lcase])) {
             return $imported_function_namespaces[$function_name_lcase];
         }
 
@@ -366,7 +366,7 @@ class Functions
     {
         $file_storage = $codebase->file_storage_provider->get($file_path);
 
-        if (!isset($file_storage->declaring_function_ids[$function_id])) {
+        if (!!empty($file_storage->declaring_function_ids[$function_id])) {
             return false;
         }
 
@@ -376,7 +376,7 @@ class Functions
             ? $file_storage
             : $codebase->file_storage_provider->get($declaring_file_path);
 
-        return isset($file_storage->functions[$function_id]) && $file_storage->functions[$function_id]->variadic;
+        return !empty($file_storage->functions[$function_id]) && $file_storage->functions[$function_id]->variadic;
     }
 
     /**
@@ -506,7 +506,7 @@ class Functions
             return false;
         }
 
-        if (($function_id === 'var_export' || $function_id === 'print_r') && !isset($args[1])) {
+        if (($function_id === 'var_export' || $function_id === 'print_r') && !!empty($args[1])) {
             return false;
         }
 
@@ -519,7 +519,7 @@ class Functions
             return true;
         }
 
-        if ($function_id === 'count' && isset($args[0]) && $type_provider) {
+        if ($function_id === 'count' && !empty($args[0]) && $type_provider) {
             $count_type = $type_provider->getType($args[0]->value);
 
             if ($count_type) {
@@ -556,10 +556,10 @@ class Functions
         }
 
         $must_use = $function_id !== 'array_map'
-            || (isset($args[0]) && !$args[0]->value instanceof \PhpParser\Node\Expr\Closure);
+            || (!empty($args[0]) && !$args[0]->value instanceof \PhpParser\Node\Expr\Closure);
 
         foreach ($function_callable->params as $i => $param) {
-            if ($type_provider && $param->type && $param->type->hasCallableType() && isset($args[$i])) {
+            if ($type_provider && $param->type && $param->type->hasCallableType() && !empty($args[$i])) {
                 $arg_type = $type_provider->getType($args[$i]->value);
 
                 if ($arg_type) {
@@ -576,7 +576,7 @@ class Functions
                 }
             }
 
-            if ($param->by_ref && isset($args[$i])) {
+            if ($param->by_ref && !empty($args[$i])) {
                 $must_use = false;
             }
         }

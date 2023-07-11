@@ -302,7 +302,7 @@ class PHP_CodeSniffer
     {
         $newExtensions = array();
         foreach ($extensions as $ext) {
-            if (isset($this->allowedFileExtensions[$ext]) === true) {
+            if (!empty($this->allowedFileExtensions[$ext]) === true) {
                 $newExtensions[$ext] = $this->allowedFileExtensions[$ext];
             } else {
                 $newExtensions[$ext] = 'PHP';
@@ -350,7 +350,7 @@ class PHP_CodeSniffer
             return $this->ignorePatterns;
         }
 
-        if (isset($this->ignorePatterns[$listener]) === true) {
+        if (!empty($this->ignorePatterns[$listener]) === true) {
             return $this->ignorePatterns[$listener];
         }
 
@@ -573,7 +573,7 @@ class PHP_CodeSniffer
         }
 
         foreach ($ruleset->rule as $rule) {
-            if (isset($rule['ref']) === false) {
+            if (!empty($rule['ref']) === false) {
                 continue;
             }
 
@@ -587,7 +587,7 @@ class PHP_CodeSniffer
                 $this->_expandRulesetReference($rule['ref'], $rulesetDir, $depth)
             );
 
-            if (isset($rule->exclude) === true) {
+            if (!empty($rule->exclude) === true) {
                 foreach ($rule->exclude as $exclude) {
                     if (PHP_CODESNIFFER_VERBOSITY > 1) {
                         echo str_repeat("\t", $depth);
@@ -626,7 +626,7 @@ class PHP_CodeSniffer
 
         // Process custom ignore pattern rules.
         foreach ($ruleset->{'exclude-pattern'} as $pattern) {
-            if (isset($pattern['type']) === false) {
+            if (!empty($pattern['type']) === false) {
                 $pattern['type'] = 'absolute';
             }
 
@@ -889,8 +889,8 @@ class PHP_CodeSniffer
         $code = (string) $rule['ref'];
 
         // Custom severity.
-        if (isset($rule->severity) === true) {
-            if (isset($this->ruleset[$code]) === false) {
+        if (!empty($rule->severity) === true) {
+            if (!empty($this->ruleset[$code]) === false) {
                 $this->ruleset[$code] = array();
             }
 
@@ -902,8 +902,8 @@ class PHP_CodeSniffer
         }
 
         // Custom message type.
-        if (isset($rule->type) === true) {
-            if (isset($this->ruleset[$code]) === false) {
+        if (!empty($rule->type) === true) {
+            if (!empty($this->ruleset[$code]) === false) {
                 $this->ruleset[$code] = array();
             }
 
@@ -915,8 +915,8 @@ class PHP_CodeSniffer
         }
 
         // Custom message.
-        if (isset($rule->message) === true) {
-            if (isset($this->ruleset[$code]) === false) {
+        if (!empty($rule->message) === true) {
+            if (!empty($this->ruleset[$code]) === false) {
                 $this->ruleset[$code] = array();
             }
 
@@ -928,18 +928,18 @@ class PHP_CodeSniffer
         }
 
         // Custom properties.
-        if (isset($rule->properties) === true) {
+        if (!empty($rule->properties) === true) {
             foreach ($rule->properties->property as $prop) {
-                if (isset($this->ruleset[$code]) === false) {
+                if (!empty($this->ruleset[$code]) === false) {
                     $this->ruleset[$code] = array(
                                              'properties' => array(),
                                             );
-                } else if (isset($this->ruleset[$code]['properties']) === false) {
+                } else if (!empty($this->ruleset[$code]['properties']) === false) {
                     $this->ruleset[$code]['properties'] = array();
                 }
 
                 $name = (string) $prop['name'];
-                if (isset($prop['type']) === true
+                if (!empty($prop['type']) === true
                     && (string) $prop['type'] === 'array'
                 ) {
                     $value = (string) $prop['value'];
@@ -960,11 +960,11 @@ class PHP_CodeSniffer
 
         // Ignore patterns.
         foreach ($rule->{'exclude-pattern'} as $pattern) {
-            if (isset($this->ignorePatterns[$code]) === false) {
+            if (!empty($this->ignorePatterns[$code]) === false) {
                 $this->ignorePatterns[$code] = array();
             }
 
-            if (isset($pattern['type']) === false) {
+            if (!empty($pattern['type']) === false) {
                 $pattern['type'] = 'absolute';
             }
 
@@ -1064,7 +1064,7 @@ class PHP_CodeSniffer
             $this->listeners[$listenerClass] = new $listenerClass();
 
             // Set custom properties.
-            if (isset($this->ruleset[$code]['properties']) === true) {
+            if (!empty($this->ruleset[$code]['properties']) === true) {
                 foreach ($this->ruleset[$code]['properties'] as $name => $value) {
                     $this->setSniffProperty($listenerClass, $name, $value);
                 }
@@ -1072,7 +1072,7 @@ class PHP_CodeSniffer
 
             $tokenizers = array('PHP');
             $vars       = get_class_vars($listenerClass);
-            if (isset($vars['supportedTokenizers']) === true) {
+            if (!empty($vars['supportedTokenizers']) === true) {
                 $tokenizers = $vars['supportedTokenizers'];
             }
 
@@ -1083,7 +1083,7 @@ class PHP_CodeSniffer
             }
 
             foreach ($tokens as $token) {
-                if (isset($this->_tokenListeners[$token]) === false) {
+                if (!empty($this->_tokenListeners[$token]) === false) {
                     $this->_tokenListeners[$token] = array();
                 }
 
@@ -1112,7 +1112,7 @@ class PHP_CodeSniffer
     public function setSniffProperty($listenerClass, $name, $value)
     {
         // Setting a property for a sniff we are not using.
-        if (isset($this->listeners[$listenerClass]) === false) {
+        if (!empty($this->listeners[$listenerClass]) === false) {
             return;
         }
 
@@ -1360,7 +1360,7 @@ class PHP_CodeSniffer
             } else if (is_numeric($filename) === true) {
                 // See if we can find the PHP_CodeSniffer_File object.
                 foreach ($trace as $data) {
-                    if (isset($data['args'][0]) === true
+                    if (!empty($data['args'][0]) === true
                         && ($data['args'][0] instanceof PHP_CodeSniffer_File) === true
                     ) {
                         $filename = $data['args'][0]->getFilename();
@@ -1552,7 +1552,7 @@ class PHP_CodeSniffer
     public static function standardiseToken($token)
     {
         if (is_array($token) === false) {
-            if (isset(self::$_resolveTokenCache[$token]) === true) {
+            if (!empty(self::$_resolveTokenCache[$token]) === true) {
                 $newToken = self::$_resolveTokenCache[$token];
             } else {
                 $newToken = self::resolveSimpleToken($token);
@@ -1562,7 +1562,7 @@ class PHP_CodeSniffer
             case T_STRING:
                 // Some T_STRING tokens can be more specific.
                 $tokenType = strtolower($token[1]);
-                if (isset(self::$_resolveTokenCache[$tokenType]) === true) {
+                if (!empty(self::$_resolveTokenCache[$tokenType]) === true) {
                     $newToken = self::$_resolveTokenCache[$tokenType];
                 } else {
                     $newToken = self::resolveTstringToken($tokenType);
@@ -1904,12 +1904,12 @@ class PHP_CodeSniffer
                 $pattern = '/^array\(\s*([^\s^=^>]*)(\s*=>\s*(.*))?\s*\)/i';
                 if (preg_match($pattern, $varType, $matches) !== 0) {
                     $type1 = '';
-                    if (isset($matches[1]) === true) {
+                    if (!empty($matches[1]) === true) {
                         $type1 = $matches[1];
                     }
 
                     $type2 = '';
-                    if (isset($matches[3]) === true) {
+                    if (!empty($matches[3]) === true) {
                         $type2 = $matches[3];
                     }
 
@@ -2101,7 +2101,7 @@ class PHP_CodeSniffer
             return null;
         }
 
-        if (isset($phpCodeSnifferConfig[$key]) === false) {
+        if (!empty($phpCodeSnifferConfig[$key]) === false) {
             return null;
         }
 
@@ -2151,7 +2151,7 @@ class PHP_CodeSniffer
         $phpCodeSnifferConfig = self::getAllConfigData();
 
         if ($value === null) {
-            if (isset($phpCodeSnifferConfig[$key]) === true) {
+            if (!empty($phpCodeSnifferConfig[$key]) === true) {
                 unset($phpCodeSnifferConfig[$key]);
             }
         } else {
@@ -2183,7 +2183,7 @@ class PHP_CodeSniffer
      */
     public static function getAllConfigData()
     {
-        if (isset($GLOBALS['PHP_CODESNIFFER_CONFIG_DATA']) === true) {
+        if (!empty($GLOBALS['PHP_CODESNIFFER_CONFIG_DATA']) === true) {
             return $GLOBALS['PHP_CODESNIFFER_CONFIG_DATA'];
         }
 

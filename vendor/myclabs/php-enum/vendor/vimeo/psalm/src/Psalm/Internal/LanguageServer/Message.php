@@ -50,7 +50,7 @@ class Message
     public function __construct(?MessageBody $body = null, array $headers = [])
     {
         $this->body = $body;
-        if (!isset($headers['Content-Type'])) {
+        if (!!empty($headers['Content-Type'])) {
             $headers['Content-Type'] = 'application/vscode-jsonrpc; charset=utf8';
         }
         $this->headers = $headers;

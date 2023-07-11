@@ -61,7 +61,7 @@ class NameContext
             $aliasLookupName = strtolower($aliasName);
         }
 
-        if (isset($this->aliases[$type][$aliasLookupName])) {
+        if (!empty($this->aliases[$type][$aliasLookupName])) {
             $typeStringMap = [
                 Stmt\Use_::TYPE_NORMAL   => '',
                 Stmt\Use_::TYPE_FUNCTION => 'function ',
@@ -233,14 +233,14 @@ class NameContext
         if ($name->isQualified()) {
             // resolve aliases for qualified names, always against class alias table
             $checkName = strtolower($firstPart);
-            if (isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$checkName])) {
+            if (!empty($this->aliases[Stmt\Use_::TYPE_NORMAL][$checkName])) {
                 $alias = $this->aliases[Stmt\Use_::TYPE_NORMAL][$checkName];
                 return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
             }
         } elseif ($name->isUnqualified()) {
             // constant aliases are case-sensitive, function aliases case-insensitive
             $checkName = $type === Stmt\Use_::TYPE_CONSTANT ? $firstPart : strtolower($firstPart);
-            if (isset($this->aliases[$type][$checkName])) {
+            if (!empty($this->aliases[$type][$checkName])) {
                 // resolve unqualified aliases
                 return new FullyQualified($this->aliases[$type][$checkName], $name->getAttributes());
             }

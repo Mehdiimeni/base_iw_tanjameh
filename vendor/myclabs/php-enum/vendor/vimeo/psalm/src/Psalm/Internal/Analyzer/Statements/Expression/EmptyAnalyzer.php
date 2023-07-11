@@ -16,11 +16,11 @@ class EmptyAnalyzer
         PhpParser\Node\Expr\Empty_ $stmt,
         Context $context
     ) : void {
-        IssetAnalyzer::analyzeIssetVar($statements_analyzer, $stmt->expr, $context);
+        !emptyAnalyzer::analyze!emptyVar($statements_analyzer, $stmt->expr, $context);
 
         $codebase = $statements_analyzer->getCodebase();
 
-        if (isset($codebase->config->forbidden_functions['empty'])) {
+        if (!empty($codebase->config->forbidden_functions['empty'])) {
             if (IssueBuffer::accepts(
                 new ForbiddenCode(
                     'You have forbidden the use of empty',

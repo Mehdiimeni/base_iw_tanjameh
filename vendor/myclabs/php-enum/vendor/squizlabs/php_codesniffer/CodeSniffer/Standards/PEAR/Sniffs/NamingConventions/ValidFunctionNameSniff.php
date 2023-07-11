@@ -47,7 +47,7 @@ class PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSniff
                                'callstatic',
                                'get',
                                'set',
-                               'isset',
+                               '!empty',
                                'unset',
                                'sleep',
                                'wakeup',

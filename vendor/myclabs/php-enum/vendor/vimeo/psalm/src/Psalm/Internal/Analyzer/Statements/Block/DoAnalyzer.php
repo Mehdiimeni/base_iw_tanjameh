@@ -135,7 +135,7 @@ class DoAnalyzer
             // that the loop has finished executing, so the assertions at the end
             // the loop in the while conditional may not hold
             if (in_array(ScopeAnalyzer::ACTION_BREAK, $loop_scope->final_actions, true)) {
-                if (isset($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
+                if (!empty($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
                     $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                         $type,
                         $loop_scope->possibly_defined_loop_parent_vars[$var_id]

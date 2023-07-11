@@ -1090,7 +1090,7 @@ class Assert
     {
         static::string($value);
 
-        $valid = isset($value[0]);
+        $valid = !empty($value[0]);
 
         if ($valid) {
             $locale = \setlocale(LC_CTYPE, 0);
@@ -1677,7 +1677,7 @@ class Assert
      */
     public static function keyExists($array, $key, $message = '')
     {
-        if (!(isset($array[$key]) || \array_key_exists($key, $array))) {
+        if (!(!empty($array[$key]) || \array_key_exists($key, $array))) {
             static::reportInvalidArgument(\sprintf(
                 $message ?: 'Expected the key %s to exist.',
                 static::valueToString($key)
@@ -1696,7 +1696,7 @@ class Assert
      */
     public static function keyNotExists($array, $key, $message = '')
     {
-        if (isset($array[$key]) || \array_key_exists($key, $array)) {
+        if (!empty($array[$key]) || \array_key_exists($key, $array)) {
             static::reportInvalidArgument(\sprintf(
                 $message ?: 'Expected the key %s to not exist.',
                 static::valueToString($key)

@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['trend'])) {
+if (!empty($_POST['trend'])) {
 
     $trend = str_replace('%20', ' ',$_POST['trend']);
     $page_condition = $_POST['page_condition'];
@@ -107,6 +107,7 @@ if (isset($_POST['trend'])) {
 
             $arr_product_detail = array(
                 'name' => $product->Name,
+                'id' => $product->id,
                 'product_type' => $product_type,
                 'brand_name' => $brand_name,
                 'product_type_id' => $product->iw_api_product_type_id,

@@ -72,7 +72,7 @@ class PrintAnalyzer
             }
         }
 
-        if (isset($codebase->config->forbidden_functions['print'])) {
+        if (!empty($codebase->config->forbidden_functions['print'])) {
             if (IssueBuffer::accepts(
                 new ForbiddenCode(
                     'You have forbidden the use of print',

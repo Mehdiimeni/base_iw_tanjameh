@@ -76,7 +76,7 @@ class MethodCallPurityAnalyzer
             }
         } elseif (($method_storage->mutation_free
                 || ($method_storage->external_mutation_free
-                    && (isset($stmt->var->external_mutation_free) || isset($stmt->var->pure))))
+                    && (!empty($stmt->var->external_mutation_free) || !empty($stmt->var->pure))))
             && !$context->inside_unset
         ) {
             if ($method_storage->mutation_free
@@ -147,8 +147,8 @@ class MethodCallPurityAnalyzer
                 $mutation_var_id = $lhs_var_id . '->' . $name;
 
                 $this_property_didnt_exist = $lhs_var_id === '$this'
-                    && isset($context->vars_in_scope[$mutation_var_id])
-                    && !isset($class_storage->declaring_property_ids[$name]);
+                    && !empty($context->vars_in_scope[$mutation_var_id])
+                    && !!empty($class_storage->declaring_property_ids[$name]);
 
                 if ($this_property_didnt_exist) {
                     $context->vars_in_scope[$mutation_var_id] = Type::getMixed();

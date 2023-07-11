@@ -23,7 +23,7 @@ class ProjectFileFilter extends FileFilter
     ): ProjectFileFilter {
         $filter = parent::loadFromXMLElement($e, $base_dir, $inclusive);
 
-        if (isset($e->ignoreFiles)) {
+        if (!empty($e->ignoreFiles)) {
             if (!$inclusive) {
                 throw new \Psalm\Exception\ConfigException('Cannot nest ignoreFiles inside itself');
             }

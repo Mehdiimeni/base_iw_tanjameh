@@ -47,7 +47,7 @@ final class Link extends BaseTag implements Factory\StaticMethod
         Assert::notNull($descriptionFactory);
 
         $parts = Utils::pregSplit('/\s+/Su', $body, 2);
-        $description = isset($parts[1]) ? $descriptionFactory->create($parts[1], $context) : null;
+        $description = !empty($parts[1]) ? $descriptionFactory->create($parts[1], $context) : null;
 
         return new static($parts[0], $description);
     }

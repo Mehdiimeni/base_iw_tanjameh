@@ -158,10 +158,10 @@ class ChoiceQuestion extends Question
                 if (!$isAssoc) {
                     if (false !== $result) {
                         $result = $choices[$result];
-                    } elseif (isset($choices[$value])) {
+                    } elseif (!empty($choices[$value])) {
                         $result = $choices[$value];
                     }
-                } elseif (false === $result && isset($choices[$value])) {
+                } elseif (false === $result && !empty($choices[$value])) {
                     $result = $value;
                 }
 

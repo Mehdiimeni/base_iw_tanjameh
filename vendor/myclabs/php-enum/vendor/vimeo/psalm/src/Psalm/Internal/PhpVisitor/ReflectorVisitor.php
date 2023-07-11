@@ -525,7 +525,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
                 return null;
             }
 
-            if (isset($this->bad_classes[\spl_object_id($node)])) {
+            if (!empty($this->bad_classes[\spl_object_id($node)])) {
                 return null;
             }
 

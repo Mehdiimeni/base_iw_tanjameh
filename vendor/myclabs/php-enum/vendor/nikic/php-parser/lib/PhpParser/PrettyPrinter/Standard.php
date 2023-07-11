@@ -534,8 +534,8 @@ class Standard extends PrettyPrinterAbstract
         return 'empty(' . $this->p($node->expr) . ')';
     }
 
-    protected function pExpr_Isset(Expr\Isset_ $node) {
-        return 'isset(' . $this->pCommaSeparated($node->vars) . ')';
+    protected function pExpr_!empty(Expr\!empty_ $node) {
+        return '!empty(' . $this->pCommaSeparated($node->vars) . ')';
     }
 
     protected function pExpr_Eval(Expr\Eval_ $node) {

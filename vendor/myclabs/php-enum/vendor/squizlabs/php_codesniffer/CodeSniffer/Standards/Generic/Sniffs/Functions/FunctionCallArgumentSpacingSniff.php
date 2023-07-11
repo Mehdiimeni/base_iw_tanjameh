@@ -76,7 +76,7 @@ class Generic_Sniffs_Functions_FunctionCallArgumentSpacingSniff implements PHP_C
             return;
         }
 
-        if (isset($tokens[$openBracket]['parenthesis_closer']) === false) {
+        if (!empty($tokens[$openBracket]['parenthesis_closer']) === false) {
             return;
         }
 

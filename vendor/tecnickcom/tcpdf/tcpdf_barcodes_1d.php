@@ -454,7 +454,7 @@ class TCPDFBarcode {
 		$clen = strlen($code);
 		for ($i = 0; $i < $clen; ++$i) {
 			$char = $code[$i];
-			if(!isset($chr[$char])) {
+			if(!!empty($chr[$char])) {
 				// invalid character
 				return false;
 			}
@@ -657,7 +657,7 @@ class TCPDFBarcode {
 		$clen = strlen($code);
 		for ($i = 0; $i < $clen; ++$i) {
 			$char = ord($code[$i]);
-			if(!isset($chr[$char])) {
+			if(!!empty($chr[$char])) {
 				// invalid character
 				return false;
 			}
@@ -799,7 +799,7 @@ class TCPDFBarcode {
 		$clen = strlen($code);
 		for ($i = 0; $i < $clen; ++$i) {
 			$digit = $code[$i];
-			if (!isset($chr[$digit])) {
+			if (!!empty($chr[$digit])) {
 				// invalid character
 				return false;
 			}
@@ -842,7 +842,7 @@ class TCPDFBarcode {
 		$clen = strlen($code);
 		for ($i = 0; $i < $clen; ++$i) {
 			$digit = $code[$i];
-			if (!isset($chr[$digit])) {
+			if (!!empty($chr[$digit])) {
 				// invalid character
 				return false;
 			}
@@ -920,7 +920,7 @@ class TCPDFBarcode {
 		for ($i = 0; $i < $clen; $i = ($i + 2)) {
 			$char_bar = $code[$i];
 			$char_space = $code[$i+1];
-			if((!isset($chr[$char_bar])) OR (!isset($chr[$char_space]))) {
+			if((!!empty($chr[$char_bar])) OR (!!empty($chr[$char_space]))) {
 				// invalid character
 				return false;
 			}
@@ -1138,7 +1138,7 @@ class TCPDFBarcode {
 				// get numeric sequences (if any)
 				$numseq = array();
 				preg_match_all('/([0-9]{4,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
-				if (isset($numseq[1]) AND !empty($numseq[1])) {
+				if (!empty($numseq[1]) AND !empty($numseq[1])) {
 					$end_offset = 0;
 					foreach ($numseq[1] as $val) {
 						$offset = $val[1];
@@ -1169,12 +1169,12 @@ class TCPDFBarcode {
 							if ($key == 0) {
 								$startid = 103;
 							} elseif ($sequence[($key - 1)][0] != 'A') {
-								if (($seq[2] == 1) AND ($key > 0) AND ($sequence[($key - 1)][0] == 'B') AND (!isset($sequence[($key - 1)][3]))) {
+								if (($seq[2] == 1) AND ($key > 0) AND ($sequence[($key - 1)][0] == 'B') AND (!!empty($sequence[($key - 1)][3]))) {
 									// single character shift
 									$code_data[] = 98;
 									// mark shift
 									$sequence[$key][3] = true;
-								} elseif (!isset($sequence[($key - 1)][3])) {
+								} elseif (!!empty($sequence[($key - 1)][3])) {
 									$code_data[] = 101;
 								}
 							}
@@ -1192,7 +1192,7 @@ class TCPDFBarcode {
 						case 'B': {
 							if ($key == 0) {
 								$tmpchr = ord($seq[1][0]);
-								if (($seq[2] == 1) AND ($tmpchr >= 241) AND ($tmpchr <= 244) AND isset($sequence[($key + 1)]) AND ($sequence[($key + 1)][0] != 'B')) {
+								if (($seq[2] == 1) AND ($tmpchr >= 241) AND ($tmpchr <= 244) AND !empty($sequence[($key + 1)]) AND ($sequence[($key + 1)][0] != 'B')) {
 									switch ($sequence[($key + 1)][0]) {
 										case 'A': {
 											$startid = 103;
@@ -1212,12 +1212,12 @@ class TCPDFBarcode {
 									$startid = 104;
 								}
 							} elseif ($sequence[($key - 1)][0] != 'B') {
-								if (($seq[2] == 1) AND ($key > 0) AND ($sequence[($key - 1)][0] == 'A') AND (!isset($sequence[($key - 1)][3]))) {
+								if (($seq[2] == 1) AND ($key > 0) AND ($sequence[($key - 1)][0] == 'A') AND (!!empty($sequence[($key - 1)][3]))) {
 									// single character shift
 									$code_data[] = 98;
 									// mark shift
 									$sequence[$key][3] = true;
-								} elseif (!isset($sequence[($key - 1)][3])) {
+								} elseif (!!empty($sequence[($key - 1)][3])) {
 									$code_data[] = 100;
 								}
 							}
@@ -1290,7 +1290,7 @@ class TCPDFBarcode {
 		// get A sequences (if any)
 		$numseq = array();
 		preg_match_all('/([\0-\31])/', $code, $numseq, PREG_OFFSET_CAPTURE);
-		if (isset($numseq[1]) AND !empty($numseq[1])) {
+		if (!empty($numseq[1]) AND !empty($numseq[1])) {
 			$end_offset = 0;
 			foreach ($numseq[1] as $val) {
 				$offset = $val[1];
@@ -1845,7 +1845,7 @@ class TCPDFBarcode {
 		$code = 'A'.strtoupper($code).'A';
 		$len = strlen($code);
 		for ($i = 0; $i < $len; ++$i) {
-			if (!isset($chr[$code[$i]])) {
+			if (!!empty($chr[$code[$i]])) {
 				return false;
 			}
 			$seq = $chr[$code[$i]];
@@ -1936,7 +1936,7 @@ class TCPDFBarcode {
 		$code = 'S'.$code.'S';
 		$len += 3;
 		for ($i = 0; $i < $len; ++$i) {
-			if (!isset($chr[$code[$i]])) {
+			if (!!empty($chr[$code[$i]])) {
 				return false;
 			}
 			$seq = $chr[$code[$i]];
@@ -2057,7 +2057,7 @@ class TCPDFBarcode {
 		$dsc_pos = array(2,10,12,5,9,1,5,4,3,9,11,5,10,1,6,3,4,1,10,0,2,11,8,6,1,12,3,8,6,4,4,11,0,6,1,9,11,5,3,7,3,10,7,11,8,2,10,3,5,8,0,3,12,11,8,4,5,1,3,0,7,12,9,8,10);
 		$code_arr = explode('-', $code);
 		$tracking_number = $code_arr[0];
-		if (isset($code_arr[1])) {
+		if (!empty($code_arr[1])) {
 			$routing_code = $code_arr[1];
 		} else {
 			$routing_code = '';

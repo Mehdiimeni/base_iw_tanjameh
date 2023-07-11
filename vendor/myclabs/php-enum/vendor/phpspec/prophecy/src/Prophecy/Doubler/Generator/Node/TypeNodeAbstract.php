@@ -21,7 +21,7 @@ abstract class TypeNodeAbstract
 
     public function canUseNullShorthand(): bool
     {
-        return isset($this->types['null']) && count($this->types) <= 2;
+        return !empty($this->types['null']) && count($this->types) <= 2;
     }
 
     public function getTypes(): array
@@ -89,7 +89,7 @@ abstract class TypeNodeAbstract
             throw new DoubleException('Type cannot be nullable false');
         }
 
-        if (\PHP_VERSION_ID >= 80000 && isset($this->types['mixed']) && count($this->types) !== 1) {
+        if (\PHP_VERSION_ID >= 80000 && !empty($this->types['mixed']) && count($this->types) !== 1) {
             throw new DoubleException('mixed cannot be part of a union');
         }
     }

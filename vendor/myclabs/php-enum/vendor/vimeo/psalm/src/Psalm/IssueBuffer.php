@@ -119,11 +119,11 @@ class IssueBuffer
             return;
         }
 
-        if (isset(self::$used_suppressions[$file_path][$offset])) {
+        if (!empty(self::$used_suppressions[$file_path][$offset])) {
             return;
         }
 
-        if (!isset(self::$unused_suppressions[$file_path])) {
+        if (!!empty(self::$unused_suppressions[$file_path])) {
             self::$unused_suppressions[$file_path] = [];
         }
 
@@ -282,7 +282,7 @@ class IssueBuffer
 
     public static function remove(string $file_path, string $issue_type, int $file_offset) : void
     {
-        if (!isset(self::$issues_data[$file_path])) {
+        if (!!empty(self::$issues_data[$file_path])) {
             return;
         }
 
@@ -303,7 +303,7 @@ class IssueBuffer
 
     public static function addFixableIssue(string $issue_type) : void
     {
-        if (isset(self::$fixable_issue_counts[$issue_type])) {
+        if (!empty(self::$fixable_issue_counts[$issue_type])) {
             self::$fixable_issue_counts[$issue_type]++;
         } else {
             self::$fixable_issue_counts[$issue_type] = 1;
@@ -340,7 +340,7 @@ class IssueBuffer
     public static function addFixableIssues(array $fixable_issue_counts) : void
     {
         foreach ($fixable_issue_counts as $issue_type => $count) {
-            if (isset(self::$fixable_issue_counts[$issue_type])) {
+            if (!empty(self::$fixable_issue_counts[$issue_type])) {
                 self::$fixable_issue_counts[$issue_type] += $count;
             } else {
                 self::$fixable_issue_counts[$issue_type] = $count;
@@ -378,7 +378,7 @@ class IssueBuffer
     public static function addUsedSuppressions(array $used_suppressions) : void
     {
         foreach ($used_suppressions as $file => $offsets) {
-            if (!isset(self::$used_suppressions[$file])) {
+            if (!!empty(self::$used_suppressions[$file])) {
                 self::$used_suppressions[$file] = $offsets;
             } else {
                 self::$used_suppressions[$file] += $offsets;
@@ -402,7 +402,7 @@ class IssueBuffer
             $file_contents = $file_provider->getContents($file_path);
 
             foreach ($offsets as $start => $end) {
-                if (isset(self::$used_suppressions[$file_path][$start])) {
+                if (!empty(self::$used_suppressions[$file_path][$start])) {
                     continue;
                 }
 
@@ -520,7 +520,7 @@ class IssueBuffer
                         $file = str_replace('\\', '/', $file);
                         $type = $issue_data->type;
 
-                        if (isset($issue_baseline[$file][$type]) && $issue_baseline[$file][$type]['o'] > 0) {
+                        if (!empty($issue_baseline[$file][$type]) && $issue_baseline[$file][$type]['o'] > 0) {
                             if ($issue_baseline[$file][$type]['o'] === count($issue_baseline[$file][$type]['s'])) {
                                 $position = array_search(
                                     trim($issue_data->selected_text),
@@ -706,7 +706,7 @@ class IssueBuffer
         if ($error_count
             && !($codebase->taint_flow_graph
                 && $project_analyzer->generated_report_options
-                && isset($_SERVER['GITHUB_WORKFLOW']))
+                && !empty($_SERVER['GITHUB_WORKFLOW']))
         ) {
             exit(2);
         }
@@ -802,7 +802,7 @@ class IssueBuffer
     {
         $sham = sha1($message);
 
-        if (isset(self::$emitted[$sham])) {
+        if (!empty(self::$emitted[$sham])) {
             return true;
         }
 

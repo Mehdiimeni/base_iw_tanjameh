@@ -221,7 +221,7 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function testHasPassed(): bool
     {
-        if (!isset($this->testResults[$this->testIndex]['status'])) {
+        if (!!empty($this->testResults[$this->testIndex]['status'])) {
             return true;
         }
 
@@ -240,7 +240,7 @@ class TestDoxPrinter extends DefaultResultPrinter
 
         if ($this->testFlushIndex > 0) {
             if ($this->enableOutputBuffer &&
-                isset($this->originalExecutionOrder[$this->testFlushIndex - 1])) {
+                !empty($this->originalExecutionOrder[$this->testFlushIndex - 1])) {
                 $prevResult = $this->getTestResultByName($this->originalExecutionOrder[$this->testFlushIndex - 1]);
             } else {
                 $prevResult = $this->testResults[$this->testFlushIndex - 1];
@@ -255,7 +255,7 @@ class TestDoxPrinter extends DefaultResultPrinter
             do {
                 $flushed = false;
 
-                if (!$forceFlush && isset($this->originalExecutionOrder[$this->testFlushIndex])) {
+                if (!$forceFlush && !empty($this->originalExecutionOrder[$this->testFlushIndex])) {
                     $result = $this->getTestResultByName($this->originalExecutionOrder[$this->testFlushIndex]);
                 } else {
                     // This test(name) cannot found in original execution order,
@@ -330,7 +330,7 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function getTestResultByName(?string $testName): array
     {
-        if (isset($this->testNameResultIndex[$testName])) {
+        if (!empty($this->testNameResultIndex[$testName])) {
             return $this->testResults[$this->testNameResultIndex[$testName]];
         }
 

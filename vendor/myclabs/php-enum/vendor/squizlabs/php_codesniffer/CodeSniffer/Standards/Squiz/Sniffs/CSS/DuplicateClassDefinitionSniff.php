@@ -94,7 +94,7 @@ class Squiz_Sniffs_CSS_DuplicateClassDefinitionSniff implements PHP_CodeSniffer_
             sort($names);
             $name = implode(',', $names);
 
-            if (isset($classNames[$name]) === true) {
+            if (!empty($classNames[$name]) === true) {
                 $first = $classNames[$name];
                 $error = 'Duplicate class definition found; first defined on line %s';
                 $data  = array($tokens[$first]['line']);

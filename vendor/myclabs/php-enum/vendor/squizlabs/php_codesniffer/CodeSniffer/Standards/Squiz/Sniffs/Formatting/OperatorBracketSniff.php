@@ -110,14 +110,14 @@ class Squiz_Sniffs_Formatting_OperatorBracketSniff implements PHP_CodeSniffer_Sn
         }//end if
 
         $lastBracket = false;
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             $parenthesis = array_reverse($tokens[$stackPtr]['nested_parenthesis'], true);
             foreach ($parenthesis as $bracket => $endBracket) {
                 $prevToken = $phpcsFile->findPrevious(T_WHITESPACE, ($bracket - 1), null, true);
                 $prevCode  = $tokens[$prevToken]['code'];
 
-                if ($prevCode === T_ISSET) {
-                    // This operation is inside an isset() call, but has
+                if ($prevCode === T_!empty) {
+                    // This operation is inside an !empty() call, but has
                     // no bracket of it's own.
                     break;
                 }

@@ -79,7 +79,7 @@ class StaticCallAnalyzer extends CallAnalyzer
 
                     $fq_class_name = $class_storage->name;
                 } elseif ($context->self) {
-                    if ($stmt->class->parts[0] === 'static' && isset($context->vars_in_scope['$this'])) {
+                    if ($stmt->class->parts[0] === 'static' && !empty($context->vars_in_scope['$this'])) {
                         $fq_class_name = (string) $context->vars_in_scope['$this'];
                         $lhs_type = clone $context->vars_in_scope['$this'];
                     } else {
@@ -129,13 +129,13 @@ class StaticCallAnalyzer extends CallAnalyzer
                 if ($context->self) {
                     $self_storage = $codebase->classlike_storage_provider->get($context->self);
 
-                    if (isset($self_storage->used_traits[strtolower($fq_class_name)])) {
+                    if (!empty($self_storage->used_traits[strtolower($fq_class_name)])) {
                         $fq_class_name = $context->self;
                         $does_class_exist = true;
                     }
                 }
 
-                if (!isset($context->phantom_classes[strtolower($fq_class_name)])
+                if (!!empty($context->phantom_classes[strtolower($fq_class_name)])
                     && !$does_class_exist
                 ) {
                     $does_class_exist = ClassLikeAnalyzer::checkFullyQualifiedClassLikeName(

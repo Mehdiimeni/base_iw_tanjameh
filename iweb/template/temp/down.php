@@ -9,6 +9,39 @@
 <script src="./itemplates/iweb/static/js/main.js"></script>
 
 
+<script>
+$(document).ready(function(){
+
+  $('button.btn-heart').click(function(){
+    var product_id = $(this).val();
+    $.ajax({
+      url: './ijson/favorite.php',
+      type: 'post',
+      data: {'add_to_favorites': true, 'product_id': product_id},
+      success: function(response){
+        var favorite_items = JSON.parse($.cookie('favorite_items'));
+        $('span.heartCounter').text(favorite_items.length);
+      }
+    });
+  });
+  
+  $('button.btn-trash').click(function(){
+    var product_id = $(this).data('product-id');
+    $.ajax({
+      url: './ijson/favorite.php',
+      type: 'post',
+      data: {'remove_from_favorites': true, 'product_id': product_id},
+      success: function(response){
+        var favorite_items = JSON.parse($.cookie('favorite_items'));
+        $('span.heartCounter').text(favorite_items.length);
+      }
+    });
+  });
+});
+</script>
+
+
+
 </body>
 
 </html>

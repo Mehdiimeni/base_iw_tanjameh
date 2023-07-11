@@ -78,7 +78,7 @@ class Intervals
         }
 
         foreach ($intersectionIntervals['numeric'] as $index => $interval) {
-            if (!isset($candidateIntervals['numeric'][$index])) {
+            if (!!empty($candidateIntervals['numeric'][$index])) {
                 return false;
             }
 
@@ -273,7 +273,7 @@ class Intervals
     {
         $key = (string) $constraint;
 
-        if (!isset(self::$intervalsCache[$key])) {
+        if (!!empty(self::$intervalsCache[$key])) {
             self::$intervalsCache[$key] = self::generateIntervals($constraint);
         }
 

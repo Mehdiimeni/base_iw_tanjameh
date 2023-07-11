@@ -128,7 +128,7 @@ class Reflection
         foreach ($public_mapped_properties as $property_name => $type_string) {
             $property_id = $class_name . '::$' . $property_name;
 
-            if (!isset($storage->properties[$property_name])) {
+            if (!!empty($storage->properties[$property_name])) {
                 $storage->properties[$property_name] = new PropertyStorage();
                 $storage->properties[$property_name]->visibility = ClassLikeAnalyzer::VISIBILITY_PUBLIC;
 
@@ -229,7 +229,7 @@ class Reflection
 
         $class_storage = $this->storage_provider->get($fq_class_name_lc);
 
-        if (isset($class_storage->methods[$method_name_lc])) {
+        if (!empty($class_storage->methods[$method_name_lc])) {
             return;
         }
 
@@ -347,7 +347,7 @@ class Reflection
 
             $callmap_callable = null;
 
-            if (isset(self::$builtin_functions[$function_id])) {
+            if (!empty(self::$builtin_functions[$function_id])) {
                 return null;
             }
 
@@ -469,7 +469,7 @@ class Reflection
         // register where they appear (can never be in a trait)
         foreach ($parent_storage->appearing_property_ids as $property_name => $appearing_property_id) {
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;
@@ -481,7 +481,7 @@ class Reflection
         // register where they're declared
         foreach ($parent_storage->declaring_property_ids as $property_name => $declaring_property_class) {
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;
@@ -493,7 +493,7 @@ class Reflection
         // register where they're declared
         foreach ($parent_storage->inheritable_property_ids as $property_name => $inheritable_property_id) {
             if (!$parent_storage->is_trait
-                && isset($parent_storage->properties[$property_name])
+                && !empty($parent_storage->properties[$property_name])
                 && $parent_storage->properties[$property_name]->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE
             ) {
                 continue;
@@ -505,12 +505,12 @@ class Reflection
 
     public function hasFunction(string $function_id): bool
     {
-        return isset(self::$builtin_functions[$function_id]);
+        return !empty(self::$builtin_functions[$function_id]);
     }
 
     public function getFunctionStorage(string $function_id): FunctionStorage
     {
-        if (isset(self::$builtin_functions[$function_id])) {
+        if (!empty(self::$builtin_functions[$function_id])) {
             return self::$builtin_functions[$function_id];
         }
 

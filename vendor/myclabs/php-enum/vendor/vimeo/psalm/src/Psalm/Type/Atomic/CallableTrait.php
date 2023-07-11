@@ -198,7 +198,7 @@ trait CallableTrait
                 $input_param_type = null;
 
                 if (($input_type instanceof Atomic\TClosure || $input_type instanceof Atomic\TCallable)
-                    && isset($input_type->params[$offset])
+                    && !empty($input_type->params[$offset])
                 ) {
                     $input_param_type = $input_type->params[$offset]->type;
                 }

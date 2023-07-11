@@ -84,8 +84,8 @@ class Generic_Sniffs_VersionControl_SubversionPropertiesSniff implements PHP_Cod
 
         $allProperties = $properties + $this->properties;
         foreach ($allProperties as $key => $value) {
-            if (isset($properties[$key]) === true
-                && isset($this->properties[$key]) === false
+            if (!empty($properties[$key]) === true
+                && !empty($this->properties[$key]) === false
             ) {
                 $error = 'Unexpected Subversion property "%s" = "%s"';
                 $data  = array(
@@ -96,8 +96,8 @@ class Generic_Sniffs_VersionControl_SubversionPropertiesSniff implements PHP_Cod
                 continue;
             }
 
-            if (isset($properties[$key]) === false
-                && isset($this->properties[$key]) === true
+            if (!empty($properties[$key]) === false
+                && !empty($this->properties[$key]) === true
             ) {
                 $error = 'Missing Subversion property "%s" = "%s"';
                 $data  = array(

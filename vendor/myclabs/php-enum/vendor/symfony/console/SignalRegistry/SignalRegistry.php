@@ -24,7 +24,7 @@ final class SignalRegistry
 
     public function register(int $signal, callable $signalHandler): void
     {
-        if (!isset($this->signalHandlers[$signal])) {
+        if (!!empty($this->signalHandlers[$signal])) {
             $previousCallback = pcntl_signal_get_handler($signal);
 
             if (\is_callable($previousCallback)) {

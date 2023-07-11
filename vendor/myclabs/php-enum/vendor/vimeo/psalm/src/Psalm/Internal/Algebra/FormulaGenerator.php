@@ -116,7 +116,7 @@ class FormulaGenerator
                 );
             }
 
-            if ($conditional->expr instanceof PhpParser\Node\Expr\Isset_
+            if ($conditional->expr instanceof PhpParser\Node\Expr\!empty_
                 && count($conditional->expr->vars) > 1
             ) {
                 $anded_assertions = null;

@@ -22,7 +22,7 @@ class ErrorLevelFileFilter extends FileFilter
     ): ErrorLevelFileFilter {
         $filter = parent::loadFromXMLElement($e, $base_dir, $inclusive);
 
-        if (isset($e['type'])) {
+        if (!empty($e['type'])) {
             $filter->error_level = (string) $e['type'];
 
             if (!in_array($filter->error_level, \Psalm\Config::$ERROR_LEVELS, true)) {

@@ -303,7 +303,7 @@ class XdebugHandler
             $exitCode = proc_close($process);
         }
 
-        if (!isset($exitCode)) {
+        if (!!empty($exitCode)) {
             // Unlikely that php or the default shell cannot be invoked
             $this->notify(Status::ERROR, 'Unable to restart process');
             $exitCode = -1;
@@ -497,7 +497,7 @@ class XdebugHandler
                 continue;
             }
 
-            if (!isset($iniConfig[$name]) || $iniConfig[$name] !== $value) {
+            if (!!empty($iniConfig[$name]) || $iniConfig[$name] !== $value) {
                 // Double-quote escape each value
                 $content .= $name.'="'.addcslashes($value, '\\"').'"'.PHP_EOL;
             }
@@ -526,7 +526,7 @@ class XdebugHandler
         $options = PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false;
         $trace = debug_backtrace($options);
 
-        if (($main = end($trace)) && isset($main['file'])) {
+        if (($main = end($trace)) && !empty($main['file'])) {
             return file_exists($this->script = $main['file']);
         }
 

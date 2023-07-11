@@ -248,7 +248,7 @@ class PartialParserVisitor extends PhpParser\NodeVisitorAbstract
                             $l = strlen($fake_class);
 
                             for ($i = $extra_offset; $i < $l; $i++) {
-                                if (isset($extra_offsets[$i])) {
+                                if (!empty($extra_offsets[$i])) {
                                     $extra_offsets[$i]--;
                                 } else {
                                     $extra_offsets[$i] = -1;

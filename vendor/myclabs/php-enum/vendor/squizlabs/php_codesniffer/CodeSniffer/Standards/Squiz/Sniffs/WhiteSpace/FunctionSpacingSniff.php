@@ -69,7 +69,7 @@ class Squiz_Sniffs_WhiteSpace_FunctionSpacingSniff implements PHP_CodeSniffer_Sn
             after the function.
         */
 
-        if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_closer']) === false) {
             // Must be an interface method, so the closer is the semi-colon.
             $closer = $phpcsFile->findNext(T_SEMICOLON, $stackPtr);
         } else {
@@ -144,7 +144,7 @@ class Squiz_Sniffs_WhiteSpace_FunctionSpacingSniff implements PHP_CodeSniffer_Sn
             $i           = ($stackPtr - 1);
             $foundLines  = 0;
             while ($currentLine != $prevLine && $currentLine > 1 && $i > 0) {
-                if (isset($tokens[$i]['scope_condition']) === true) {
+                if (!empty($tokens[$i]['scope_condition']) === true) {
                     $scopeCondition = $tokens[$i]['scope_condition'];
                     if ($tokens[$scopeCondition]['code'] === T_FUNCTION) {
                         // Found a previous function.

@@ -85,7 +85,7 @@ final class Color
         $styles = [];
 
         foreach ($codes as $code) {
-            if (isset(self::$ansiCodes[$code])) {
+            if (!empty(self::$ansiCodes[$code])) {
                 $styles[] = self::$ansiCodes[$code] ?? '';
             }
         }

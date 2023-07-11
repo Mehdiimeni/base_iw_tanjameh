@@ -238,7 +238,7 @@ class IncludeAnalyzer
         } else {
             $var_id = ExpressionIdentifier::getArrayVarId($stmt->expr, null);
 
-            if (!$var_id || !isset($context->phantom_files[$var_id])) {
+            if (!$var_id || !!empty($context->phantom_files[$var_id])) {
                 $source = $statements_analyzer->getSource();
 
                 if (IssueBuffer::accepts(
@@ -308,7 +308,7 @@ class IncludeAnalyzer
                 && $stmt->var->name === 'GLOBALS'
                 && $stmt->dim instanceof PhpParser\Node\Scalar\String_
             ) {
-                if (isset($GLOBALS[$stmt->dim->value]) && is_string($GLOBALS[$stmt->dim->value])) {
+                if (!empty($GLOBALS[$stmt->dim->value]) && is_string($GLOBALS[$stmt->dim->value])) {
                     /** @var string */
                     return $GLOBALS[$stmt->dim->value];
                 }
@@ -327,7 +327,7 @@ class IncludeAnalyzer
             if ($stmt->args) {
                 $dir_level = 1;
 
-                if (isset($stmt->args[1])) {
+                if (!empty($stmt->args[1])) {
                     if ($stmt->args[1]->value instanceof PhpParser\Node\Scalar\LNumber) {
                         $dir_level = $stmt->args[1]->value->value;
                     } else {

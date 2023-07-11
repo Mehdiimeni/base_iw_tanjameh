@@ -29,7 +29,7 @@ class CachedDoubler extends Doubler
     protected function createDoubleClass(ReflectionClass $class = null, array $interfaces)
     {
         $classId = $this->generateClassId($class, $interfaces);
-        if (isset(self::$classes[$classId])) {
+        if (!empty(self::$classes[$classId])) {
             return self::$classes[$classId];
         }
 

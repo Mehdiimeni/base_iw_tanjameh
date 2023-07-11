@@ -313,7 +313,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function sendOutputData($data, $length) {
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+		if (!!empty($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 			// the content length may vary if the server is using compression
 			header('Content-Length: '.$length);
 		}
@@ -525,7 +525,7 @@ class TCPDF_STATIC {
 			);
 		$protection = 2147422012; // 32 bit: (01111111 11111111 00001111 00111100)
 		foreach ($permissions as $permission) {
-			if (isset($options[$permission])) {
+			if (!empty($options[$permission])) {
 				if (($mode > 0) OR ($options[$permission] <= 32)) {
 					// set only valid permissions
 					if ($options[$permission] == 2) {
@@ -629,13 +629,13 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function getAnnotOptFromJSProp($prop, &$spot_colors, $rtl=false) {
-		if (isset($prop['aopt']) AND is_array($prop['aopt'])) {
+		if (!empty($prop['aopt']) AND is_array($prop['aopt'])) {
 			// the annotation options are already defined
 			return $prop['aopt'];
 		}
 		$opt = array(); // value to be returned
 		// alignment: Controls how the text is laid out within the text field.
-		if (isset($prop['alignment'])) {
+		if (!empty($prop['alignment'])) {
 			switch ($prop['alignment']) {
 				case 'left': {
 					$opt['q'] = 0;
@@ -656,13 +656,13 @@ class TCPDF_STATIC {
 			}
 		}
 		// lineWidth: Specifies the thickness of the border when stroking the perimeter of a field's rectangle.
-		if (isset($prop['lineWidth'])) {
+		if (!empty($prop['lineWidth'])) {
 			$linewidth = intval($prop['lineWidth']);
 		} else {
 			$linewidth = 1;
 		}
 		// borderStyle: The border style for a field.
-		if (isset($prop['borderStyle'])) {
+		if (!empty($prop['borderStyle'])) {
 			switch ($prop['borderStyle']) {
 				case 'border.d':
 				case 'dashed': {
@@ -699,30 +699,30 @@ class TCPDF_STATIC {
 				}
 			}
 		}
-		if (isset($prop['border']) AND is_array($prop['border'])) {
+		if (!empty($prop['border']) AND is_array($prop['border'])) {
 			$opt['border'] = $prop['border'];
 		}
-		if (!isset($opt['mk'])) {
+		if (!!empty($opt['mk'])) {
 			$opt['mk'] = array();
 		}
-		if (!isset($opt['mk']['if'])) {
+		if (!!empty($opt['mk']['if'])) {
 			$opt['mk']['if'] = array();
 		}
 		$opt['mk']['if']['a'] = array(0.5, 0.5);
 		// buttonAlignX: Controls how space is distributed from the left of the button face with respect to the icon.
-		if (isset($prop['buttonAlignX'])) {
+		if (!empty($prop['buttonAlignX'])) {
 			$opt['mk']['if']['a'][0] = $prop['buttonAlignX'];
 		}
 		// buttonAlignY: Controls how unused space is distributed from the bottom of the button face with respect to the icon.
-		if (isset($prop['buttonAlignY'])) {
+		if (!empty($prop['buttonAlignY'])) {
 			$opt['mk']['if']['a'][1] = $prop['buttonAlignY'];
 		}
 		// buttonFitBounds: If true, the extent to which the icon may be scaled is set to the bounds of the button field.
-		if (isset($prop['buttonFitBounds']) AND ($prop['buttonFitBounds'] == 'true')) {
+		if (!empty($prop['buttonFitBounds']) AND ($prop['buttonFitBounds'] == 'true')) {
 			$opt['mk']['if']['fb'] = true;
 		}
 		// buttonScaleHow: Controls how the icon is scaled (if necessary) to fit inside the button face.
-		if (isset($prop['buttonScaleHow'])) {
+		if (!empty($prop['buttonScaleHow'])) {
 			switch ($prop['buttonScaleHow']) {
 				case 'scaleHow.proportional': {
 					$opt['mk']['if']['s'] = 'P';
@@ -735,7 +735,7 @@ class TCPDF_STATIC {
 			}
 		}
 		// buttonScaleWhen: Controls when an icon is scaled to fit inside the button face.
-		if (isset($prop['buttonScaleWhen'])) {
+		if (!empty($prop['buttonScaleWhen'])) {
 			switch ($prop['buttonScaleWhen']) {
 				case 'scaleWhen.always': {
 					$opt['mk']['if']['sw'] = 'A';
@@ -756,7 +756,7 @@ class TCPDF_STATIC {
 			}
 		}
 		// buttonPosition: Controls how the text and the icon of the button are positioned with respect to each other within the button face.
-		if (isset($prop['buttonPosition'])) {
+		if (!empty($prop['buttonPosition'])) {
 			switch ($prop['buttonPosition']) {
 				case 0:
 				case 'position.textOnly': {
@@ -796,7 +796,7 @@ class TCPDF_STATIC {
 			}
 		}
 		// fillColor: Specifies the background color for a field.
-		if (isset($prop['fillColor'])) {
+		if (!empty($prop['fillColor'])) {
 			if (is_array($prop['fillColor'])) {
 				$opt['mk']['bg'] = $prop['fillColor'];
 			} else {
@@ -804,7 +804,7 @@ class TCPDF_STATIC {
 			}
 		}
 		// strokeColor: Specifies the stroke color for a field that is used to stroke the rectangle of the field with a line as large as the line width.
-		if (isset($prop['strokeColor'])) {
+		if (!empty($prop['strokeColor'])) {
 			if (is_array($prop['strokeColor'])) {
 				$opt['mk']['bc'] = $prop['strokeColor'];
 			} else {
@@ -812,98 +812,98 @@ class TCPDF_STATIC {
 			}
 		}
 		// rotation: The rotation of a widget in counterclockwise increments.
-		if (isset($prop['rotation'])) {
+		if (!empty($prop['rotation'])) {
 			$opt['mk']['r'] = $prop['rotation'];
 		}
 		// charLimit: Limits the number of characters that a user can type into a text field.
-		if (isset($prop['charLimit'])) {
+		if (!empty($prop['charLimit'])) {
 			$opt['maxlen'] = intval($prop['charLimit']);
 		}
 		$ff = 0;
 		// readonly: The read-only characteristic of a field. If a field is read-only, the user can see the field but cannot change it.
-		if (isset($prop['readonly']) AND ($prop['readonly'] == 'true')) {
+		if (!empty($prop['readonly']) AND ($prop['readonly'] == 'true')) {
 			$ff += 1 << 0;
 		}
 		// required: Specifies whether a field requires a value.
-		if (isset($prop['required']) AND ($prop['required'] == 'true')) {
+		if (!empty($prop['required']) AND ($prop['required'] == 'true')) {
 			$ff += 1 << 1;
 		}
 		// multiline: Controls how text is wrapped within the field.
-		if (isset($prop['multiline']) AND ($prop['multiline'] == 'true')) {
+		if (!empty($prop['multiline']) AND ($prop['multiline'] == 'true')) {
 			$ff += 1 << 12;
 		}
 		// password: Specifies whether the field should display asterisks when data is entered in the field.
-		if (isset($prop['password']) AND ($prop['password'] == 'true')) {
+		if (!empty($prop['password']) AND ($prop['password'] == 'true')) {
 			$ff += 1 << 13;
 		}
 		// NoToggleToOff: If set, exactly one radio button shall be selected at all times; selecting the currently selected button has no effect.
-		if (isset($prop['NoToggleToOff']) AND ($prop['NoToggleToOff'] == 'true')) {
+		if (!empty($prop['NoToggleToOff']) AND ($prop['NoToggleToOff'] == 'true')) {
 			$ff += 1 << 14;
 		}
 		// Radio: If set, the field is a set of radio buttons.
-		if (isset($prop['Radio']) AND ($prop['Radio'] == 'true')) {
+		if (!empty($prop['Radio']) AND ($prop['Radio'] == 'true')) {
 			$ff += 1 << 15;
 		}
 		// Pushbutton: If set, the field is a pushbutton that does not retain a permanent value.
-		if (isset($prop['Pushbutton']) AND ($prop['Pushbutton'] == 'true')) {
+		if (!empty($prop['Pushbutton']) AND ($prop['Pushbutton'] == 'true')) {
 			$ff += 1 << 16;
 		}
 		// Combo: If set, the field is a combo box; if clear, the field is a list box.
-		if (isset($prop['Combo']) AND ($prop['Combo'] == 'true')) {
+		if (!empty($prop['Combo']) AND ($prop['Combo'] == 'true')) {
 			$ff += 1 << 17;
 		}
 		// editable: Controls whether a combo box is editable.
-		if (isset($prop['editable']) AND ($prop['editable'] == 'true')) {
+		if (!empty($prop['editable']) AND ($prop['editable'] == 'true')) {
 			$ff += 1 << 18;
 		}
 		// Sort: If set, the field's option items shall be sorted alphabetically.
-		if (isset($prop['Sort']) AND ($prop['Sort'] == 'true')) {
+		if (!empty($prop['Sort']) AND ($prop['Sort'] == 'true')) {
 			$ff += 1 << 19;
 		}
 		// fileSelect: If true, sets the file-select flag in the Options tab of the text field (Field is Used for File Selection).
-		if (isset($prop['fileSelect']) AND ($prop['fileSelect'] == 'true')) {
+		if (!empty($prop['fileSelect']) AND ($prop['fileSelect'] == 'true')) {
 			$ff += 1 << 20;
 		}
 		// multipleSelection: If true, indicates that a list box allows a multiple selection of items.
-		if (isset($prop['multipleSelection']) AND ($prop['multipleSelection'] == 'true')) {
+		if (!empty($prop['multipleSelection']) AND ($prop['multipleSelection'] == 'true')) {
 			$ff += 1 << 21;
 		}
 		// doNotSpellCheck: If true, spell checking is not performed on this editable text field.
-		if (isset($prop['doNotSpellCheck']) AND ($prop['doNotSpellCheck'] == 'true')) {
+		if (!empty($prop['doNotSpellCheck']) AND ($prop['doNotSpellCheck'] == 'true')) {
 			$ff += 1 << 22;
 		}
 		// doNotScroll: If true, the text field does not scroll and the user, therefore, is limited by the rectangular region designed for the field.
-		if (isset($prop['doNotScroll']) AND ($prop['doNotScroll'] == 'true')) {
+		if (!empty($prop['doNotScroll']) AND ($prop['doNotScroll'] == 'true')) {
 			$ff += 1 << 23;
 		}
 		// comb: If set to true, the field background is drawn as series of boxes (one for each character in the value of the field) and each character of the content is drawn within those boxes. The number of boxes drawn is determined from the charLimit property. It applies only to text fields. The setter will also raise if any of the following field properties are also set multiline, password, and fileSelect. A side-effect of setting this property is that the doNotScroll property is also set.
-		if (isset($prop['comb']) AND ($prop['comb'] == 'true')) {
+		if (!empty($prop['comb']) AND ($prop['comb'] == 'true')) {
 			$ff += 1 << 24;
 		}
 		// radiosInUnison: If false, even if a group of radio buttons have the same name and export value, they behave in a mutually exclusive fashion, like HTML radio buttons.
-		if (isset($prop['radiosInUnison']) AND ($prop['radiosInUnison'] == 'true')) {
+		if (!empty($prop['radiosInUnison']) AND ($prop['radiosInUnison'] == 'true')) {
 			$ff += 1 << 25;
 		}
 		// richText: If true, the field allows rich text formatting.
-		if (isset($prop['richText']) AND ($prop['richText'] == 'true')) {
+		if (!empty($prop['richText']) AND ($prop['richText'] == 'true')) {
 			$ff += 1 << 25;
 		}
 		// commitOnSelChange: Controls whether a field value is committed after a selection change.
-		if (isset($prop['commitOnSelChange']) AND ($prop['commitOnSelChange'] == 'true')) {
+		if (!empty($prop['commitOnSelChange']) AND ($prop['commitOnSelChange'] == 'true')) {
 			$ff += 1 << 26;
 		}
 		$opt['ff'] = $ff;
 		// defaultValue: The default value of a field - that is, the value that the field is set to when the form is reset.
-		if (isset($prop['defaultValue'])) {
+		if (!empty($prop['defaultValue'])) {
 			$opt['dv'] = $prop['defaultValue'];
 		}
 		$f = 4; // default value for annotation flags
 		// readonly: The read-only characteristic of a field. If a field is read-only, the user can see the field but cannot change it.
-		if (isset($prop['readonly']) AND ($prop['readonly'] == 'true')) {
+		if (!empty($prop['readonly']) AND ($prop['readonly'] == 'true')) {
 			$f += 1 << 6;
 		}
 		// display: Controls whether the field is hidden or visible on screen and in print.
-		if (isset($prop['display'])) {
+		if (!empty($prop['display'])) {
 			if ($prop['display'] == 'display.visible') {
 				//
 			} elseif ($prop['display'] == 'display.hidden') {
@@ -916,16 +916,16 @@ class TCPDF_STATIC {
 		}
 		$opt['f'] = $f;
 		// currentValueIndices: Reads and writes single or multiple values of a list box or combo box.
-		if (isset($prop['currentValueIndices']) AND is_array($prop['currentValueIndices'])) {
+		if (!empty($prop['currentValueIndices']) AND is_array($prop['currentValueIndices'])) {
 			$opt['i'] = $prop['currentValueIndices'];
 		}
 		// value: The value of the field data that the user has entered.
-		if (isset($prop['value'])) {
+		if (!empty($prop['value'])) {
 			if (is_array($prop['value'])) {
 				$opt['opt'] = array();
 				foreach ($prop['value'] AS $key => $optval) {
 					// exportValues: An array of strings representing the export values for the field.
-					if (isset($prop['exportValues'][$key])) {
+					if (!empty($prop['exportValues'][$key])) {
 						$opt['opt'][$key] = array($prop['exportValues'][$key], $prop['value'][$key]);
 					} else {
 						$opt['opt'][$key] = $prop['value'][$key];
@@ -936,23 +936,23 @@ class TCPDF_STATIC {
 			}
 		}
 		// richValue: This property specifies the text contents and formatting of a rich text field.
-		if (isset($prop['richValue'])) {
+		if (!empty($prop['richValue'])) {
 			$opt['rv'] = $prop['richValue'];
 		}
 		// submitName: If nonempty, used during form submission instead of name. Only applicable if submitting in HTML format (that is, URL-encoded).
-		if (isset($prop['submitName'])) {
+		if (!empty($prop['submitName'])) {
 			$opt['tm'] = $prop['submitName'];
 		}
 		// name: Fully qualified field name.
-		if (isset($prop['name'])) {
+		if (!empty($prop['name'])) {
 			$opt['t'] = $prop['name'];
 		}
 		// userName: The user name (short description string) of the field.
-		if (isset($prop['userName'])) {
+		if (!empty($prop['userName'])) {
 			$opt['tu'] = $prop['userName'];
 		}
 		// highlight: Defines how a button reacts when a user clicks it.
-		if (isset($prop['highlight'])) {
+		if (!empty($prop['highlight'])) {
 			switch ($prop['highlight']) {
 				case 'none':
 				case 'highlight.n': {
@@ -1046,10 +1046,10 @@ class TCPDF_STATIC {
 			$cssdata = preg_replace('/@media[\s]+([^\§]*)§([^§]*)§/i', '', $cssdata);
 		}
 		// keep 'all' and 'print' media, other media types are discarded
-		if (isset($cssblocks['all']) AND !empty($cssblocks['all'])) {
+		if (!empty($cssblocks['all']) AND !empty($cssblocks['all'])) {
 			$cssdata .= $cssblocks['all'];
 		}
-		if (isset($cssblocks['print']) AND !empty($cssblocks['print'])) {
+		if (!empty($cssblocks['print']) AND !empty($cssblocks['print'])) {
 			$cssdata .= $cssblocks['print'];
 		}
 		// reset css blocks array
@@ -1064,7 +1064,7 @@ class TCPDF_STATIC {
 		foreach ($matches as $key => $block) {
 			// index 0 contains the CSS selector, index 1 contains CSS properties
 			$cssblocks[$key] = explode('{', $block);
-			if (!isset($cssblocks[$key][1])) {
+			if (!!empty($cssblocks[$key][1])) {
 				// remove empty definitions
 				unset($cssblocks[$key]);
 			}
@@ -1148,7 +1148,7 @@ class TCPDF_STATIC {
 		$css = str_replace('/*<![CDATA[*/', '', $css);
 		$css = str_replace('/*]]>*/', '', $css);
 		preg_match('/<style>(.*)<\/style>/ims', $css, $matches);
-		if (isset($matches[1])) {
+		if (!empty($matches[1])) {
 			$css = strtolower($matches[1]);
 		} else {
 			$css = '';
@@ -1184,11 +1184,11 @@ class TCPDF_STATIC {
 		$valid = false; // value to be returned
 		$tag = $dom[$key]['value'];
 		$class = array();
-		if (isset($dom[$key]['attribute']['class']) AND !empty($dom[$key]['attribute']['class'])) {
+		if (!empty($dom[$key]['attribute']['class']) AND !empty($dom[$key]['attribute']['class'])) {
 			$class = explode(' ', strtolower($dom[$key]['attribute']['class']));
 		}
 		$id = '';
-		if (isset($dom[$key]['attribute']['id']) AND !empty($dom[$key]['attribute']['id'])) {
+		if (!empty($dom[$key]['attribute']['id']) AND !empty($dom[$key]['attribute']['id'])) {
 			$id = strtolower($dom[$key]['attribute']['id']);
 		}
 		$selector = preg_replace('/([\>\+\~\s]{1})([\.]{1})([^\>\+\~\s]*)/si', '\\1*.\\3', $selector);
@@ -1223,7 +1223,7 @@ class TCPDF_STATIC {
 							if (preg_match('/\[([a-zA-Z0-9]*)[\s]*([\~\^\$\*\|\=]*)[\s]*["]?([^"\]]*)["]?\]/i', $attrib, $attrmatch) > 0) {
 								$att = strtolower($attrmatch[1]);
 								$val = $attrmatch[3];
-								if (isset($dom[$key]['attribute'][$att])) {
+								if (!empty($dom[$key]['attribute'][$att])) {
 									switch ($attrmatch[2]) {
 										case '=': {
 											if ($dom[$key]['attribute'][$att] == $val) {
@@ -1344,7 +1344,7 @@ class TCPDF_STATIC {
 		$cssarray = array(); // style to be returned
 		// get parent CSS selectors
 		$selectors = array();
-		if (isset($dom[($dom[$key]['parent'])]['csssel'])) {
+		if (!empty($dom[($dom[$key]['parent'])]['csssel'])) {
 			$selectors = $dom[($dom[$key]['parent'])]['csssel'];
 		}
 		// get all styles that apply
@@ -1363,7 +1363,7 @@ class TCPDF_STATIC {
 				}
 			}
 		}
-		if (isset($dom[$key]['attribute']['style'])) {
+		if (!empty($dom[$key]['attribute']['style'])) {
 			// attach inline style (latest properties have high priority)
 			$cssarray[] = array('k' => '', 's' => '1000', 'c' => $dom[$key]['attribute']['style']);
 		}
@@ -1853,10 +1853,10 @@ class TCPDF_STATIC {
 	 */
 	public static function encodeUrlQuery($url) {
 		$urlData = parse_url($url);
-		if (isset($urlData['query']) && $urlData['query']) {
+		if (!empty($urlData['query']) && $urlData['query']) {
 			$urlQueryData = array();
 			parse_str(urldecode($urlData['query']), $urlQueryData);
-			$port = isset($urlData['port']) ? ':'.$urlData['port'] : '';
+			$port = !empty($urlData['port']) ? ':'.$urlData['port'] : '';
 			$updatedUrl = $urlData['scheme'].'://'.$urlData['host'].$port.$urlData['path'].'?'.http_build_query($urlQueryData);
 		} else {
 			$updatedUrl = $url;
@@ -1933,7 +1933,7 @@ class TCPDF_STATIC {
 			}
 		}
 		//
-		if (isset($_SERVER['SCRIPT_URI'])
+		if (!empty($_SERVER['SCRIPT_URI'])
 		    && !preg_match('%^(https?|ftp)://%', $file)
 		    && !preg_match('%^//%', $file)
 		) {
@@ -2487,7 +2487,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function getPageSizeFromFormat($format) {
-		if (isset(self::$page_formats[$format])) {
+		if (!empty(self::$page_formats[$format])) {
 			return self::$page_formats[$format];
 		}
 		return self::$page_formats['A4'];
@@ -2509,7 +2509,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function setPageBoxes($page, $type, $llx, $lly, $urx, $ury, $points, $k, $pagedim=array()) {
-		if (!isset($pagedim[$page])) {
+		if (!!empty($pagedim[$page])) {
 			// initialize array
 			$pagedim[$page] = array();
 		}
@@ -2537,7 +2537,7 @@ class TCPDF_STATIC {
 	public static function swapPageBoxCoordinates($page, $pagedim) {
 		foreach (self::$pageboxes as $type) {
 			// swap X and Y coordinates
-			if (isset($pagedim[$page][$type])) {
+			if (!empty($pagedim[$page][$type])) {
 				$tmp = $pagedim[$page][$type]['llx'];
 				$pagedim[$page][$type]['llx'] = $pagedim[$page][$type]['lly'];
 				$pagedim[$page][$type]['lly'] = $tmp;

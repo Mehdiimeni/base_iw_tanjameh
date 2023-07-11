@@ -212,7 +212,7 @@ class FileReferenceProvider
     public function addNonMethodReferencesToClasses(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$nonmethod_references_to_classes[$key])) {
+            if (!empty(self::$nonmethod_references_to_classes[$key])) {
                 self::$nonmethod_references_to_classes[$key] = array_merge(
                     $reference,
                     self::$nonmethod_references_to_classes[$key]
@@ -292,7 +292,7 @@ class FileReferenceProvider
     public function addFileReferencesToClassMembers(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$file_references_to_class_members[$key])) {
+            if (!empty(self::$file_references_to_class_members[$key])) {
                 self::$file_references_to_class_members[$key] = array_merge(
                     $reference,
                     self::$file_references_to_class_members[$key]
@@ -310,7 +310,7 @@ class FileReferenceProvider
     public function addFileReferencesToClassProperties(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$file_references_to_class_properties[$key])) {
+            if (!empty(self::$file_references_to_class_properties[$key])) {
                 self::$file_references_to_class_properties[$key] = array_merge(
                     $reference,
                     self::$file_references_to_class_properties[$key]
@@ -328,7 +328,7 @@ class FileReferenceProvider
     public function addFileReferencesToMethodReturns(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$file_references_to_method_returns[$key])) {
+            if (!empty(self::$file_references_to_method_returns[$key])) {
                 self::$file_references_to_method_returns[$key] = array_merge(
                     $reference,
                     self::$file_references_to_method_returns[$key]
@@ -346,7 +346,7 @@ class FileReferenceProvider
     public function addFileReferencesToMissingClassMembers(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$file_references_to_missing_class_members[$key])) {
+            if (!empty(self::$file_references_to_missing_class_members[$key])) {
                 self::$file_references_to_missing_class_members[$key] = array_merge(
                     $reference,
                     self::$file_references_to_missing_class_members[$key]
@@ -377,7 +377,7 @@ class FileReferenceProvider
         $file_classes = ClassLikeAnalyzer::getClassesForFile($codebase, $file);
 
         foreach ($file_classes as $file_class_lc => $_) {
-            if (isset(self::$nonmethod_references_to_classes[$file_class_lc])) {
+            if (!empty(self::$nonmethod_references_to_classes[$file_class_lc])) {
                 $new_files = array_keys(self::$nonmethod_references_to_classes[$file_class_lc]);
 
                 $referenced_files = array_merge(
@@ -386,7 +386,7 @@ class FileReferenceProvider
                 );
             }
 
-            if (isset(self::$method_references_to_classes[$file_class_lc])) {
+            if (!empty(self::$method_references_to_classes[$file_class_lc])) {
                 $new_referencing_methods = array_keys(self::$method_references_to_classes[$file_class_lc]);
 
                 foreach ($new_referencing_methods as $new_referencing_method_id) {
@@ -395,7 +395,7 @@ class FileReferenceProvider
                     try {
                         $referenced_files[] = $codebase->scanner->getClassLikeFilePath($fq_class_name_lc);
                     } catch (\UnexpectedValueException $e) {
-                        if (isset(self::$classlike_files[$fq_class_name_lc])) {
+                        if (!empty(self::$classlike_files[$fq_class_name_lc])) {
                             $referenced_files[] = self::$classlike_files[$fq_class_name_lc];
                         }
                     }
@@ -416,7 +416,7 @@ class FileReferenceProvider
         $file_classes = ClassLikeAnalyzer::getClassesForFile($codebase, $file);
 
         foreach ($file_classes as $file_class_lc => $_) {
-            if (isset(self::$files_inheriting_classes[$file_class_lc])) {
+            if (!empty(self::$files_inheriting_classes[$file_class_lc])) {
                 $referenced_files = array_merge(
                     $referenced_files,
                     array_keys(self::$files_inheriting_classes[$file_class_lc])
@@ -447,7 +447,7 @@ class FileReferenceProvider
      */
     public function getFilesReferencingFile(string $file): array
     {
-        return isset(self::$file_references[$file]['a']) ? self::$file_references[$file]['a'] : [];
+        return !empty(self::$file_references[$file]['a']) ? self::$file_references[$file]['a'] : [];
     }
 
     /**
@@ -455,7 +455,7 @@ class FileReferenceProvider
      */
     public function getFilesInheritingFromFile(string $file): array
     {
-        return isset(self::$file_references[$file]['i']) ? self::$file_references[$file]['i'] : [];
+        return !empty(self::$file_references[$file]['i']) ? self::$file_references[$file]['i'] : [];
     }
 
     /**
@@ -691,14 +691,14 @@ class FileReferenceProvider
         foreach ($visited_files as $file => $_) {
             $all_file_references = array_unique(
                 array_merge(
-                    isset(self::$file_references[$file]['a']) ? self::$file_references[$file]['a'] : [],
+                    !empty(self::$file_references[$file]['a']) ? self::$file_references[$file]['a'] : [],
                     $this->calculateFilesReferencingFile($codebase, $file)
                 )
             );
 
             $inheritance_references = array_unique(
                 array_merge(
-                    isset(self::$file_references[$file]['i']) ? self::$file_references[$file]['i'] : [],
+                    !empty(self::$file_references[$file]['i']) ? self::$file_references[$file]['i'] : [],
                     $this->calculateFilesInheritingFile($codebase, $file)
                 )
             );
@@ -737,7 +737,7 @@ class FileReferenceProvider
      */
     public function addMethodReferenceToClass(string $calling_function_id, string $fq_class_name_lc): void
     {
-        if (!isset(self::$method_references_to_classes[$fq_class_name_lc])) {
+        if (!!empty(self::$method_references_to_classes[$fq_class_name_lc])) {
             self::$method_references_to_classes[$fq_class_name_lc] = [$calling_function_id => true];
         } else {
             self::$method_references_to_classes[$fq_class_name_lc][$calling_function_id] = true;
@@ -749,14 +749,14 @@ class FileReferenceProvider
         string $referenced_member_id,
         bool $inside_return
     ): void {
-        if (!isset(self::$method_references_to_class_members[$referenced_member_id])) {
+        if (!!empty(self::$method_references_to_class_members[$referenced_member_id])) {
             self::$method_references_to_class_members[$referenced_member_id] = [$calling_function_id => true];
         } else {
             self::$method_references_to_class_members[$referenced_member_id][$calling_function_id] = true;
         }
 
         if ($inside_return) {
-            if (!isset(self::$method_references_to_method_returns[$referenced_member_id])) {
+            if (!!empty(self::$method_references_to_method_returns[$referenced_member_id])) {
                 self::$method_references_to_method_returns[$referenced_member_id] = [$calling_function_id => true];
             } else {
                 self::$method_references_to_method_returns[$referenced_member_id][$calling_function_id] = true;
@@ -768,7 +768,7 @@ class FileReferenceProvider
         string $calling_function_id,
         string $referenced_member_id
     ): void {
-        if (!isset(self::$method_dependencies[$referenced_member_id])) {
+        if (!!empty(self::$method_dependencies[$referenced_member_id])) {
             self::$method_dependencies[$referenced_member_id] = [$calling_function_id => true];
         } else {
             self::$method_dependencies[$referenced_member_id][$calling_function_id] = true;
@@ -777,7 +777,7 @@ class FileReferenceProvider
 
     public function addMethodReferenceToClassProperty(string $calling_function_id, string $referenced_property_id): void
     {
-        if (!isset(self::$method_references_to_class_properties[$referenced_property_id])) {
+        if (!!empty(self::$method_references_to_class_properties[$referenced_property_id])) {
             self::$method_references_to_class_properties[$referenced_property_id] = [$calling_function_id => true];
         } else {
             self::$method_references_to_class_properties[$referenced_property_id][$calling_function_id] = true;
@@ -788,7 +788,7 @@ class FileReferenceProvider
         string $calling_function_id,
         string $referenced_member_id
     ): void {
-        if (!isset(self::$method_references_to_missing_class_members[$referenced_member_id])) {
+        if (!!empty(self::$method_references_to_missing_class_members[$referenced_member_id])) {
             self::$method_references_to_missing_class_members[$referenced_member_id] = [$calling_function_id => true];
         } else {
             self::$method_references_to_missing_class_members[$referenced_member_id][$calling_function_id] = true;
@@ -797,7 +797,7 @@ class FileReferenceProvider
 
     public function addCallingLocationForClassMethod(CodeLocation $code_location, string $referenced_member_id): void
     {
-        if (!isset(self::$class_method_locations[$referenced_member_id])) {
+        if (!!empty(self::$class_method_locations[$referenced_member_id])) {
             self::$class_method_locations[$referenced_member_id] = [$code_location];
         } else {
             self::$class_method_locations[$referenced_member_id][] = $code_location;
@@ -808,7 +808,7 @@ class FileReferenceProvider
         CodeLocation $code_location,
         string $referenced_property_id
     ): void {
-        if (!isset(self::$class_property_locations[$referenced_property_id])) {
+        if (!!empty(self::$class_property_locations[$referenced_property_id])) {
             self::$class_property_locations[$referenced_property_id] = [$code_location];
         } else {
             self::$class_property_locations[$referenced_property_id][] = $code_location;
@@ -817,7 +817,7 @@ class FileReferenceProvider
 
     public function addCallingLocationForClass(CodeLocation $code_location, string $referenced_class): void
     {
-        if (!isset(self::$class_locations[$referenced_class])) {
+        if (!!empty(self::$class_locations[$referenced_class])) {
             self::$class_locations[$referenced_class] = [$code_location];
         } else {
             self::$class_locations[$referenced_class][] = $code_location;
@@ -844,8 +844,8 @@ class FileReferenceProvider
 
     public function isClassReferenced(string $fq_class_name_lc) : bool
     {
-        return isset(self::$method_references_to_classes[$fq_class_name_lc])
-            || isset(self::$nonmethod_references_to_classes[$fq_class_name_lc]);
+        return !empty(self::$method_references_to_classes[$fq_class_name_lc])
+            || !empty(self::$nonmethod_references_to_classes[$fq_class_name_lc]);
     }
 
     public function isMethodParamUsed(string $method_id, int $offset) : bool
@@ -917,7 +917,7 @@ class FileReferenceProvider
     public function addMethodReferencesToClassMembers(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_references_to_class_members[$key])) {
+            if (!empty(self::$method_references_to_class_members[$key])) {
                 self::$method_references_to_class_members[$key] = array_merge(
                     $reference,
                     self::$method_references_to_class_members[$key]
@@ -935,7 +935,7 @@ class FileReferenceProvider
     public function addMethodDependencies(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_dependencies[$key])) {
+            if (!empty(self::$method_dependencies[$key])) {
                 self::$method_dependencies[$key] = array_merge(
                     $reference,
                     self::$method_dependencies[$key]
@@ -953,7 +953,7 @@ class FileReferenceProvider
     public function addMethodReferencesToClassProperties(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_references_to_class_properties[$key])) {
+            if (!empty(self::$method_references_to_class_properties[$key])) {
                 self::$method_references_to_class_properties[$key] = array_merge(
                     $reference,
                     self::$method_references_to_class_properties[$key]
@@ -971,7 +971,7 @@ class FileReferenceProvider
     public function addMethodReferencesToMethodReturns(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_references_to_method_returns[$key])) {
+            if (!empty(self::$method_references_to_method_returns[$key])) {
                 self::$method_references_to_method_returns[$key] = array_merge(
                     $reference,
                     self::$method_references_to_method_returns[$key]
@@ -989,7 +989,7 @@ class FileReferenceProvider
     public function addMethodReferencesToClasses(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_references_to_classes[$key])) {
+            if (!empty(self::$method_references_to_classes[$key])) {
                 self::$method_references_to_classes[$key] = array_merge(
                     $reference,
                     self::$method_references_to_classes[$key]
@@ -1007,7 +1007,7 @@ class FileReferenceProvider
     public function addMethodReferencesToMissingClassMembers(array $references): void
     {
         foreach ($references as $key => $reference) {
-            if (isset(self::$method_references_to_missing_class_members[$key])) {
+            if (!empty(self::$method_references_to_missing_class_members[$key])) {
                 self::$method_references_to_missing_class_members[$key] = array_merge(
                     $reference,
                     self::$method_references_to_missing_class_members[$key]
@@ -1025,9 +1025,9 @@ class FileReferenceProvider
     public function addMethodParamUses(array $references): void
     {
         foreach ($references as $method_id => $method_param_uses) {
-            if (isset(self::$method_param_uses[$method_id])) {
+            if (!empty(self::$method_param_uses[$method_id])) {
                 foreach ($method_param_uses as $offset => $reference_map) {
-                    if (isset(self::$method_param_uses[$method_id][$offset])) {
+                    if (!empty(self::$method_param_uses[$method_id][$offset])) {
                         self::$method_param_uses[$method_id][$offset] = array_merge(
                             self::$method_param_uses[$method_id][$offset],
                             $reference_map
@@ -1157,7 +1157,7 @@ class FileReferenceProvider
     public function addClassMethodLocations(array $references): void
     {
         foreach ($references as $referenced_member_id => $locations) {
-            if (isset(self::$class_method_locations[$referenced_member_id])) {
+            if (!empty(self::$class_method_locations[$referenced_member_id])) {
                 self::$class_method_locations[$referenced_member_id] = array_merge(
                     self::$class_method_locations[$referenced_member_id],
                     $locations
@@ -1175,7 +1175,7 @@ class FileReferenceProvider
     public function addClassPropertyLocations(array $references): void
     {
         foreach ($references as $referenced_member_id => $locations) {
-            if (isset(self::$class_property_locations[$referenced_member_id])) {
+            if (!empty(self::$class_property_locations[$referenced_member_id])) {
                 self::$class_property_locations[$referenced_member_id] = array_merge(
                     self::$class_property_locations[$referenced_member_id],
                     $locations
@@ -1193,7 +1193,7 @@ class FileReferenceProvider
     public function addClassLocations(array $references): void
     {
         foreach ($references as $referenced_member_id => $locations) {
-            if (isset(self::$class_locations[$referenced_member_id])) {
+            if (!empty(self::$class_locations[$referenced_member_id])) {
                 self::$class_locations[$referenced_member_id] = array_merge(
                     self::$class_locations[$referenced_member_id],
                     $locations
@@ -1229,7 +1229,7 @@ class FileReferenceProvider
             return;
         }
 
-        if (!isset(self::$issues[$file_path])) {
+        if (!!empty(self::$issues[$file_path])) {
             self::$issues[$file_path] = [$issue];
         } else {
             self::$issues[$file_path][] = $issue;

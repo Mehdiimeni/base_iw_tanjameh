@@ -44,7 +44,7 @@ require "../vendor/autoload.php";
 echo $_REQUEST["test"];
 var_dump($_POST);
 
-if (isset($_POST['Token'])) {
+if (!empty($_POST['Token'])) {
     echo 'post set';
 }
 try {

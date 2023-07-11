@@ -76,7 +76,7 @@ class Squiz_Sniffs_Classes_DuplicatePropertySniff implements PHP_CodeSniffer_Sni
                 $next = $tokens[$next]['bracket_closer'];
             } else {
                 $propName = $tokens[$next]['content'];
-                if (isset($properties[$propName]) === true) {
+                if (!empty($properties[$propName]) === true) {
                     $error = 'Duplicate property definition found for "%s"; previously defined on line %s';
                     $data  = array(
                               $propName,

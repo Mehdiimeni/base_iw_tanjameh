@@ -35,7 +35,7 @@ final class ComplexityCollectionIterator implements Iterator
 
     public function valid(): bool
     {
-        return isset($this->items[$this->position]);
+        return !empty($this->items[$this->position]);
     }
 
     public function key(): int

@@ -96,7 +96,7 @@ class InputDefinition
      */
     public function addArgument(InputArgument $argument)
     {
-        if (isset($this->arguments[$argument->getName()])) {
+        if (!empty($this->arguments[$argument->getName()])) {
             throw new LogicException(sprintf('An argument with name "%s" already exists.', $argument->getName()));
         }
 
@@ -152,7 +152,7 @@ class InputDefinition
     {
         $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
 
-        return isset($arguments[$name]);
+        return !empty($arguments[$name]);
     }
 
     /**
@@ -228,16 +228,16 @@ class InputDefinition
      */
     public function addOption(InputOption $option)
     {
-        if (isset($this->options[$option->getName()]) && !$option->equals($this->options[$option->getName()])) {
+        if (!empty($this->options[$option->getName()]) && !$option->equals($this->options[$option->getName()])) {
             throw new LogicException(sprintf('An option named "%s" already exists.', $option->getName()));
         }
-        if (isset($this->negations[$option->getName()])) {
+        if (!empty($this->negations[$option->getName()])) {
             throw new LogicException(sprintf('An option named "%s" already exists.', $option->getName()));
         }
 
         if ($option->getShortcut()) {
             foreach (explode('|', $option->getShortcut()) as $shortcut) {
-                if (isset($this->shortcuts[$shortcut]) && !$option->equals($this->options[$this->shortcuts[$shortcut]])) {
+                if (!empty($this->shortcuts[$shortcut]) && !$option->equals($this->options[$this->shortcuts[$shortcut]])) {
                     throw new LogicException(sprintf('An option with shortcut "%s" already exists.', $shortcut));
                 }
             }
@@ -252,7 +252,7 @@ class InputDefinition
 
         if ($option->isNegatable()) {
             $negatedName = 'no-'.$option->getName();
-            if (isset($this->options[$negatedName])) {
+            if (!empty($this->options[$negatedName])) {
                 throw new LogicException(sprintf('An option named "%s" already exists.', $negatedName));
             }
             $this->negations[$negatedName] = $option->getName();
@@ -285,7 +285,7 @@ class InputDefinition
      */
     public function hasOption(string $name)
     {
-        return isset($this->options[$name]);
+        return !empty($this->options[$name]);
     }
 
     /**
@@ -305,7 +305,7 @@ class InputDefinition
      */
     public function hasShortcut(string $name)
     {
-        return isset($this->shortcuts[$name]);
+        return !empty($this->shortcuts[$name]);
     }
 
     /**
@@ -313,7 +313,7 @@ class InputDefinition
      */
     public function hasNegation(string $name): bool
     {
-        return isset($this->negations[$name]);
+        return !empty($this->negations[$name]);
     }
 
     /**
@@ -348,7 +348,7 @@ class InputDefinition
      */
     public function shortcutToName(string $shortcut): string
     {
-        if (!isset($this->shortcuts[$shortcut])) {
+        if (!!empty($this->shortcuts[$shortcut])) {
             throw new InvalidArgumentException(sprintf('The "-%s" option does not exist.', $shortcut));
         }
 
@@ -364,7 +364,7 @@ class InputDefinition
      */
     public function negationToName(string $negation): string
     {
-        if (!isset($this->negations[$negation])) {
+        if (!!empty($this->negations[$negation])) {
             throw new InvalidArgumentException(sprintf('The "--%s" option does not exist.', $negation));
         }
 

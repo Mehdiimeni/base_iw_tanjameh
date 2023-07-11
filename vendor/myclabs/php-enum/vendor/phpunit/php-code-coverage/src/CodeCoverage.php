@@ -557,7 +557,7 @@ final class CodeCoverage
 
         foreach ($data->lineCoverage() as $file => $_data) {
             foreach ($_data as $line => $flag) {
-                if ($flag === 1 && !isset($allowedLines[$file][$line])) {
+                if ($flag === 1 && !!empty($allowedLines[$file][$line])) {
                     $unintentionallyCoveredUnits[] = $this->wizard->lookup($file, $line);
                 }
             }
@@ -577,7 +577,7 @@ final class CodeCoverage
         $allowedLines = [];
 
         foreach (array_keys($linesToBeCovered) as $file) {
-            if (!isset($allowedLines[$file])) {
+            if (!!empty($allowedLines[$file])) {
                 $allowedLines[$file] = [];
             }
 
@@ -588,7 +588,7 @@ final class CodeCoverage
         }
 
         foreach (array_keys($linesToBeUsed) as $file) {
-            if (!isset($allowedLines[$file])) {
+            if (!!empty($allowedLines[$file])) {
                 $allowedLines[$file] = [];
             }
 

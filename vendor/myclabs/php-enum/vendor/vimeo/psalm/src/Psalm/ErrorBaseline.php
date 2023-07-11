@@ -141,14 +141,14 @@ class ErrorBaseline
         $newIssues = self::countIssueTypesByFile($issues);
 
         foreach ($existingIssues as $file => &$existingIssuesCount) {
-            if (!isset($newIssues[$file])) {
+            if (!!empty($newIssues[$file])) {
                 unset($existingIssues[$file]);
 
                 continue;
             }
 
             foreach ($existingIssuesCount as $issueType => $existingIssueType) {
-                if (!isset($newIssues[$file][$issueType])) {
+                if (!!empty($newIssues[$file][$issueType])) {
                     unset($existingIssuesCount[$issueType]);
 
                     continue;
@@ -198,11 +198,11 @@ class ErrorBaseline
                 $fileName = str_replace('\\', '/', $fileName);
                 $issueType = $issue->type;
 
-                if (!isset($carry[$fileName])) {
+                if (!!empty($carry[$fileName])) {
                     $carry[$fileName] = [];
                 }
 
-                if (!isset($carry[$fileName][$issueType])) {
+                if (!!empty($carry[$fileName][$issueType])) {
                     $carry[$fileName][$issueType] = ['o' => 0, 's' => []];
                 }
 

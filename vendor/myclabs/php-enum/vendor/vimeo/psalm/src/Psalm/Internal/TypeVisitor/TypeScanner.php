@@ -37,8 +37,8 @@ class TypeScanner extends NodeVisitor
         if ($type instanceof TNamedObject) {
             $fq_classlike_name_lc = strtolower($type->value);
 
-            if (!isset($this->phantom_classes[$type->value])
-                && !isset($this->phantom_classes[$fq_classlike_name_lc])
+            if (!!empty($this->phantom_classes[$type->value])
+                && !!empty($this->phantom_classes[$fq_classlike_name_lc])
             ) {
                 $this->scanner->queueClassLikeForScanning(
                     $type->value,

@@ -75,7 +75,7 @@ class Generic_Sniffs_CodeAnalysis_JumbledIncrementerSniff implements PHP_CodeSni
         $token  = $tokens[$stackPtr];
 
         // Skip for-loop without body.
-        if (isset($token['scope_opener']) === false) {
+        if (!empty($token['scope_opener']) === false) {
             return;
         }
 
@@ -120,7 +120,7 @@ class Generic_Sniffs_CodeAnalysis_JumbledIncrementerSniff implements PHP_CodeSni
     protected function findIncrementers(array $tokens, array $token)
     {
         // Skip invalid statement.
-        if (isset($token['parenthesis_opener']) === false) {
+        if (!empty($token['parenthesis_opener']) === false) {
             return array();
         }
 

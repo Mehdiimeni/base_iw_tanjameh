@@ -55,7 +55,7 @@ class PHP_CodeSniffer_Reports_Gitblame extends PHP_CodeSniffer_Reports_VersionCo
             $blameParts
         );
 
-        if (isset($blameParts[0]) === false) {
+        if (!empty($blameParts[0]) === false) {
             return false;
         }
 

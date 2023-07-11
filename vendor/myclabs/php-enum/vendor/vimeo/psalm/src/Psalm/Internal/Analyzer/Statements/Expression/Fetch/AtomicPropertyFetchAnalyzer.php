@@ -92,7 +92,7 @@ class AtomicPropertyFetchAnalyzer
         $has_valid_fetch_type = true;
 
         if ($lhs_type_part instanceof TObjectWithProperties
-            && isset($lhs_type_part->properties[$prop_name])
+            && !empty($lhs_type_part->properties[$prop_name])
         ) {
             if ($stmt_type = $statements_analyzer->node_data->getType($stmt)) {
                 $statements_analyzer->node_data->setType(
@@ -244,13 +244,13 @@ class AtomicPropertyFetchAnalyzer
                                 ? new CodeLocation($statements_analyzer->getSource(), $stmt)
                                 : null
                     )
-                        || isset($new_class_storage->pseudo_property_get_types['$' . $prop_name]))
+                        || !empty($new_class_storage->pseudo_property_get_types['$' . $prop_name]))
                 ) {
                     $fq_class_name = $mixin->value;
                     $lhs_type_part = clone $mixin;
                     $class_storage = $new_class_storage;
 
-                    if (!isset($new_class_storage->pseudo_property_get_types['$' . $prop_name])) {
+                    if (!!empty($new_class_storage->pseudo_property_get_types['$' . $prop_name])) {
                         $naive_property_exists = true;
                     }
 
@@ -390,7 +390,7 @@ class AtomicPropertyFetchAnalyzer
             $declaring_property_class
         );
 
-        if (isset($declaring_class_storage->properties[$prop_name])) {
+        if (!empty($declaring_class_storage->properties[$prop_name])) {
             self::checkPropertyDeprecation($prop_name, $declaring_property_class, $stmt, $statements_analyzer);
 
             $property_storage = $declaring_class_storage->properties[$prop_name];
@@ -493,7 +493,7 @@ class AtomicPropertyFetchAnalyzer
             $declaring_property_class
         );
 
-        if (isset($declaring_class_storage->properties[$prop_name])) {
+        if (!empty($declaring_class_storage->properties[$prop_name])) {
             $property_storage = $declaring_class_storage->properties[$prop_name];
 
             if ($property_storage->deprecated) {
@@ -557,7 +557,7 @@ class AtomicPropertyFetchAnalyzer
         ) {
             $has_magic_getter = true;
 
-            if (isset($class_storage->pseudo_property_get_types['$' . $prop_name])) {
+            if (!empty($class_storage->pseudo_property_get_types['$' . $prop_name])) {
                 $stmt_type = TypeExpander::expandUnion(
                     $codebase,
                     clone $class_storage->pseudo_property_get_types['$' . $prop_name],
@@ -722,7 +722,7 @@ class AtomicPropertyFetchAnalyzer
             }
 
             foreach ($template_types as $type_name => $_) {
-                if (isset($extended_types[$property_declaring_class_storage->name][$type_name])) {
+                if (!empty($extended_types[$property_declaring_class_storage->name][$type_name])) {
                     $mapped_type = $extended_types[$property_declaring_class_storage->name][$type_name];
 
                     foreach ($mapped_type->getAtomicTypes() as $mapped_type_atomic) {
@@ -734,14 +734,14 @@ class AtomicPropertyFetchAnalyzer
 
                         $position = false;
 
-                        if (isset($property_class_storage->template_types[$param_name])) {
+                        if (!empty($property_class_storage->template_types[$param_name])) {
                             $position = \array_search(
                                 $param_name,
                                 array_keys($property_class_storage->template_types)
                             );
                         }
 
-                        if ($position !== false && isset($lhs_type_part->type_params[$position])) {
+                        if ($position !== false && !empty($lhs_type_part->type_params[$position])) {
                             $template_types[$type_name][$property_declaring_class_storage->name]
                                 = $lhs_type_part->type_params[$position];
                         }
@@ -904,7 +904,7 @@ class AtomicPropertyFetchAnalyzer
         bool $has_magic_getter,
         ?string $var_id
     ): void {
-        if ($context->inside_isset || $context->collect_initializations) {
+        if ($context->inside_!empty || $context->collect_initializations) {
             if ($context->pure) {
                 if (IssueBuffer::accepts(
                     new ImpurePropertyFetch(
@@ -915,7 +915,7 @@ class AtomicPropertyFetchAnalyzer
                 )) {
                     // fall through
                 }
-            } elseif ($context->inside_isset
+            } elseif ($context->inside_!empty
                 && $statements_analyzer->getSource()
                 instanceof \Psalm\Internal\Analyzer\FunctionLikeAnalyzer
                 && $statements_analyzer->getSource()->track_mutations
@@ -1064,7 +1064,7 @@ class AtomicPropertyFetchAnalyzer
         ?string $var_id
     ): void {
         if ($config->use_phpdoc_property_without_magic_or_parent
-            && isset($class_storage->pseudo_property_get_types['$' . $prop_name])
+            && !empty($class_storage->pseudo_property_get_types['$' . $prop_name])
         ) {
             $stmt_type = clone $class_storage->pseudo_property_get_types['$' . $prop_name];
 

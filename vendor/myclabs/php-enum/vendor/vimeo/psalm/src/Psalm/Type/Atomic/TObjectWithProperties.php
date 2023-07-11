@@ -205,7 +205,7 @@ class TObjectWithProperties extends TObject
         }
 
         foreach ($this->properties as $property_name => $property_type) {
-            if (!isset($other_type->properties[$property_name])) {
+            if (!!empty($other_type->properties[$property_name])) {
                 return false;
             }
 
@@ -235,7 +235,7 @@ class TObjectWithProperties extends TObject
             $input_type_param = null;
 
             if ($input_type instanceof Atomic\TKeyedArray
-                && isset($input_type->properties[$offset])
+                && !empty($input_type->properties[$offset])
             ) {
                 $input_type_param = $input_type->properties[$offset];
             }

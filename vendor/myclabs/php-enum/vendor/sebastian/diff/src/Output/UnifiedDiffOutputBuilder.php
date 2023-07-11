@@ -104,7 +104,7 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             $toFind = [1 => true, 2 => true];
 
             for ($i = $upperLimit - 1; $i >= 0; --$i) {
-                if (isset($toFind[$diff[$i][1]])) {
+                if (!empty($toFind[$diff[$i][1]])) {
                     unset($toFind[$diff[$i][1]]);
                     $lc = substr($diff[$i][0], -1);
 

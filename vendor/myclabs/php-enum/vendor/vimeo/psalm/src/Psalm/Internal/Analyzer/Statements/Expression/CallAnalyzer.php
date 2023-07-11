@@ -71,7 +71,7 @@ class CallAnalyzer
 
             if ((string) $method_id !== $source->getId()) {
                 if ($context->collect_initializations) {
-                    if (isset($context->initialized_methods[(string) $method_id])) {
+                    if (!empty($context->initialized_methods[(string) $method_id])) {
                         return;
                     }
 
@@ -104,7 +104,7 @@ class CallAnalyzer
 
             $declaring_method_id = $codebase->methods->getDeclaringMethodId($method_id);
 
-            if (isset($context->vars_in_scope['$this'])) {
+            if (!empty($context->vars_in_scope['$this'])) {
                 foreach ($context->vars_in_scope['$this']->getAtomicTypes() as $atomic_type) {
                     if ($atomic_type instanceof TNamedObject) {
                         if ($fq_class_name === $atomic_type->value) {
@@ -154,7 +154,7 @@ class CallAnalyzer
                 return;
             }
 
-            if (isset($context->initialized_methods[(string) $declaring_method_id])) {
+            if (!empty($context->initialized_methods[(string) $declaring_method_id])) {
                 return;
             }
 
@@ -178,7 +178,7 @@ class CallAnalyzer
                         $appearing_method_id->fq_class_name
                     );
 
-                    if (isset($appearing_class_storage->trait_final_map[strtolower($method_name)])) {
+                    if (!empty($appearing_class_storage->trait_final_map[strtolower($method_name)])) {
                         $is_final = true;
                     }
                 }
@@ -198,7 +198,7 @@ class CallAnalyzer
                         if ($type->initialized) {
                             $local_vars_in_scope[$var_id] = $context->vars_in_scope[$var_id];
 
-                            if (isset($context->vars_possibly_in_scope[$var_id])) {
+                            if (!empty($context->vars_possibly_in_scope[$var_id])) {
                                 $local_vars_possibly_in_scope[$var_id] = $context->vars_possibly_in_scope[$var_id];
                             }
 
@@ -279,7 +279,7 @@ class CallAnalyzer
 
         $method_storage = null;
 
-        if (isset($class_storage->declaring_method_ids[$method_name])) {
+        if (!empty($class_storage->declaring_method_ids[$method_name])) {
             $declaring_method_id = $class_storage->declaring_method_ids[$method_name];
 
             $declaring_fq_class_name = $declaring_method_id->fq_class_name;
@@ -291,7 +291,7 @@ class CallAnalyzer
                 $declaring_class_storage = $class_storage;
             }
 
-            if (!isset($declaring_class_storage->methods[$declaring_method_name])) {
+            if (!!empty($declaring_class_storage->methods[$declaring_method_name])) {
                 throw new \UnexpectedValueException('Storage should not be empty here');
             }
 
@@ -299,7 +299,7 @@ class CallAnalyzer
 
             if ($declaring_class_storage->user_defined
                 && !$method_storage->has_docblock_param_types
-                && isset($declaring_class_storage->documenting_method_ids[$method_name])
+                && !empty($declaring_class_storage->documenting_method_ids[$method_name])
             ) {
                 $documenting_method_id = $declaring_class_storage->documenting_method_ids[$method_name];
 
@@ -445,7 +445,7 @@ class CallAnalyzer
         array $template_extended_params,
         array $found_generic_params
     ): Type\Union {
-        if (isset($found_generic_params[$template_name][$fq_class_name])) {
+        if (!empty($found_generic_params[$template_name][$fq_class_name])) {
             return $found_generic_params[$template_name][$fq_class_name];
         }
 
@@ -519,7 +519,7 @@ class CallAnalyzer
             return [];
         }
 
-        if (!isset($callable_arg->items[0]) || !isset($callable_arg->items[1])) {
+        if (!!empty($callable_arg->items[0]) || !!empty($callable_arg->items[1])) {
             throw new \UnexpectedValueException('These should never be unset');
         }
 
@@ -649,7 +649,7 @@ class CallAnalyzer
             $arg_value = null;
 
             if (is_int($assertion->var_id)) {
-                if (!isset($args[$assertion->var_id])) {
+                if (!!empty($args[$assertion->var_id])) {
                     continue;
                 }
 
@@ -669,7 +669,7 @@ class CallAnalyzer
             } elseif (strpos($assertion->var_id, '::$') !== false) {
                 // allow assertions to bring external static props into scope
                 $assertion_var_id = $assertion->var_id;
-            } elseif (isset($context->vars_in_scope[$assertion->var_id])) {
+            } elseif (!empty($context->vars_in_scope[$assertion->var_id])) {
                 $assertion_var_id = $assertion->var_id;
             }
 
@@ -692,7 +692,7 @@ class CallAnalyzer
                     $rule = substr($rule, 1);
                 }
 
-                if (isset($inferred_lower_bounds[$rule])) {
+                if (!empty($inferred_lower_bounds[$rule])) {
                     foreach ($inferred_lower_bounds[$rule] as $lower_bounds) {
                         $lower_bound_type = TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                             $lower_bounds,
@@ -736,7 +736,7 @@ class CallAnalyzer
                         }
                     }
                 } else {
-                    if (isset($type_assertions[$assertion_var_id])) {
+                    if (!empty($type_assertions[$assertion_var_id])) {
                         $type_assertions[$assertion_var_id] = array_merge(
                             $type_assertions[$assertion_var_id],
                             $assertion->rule
@@ -855,11 +855,11 @@ class CallAnalyzer
             );
 
             foreach ($changed_var_ids as $var_id => $_) {
-                if (isset($op_vars_in_scope[$var_id])) {
+                if (!empty($op_vars_in_scope[$var_id])) {
                     $first_appearance = $statements_analyzer->getFirstAppearance($var_id);
 
                     if ($first_appearance
-                        && isset($context->vars_in_scope[$var_id])
+                        && !empty($context->vars_in_scope[$var_id])
                         && $context->vars_in_scope[$var_id]->hasMixed()
                     ) {
                         if (!$context->collect_initializations
@@ -944,7 +944,7 @@ class CallAnalyzer
         if ($template_result->lower_bounds && $template_result->upper_bounds) {
             foreach ($template_result->upper_bounds as $template_name => $defining_map) {
                 foreach ($defining_map as $defining_id => $upper_bound) {
-                    if (isset($template_result->lower_bounds[$template_name][$defining_id])) {
+                    if (!empty($template_result->lower_bounds[$template_name][$defining_id])) {
                         $lower_bound_type = TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                             $template_result->lower_bounds[$template_name][$defining_id],
                             $statements_analyzer->getCodebase()

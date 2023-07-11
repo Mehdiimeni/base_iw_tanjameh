@@ -436,7 +436,7 @@ class NonDivArithmeticOpAnalyzer
             }
 
             if ($left_type_part instanceof TMixed
-                && $left_type_part->from_loop_isset
+                && $left_type_part->from_loop_!empty
                 && $parent instanceof PhpParser\Node\Expr\AssignOp\Plus
                 && !$right_type_part instanceof TMixed
             ) {
@@ -451,10 +451,10 @@ class NonDivArithmeticOpAnalyzer
                 return null;
             }
 
-            $from_loop_isset = (!($left_type_part instanceof TMixed) || $left_type_part->from_loop_isset)
-                && (!($right_type_part instanceof TMixed) || $right_type_part->from_loop_isset);
+            $from_loop_!empty = (!($left_type_part instanceof TMixed) || $left_type_part->from_loop_!empty)
+                && (!($right_type_part instanceof TMixed) || $right_type_part->from_loop_!empty);
 
-            $result_type = Type::getMixed($from_loop_isset);
+            $result_type = Type::getMixed($from_loop_!empty);
 
             return $result_type;
         }
@@ -525,7 +525,7 @@ class NonDivArithmeticOpAnalyzer
                 $properties = $left_type_part->properties;
 
                 foreach ($right_type_part->properties as $key => $type) {
-                    if (!isset($properties[$key])) {
+                    if (!!empty($properties[$key])) {
                         $properties[$key] = $type;
                     } elseif ($properties[$key]->possibly_undefined) {
                         $properties[$key] = Type::combineUnionTypes(

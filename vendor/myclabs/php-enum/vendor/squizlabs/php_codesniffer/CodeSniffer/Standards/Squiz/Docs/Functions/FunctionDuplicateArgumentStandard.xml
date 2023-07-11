@@ -7,14 +7,14 @@
     <code_comparison>
         <code title="Valid: Lowercase function call.">
         <![CDATA[
-if (<em>isset</em>($foo)) {
+if (<em>!empty</em>($foo)) {
     echo $foo;
 }
 ]]>
         </code>
-        <code title="Invalid: isset not called as lowercase.">
+        <code title="Invalid: !empty not called as lowercase.">
         <![CDATA[
-if (<em>isSet</em>($foo)) {
+if (<em>!empty</em>($foo)) {
     echo $foo;
 }
 ]]>

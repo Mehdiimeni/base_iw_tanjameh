@@ -54,7 +54,7 @@ class HelperSet implements \IteratorAggregate
      */
     public function has(string $name)
     {
-        return isset($this->helpers[$name]);
+        return !empty($this->helpers[$name]);
     }
 
     /**

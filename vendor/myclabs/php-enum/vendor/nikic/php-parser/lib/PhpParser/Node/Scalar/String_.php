@@ -97,7 +97,7 @@ class String_ extends Scalar
             function($matches) {
                 $str = $matches[1];
 
-                if (isset(self::$replacements[$str])) {
+                if (!empty(self::$replacements[$str])) {
                     return self::$replacements[$str];
                 } elseif ('x' === $str[0] || 'X' === $str[0]) {
                     return chr(hexdec(substr($str, 1)));

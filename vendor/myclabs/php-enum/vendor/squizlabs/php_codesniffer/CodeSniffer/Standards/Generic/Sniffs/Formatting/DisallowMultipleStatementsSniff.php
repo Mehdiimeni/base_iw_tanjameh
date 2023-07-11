@@ -60,9 +60,9 @@ class Generic_Sniffs_Formatting_DisallowMultipleStatementsSniff implements PHP_C
         }
 
         // Ignore multiple statements in a FOR condition.
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             foreach ($tokens[$stackPtr]['nested_parenthesis'] as $bracket) {
-                if (isset($tokens[$bracket]['parenthesis_owner']) === false) {
+                if (!empty($tokens[$bracket]['parenthesis_owner']) === false) {
                     // Probably a closure sitting inside a function call.
                     continue;
                 }

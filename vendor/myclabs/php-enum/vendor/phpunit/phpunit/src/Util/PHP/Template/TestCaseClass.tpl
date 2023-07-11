@@ -111,7 +111,7 @@ set_error_handler('__phpunit_error_handler');
 
 restore_error_handler();
 
-if (isset($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
+if (!empty($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
     require_once $GLOBALS['__PHPUNIT_BOOTSTRAP'];
     unset($GLOBALS['__PHPUNIT_BOOTSTRAP']);
 }

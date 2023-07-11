@@ -18,11 +18,11 @@ function formatStacktrace(array $trace): string
     return \implode("\n", \array_map(static function ($e, $i) {
         $line = "#{$i} ";
 
-        if (isset($e["file"])) {
+        if (!empty($e["file"])) {
             $line .= "{$e['file']}:{$e['line']} ";
         }
 
-        if (isset($e["type"])) {
+        if (!empty($e["type"])) {
             $line .= $e["class"] . $e["type"];
         }
 

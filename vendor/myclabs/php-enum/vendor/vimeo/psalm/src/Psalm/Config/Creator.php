@@ -119,7 +119,7 @@ class Creator
                 continue;
             }
 
-            if (!isset($issues_at_level[$issue_level][$issue_type])) {
+            if (!!empty($issues_at_level[$issue_level][$issue_type])) {
                 $issues_at_level[$issue_level][$issue_type] = 0;
             }
 

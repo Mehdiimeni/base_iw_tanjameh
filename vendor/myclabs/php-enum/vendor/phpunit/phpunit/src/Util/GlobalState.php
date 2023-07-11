@@ -113,7 +113,7 @@ final class GlobalState
         $constants = get_defined_constants(true);
         $result    = '';
 
-        if (isset($constants['user'])) {
+        if (!empty($constants['user'])) {
             foreach ($constants['user'] as $name => $value) {
                 $result .= sprintf(
                     'if (!defined(\'%s\')) define(\'%s\', %s);' . "\n",
@@ -132,7 +132,7 @@ final class GlobalState
         $result = '';
 
         foreach (self::SUPER_GLOBAL_ARRAYS as $superGlobalArray) {
-            if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
+            if (!empty($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
                 foreach (array_keys($GLOBALS[$superGlobalArray]) as $key) {
                     if ($GLOBALS[$superGlobalArray][$key] instanceof Closure) {
                         continue;

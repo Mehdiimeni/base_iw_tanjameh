@@ -112,7 +112,7 @@ class Squiz_Sniffs_Commenting_DocCommentAlignmentSniff implements PHP_CodeSniffe
                 $matches = array();
                 preg_match('|^(\s+)?\*(\s+)?@|', $content, $matches);
                 if (empty($matches) === false) {
-                    if (isset($matches[2]) === false) {
+                    if (!empty($matches[2]) === false) {
                         $error = 'Expected 1 space between asterisk and tag; 0 found';
                         $phpcsFile->addError($error, $commentPointer, 'NoSpaceBeforeTag');
                     } else {

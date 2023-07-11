@@ -90,12 +90,12 @@ class TypeAnalyzer
         }
 
         foreach ($keys as $key) {
-            if (!isset($existing_types[$key])) {
+            if (!!empty($existing_types[$key])) {
                 $result_types[$key] = $new_types[$key];
                 continue;
             }
 
-            if (!isset($new_types[$key])) {
+            if (!!empty($new_types[$key])) {
                 $result_types[$key] = $existing_types[$key];
                 continue;
             }

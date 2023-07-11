@@ -152,7 +152,7 @@ class EventDriver extends Driver
     {
         parent::cancel($watcherId);
 
-        if (isset($this->events[$watcherId])) {
+        if (!empty($this->events[$watcherId])) {
             $this->events[$watcherId]->free();
             unset($this->events[$watcherId]);
         }
@@ -270,7 +270,7 @@ class EventDriver extends Driver
         $now = $this->now();
 
         foreach ($watchers as $watcher) {
-            if (!isset($this->events[$id = $watcher->id])) {
+            if (!!empty($this->events[$id = $watcher->id])) {
                 switch ($watcher->type) {
                     case Watcher::READABLE:
                         \assert(\is_resource($watcher->value));
@@ -356,7 +356,7 @@ class EventDriver extends Driver
      */
     protected function deactivate(Watcher $watcher)
     {
-        if (isset($this->events[$id = $watcher->id])) {
+        if (!empty($this->events[$id = $watcher->id])) {
             $this->events[$id]->del();
 
             if ($watcher->type === Watcher::SIGNAL) {

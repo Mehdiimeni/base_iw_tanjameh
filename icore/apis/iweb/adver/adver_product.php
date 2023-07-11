@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['page_name_system'])) {
+if (!empty($_POST['page_name_system'])) {
 
     $website_page_name = trim($_POST['page_name_system']);
     $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
@@ -18,7 +18,7 @@ if (isset($_POST['page_name_system'])) {
 
         $iw_website_pages_id = @$objORM->Fetch($condition, "id", TableIWWebSitePages)->id;
 
-        if (isset($_POST['adver_number'])) {
+        if (!empty($_POST['adver_number'])) {
             $adver_number = 'Adver' . $_POST['adver_number'];
             $condition = "  iw_website_pages_id = $iw_website_pages_id and Enabled = 1 and name = '$adver_number'  ";
 
@@ -103,6 +103,7 @@ if (isset($_POST['page_name_system'])) {
 
                             $arr_product_detail = array(
                                 'name' => $product->Name,
+                                'id' => $product->id,
                                 'product_type' => $product_type,
                                 'brand_name' => $brand_name,
                                 'product_type_id' => $product->product_type_id,

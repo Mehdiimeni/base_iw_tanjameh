@@ -94,7 +94,7 @@ class ParserCacheProvider
 
         $cache_location = $parser_cache_directory . DIRECTORY_SEPARATOR . $file_cache_key;
 
-        if (isset($file_content_hashes[$file_cache_key])
+        if (!empty($file_content_hashes[$file_cache_key])
             && $file_content_hash === $file_content_hashes[$file_cache_key]
             && is_readable($cache_location)
             && filemtime($cache_location) > $file_modified_time

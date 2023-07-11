@@ -119,7 +119,7 @@ class PhpStormMetaScanner
                             return null;
                         }
 
-                        if (isset($call_args[$offset]->value)
+                        if (!empty($call_args[$offset]->value)
                             && ($call_arg_type = $statements_analyzer->node_data->getType($call_args[$offset]->value))
                             && $call_arg_type->isSingleStringLiteral()
                         ) {
@@ -174,7 +174,7 @@ class PhpStormMetaScanner
                             return null;
                         }
 
-                        if (isset($call_args[$type_offset]->value)
+                        if (!empty($call_args[$type_offset]->value)
                             && ($call_arg_type
                                 = $statements_analyzer->node_data->getType($call_args[$type_offset]->value))
                         ) {
@@ -211,7 +211,7 @@ class PhpStormMetaScanner
                             return null;
                         }
 
-                        if (isset($call_args[$element_type_offset]->value)
+                        if (!empty($call_args[$element_type_offset]->value)
                             && ($call_arg_type
                                 = $statements_analyzer->node_data->getType($call_args[$element_type_offset]->value))
                             && $call_arg_type->hasArray()
@@ -268,7 +268,7 @@ class PhpStormMetaScanner
                             return Type::getMixed();
                         }
 
-                        if (isset($call_args[$offset]->value)
+                        if (!empty($call_args[$offset]->value)
                             && ($call_arg_type
                                 = $statements_analyzer->node_data->getType($call_args[$offset]->value))
                             && $call_arg_type->isSingleStringLiteral()
@@ -321,7 +321,7 @@ class PhpStormMetaScanner
                             return Type::getMixed();
                         }
 
-                        if (isset($call_args[$type_offset]->value)
+                        if (!empty($call_args[$type_offset]->value)
                             && ($call_arg_type
                                 = $statements_analyzer->node_data->getType($call_args[$type_offset]->value))
                         ) {
@@ -355,7 +355,7 @@ class PhpStormMetaScanner
                             return Type::getMixed();
                         }
 
-                        if (isset($call_args[$element_type_offset]->value)
+                        if (!empty($call_args[$element_type_offset]->value)
                             && ($call_arg_type
                                 = $statements_analyzer->node_data->getType($call_args[$element_type_offset]->value))
                             && $call_arg_type->hasArray()

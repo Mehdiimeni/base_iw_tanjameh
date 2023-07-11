@@ -40,7 +40,7 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     }
 
     public function offsetExists($offset): bool {
-        return isset($this->tokens[$offset]);
+        return !empty($this->tokens[$offset]);
     }
 
     /**

@@ -228,7 +228,7 @@ class TextDocument
         }
 
         $content = "```php\n" . $symbol_information['type'] . "\n```";
-        if (isset($symbol_information['description'])) {
+        if (!empty($symbol_information['description'])) {
             $content .= "\n---\n" . $symbol_information['description'];
         }
         $contents = new MarkupContent(

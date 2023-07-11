@@ -107,7 +107,7 @@ class DocComment
                         $special[$type] = [];
                     }
 
-                    $line_number = $line_map && isset($line_map[$full_match]) ? $line_map[$full_match] : $m;
+                    $line_number = $line_map && !empty($line_map[$full_match]) ? $line_map[$full_match] : $m;
 
                     $special[$type][$line_number] = rtrim($data);
                 }
@@ -125,7 +125,7 @@ class DocComment
                         $special[$type] = [];
                     }
 
-                    $line_number = $line_map && isset($line_map[$_]) ? $line_map[$_] : $m;
+                    $line_number = $line_map && !empty($line_map[$_]) ? $line_map[$_] : $m;
 
                     $special[$type][$line_number] = $data;
                 }
@@ -223,7 +223,7 @@ class DocComment
             $matches
         );
 
-        if (!isset($matches['issues'])) {
+        if (!!empty($matches['issues'])) {
             return [];
         }
 

@@ -140,7 +140,7 @@ class Squiz_Sniffs_WhiteSpace_SuperfluousWhitespaceSniff implements PHP_CodeSnif
             }
 
             if ($phpcsFile->tokenizerType === 'PHP') {
-                if (isset($tokens[($stackPtr + 1)]) === false) {
+                if (!empty($tokens[($stackPtr + 1)]) === false) {
                     // The close PHP token is the last in the file.
                     return;
                 }

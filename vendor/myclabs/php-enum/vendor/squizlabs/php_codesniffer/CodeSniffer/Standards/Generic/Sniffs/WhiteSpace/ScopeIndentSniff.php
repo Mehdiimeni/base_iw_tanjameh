@@ -149,7 +149,7 @@ class Generic_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Snif
 
         // If this is an inline condition (ie. there is no scope opener), then
         // return, as this is not a new scope.
-        if (isset($tokens[$stackPtr]['scope_opener']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_opener']) === false) {
             return;
         }
 
@@ -232,7 +232,7 @@ class Generic_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Snif
             // If this token is another scope, skip it as it will be handled by
             // another call to this sniff.
             if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$scopeOpeners) === true) {
-                if (isset($tokens[$i]['scope_opener']) === true) {
+                if (!empty($tokens[$i]['scope_opener']) === true) {
                     $i = $tokens[$i]['scope_closer'];
 
                     // If the scope closer is followed by a semi-colon, the semi-colon is part
@@ -402,7 +402,7 @@ class Generic_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Snif
         $conditionStack = array();
 
         $inParenthesis = false;
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true
             && empty($tokens[$stackPtr]['nested_parenthesis']) === false
         ) {
             $inParenthesis = true;

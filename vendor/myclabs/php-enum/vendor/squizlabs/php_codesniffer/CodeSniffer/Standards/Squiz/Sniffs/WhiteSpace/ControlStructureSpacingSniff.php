@@ -75,8 +75,8 @@ class Squiz_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements PHP_CodeSn
     {
         $tokens = $phpcsFile->getTokens();
 
-        if (isset($tokens[$stackPtr]['parenthesis_opener']) === true
-            && isset($tokens[$stackPtr]['parenthesis_closer']) === true
+        if (!empty($tokens[$stackPtr]['parenthesis_opener']) === true
+            && !empty($tokens[$stackPtr]['parenthesis_closer']) === true
         ) {
             $parenOpener = $tokens[$stackPtr]['parenthesis_opener'];
             $parenCloser = $tokens[$stackPtr]['parenthesis_closer'];
@@ -97,7 +97,7 @@ class Squiz_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements PHP_CodeSn
             }
         }//end if
 
-        if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_closer']) === false) {
             return;
         }
 
@@ -174,7 +174,7 @@ class Squiz_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements PHP_CodeSn
             return;
         }
 
-        if (isset($tokens[$trailingContent]['scope_condition']) === true
+        if (!empty($tokens[$trailingContent]['scope_condition']) === true
             && $tokens[$trailingContent]['scope_condition'] !== $trailingContent
         ) {
             // Another control structure's closing brace.

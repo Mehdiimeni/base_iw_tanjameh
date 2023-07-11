@@ -126,12 +126,12 @@ final class CancellationTokenSource
 
             public function isRequested(): bool
             {
-                return isset($this->exception);
+                return !empty($this->exception);
             }
 
             public function throwIfRequested()
             {
-                if (isset($this->exception)) {
+                if (!empty($this->exception)) {
                     throw $this->exception;
                 }
             }

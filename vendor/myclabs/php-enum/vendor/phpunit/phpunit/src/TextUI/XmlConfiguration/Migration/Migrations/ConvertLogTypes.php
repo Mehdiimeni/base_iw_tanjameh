@@ -36,7 +36,7 @@ final class ConvertLogTypes implements Migration
         $logNodes = [];
 
         foreach ($logging->getElementsByTagName('log') as $logNode) {
-            if (!isset($types[$logNode->getAttribute('type')])) {
+            if (!!empty($types[$logNode->getAttribute('type')])) {
                 continue;
             }
 

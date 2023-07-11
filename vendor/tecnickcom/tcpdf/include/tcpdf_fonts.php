@@ -78,7 +78,7 @@ class TCPDF_FONTS {
 		$fmetric = array();
 		// build new font name for TCPDF compatibility
 		$font_path_parts = pathinfo($fontfile);
-		if (!isset($font_path_parts['filename'])) {
+		if (!!empty($font_path_parts['filename'])) {
 			$font_path_parts['filename'] = substr($font_path_parts['basename'], 0, -(strlen($font_path_parts['extension']) + 1));
 		}
 		$font_name = strtolower($font_path_parts['filename']);
@@ -148,7 +148,7 @@ class TCPDF_FONTS {
 		$fmetric['enc'] = preg_replace('/[^A-Za-z0-9_\-]/', '', $enc);
 		$fmetric['diff'] = '';
 		if (($fmetric['type'] == 'TrueType') OR ($fmetric['type'] == 'Type1')) {
-			if (!empty($enc) AND ($enc != 'cp1252') AND isset(TCPDF_FONT_DATA::$encmap[$enc])) {
+			if (!empty($enc) AND ($enc != 'cp1252') AND !empty(TCPDF_FONT_DATA::$encmap[$enc])) {
 				// build differences from reference encoding
 				$enc_ref = TCPDF_FONT_DATA::$encmap['cp1252'];
 				$enc_target = TCPDF_FONT_DATA::$encmap[$enc];
@@ -274,7 +274,7 @@ class TCPDF_FONTS {
 			// get charstring data
 			$eplain = substr($eplain, (strpos($eplain, '/CharStrings') + 1));
 			preg_match_all('#/([A-Za-z0-9\.]*)[\s][0-9]+[\s]RD[\s](.*)[\s]ND#sU', $eplain, $matches, PREG_SET_ORDER);
-			if (!empty($enc) AND isset(TCPDF_FONT_DATA::$encmap[$enc])) {
+			if (!empty($enc) AND !empty(TCPDF_FONT_DATA::$encmap[$enc])) {
 				$enc_map = TCPDF_FONT_DATA::$encmap[$enc];
 			} else {
 				$enc_map = false;
@@ -284,7 +284,7 @@ class TCPDF_FONTS {
 			$cwidths = array();
 			foreach ($matches as $k => $v) {
 				$cid = 0;
-				if (isset($imap[$v[1]])) {
+				if (!empty($imap[$v[1]])) {
 					$cid = $imap[$v[1]];
 				} elseif ($enc_map !== false) {
 					$cid = array_search($v[1], $enc_map);
@@ -341,7 +341,7 @@ class TCPDF_FONTS {
 			$fmetric['AvgWidth'] = 0;
 			// set chars widths
 			for ($cid = 0; $cid <= 255; ++$cid) {
-				if (isset($cwidths[$cid])) {
+				if (!empty($cwidths[$cid])) {
 					if ($cwidths[$cid] > $fmetric['MaxWidth']) {
 						$fmetric['MaxWidth'] = $cwidths[$cid];
 					}
@@ -435,7 +435,7 @@ class TCPDF_FONTS {
 				$tot_num_glyphs = floor($table['loca']['length'] / 2); // numGlyphs + 1
 				for ($i = 0; $i < $tot_num_glyphs; ++$i) {
 					$indexToLoc[$i] = TCPDF_STATIC::_getUSHORT($font, $offset) * 2;
-					if (isset($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
+					if (!empty($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
 						// the last glyph didn't have an outline
 						unset($indexToLoc[($i - 1)]);
 					}
@@ -446,7 +446,7 @@ class TCPDF_FONTS {
 				$tot_num_glyphs = floor($table['loca']['length'] / 4); // numGlyphs + 1
 				for ($i = 0; $i < $tot_num_glyphs; ++$i) {
 					$indexToLoc[$i] = TCPDF_STATIC::_getULONG($font, $offset);
-					if (isset($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
+					if (!empty($indexToLoc[($i - 1)]) && ($indexToLoc[$i] == $indexToLoc[($i - 1)])) {
 						// the last glyph didn't have an outline
 						unset($indexToLoc[($i - 1)]);
 					}
@@ -713,7 +713,7 @@ class TCPDF_FONTS {
 								$offset += 4;
 								for ($k = $startCharCode; $k <= $endCharCode; ++$k) {
 									$is32idx = floor($c / 8);
-									if ((isset($is32[$is32idx])) AND (($is32[$is32idx] & (1 << (7 - ($c % 8)))) == 0)) {
+									if ((!empty($is32[$is32idx])) AND (($is32[$is32idx] & (1 << (7 - ($c % 8)))) == 0)) {
 										$c = $k;
 									} else {
 										// 32 bit format
@@ -771,7 +771,7 @@ class TCPDF_FONTS {
 					}
 				}
 			}
-			if (!isset($ctg[0])) {
+			if (!!empty($ctg[0])) {
 				$ctg[0] = 0;
 			}
 			// get xHeight (height of x)
@@ -803,11 +803,11 @@ class TCPDF_FONTS {
 			$fmetric['cw'] = '';
 			$fmetric['cbbox'] = '';
 			for ($cid = 0; $cid <= 65535; ++$cid) {
-				if (isset($ctg[$cid])) {
-					if (isset($cw[$ctg[$cid]])) {
+				if (!empty($ctg[$cid])) {
+					if (!empty($cw[$ctg[$cid]])) {
 						$fmetric['cw'] .= ','.$cid.'=>'.$cw[$ctg[$cid]];
 					}
-					if ($addcbbox AND isset($indexToLoc[$ctg[$cid]])) {
+					if ($addcbbox AND !empty($indexToLoc[$ctg[$cid]])) {
 						$offset = ($table['glyf']['offset'] + $indexToLoc[$ctg[$cid]]);
 						$xMin = round(TCPDF_STATIC::_getFWORD($font, $offset + 2) * $urk);
 						$yMin = round(TCPDF_STATIC::_getFWORD($font, $offset + 4) * $urk);
@@ -1032,7 +1032,7 @@ class TCPDF_FONTS {
 				case 0: { // Format 0: Byte encoding table
 					$offset += 4; // skip length and version/language
 					for ($c = 0; $c < 256; ++$c) {
-						if (isset($subsetchars[$c])) {
+						if (!empty($subsetchars[$c])) {
 							$g = TCPDF_STATIC::_getBYTE($font, $offset);
 							$subsetglyphs[$g] = true;
 						}
@@ -1078,7 +1078,7 @@ class TCPDF_FONTS {
 						if ($k == 0) {
 							// one byte code
 							$c = $i;
-							if (isset($subsetchars[$c])) {
+							if (!empty($subsetchars[$c])) {
 								$g = $glyphIndexArray[0];
 								$subsetglyphs[$g] = true;
 							}
@@ -1089,7 +1089,7 @@ class TCPDF_FONTS {
 							for ($j = $start_byte; $j < $end_byte; ++$j) {
 								// combine high and low bytes
 								$c = (($i << 8) + $j);
-								if (isset($subsetchars[$c])) {
+								if (!empty($subsetchars[$c])) {
 									$idRangeOffset = ($subHeaders[$k]['idRangeOffset'] + $j - $subHeaders[$k]['firstCode']);
 									$g = ($glyphIndexArray[$idRangeOffset] + $subHeaders[$k]['idDelta']) % 65536;
 									if ($g < 0) {
@@ -1138,7 +1138,7 @@ class TCPDF_FONTS {
 					}
 					for ($k = 0; $k < $segCount; ++$k) {
 						for ($c = $startCount[$k]; $c <= $endCount[$k]; ++$c) {
-							if (isset($subsetchars[$c])) {
+							if (!empty($subsetchars[$c])) {
 								if ($idRangeOffset[$k] == 0) {
 									$g = ($idDelta[$k] + $c) % 65536;
 								} else {
@@ -1162,7 +1162,7 @@ class TCPDF_FONTS {
 					$offset += 2;
 					for ($k = 0; $k < $entryCount; ++$k) {
 						$c = ($k + $firstCode);
-						if (isset($subsetchars[$c])) {
+						if (!empty($subsetchars[$c])) {
 							$g = TCPDF_STATIC::_getUSHORT($font, $offset);
 							$subsetglyphs[$g] = true;
 						}
@@ -1187,7 +1187,7 @@ class TCPDF_FONTS {
 						$offset += 4;
 						for ($k = $startCharCode; $k <= $endCharCode; ++$k) {
 							$is32idx = floor($c / 8);
-							if ((isset($is32[$is32idx])) AND (($is32[$is32idx] & (1 << (7 - ($c % 8)))) == 0)) {
+							if ((!empty($is32[$is32idx])) AND (($is32[$is32idx] & (1 << (7 - ($c % 8)))) == 0)) {
 								$c = $k;
 							} else {
 								// 32 bit format
@@ -1196,7 +1196,7 @@ class TCPDF_FONTS {
 								//SURROGATE_OFFSET = (0x10000 - (0xD800 << 10) - 0xDC00) = -56613888
 								$c = ((55232 + ($k >> 10)) << 10) + (0xDC00 + ($k & 0x3FF)) -56613888;
 							}
-							if (isset($subsetchars[$c])) {
+							if (!empty($subsetchars[$c])) {
 								$subsetglyphs[$startGlyphID] = true;
 							}
 							++$startGlyphID;
@@ -1212,7 +1212,7 @@ class TCPDF_FONTS {
 					$offset += 4;
 					for ($k = 0; $k < $numChars; ++$k) {
 						$c = ($k + $startCharCode);
-						if (isset($subsetchars[$c])) {
+						if (!empty($subsetchars[$c])) {
 							$g = TCPDF_STATIC::_getUSHORT($font, $offset);
 							$subsetglyphs[$g] = true;
 						}
@@ -1232,7 +1232,7 @@ class TCPDF_FONTS {
 						$startGlyphCode = TCPDF_STATIC::_getULONG($font, $offset);
 						$offset += 4;
 						for ($c = $startCharCode; $c <= $endCharCode; ++$c) {
-							if (isset($subsetchars[$c])) {
+							if (!empty($subsetchars[$c])) {
 								$subsetglyphs[$startGlyphCode] = true;
 							}
 							++$startGlyphCode;
@@ -1256,7 +1256,7 @@ class TCPDF_FONTS {
 			$sga = $new_sga;
 			$new_sga = array();
 			foreach ($sga as $key => $val) {
-				if (isset($indexToLoc[$key])) {
+				if (!empty($indexToLoc[$key])) {
 					$offset = ($table['glyf']['offset'] + $indexToLoc[$key]);
 					$numberOfContours = TCPDF_STATIC::_getSHORT($font, $offset);
 					$offset += 2;
@@ -1267,7 +1267,7 @@ class TCPDF_FONTS {
 							$offset += 2;
 							$glyphIndex = TCPDF_STATIC::_getUSHORT($font, $offset);
 							$offset += 2;
-							if (!isset($subsetglyphs[$glyphIndex])) {
+							if (!!empty($subsetglyphs[$glyphIndex])) {
 								// add missing glyphs
 								$new_sga[$glyphIndex] = true;
 							}
@@ -1298,7 +1298,7 @@ class TCPDF_FONTS {
 		$offset = 0;
 		$glyf_offset = $table['glyf']['offset'];
 		for ($i = 0; $i < $tot_num_glyphs; ++$i) {
-			if (isset($subsetglyphs[$i])) {
+			if (!empty($subsetglyphs[$i])) {
 				$length = ($indexToLoc[($i + 1)] - $indexToLoc[$i]);
 				$glyf .= substr($font, ($glyf_offset + $indexToLoc[$i]), $length);
 			} else {
@@ -1406,7 +1406,7 @@ class TCPDF_FONTS {
 		// for each character
 		foreach ($font['cw'] as $cid => $width) {
 			$cid -= $cidoffset;
-			if ($font['subset'] AND (!isset($font['subsetchars'][$cid]))) {
+			if ($font['subset'] AND (!!empty($font['subsetchars'][$cid]))) {
 				// ignore the unused characters (font subsetting)
 				continue;
 			}
@@ -1454,8 +1454,8 @@ class TCPDF_FONTS {
 		$prevint = false;
 		foreach ($range as $k => $ws) {
 			$cws = count($ws);
-			if (($k == $nextk) AND (!$prevint) AND ((!isset($ws['interval'])) OR ($cws < 4))) {
-				if (isset($range[$k]['interval'])) {
+			if (($k == $nextk) AND (!$prevint) AND ((!!empty($ws['interval'])) OR ($cws < 4))) {
+				if (!empty($range[$k]['interval'])) {
 					unset($range[$k]['interval']);
 				}
 				$range[$prevk] = array_merge($range[$prevk], $range[$k]);
@@ -1464,13 +1464,13 @@ class TCPDF_FONTS {
 				$prevk = $k;
 			}
 			$nextk = $k + $cws;
-			if (isset($ws['interval'])) {
+			if (!empty($ws['interval'])) {
 				if ($cws > 3) {
 					$prevint = true;
 				} else {
 					$prevint = false;
 				}
-				if (isset($range[$k]['interval'])) {
+				if (!empty($range[$k]['interval'])) {
 					unset($range[$k]['interval']);
 				}
 				--$nextk;
@@ -1889,7 +1889,7 @@ class TCPDF_FONTS {
 	 * @public static
 	 */
 	public static function uniord($uch) {
-		if (!isset(self::$cache_uniord[$uch])) {
+		if (!!empty(self::$cache_uniord[$uch])) {
 			self::$cache_uniord[$uch] = self::getUniord($uch);
 		}
 		return self::$cache_uniord[$uch];
@@ -2224,7 +2224,7 @@ class TCPDF_FONTS {
 				if ($dos != 'N') {
 					$chardir = $dos;
 				} else {
-					if (isset(TCPDF_FONT_DATA::$uni_type[$ta[$i]])) {
+					if (!empty(TCPDF_FONT_DATA::$uni_type[$ta[$i]])) {
 						$chardir = TCPDF_FONT_DATA::$uni_type[$ta[$i]];
 					} else {
 						$chardir = 'L';
@@ -2530,12 +2530,12 @@ class TCPDF_FONTS {
 						($nextchar['type'] == $thischar['type']) AND
 						($nextchar['char'] != 1567)) {
 						if (in_array($prevchar['char'], $endedletter)) {
-							if (isset($arabicarr[$thischar['char']][2])) {
+							if (!empty($arabicarr[$thischar['char']][2])) {
 								// initial
 								$chardata2[$i]['char'] = $arabicarr[$thischar['char']][2];
 							}
 						} else {
-							if (isset($arabicarr[$thischar['char']][3])) {
+							if (!empty($arabicarr[$thischar['char']][3])) {
 								// medial
 								$chardata2[$i]['char'] = $arabicarr[$thischar['char']][3];
 							}
@@ -2544,7 +2544,7 @@ class TCPDF_FONTS {
 						((TCPDF_FONT_DATA::$uni_type[$nextchar['char']] == 'AL') OR (TCPDF_FONT_DATA::$uni_type[$nextchar['char']] == 'NSM')) AND
 						($nextchar['type'] == $thischar['type']) AND
 						($nextchar['char'] != 1567)) {
-						if (isset($arabicarr[$chardata[$i]['char']][2])) {
+						if (!empty($arabicarr[$chardata[$i]['char']][2])) {
 							// initial
 							$chardata2[$i]['char'] = $arabicarr[$thischar['char']][2];
 						}
@@ -2563,18 +2563,18 @@ class TCPDF_FONTS {
 							$chardata2[$i]['char'] = 65010;
 						} else {
 							if (($prevchar !== false) AND in_array($prevchar['char'], $endedletter)) {
-								if (isset($arabicarr[$thischar['char']][0])) {
+								if (!empty($arabicarr[$thischar['char']][0])) {
 									// isolated
 									$chardata2[$i]['char'] = $arabicarr[$thischar['char']][0];
 								}
 							} else {
-								if (isset($arabicarr[$thischar['char']][1])) {
+								if (!empty($arabicarr[$thischar['char']][1])) {
 									// final
 									$chardata2[$i]['char'] = $arabicarr[$thischar['char']][1];
 								}
 							}
 						}
-					} elseif (isset($arabicarr[$thischar['char']][0])) {
+					} elseif (!empty($arabicarr[$thischar['char']][0])) {
 						// isolated
 						$chardata2[$i]['char'] = $arabicarr[$thischar['char']][0];
 					}
@@ -2590,9 +2590,9 @@ class TCPDF_FONTS {
 			 * Putting the combining mark and shadda in the same glyph allows us to avoid the two marks overlapping each other in an illegible manner.
 			 */
 			for ($i = 0; $i < ($numchars-1); ++$i) {
-				if (($chardata2[$i]['char'] == 1617) AND (isset(TCPDF_FONT_DATA::$uni_diacritics[($chardata2[$i+1]['char'])]))) {
+				if (($chardata2[$i]['char'] == 1617) AND (!empty(TCPDF_FONT_DATA::$uni_diacritics[($chardata2[$i+1]['char'])]))) {
 					// check if the subtitution font is defined on current font
-					if (isset($currentfont['cw'][(TCPDF_FONT_DATA::$uni_diacritics[($chardata2[$i+1]['char'])])])) {
+					if (!empty($currentfont['cw'][(TCPDF_FONT_DATA::$uni_diacritics[($chardata2[$i+1]['char'])])])) {
 						$chardata2[$i]['char'] = false;
 						$chardata2[$i+1]['char'] = TCPDF_FONT_DATA::$uni_diacritics[($chardata2[$i+1]['char'])];
 					}
@@ -2620,7 +2620,7 @@ class TCPDF_FONTS {
 			for ($i=0; $i < $numchars; ++$i) {
 				if ($chardata[$i]['level'] >= $j) {
 					$onlevel = true;
-					if (isset(TCPDF_FONT_DATA::$uni_mirror[$chardata[$i]['char']])) {
+					if (!empty(TCPDF_FONT_DATA::$uni_mirror[$chardata[$i]['char']])) {
 						// L4. A character is depicted by a mirrored glyph if and only if (a) the resolved directionality of that character is R, and (b) the Bidi_Mirrored property value of that character is true.
 						$chardata[$i]['char'] = TCPDF_FONT_DATA::$uni_mirror[$chardata[$i]['char']];
 					}

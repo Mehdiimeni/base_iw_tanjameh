@@ -68,7 +68,7 @@ class Generic_Sniffs_CodeAnalysis_UnnecessaryFinalModifierSniff implements PHP_C
         $token  = $tokens[$stackPtr];
 
         // Skip for-statements without body.
-        if (isset($token['scope_opener']) === false) {
+        if (!empty($token['scope_opener']) === false) {
             return;
         }
 

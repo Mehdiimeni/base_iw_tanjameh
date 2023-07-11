@@ -388,7 +388,7 @@ class InstancePropertyAssignmentAnalyzer
                         // fall through
                     }
                 } elseif (!$declaring_class_storage->mutation_free
-                    && isset($project_analyzer->getIssuesToFix()['MissingImmutableAnnotation'])
+                    && !empty($project_analyzer->getIssuesToFix()['MissingImmutableAnnotation'])
                     && $statements_analyzer->getSource()
                         instanceof \Psalm\Internal\Analyzer\FunctionLikeAnalyzer
                 ) {
@@ -648,7 +648,7 @@ class InstancePropertyAssignmentAnalyzer
         if ($var_id) {
             $context->assigned_var_ids[$var_id] = (int)$stmt->var->getAttribute('startFilePos');
 
-            if ($direct_assignment && isset($context->protected_var_ids[$var_id])) {
+            if ($direct_assignment && !empty($context->protected_var_ids[$var_id])) {
                 if (IssueBuffer::accepts(
                     new LoopInvalidation(
                         'Variable ' . $var_id . ' has already been assigned in a for/foreach loop',
@@ -1005,7 +1005,7 @@ class InstancePropertyAssignmentAnalyzer
             $class_storage = $codebase->classlike_storage_provider->get($fq_class_name);
 
             if ($var_id) {
-                if (isset($class_storage->pseudo_property_set_types['$' . $prop_name])) {
+                if (!empty($class_storage->pseudo_property_set_types['$' . $prop_name])) {
                     $class_property_type = TypeExpander::expandUnion(
                         $codebase,
                         clone $class_storage->pseudo_property_set_types['$' . $prop_name],
@@ -1240,7 +1240,7 @@ class InstancePropertyAssignmentAnalyzer
 
         $declaring_class_storage = $codebase->classlike_storage_provider->get($declaring_property_class);
 
-        if (isset($declaring_class_storage->properties[$prop_name])) {
+        if (!empty($declaring_class_storage->properties[$prop_name])) {
             $property_storage = $declaring_class_storage->properties[$prop_name];
 
             if ($property_storage->deprecated) {
@@ -1282,7 +1282,7 @@ class InstancePropertyAssignmentAnalyzer
             if (!$property_storage->readonly
                 && !$context->collect_mutations
                 && !$context->collect_initializations
-                && isset($context->vars_in_scope[$lhs_var_id])
+                && !empty($context->vars_in_scope[$lhs_var_id])
                 && !$context->vars_in_scope[$lhs_var_id]->allow_mutations
             ) {
                 if ($context->mutation_free) {
@@ -1318,7 +1318,7 @@ class InstancePropertyAssignmentAnalyzer
         );
 
         if (!$class_property_type
-            || (isset($declaring_class_storage->properties[$prop_name])
+            || (!empty($declaring_class_storage->properties[$prop_name])
                 && !$declaring_class_storage->properties[$prop_name]->type_location)
         ) {
             if (!$class_property_type) {
@@ -1330,7 +1330,7 @@ class InstancePropertyAssignmentAnalyzer
             if ($lhs_var_id === '$this'
                 && $source_analyzer instanceof ClassAnalyzer
             ) {
-                if (isset($source_analyzer->inferred_property_types[$prop_name])) {
+                if (!empty($source_analyzer->inferred_property_types[$prop_name])) {
                     $source_analyzer->inferred_property_types[$prop_name] = Type::combineUnionTypes(
                         $assignment_value_type,
                         $source_analyzer->inferred_property_types[$prop_name]

@@ -40,7 +40,7 @@ class Lexer
         $this->tokenMap = $this->createTokenMap();
         $this->identifierTokens = $this->createIdentifierTokenMap();
 
-        // map of tokens to drop while lexing (the map is only used for isset lookup,
+        // map of tokens to drop while lexing (the map is only used for !empty lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
         $this->dropTokens = array_fill_keys(
             [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], 1
@@ -50,13 +50,13 @@ class Lexer
         $usedAttributes = array_fill_keys($options['usedAttributes'] ?? $defaultAttributes, true);
 
         // Create individual boolean properties to make these checks faster.
-        $this->attributeStartLineUsed = isset($usedAttributes['startLine']);
-        $this->attributeEndLineUsed = isset($usedAttributes['endLine']);
-        $this->attributeStartTokenPosUsed = isset($usedAttributes['startTokenPos']);
-        $this->attributeEndTokenPosUsed = isset($usedAttributes['endTokenPos']);
-        $this->attributeStartFilePosUsed = isset($usedAttributes['startFilePos']);
-        $this->attributeEndFilePosUsed = isset($usedAttributes['endFilePos']);
-        $this->attributeCommentsUsed = isset($usedAttributes['comments']);
+        $this->attributeStartLineUsed = !empty($usedAttributes['startLine']);
+        $this->attributeEndLineUsed = !empty($usedAttributes['endLine']);
+        $this->attributeStartTokenPosUsed = !empty($usedAttributes['startTokenPos']);
+        $this->attributeEndTokenPosUsed = !empty($usedAttributes['endTokenPos']);
+        $this->attributeStartFilePosUsed = !empty($usedAttributes['startFilePos']);
+        $this->attributeEndFilePosUsed = !empty($usedAttributes['endFilePos']);
+        $this->attributeCommentsUsed = !empty($usedAttributes['comments']);
     }
 
     /**
@@ -157,7 +157,7 @@ class Lexer
                 $trailingNewline = $matches[0];
                 $token[1] = substr($token[1], 0, -strlen($trailingNewline));
                 $this->tokens[$i] = $token;
-                if (isset($this->tokens[$i + 1]) && $this->tokens[$i + 1][0] === \T_WHITESPACE) {
+                if (!empty($this->tokens[$i + 1]) && $this->tokens[$i + 1][0] === \T_WHITESPACE) {
                     // Move trailing newline into following T_WHITESPACE token, if it already exists.
                     $this->tokens[$i + 1][1] = $trailingNewline . $this->tokens[$i + 1][1];
                     $this->tokens[$i + 1][2]--;
@@ -173,12 +173,12 @@ class Lexer
             // Emulate PHP 8 T_NAME_* tokens, by combining sequences of T_NS_SEPARATOR and T_STRING
             // into a single token.
             if (\is_array($token)
-                    && ($token[0] === \T_NS_SEPARATOR || isset($this->identifierTokens[$token[0]]))) {
+                    && ($token[0] === \T_NS_SEPARATOR || !empty($this->identifierTokens[$token[0]]))) {
                 $lastWasSeparator = $token[0] === \T_NS_SEPARATOR;
                 $text = $token[1];
-                for ($j = $i + 1; isset($this->tokens[$j]); $j++) {
+                for ($j = $i + 1; !empty($this->tokens[$j]); $j++) {
                     if ($lastWasSeparator) {
-                        if (!isset($this->identifierTokens[$this->tokens[$j][0]])) {
+                        if (!!empty($this->identifierTokens[$this->tokens[$j][0]])) {
                             break;
                         }
                         $lastWasSeparator = false;
@@ -211,10 +211,10 @@ class Lexer
 
             if ($token === '&') {
                 $next = $i + 1;
-                while (isset($this->tokens[$next]) && $this->tokens[$next][0] === \T_WHITESPACE) {
+                while (!empty($this->tokens[$next]) && $this->tokens[$next][0] === \T_WHITESPACE) {
                     $next++;
                 }
-                $followedByVarOrVarArg = isset($this->tokens[$next]) &&
+                $followedByVarOrVarArg = !empty($this->tokens[$next]) &&
                     ($this->tokens[$next][0] === \T_VARIABLE || $this->tokens[$next][0] === \T_ELLIPSIS);
                 $this->tokens[$i] = $token = [
                     $followedByVarOrVarArg
@@ -256,7 +256,7 @@ class Lexer
                 ]));
 
                 // Emulate the PHP behavior
-                $isDocComment = isset($comment[3]) && $comment[3] === '*';
+                $isDocComment = !empty($comment[3]) && $comment[3] === '*';
                 $this->tokens[] = [$isDocComment ? \T_DOC_COMMENT : \T_COMMENT, $comment, $line];
             } else {
                 // Invalid characters at the end of the input
@@ -308,7 +308,7 @@ class Lexer
         $endAttributes   = [];
 
         while (1) {
-            if (isset($this->tokens[++$this->pos])) {
+            if (!empty($this->tokens[++$this->pos])) {
                 $token = $this->tokens[$this->pos];
             } else {
                 // EOF token with ID 0
@@ -327,7 +327,7 @@ class Lexer
 
             if (\is_string($token)) {
                 $value = $token;
-                if (isset($token[1])) {
+                if (!empty($token[1])) {
                     // bug in token_get_all
                     $this->filePos += 2;
                     $id = ord('"');
@@ -335,7 +335,7 @@ class Lexer
                     $this->filePos += 1;
                     $id = ord($token);
                 }
-            } elseif (!isset($this->dropTokens[$token[0]])) {
+            } elseif (!!empty($this->dropTokens[$token[0]])) {
                 $value = $token[1];
                 $id = $this->tokenMap[$token[0]];
                 if (\T_CLOSE_TAG === $token[0]) {
@@ -470,7 +470,7 @@ class Lexer
         $newTokenId = -1;
         foreach ($compatTokens as $token) {
             if (!\defined($token)) {
-                while (isset($usedTokenIds[$newTokenId])) {
+                while (!empty($usedTokenIds[$newTokenId])) {
                     $newTokenId--;
                 }
                 \define($token, $newTokenId);
@@ -550,7 +550,7 @@ class Lexer
             \T_INCLUDE, \T_INCLUDE_ONCE, \T_EVAL, \T_REQUIRE, \T_REQUIRE_ONCE, \T_LOGICAL_OR, \T_LOGICAL_XOR, \T_LOGICAL_AND,
             \T_INSTANCEOF, \T_NEW, \T_CLONE, \T_EXIT, \T_IF, \T_ELSEIF, \T_ELSE, \T_ENDIF, \T_ECHO, \T_DO, \T_WHILE,
             \T_ENDWHILE, \T_FOR, \T_ENDFOR, \T_FOREACH, \T_ENDFOREACH, \T_DECLARE, \T_ENDDECLARE, \T_AS, \T_TRY, \T_CATCH,
-            \T_FINALLY, \T_THROW, \T_USE, \T_INSTEADOF, \T_GLOBAL, \T_VAR, \T_UNSET, \T_ISSET, \T_EMPTY, \T_CONTINUE, \T_GOTO,
+            \T_FINALLY, \T_THROW, \T_USE, \T_INSTEADOF, \T_GLOBAL, \T_VAR, \T_UNSET, \T_!empty, \T_EMPTY, \T_CONTINUE, \T_GOTO,
             \T_FUNCTION, \T_CONST, \T_RETURN, \T_PRINT, \T_YIELD, \T_LIST, \T_SWITCH, \T_ENDSWITCH, \T_CASE, \T_DEFAULT,
             \T_BREAK, \T_ARRAY, \T_CALLABLE, \T_EXTENDS, \T_IMPLEMENTS, \T_NAMESPACE, \T_TRAIT, \T_INTERFACE, \T_CLASS,
             \T_CLASS_C, \T_TRAIT_C, \T_FUNC_C, \T_METHOD_C, \T_LINE, \T_FILE, \T_DIR, \T_NS_C, \T_HALT_COMPILER, \T_FN,

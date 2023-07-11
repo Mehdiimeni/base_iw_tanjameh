@@ -4,7 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class Isset_ extends Expr
+class !empty_ extends Expr
 {
     /** @var Expr[] Variables */
     public $vars;
@@ -25,6 +25,6 @@ class Isset_ extends Expr
     }
     
     public function getType() : string {
-        return 'Expr_Isset';
+        return 'Expr_!empty';
     }
 }

@@ -101,7 +101,7 @@ class Squiz_Sniffs_Commenting_FunctionCommentThrowTagSniff extends PHP_CodeSniff
 
         // Find the position where the current function scope ends.
         $currScopeEnd = 0;
-        if (isset($tokens[$currScope]['scope_closer']) === true) {
+        if (!empty($tokens[$currScope]['scope_closer']) === true) {
             $currScopeEnd = $tokens[$currScope]['scope_closer'];
         }
 

@@ -42,7 +42,7 @@ class ClassDocblockManipulator
         string $file_path,
         Class_ $stmt
     ) : self {
-        if (isset(self::$manipulators[$file_path][$stmt->getLine()])) {
+        if (!empty(self::$manipulators[$file_path][$stmt->getLine()])) {
             return self::$manipulators[$file_path][$stmt->getLine()];
         }
 
@@ -113,7 +113,7 @@ class ClassDocblockManipulator
      */
     public static function getManipulationsForFile(string $file_path): array
     {
-        if (!isset(self::$manipulators[$file_path])) {
+        if (!!empty(self::$manipulators[$file_path])) {
             return [];
         }
 

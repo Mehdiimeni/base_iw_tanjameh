@@ -110,7 +110,7 @@ class IfElseAnalyzer
         $mixed_var_ids = [];
 
         foreach ($if_context->vars_in_scope as $var_id => $type) {
-            if ($type->isMixed() && isset($context->vars_in_scope[$var_id])) {
+            if ($type->isMixed() && !empty($context->vars_in_scope[$var_id])) {
                 $mixed_var_ids[] = $var_id;
             }
         }
@@ -430,7 +430,7 @@ class IfElseAnalyzer
 
         if ($if_scope->new_vars) {
             foreach ($if_scope->new_vars as $var_id => $type) {
-                if (isset($context->vars_possibly_in_scope[$var_id])
+                if (!empty($context->vars_possibly_in_scope[$var_id])
                     && $statements_analyzer->data_flow_graph
                 ) {
                     $type->parent_nodes += $statements_analyzer->getParentNodesForPossiblyUndefinedVariable($var_id);
@@ -449,7 +449,7 @@ class IfElseAnalyzer
                     $if_scope->reasonable_clauses = Context::filterClauses(
                         $var_id,
                         $if_scope->reasonable_clauses,
-                        isset($context->vars_in_scope[$var_id])
+                        !empty($context->vars_in_scope[$var_id])
                             ? $context->vars_in_scope[$var_id]
                             : null,
                         $statements_analyzer
@@ -477,9 +477,9 @@ class IfElseAnalyzer
 
         if ($if_scope->possibly_redefined_vars) {
             foreach ($if_scope->possibly_redefined_vars as $var_id => $type) {
-                if (isset($context->vars_in_scope[$var_id])) {
+                if (!empty($context->vars_in_scope[$var_id])) {
                     if (!$type->failed_reconciliation
-                        && !isset($if_scope->updated_vars[$var_id])
+                        && !!empty($if_scope->updated_vars[$var_id])
                     ) {
                         $combined_type = Type::combineUnionTypes(
                             $context->vars_in_scope[$var_id],

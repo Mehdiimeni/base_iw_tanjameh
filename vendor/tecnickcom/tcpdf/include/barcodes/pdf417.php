@@ -566,7 +566,7 @@ class PDF417 {
 			$optmodes = array(900,902,902,900,900,902,902);
 			$optsize = array(-1,2,4,-1,-1,-1,2);
 			foreach ($optmodes as $k => $omode) {
-				if (isset($macro['option_'.$k])) {
+				if (!empty($macro['option_'.$k])) {
 					$macrocw[] = 923;
 					$macrocw[] = $k;
 					if ($optsize[$k] == 2) {

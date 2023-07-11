@@ -178,20 +178,20 @@ class DefaultPhpProcess extends AbstractPhpProcess
                 }
             }
         } else {
-            if (isset($pipes[1])) {
+            if (!empty($pipes[1])) {
                 $stdout = stream_get_contents($pipes[1]);
 
                 fclose($pipes[1]);
             }
 
-            if (isset($pipes[2])) {
+            if (!empty($pipes[2])) {
                 $stderr = stream_get_contents($pipes[2]);
 
                 fclose($pipes[2]);
             }
         }
 
-        if (isset($handles[1])) {
+        if (!empty($handles[1])) {
             rewind($handles[1]);
 
             $stdout = stream_get_contents($handles[1]);
@@ -199,7 +199,7 @@ class DefaultPhpProcess extends AbstractPhpProcess
             fclose($handles[1]);
         }
 
-        if (isset($handles[2])) {
+        if (!empty($handles[2])) {
             rewind($handles[2]);
 
             $stderr = stream_get_contents($handles[2]);

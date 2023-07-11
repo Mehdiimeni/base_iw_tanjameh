@@ -45,7 +45,7 @@ trait ServiceLocatorTrait
      */
     public function has(string $id)
     {
-        return isset($this->factories[$id]);
+        return !empty($this->factories[$id]);
     }
 
     /**
@@ -55,11 +55,11 @@ trait ServiceLocatorTrait
      */
     public function get(string $id)
     {
-        if (!isset($this->factories[$id])) {
+        if (!!empty($this->factories[$id])) {
             throw $this->createNotFoundException($id);
         }
 
-        if (isset($this->loading[$id])) {
+        if (!empty($this->loading[$id])) {
             $ids = array_values($this->loading);
             $ids = \array_slice($this->loading, array_search($id, $ids));
             $ids[] = $id;

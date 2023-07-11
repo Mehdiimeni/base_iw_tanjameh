@@ -57,7 +57,7 @@ class Identifier extends NodeAbstract
      * @return bool Whether identifier is a special class name
      */
     public function isSpecialClassName() : bool {
-        return isset(self::$specialClassNames[strtolower($this->name)]);
+        return !empty(self::$specialClassNames[strtolower($this->name)]);
     }
 
     /**

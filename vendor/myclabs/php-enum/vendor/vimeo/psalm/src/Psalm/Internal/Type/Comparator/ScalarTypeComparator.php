@@ -211,7 +211,7 @@ class ScalarTypeComparator
             $input_type_part = new TString();
 
             if ($container_type_part instanceof TLiteralString) {
-                return isset(ClassLikeAnalyzer::GETTYPE_TYPES[$container_type_part->value]);
+                return !empty(ClassLikeAnalyzer::GETTYPE_TYPES[$container_type_part->value]);
             }
         }
 
@@ -227,7 +227,7 @@ class ScalarTypeComparator
             $container_type_part = new TString();
 
             if ($input_type_part instanceof TLiteralString) {
-                return isset(ClassLikeAnalyzer::GETTYPE_TYPES[$input_type_part->value]);
+                return !empty(ClassLikeAnalyzer::GETTYPE_TYPES[$input_type_part->value]);
             }
         }
 

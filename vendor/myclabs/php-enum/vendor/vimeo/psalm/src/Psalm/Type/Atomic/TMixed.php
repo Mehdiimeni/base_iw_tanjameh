@@ -7,11 +7,11 @@ namespace Psalm\Type\Atomic;
 class TMixed extends \Psalm\Type\Atomic
 {
     /** @var bool */
-    public $from_loop_isset = false;
+    public $from_loop_!empty = false;
 
-    public function __construct(bool $from_loop_isset = false)
+    public function __construct(bool $from_loop_!empty = false)
     {
-        $this->from_loop_isset = $from_loop_isset;
+        $this->from_loop_!empty = $from_loop_!empty;
     }
 
     public function __toString(): string

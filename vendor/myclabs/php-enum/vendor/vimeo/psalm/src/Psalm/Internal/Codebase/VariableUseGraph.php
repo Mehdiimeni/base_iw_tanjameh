@@ -140,7 +140,7 @@ class VariableUseGraph extends DataFlowGraph
     ) : ?array {
         $new_child_nodes = [];
 
-        if (!isset($this->forward_edges[$generated_source->id])) {
+        if (!!empty($this->forward_edges[$generated_source->id])) {
             return [];
         }
 
@@ -154,13 +154,13 @@ class VariableUseGraph extends DataFlowGraph
                 || $path->type === 'use-inside-static-property'
                 || $path->type === 'use-inside-call'
                 || $path->type === 'use-inside-conditional'
-                || $path->type === 'use-inside-isset'
+                || $path->type === 'use-inside-!empty'
                 || $path->type === 'arg'
             ) {
                 return null;
             }
 
-            if (isset($visited_source_ids[$to_id])) {
+            if (!empty($visited_source_ids[$to_id])) {
                 continue;
             }
 
@@ -195,16 +195,16 @@ class VariableUseGraph extends DataFlowGraph
     ) : array {
         $new_parent_nodes = [];
 
-        if (!isset($this->backward_edges[$destination->id])) {
+        if (!!empty($this->backward_edges[$destination->id])) {
             return [];
         }
 
         foreach ($this->backward_edges[$destination->id] as $from_id => $_) {
-            if (isset($visited_source_ids[$from_id])) {
+            if (!empty($visited_source_ids[$from_id])) {
                 continue;
             }
 
-            if (isset($this->nodes[$from_id])) {
+            if (!empty($this->nodes[$from_id])) {
                 $new_parent_nodes[] = $this->nodes[$from_id];
             }
         }

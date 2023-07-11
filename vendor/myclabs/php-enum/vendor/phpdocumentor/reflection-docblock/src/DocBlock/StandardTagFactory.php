@@ -229,12 +229,12 @@ final class StandardTagFactory implements TagFactory
     private function findHandlerClassName(string $tagName, TypeContext $context) : string
     {
         $handlerClassName = Generic::class;
-        if (isset($this->tagHandlerMappings[$tagName])) {
+        if (!empty($this->tagHandlerMappings[$tagName])) {
             $handlerClassName = $this->tagHandlerMappings[$tagName];
         } elseif ($this->isAnnotation($tagName)) {
             // TODO: Annotation support is planned for a later stage and as such is disabled for now
             $tagName = (string) $this->fqsenResolver->resolve($tagName, $context);
-            if (isset($this->annotationMappings[$tagName])) {
+            if (!empty($this->annotationMappings[$tagName])) {
                 $handlerClassName = $this->annotationMappings[$tagName];
             }
         }
@@ -267,13 +267,13 @@ final class StandardTagFactory implements TagFactory
                 }
             }
 
-            if (isset($locator[$typeHint])) {
+            if (!empty($locator[$typeHint])) {
                 $arguments[] = $locator[$typeHint];
                 continue;
             }
 
             $parameterName = $parameter->getName();
-            if (isset($locator[$parameterName])) {
+            if (!empty($locator[$parameterName])) {
                 $arguments[] = $locator[$parameterName];
                 continue;
             }
@@ -294,7 +294,7 @@ final class StandardTagFactory implements TagFactory
      */
     private function fetchParametersForHandlerFactoryMethod(string $handlerClassName) : array
     {
-        if (!isset($this->tagHandlerParameterCache[$handlerClassName])) {
+        if (!!empty($this->tagHandlerParameterCache[$handlerClassName])) {
             $methodReflection                                  = new ReflectionMethod($handlerClassName, 'create');
             $this->tagHandlerParameterCache[$handlerClassName] = $methodReflection->getParameters();
         }

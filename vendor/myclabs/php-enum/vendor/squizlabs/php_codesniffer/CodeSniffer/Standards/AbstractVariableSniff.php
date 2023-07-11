@@ -126,7 +126,7 @@ abstract class PHP_CodeSniffer_Standards_AbstractVariableSniff extends PHP_CodeS
                 $this->_endFunction
                     = $phpcsFile->findNext(array(T_SEMICOLON), $stackPtr);
             } else {
-                if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+                if (!empty($tokens[$stackPtr]['scope_closer']) === false) {
                     $error = 'Possible parse error: non-abstract method defined as abstract';
                     $phpcsFile->addWarning($error, $stackPtr);
                     return;

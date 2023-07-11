@@ -48,7 +48,7 @@ if (get_product_info($item)) {
                 <?php echo _LANG['discount']; ?>
               </p>
             <?php } ?>
-            <?php echo get_product_info($item)->str_price; ?>
+            <h3 class="fw-semibold product-price"> <?php echo get_product_info($item)->str_price; ?></h3>
             <?php if (get_product_info($item)->discount_persent) { ?>
               <?php echo get_product_info($item)->str_old_price; ?>
             <?php } ?>
@@ -84,10 +84,10 @@ if (get_product_info($item)) {
                   tabindex="0">
                   <!-- list size -->
                   <div class="list-group list-group-flush list-size">
-                    <?php foreach (get_product_info($item)->all_size as $size) {
+                    <?php  foreach ((array)get_product_info($item)->all_size as $id=>$size) {
                       if ($size == '')
                         continue; ?>
-                      <button type="button" class="list-group-item list-group-item-action">
+                      <button type="button" value="<?php echo $id; ?>"  class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1 available">
                             <?php echo $size; ?>
@@ -97,7 +97,7 @@ if (get_product_info($item)) {
                       </button>
                     <?php } ?>
                     <!-- not available size's product -->
-                    <?php foreach (get_product_info($item)->all_disabled_size as $disabled_size) {
+                    <?php foreach ((array)get_product_info($item)->all_disabled_size as $id=>$disabled_size) {
                       if ($disabled_size == '')
                         continue; ?>
                       <button type="button" class="list-group-item list-group-item-action" aria-current="true"
@@ -195,7 +195,7 @@ if (get_product_info($item)) {
             <button id="addToCart" class="btn btn-lg btn-dark w-100 my-2 rounded-0 me-2">
               <?php echo _LANG['add_to_basket']; ?>
             </button>
-            <button id="btnWishlist" type="button" class="btn btn-outline-dark my-2 rounded-0 btn-heart dislike fs-4"><i
+            <button id="btnWishlist" value="<?php echo get_product_info($item)->id; ?>" type="button" class="btn btn-outline-dark my-2 rounded-0 btn-heart dislike fs-4"><i
                 class="fa-regular fa-heart" aria-hidden="true"></i></button>
           </div>
           <!-- delivery -->

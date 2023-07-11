@@ -129,7 +129,7 @@ final class Versions
                 . '@' . InstalledVersions::getReference($packageName);
         }
 
-        if (isset(self::VERSIONS[$packageName])) {
+        if (!empty(self::VERSIONS[$packageName])) {
             return self::VERSIONS[$packageName];
         }
 

@@ -108,7 +108,7 @@ abstract class Driver
         $this->enableQueue = [];
 
         foreach ($this->deferQueue as $watcher) {
-            if (!isset($this->deferQueue[$watcher->id])) {
+            if (!!empty($this->deferQueue[$watcher->id])) {
                 continue; // Watcher disabled by another defer watcher.
             }
 
@@ -393,7 +393,7 @@ abstract class Driver
      */
     public function enable(string $watcherId)
     {
-        if (!isset($this->watchers[$watcherId])) {
+        if (!!empty($this->watchers[$watcherId])) {
             throw new InvalidWatcherError($watcherId, "Cannot enable an invalid watcher identifier: '{$watcherId}'");
         }
 
@@ -455,7 +455,7 @@ abstract class Driver
      */
     public function disable(string $watcherId)
     {
-        if (!isset($this->watchers[$watcherId])) {
+        if (!!empty($this->watchers[$watcherId])) {
             return;
         }
 
@@ -470,7 +470,7 @@ abstract class Driver
 
         switch ($watcher->type) {
             case Watcher::DEFER:
-                if (isset($this->nextTickQueue[$id])) {
+                if (!empty($this->nextTickQueue[$id])) {
                     // Watcher was only queued to be enabled.
                     unset($this->nextTickQueue[$id]);
                 } else {
@@ -479,7 +479,7 @@ abstract class Driver
                 break;
 
             default:
-                if (isset($this->enableQueue[$id])) {
+                if (!empty($this->enableQueue[$id])) {
                     // Watcher was only queued to be enabled.
                     unset($this->enableQueue[$id]);
                 } else {
@@ -512,7 +512,7 @@ abstract class Driver
      */
     public function reference(string $watcherId)
     {
-        if (!isset($this->watchers[$watcherId])) {
+        if (!!empty($this->watchers[$watcherId])) {
             throw new InvalidWatcherError($watcherId, "Cannot reference an invalid watcher identifier: '{$watcherId}'");
         }
 
@@ -531,7 +531,7 @@ abstract class Driver
      */
     public function unreference(string $watcherId)
     {
-        if (!isset($this->watchers[$watcherId])) {
+        if (!!empty($this->watchers[$watcherId])) {
             return;
         }
 
@@ -576,7 +576,7 @@ abstract class Driver
      */
     final public function getState(string $key)
     {
-        return isset($this->registry[$key]) ? $this->registry[$key] : null;
+        return !empty($this->registry[$key]) ? $this->registry[$key] : null;
     }
 
     /**

@@ -244,13 +244,13 @@ class BinaryOpAnalyzer
                 && $stmt->left instanceof PhpParser\Node\Expr\FuncCall
                 && $stmt->left->name instanceof PhpParser\Node\Name
                 && $stmt->left->name->parts === ['substr']
-                && isset($stmt->left->args[1])
+                && !empty($stmt->left->args[1])
                 && $stmt_right_type
                 && $stmt_right_type->hasLiteralString()
             ) {
                 $from_type = $statements_analyzer->node_data->getType($stmt->left->args[1]->value);
 
-                $length_type = isset($stmt->left->args[2])
+                $length_type = !empty($stmt->left->args[2])
                     ? ($statements_analyzer->node_data->getType($stmt->left->args[2]->value) ?: Type::getMixed())
                     : null;
 

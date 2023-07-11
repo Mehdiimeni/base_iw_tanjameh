@@ -42,8 +42,8 @@ class ClassTemplateParamCollector
         if ($static_class_storage->template_extended_params
             && $method_name
             && !empty($non_trait_class_storage->overridden_method_ids[$method_name])
-            && isset($class_storage->methods[$method_name])
-            && (!isset($non_trait_class_storage->methods[$method_name]->return_type)
+            && !empty($class_storage->methods[$method_name])
+            && (!!empty($non_trait_class_storage->methods[$method_name]->return_type)
                 || $class_storage->methods[$method_name]->inherited_return_type)
         ) {
             foreach ($non_trait_class_storage->overridden_method_ids[$method_name] as $overridden_method_id) {
@@ -67,7 +67,7 @@ class ClassTemplateParamCollector
                     $template_types = $overridden_template_types;
                 } elseif ($overridden_template_types) {
                     foreach ($overridden_template_types as $template_name => $template_map) {
-                        if (isset($template_types[$template_name])) {
+                        if (!empty($template_types[$template_name])) {
                             $template_types[$template_name] = array_merge(
                                 $template_types[$template_name],
                                 $template_map
@@ -94,7 +94,7 @@ class ClassTemplateParamCollector
                 $i = 0;
 
                 foreach ($class_storage->template_types as $type_name => $_) {
-                    if (isset($lhs_type_part->type_params[$i])) {
+                    if (!empty($lhs_type_part->type_params[$i])) {
                         $class_template_params[$type_name][$class_storage->name]
                             = $lhs_type_part->type_params[$i];
                     }
@@ -104,12 +104,12 @@ class ClassTemplateParamCollector
             }
 
             foreach ($template_types as $type_name => $_) {
-                if (isset($class_template_params[$type_name])) {
+                if (!empty($class_template_params[$type_name])) {
                     continue;
                 }
 
                 if ($class_storage !== $static_class_storage
-                    && isset($e[$class_storage->name][$type_name])
+                    && !empty($e[$class_storage->name][$type_name])
                 ) {
                     $input_type_extends = $e[$class_storage->name][$type_name];
 
@@ -117,7 +117,7 @@ class ClassTemplateParamCollector
 
                     foreach ($input_type_extends->getAtomicTypes() as $type_extends_atomic) {
                         if ($type_extends_atomic instanceof Type\Atomic\TTemplateParam) {
-                            if (isset($static_class_storage->template_types[$type_extends_atomic->param_name])) {
+                            if (!empty($static_class_storage->template_types[$type_extends_atomic->param_name])) {
                                 $mapped_offset = array_search(
                                     $type_extends_atomic->param_name,
                                     array_keys($static_class_storage->template_types),
@@ -125,7 +125,7 @@ class ClassTemplateParamCollector
                                 );
 
                                 if ($mapped_offset !== false
-                                    && isset($lhs_type_part->type_params[$mapped_offset])
+                                    && !empty($lhs_type_part->type_params[$mapped_offset])
                                 ) {
                                     $candidate_type = $lhs_type_part->type_params[$mapped_offset];
 
@@ -138,7 +138,7 @@ class ClassTemplateParamCollector
                                         );
                                     }
                                 }
-                            } elseif (isset(
+                            } elseif (!empty(
                                 $static_class_storage
                                     ->template_extended_params
                                         [$type_extends_atomic->defining_class]
@@ -154,7 +154,7 @@ class ClassTemplateParamCollector
                                 );
 
                                 if ($mapped_offset !== false
-                                    && isset($lhs_type_part->type_params[$mapped_offset])
+                                    && !empty($lhs_type_part->type_params[$mapped_offset])
                                 ) {
                                     $candidate_type = $lhs_type_part->type_params[$mapped_offset];
 
@@ -187,7 +187,7 @@ class ClassTemplateParamCollector
                 }
 
                 if ((!$self_call || $static_fq_class_name !== $class_storage->name)
-                    && !isset($class_template_params[$type_name])
+                    && !!empty($class_template_params[$type_name])
                 ) {
                     $class_template_params[$type_name] = [$class_storage->name => Type::getMixed()];
                 }
@@ -198,8 +198,8 @@ class ClassTemplateParamCollector
             foreach ($type_map as $type) {
                 foreach ($candidate_class_storages as $candidate_class_storage) {
                     if ($candidate_class_storage !== $static_class_storage
-                        && isset($e[$candidate_class_storage->name][$type_name])
-                        && !isset($class_template_params[$type_name][$candidate_class_storage->name])
+                        && !empty($e[$candidate_class_storage->name][$type_name])
+                        && !!empty($class_template_params[$type_name][$candidate_class_storage->name])
                     ) {
                         $class_template_params[$type_name][$candidate_class_storage->name] = new Type\Union(
                             self::expandType(
@@ -214,7 +214,7 @@ class ClassTemplateParamCollector
                 }
 
                 if (!$self_call) {
-                    if (!isset($class_template_params[$type_name])) {
+                    if (!!empty($class_template_params[$type_name])) {
                         $class_template_params[$type_name][$class_storage->name] = $type;
                     }
                 }
@@ -240,8 +240,8 @@ class ClassTemplateParamCollector
         foreach ($input_type_extends->getAtomicTypes() as $type_extends_atomic) {
             if ($type_extends_atomic instanceof Type\Atomic\TTemplateParam
                 && ($static_fq_class_name !== $type_extends_atomic->defining_class
-                    || !isset($static_template_types[$type_extends_atomic->param_name]))
-                && isset($e[$type_extends_atomic->defining_class][$type_extends_atomic->param_name])
+                    || !!empty($static_template_types[$type_extends_atomic->param_name]))
+                && !empty($e[$type_extends_atomic->defining_class][$type_extends_atomic->param_name])
             ) {
                 $output_type_extends = array_merge(
                     $output_type_extends,

@@ -117,7 +117,7 @@ class ScopeAnalyzer
                             /** @var string|null */
                             $resolved_name = $stmt->expr->name->getAttribute('resolvedName');
 
-                            if ($resolved_name && isset($exit_functions[strtolower($resolved_name)])) {
+                            if ($resolved_name && !empty($exit_functions[strtolower($resolved_name)])) {
                                 return array_values(array_unique(array_merge($control_actions, [self::ACTION_END])));
                             }
                         } elseif ($stmt->expr->class instanceof PhpParser\Node\Name
@@ -127,7 +127,7 @@ class ScopeAnalyzer
                             $resolved_class_name = $stmt->expr->class->getAttribute('resolvedName');
 
                             if ($resolved_class_name
-                                && isset($exit_functions[strtolower($resolved_class_name . '::' . $stmt->expr->name)])
+                                && !empty($exit_functions[strtolower($resolved_class_name . '::' . $stmt->expr->name)])
                             ) {
                                 return array_values(array_unique(array_merge($control_actions, [self::ACTION_END])));
                             }
@@ -316,7 +316,7 @@ class ScopeAnalyzer
                     }
                 );
 
-                if ($has_default_terminator || isset($stmt->allMatched)) {
+                if ($has_default_terminator || !empty($stmt->allMatched)) {
                     return array_values(array_unique(array_merge($control_actions, $all_case_actions)));
                 }
 

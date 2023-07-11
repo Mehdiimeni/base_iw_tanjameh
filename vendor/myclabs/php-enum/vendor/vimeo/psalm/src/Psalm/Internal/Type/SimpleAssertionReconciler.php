@@ -66,8 +66,8 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
             return $existing_var_type;
         }
 
-        if ($assertion === 'isset') {
-            return self::reconcileIsset(
+        if ($assertion === '!empty') {
+            return self::reconcile!empty(
                 $existing_var_type,
                 $key,
                 $negated,
@@ -410,7 +410,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
      * @param   string[]  $suppressed_issues
      * @param   0|1|2    $failed_reconciliation
      */
-    private static function reconcileIsset(
+    private static function reconcile!empty(
         Union $existing_var_type,
         ?string $key,
         bool $negated,
@@ -427,7 +427,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
             || !$existing_var_type->initialized
             || $existing_var_type->possibly_undefined
             || $key === '$_SESSION'
-            || $existing_var_type->ignore_isset;
+            || $existing_var_type->ignore_!empty;
 
         if ($existing_var_type->isNullable()) {
             $existing_var_type->removeType('null');
@@ -445,7 +445,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
                 $existing_var_type,
                 $old_var_type_string,
                 $key,
-                'isset',
+                '!empty',
                 !$did_remove_type,
                 $negated,
                 $code_location,
@@ -467,7 +467,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
         $existing_var_type->from_static_property = false;
         $existing_var_type->possibly_undefined = false;
         $existing_var_type->possibly_undefined_from_try = false;
-        $existing_var_type->ignore_isset = false;
+        $existing_var_type->ignore_!empty = false;
 
         return $existing_var_type;
     }
@@ -703,7 +703,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
                             } elseif ($extra_type instanceof Atomic\TObjectWithProperties) {
                                 $match_found = true;
 
-                                if (!isset($extra_type->methods[$method_name])) {
+                                if (!!empty($extra_type->methods[$method_name])) {
                                     $extra_type->methods[$method_name] = 'object::' . $method_name;
                                     $did_remove_type = true;
                                 }
@@ -723,7 +723,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
             } elseif ($type instanceof Atomic\TObjectWithProperties) {
                 $object_types[] = $type;
 
-                if (!isset($type->methods[$method_name])) {
+                if (!!empty($type->methods[$method_name])) {
                     $type->methods[$method_name] = 'object::' . $method_name;
                     $did_remove_type = true;
                 }
@@ -1543,7 +1543,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
                     $is_class_string = true;
                 }
 
-                if (isset($atomic_type->properties[$assertion])) {
+                if (!empty($atomic_type->properties[$assertion])) {
                     $atomic_type->properties[$assertion]->possibly_undefined = false;
                 } else {
                     $atomic_type->properties[$assertion] = Type::getMixed();
@@ -2295,7 +2295,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
             $existing_var_type->addType(new Type\Atomic\TEmptyNumeric);
         }
 
-        if (isset($existing_var_atomic_types['array'])) {
+        if (!empty($existing_var_atomic_types['array'])) {
             $array_atomic_type = $existing_var_atomic_types['array'];
 
             if ($array_atomic_type instanceof Type\Atomic\TNonEmptyArray
@@ -2323,7 +2323,7 @@ class SimpleAssertionReconciler extends \Psalm\Type\Reconciler
             }
         }
 
-        if (isset($existing_var_atomic_types['scalar'])
+        if (!empty($existing_var_atomic_types['scalar'])
             && $existing_var_atomic_types['scalar']->getId() !== 'empty-scalar'
         ) {
             $did_remove_type = true;

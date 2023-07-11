@@ -81,14 +81,14 @@ abstract class PHP_CodeSniffer_Reports_VersionControl implements PHP_CodeSniffer
 
         foreach ($report['messages'] as $line => $lineErrors) {
             $author = 'Unknown';
-            if (isset($blames[($line - 1)]) === true) {
+            if (!empty($blames[($line - 1)]) === true) {
                 $blameAuthor = $this->getAuthor($blames[($line - 1)]);
                 if ($blameAuthor !== false) {
                     $author = $blameAuthor;
                 }
             }
 
-            if (isset($this->_authorCache[$author]) === false) {
+            if (!empty($this->_authorCache[$author]) === false) {
                 $this->_authorCache[$author] = 0;
                 $this->_praiseCache[$author] = array(
                                                 'good' => 0,
@@ -104,7 +104,7 @@ abstract class PHP_CodeSniffer_Reports_VersionControl implements PHP_CodeSniffer
 
                     if ($showSources === true) {
                         $source = $error['source'];
-                        if (isset($this->_sourceCache[$author][$source]) === false) {
+                        if (!empty($this->_sourceCache[$author][$source]) === false) {
                             $this->_sourceCache[$author][$source] = 1;
                         } else {
                             $this->_sourceCache[$author][$source]++;
@@ -124,7 +124,7 @@ abstract class PHP_CodeSniffer_Reports_VersionControl implements PHP_CodeSniffer
                 $author = 'Unknown';
             }
 
-            if (isset($this->_authorCache[$author]) === false) {
+            if (!empty($this->_authorCache[$author]) === false) {
                 // This author doesn't have any errors.
                 if (PHP_CODESNIFFER_VERBOSITY === 0) {
                     continue;
@@ -204,7 +204,7 @@ abstract class PHP_CodeSniffer_Reports_VersionControl implements PHP_CodeSniffer
 
             echo $line.PHP_EOL;
 
-            if ($showSources === true && isset($this->_sourceCache[$author]) === true) {
+            if ($showSources === true && !empty($this->_sourceCache[$author]) === true) {
                 $errors = $this->_sourceCache[$author];
                 asort($errors);
                 $errors = array_reverse($errors);

@@ -28,7 +28,7 @@ class ClosureFromCallableReturnTypeProvider implements \Psalm\Plugin\EventHandle
         if ($method_name_lowercase === 'fromcallable') {
             $closure_types = [];
 
-            if (isset($call_args[0])
+            if (!empty($call_args[0])
                 && ($input_type = $type_provider->getType($call_args[0]->value))
             ) {
                 foreach ($input_type->getAtomicTypes() as $atomic_type) {

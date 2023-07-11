@@ -297,7 +297,7 @@ abstract class Atomic implements TypeNode
             throw new \Psalm\Exception\TypeParseTreeException('First character of type cannot be numeric');
         }
 
-        if (isset($template_type_map[$value])) {
+        if (!empty($template_type_map[$value])) {
             $first_class = array_keys($template_type_map[$value])[0];
 
             return new TTemplateParam(
@@ -307,7 +307,7 @@ abstract class Atomic implements TypeNode
             );
         }
 
-        if (isset($type_aliases[$value])) {
+        if (!empty($type_aliases[$value])) {
             $type_alias = $type_aliases[$value];
 
             if ($type_alias instanceof TypeAlias\LinkableTypeAlias) {

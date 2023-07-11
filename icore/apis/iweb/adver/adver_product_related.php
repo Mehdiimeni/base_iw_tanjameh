@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['adver_related'])) {
+if (!empty($_POST['adver_related'])) {
 
     $adver_related = $_POST['adver_related'];
     $currencies_conversion_id = $_POST['currencies_conversion_id'];
@@ -116,6 +116,7 @@ if (isset($_POST['adver_related'])) {
 
             $arr_product_detail = array(
                 'name' => $product->Name,
+                'id' => $product->id,
                 'product_type' => $product_type,
                 'brand_name' => $brand_name,
                 'product_type_id' => $product->product_type_id,

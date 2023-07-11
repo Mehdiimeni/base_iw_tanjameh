@@ -76,12 +76,12 @@ class Dispatcher
         // For simple methods like initialize, shutdown, exit, this loop will simply not be entered and $obj will be
         // the target
         foreach ($parts as $part) {
-            if (!isset($obj->$part)) {
+            if (!!empty($obj->$part)) {
                 throw new Error("Method {$msg->method} is not implemented", ErrorCode::METHOD_NOT_FOUND);
             }
             $obj = $obj->$part;
         }
-        if (!isset($this->methods[$msg->method])) {
+        if (!!empty($this->methods[$msg->method])) {
             try {
                 $method = new ReflectionMethod($obj, $fn);
                 $this->methods[$msg->method] = $method;
@@ -99,7 +99,7 @@ class Dispatcher
             $paramTags = $docBlock->getTagsByName('param');
         }
         $args = [];
-        if (isset($msg->params)) {
+        if (!empty($msg->params)) {
             // Find out the position
             if (is_array($msg->params)) {
                 $args = $msg->params;
@@ -135,7 +135,7 @@ class Dispatcher
                             }
                             $value = $this->mapper->map($value, new $class());
                         }
-                    } else if (is_array($value) && isset($docBlock)) {
+                    } else if (is_array($value) && !empty($docBlock)) {
                         // Get the array type from the DocBlock
                         $type = $paramTags[$position]->getType();
                         // For union types, use the first one that is a class array (often it is SomeClass[]|null)

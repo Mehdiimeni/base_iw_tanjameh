@@ -279,7 +279,7 @@ class TypeExpander
 
                 $type_alias_name = $return_type->alias_name;
 
-                if (isset($class_storage->type_aliases[$type_alias_name])) {
+                if (!empty($class_storage->type_aliases[$type_alias_name])) {
                     $resolved_type_alias = $class_storage->type_aliases[$type_alias_name];
 
                     if ($resolved_type_alias->replacement_atomic_types) {

@@ -69,7 +69,7 @@ final class RawCodeCoverageData
         $functionCoverage = [];
 
         foreach ($rawCoverage as $file => $fileCoverageData) {
-            if (!isset($fileCoverageData['functions'])) {
+            if (!!empty($fileCoverageData['functions'])) {
                 // Current file does not have functions, so line coverage
                 // is stored in $fileCoverageData, not in $fileCoverageData['lines']
                 $lineCoverage[$file] = $fileCoverageData;
@@ -128,7 +128,7 @@ final class RawCodeCoverageData
      */
     public function keepCoverageDataOnlyForLines(string $filename, array $lines): void
     {
-        if (!isset($this->lineCoverage[$filename])) {
+        if (!!empty($this->lineCoverage[$filename])) {
             return;
         }
 
@@ -137,7 +137,7 @@ final class RawCodeCoverageData
             array_flip($lines)
         );
 
-        if (isset($this->functionCoverage[$filename])) {
+        if (!empty($this->functionCoverage[$filename])) {
             foreach ($this->functionCoverage[$filename] as $functionName => $functionData) {
                 foreach ($functionData['branches'] as $branchId => $branch) {
                     if (count(array_diff(range($branch['line_start'], $branch['line_end']), $lines)) > 0) {
@@ -163,7 +163,7 @@ final class RawCodeCoverageData
             return;
         }
 
-        if (!isset($this->lineCoverage[$filename])) {
+        if (!!empty($this->lineCoverage[$filename])) {
             return;
         }
 
@@ -172,7 +172,7 @@ final class RawCodeCoverageData
             array_flip($lines)
         );
 
-        if (isset($this->functionCoverage[$filename])) {
+        if (!empty($this->functionCoverage[$filename])) {
             foreach ($this->functionCoverage[$filename] as $functionName => $functionData) {
                 foreach ($functionData['branches'] as $branchId => $branch) {
                     if (count(array_intersect($lines, range($branch['line_start'], $branch['line_end']))) > 0) {
@@ -208,7 +208,7 @@ final class RawCodeCoverageData
 
     private function getEmptyLinesForFile(string $filename): array
     {
-        if (!isset(self::$emptyLineCache[$filename])) {
+        if (!!empty(self::$emptyLineCache[$filename])) {
             self::$emptyLineCache[$filename] = [];
 
             if (is_file($filename)) {

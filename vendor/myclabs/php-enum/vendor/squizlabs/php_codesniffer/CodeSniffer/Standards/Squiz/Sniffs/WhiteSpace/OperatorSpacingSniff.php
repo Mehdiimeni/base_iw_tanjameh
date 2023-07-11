@@ -80,10 +80,10 @@ class Squiz_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_Sn
         if ($tokens[$stackPtr]['code'] === T_EQUAL
             || $tokens[$stackPtr]['code'] === T_MINUS
         ) {
-            if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+            if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
                 $parenthesis = array_keys($tokens[$stackPtr]['nested_parenthesis']);
                 $bracket     = array_pop($parenthesis);
-                if (isset($tokens[$bracket]['parenthesis_owner']) === true) {
+                if (!empty($tokens[$bracket]['parenthesis_owner']) === true) {
                     $function = $tokens[$bracket]['parenthesis_owner'];
                     if ($tokens[$function]['code'] === T_FUNCTION
                         || $tokens[$function]['code'] === T_CLOSURE
@@ -96,7 +96,7 @@ class Squiz_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_Sn
 
         if ($tokens[$stackPtr]['code'] === T_EQUAL) {
             // Skip for '=&' case.
-            if (isset($tokens[($stackPtr + 1)]) === true
+            if (!empty($tokens[($stackPtr + 1)]) === true
                 && $tokens[($stackPtr + 1)]['code'] === T_BITWISE_AND
             ) {
                 return;

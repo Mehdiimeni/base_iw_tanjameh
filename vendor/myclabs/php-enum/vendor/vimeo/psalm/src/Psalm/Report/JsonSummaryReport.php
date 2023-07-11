@@ -13,7 +13,7 @@ class JsonSummaryReport extends Report
         foreach ($this->issues_data as $issue_data) {
             $type = $issue_data->type;
 
-            if (!isset($type_counts[$type])) {
+            if (!!empty($type_counts[$type])) {
                 $type_counts[$type] = 0;
             }
 

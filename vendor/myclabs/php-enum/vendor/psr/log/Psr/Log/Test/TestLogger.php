@@ -80,7 +80,7 @@ class TestLogger extends AbstractLogger
 
     public function hasRecords($level)
     {
-        return isset($this->recordsByLevel[$level]);
+        return !empty($this->recordsByLevel[$level]);
     }
 
     public function hasRecord($record, $level)
@@ -92,7 +92,7 @@ class TestLogger extends AbstractLogger
             if ($rec['message'] !== $record['message']) {
                 return false;
             }
-            if (isset($record['context']) && $rec['context'] !== $record['context']) {
+            if (!empty($record['context']) && $rec['context'] !== $record['context']) {
                 return false;
             }
             return true;
@@ -115,7 +115,7 @@ class TestLogger extends AbstractLogger
 
     public function hasRecordThatPasses(callable $predicate, $level)
     {
-        if (!isset($this->recordsByLevel[$level])) {
+        if (!!empty($this->recordsByLevel[$level])) {
             return false;
         }
         foreach ($this->recordsByLevel[$level] as $i => $rec) {

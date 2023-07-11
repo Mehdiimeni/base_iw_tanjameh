@@ -62,7 +62,7 @@ class ConstFetchAnalyzer
                 $codebase = $statements_analyzer->getCodebase();
 
                 $aliased_constants = $statements_analyzer->getAliases()->constants;
-                if (isset($aliased_constants[$const_name])) {
+                if (!empty($aliased_constants[$const_name])) {
                     $fq_const_name = $aliased_constants[$const_name];
                 } elseif ($stmt->name instanceof PhpParser\Node\Name\FullyQualified) {
                     $fq_const_name = $const_name;
@@ -196,7 +196,7 @@ class ConstFetchAnalyzer
     ): ?Type\Union {
         $aliased_constants = $statements_analyzer->getAliases()->constants;
 
-        if (isset($aliased_constants[$const_name])) {
+        if (!empty($aliased_constants[$const_name])) {
             $fq_const_name = $aliased_constants[$const_name];
         } elseif ($is_fully_qualified) {
             $fq_const_name = $const_name;
@@ -213,7 +213,7 @@ class ConstFetchAnalyzer
                 \ReflectionProperty::IS_PUBLIC
             );
 
-            if (isset($namespace_constants[$const_name])) {
+            if (!empty($namespace_constants[$const_name])) {
                 return $namespace_constants[$const_name];
             }
         }
@@ -229,13 +229,13 @@ class ConstFetchAnalyzer
 
         $file_storage = $file_storage_provider->get($file_path);
 
-        if (isset($file_storage->declaring_constants[$const_name])) {
+        if (!empty($file_storage->declaring_constants[$const_name])) {
             $constant_file_path = $file_storage->declaring_constants[$const_name];
 
             return $file_storage_provider->get($constant_file_path)->constants[$const_name];
         }
 
-        if (isset($file_storage->declaring_constants[$fq_const_name])) {
+        if (!empty($file_storage->declaring_constants[$fq_const_name])) {
             $constant_file_path = $file_storage->declaring_constants[$fq_const_name];
 
             return $file_storage_provider->get($constant_file_path)->constants[$fq_const_name];

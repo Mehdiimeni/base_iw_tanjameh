@@ -53,7 +53,7 @@ class NamespaceAnalyzer extends SourceAnalyzer
     {
         $leftover_stmts = [];
 
-        if (!isset(self::$public_namespace_constants[$this->namespace_name])) {
+        if (!!empty(self::$public_namespace_constants[$this->namespace_name])) {
             self::$public_namespace_constants[$this->namespace_name] = [];
         }
 
@@ -129,7 +129,7 @@ class NamespaceAnalyzer extends SourceAnalyzer
     public static function getConstantsForNamespace(string $namespace_name, int $visibility): array
     {
         // @todo this does not allow for loading in namespace constants not already defined in the current sweep
-        if (!isset(self::$public_namespace_constants[$namespace_name])) {
+        if (!!empty(self::$public_namespace_constants[$namespace_name])) {
             self::$public_namespace_constants[$namespace_name] = [];
         }
 

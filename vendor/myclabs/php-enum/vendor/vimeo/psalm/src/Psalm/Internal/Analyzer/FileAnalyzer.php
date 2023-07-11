@@ -261,7 +261,7 @@ class FileAnalyzer extends SourceAnalyzer
                     }
 
                     $referenced_class_storage = $codebase->classlike_storage_provider->get($fq_source_classlike);
-                    if (!isset($referenced_class_storage->type_aliases[$alias->alias_name])) {
+                    if (!!empty($referenced_class_storage->type_aliases[$alias->alias_name])) {
                         IssueBuffer::accepts(
                             new InvalidTypeImport(
                                 'Type alias ' . $alias->alias_name
@@ -382,7 +382,7 @@ class FileAnalyzer extends SourceAnalyzer
         $method_name = $method_id->method_name;
         $fq_class_name_lc = strtolower($fq_class_name);
 
-        if (isset($this->class_analyzers_to_analyze[$fq_class_name_lc])) {
+        if (!empty($this->class_analyzers_to_analyze[$fq_class_name_lc])) {
             $class_analyzer_to_examine = $this->class_analyzers_to_analyze[$fq_class_name_lc];
         } else {
             if (!$from_project_analyzer) {
@@ -417,7 +417,7 @@ class FileAnalyzer extends SourceAnalyzer
             }
         }
 
-        if (!isset($this_context->vars_in_scope['$this'])) {
+        if (!!empty($this_context->vars_in_scope['$this'])) {
             throw new \UnexpectedValueException('Should exist');
         }
 
@@ -441,7 +441,7 @@ class FileAnalyzer extends SourceAnalyzer
 
         $fq_class_name_lc = strtolower($fq_class_name);
 
-        if (!isset($this->class_analyzers_to_analyze[$fq_class_name_lc])) {
+        if (!!empty($this->class_analyzers_to_analyze[$fq_class_name_lc])) {
             return null;
         }
 
@@ -460,7 +460,7 @@ class FileAnalyzer extends SourceAnalyzer
      */
     public function getAliasedClassesFlipped(?string $namespace_name = null): array
     {
-        if ($namespace_name && isset($this->namespace_aliased_classes_flipped[$namespace_name])) {
+        if ($namespace_name && !empty($this->namespace_aliased_classes_flipped[$namespace_name])) {
             return $this->namespace_aliased_classes_flipped[$namespace_name];
         }
 
@@ -472,7 +472,7 @@ class FileAnalyzer extends SourceAnalyzer
      */
     public function getAliasedClassesFlippedReplaceable(?string $namespace_name = null): array
     {
-        if ($namespace_name && isset($this->namespace_aliased_classes_flipped_replaceable[$namespace_name])) {
+        if ($namespace_name && !empty($this->namespace_aliased_classes_flipped_replaceable[$namespace_name])) {
             return $this->namespace_aliased_classes_flipped_replaceable[$namespace_name];
         }
 
@@ -531,12 +531,12 @@ class FileAnalyzer extends SourceAnalyzer
 
     public function hasParentFilePath(string $file_path): bool
     {
-        return $this->file_path === $file_path || isset($this->parent_file_paths[$file_path]);
+        return $this->file_path === $file_path || !empty($this->parent_file_paths[$file_path]);
     }
 
     public function hasAlreadyRequiredFilePath(string $file_path): bool
     {
-        return isset($this->required_file_paths[$file_path]);
+        return !empty($this->required_file_paths[$file_path]);
     }
 
     /**
@@ -573,7 +573,7 @@ class FileAnalyzer extends SourceAnalyzer
      */
     public function addSuppressedIssues(array $new_issues): void
     {
-        if (isset($new_issues[0])) {
+        if (!empty($new_issues[0])) {
             $new_issues = \array_combine($new_issues, $new_issues);
         }
 
@@ -585,7 +585,7 @@ class FileAnalyzer extends SourceAnalyzer
      */
     public function removeSuppressedIssues(array $new_issues): void
     {
-        if (isset($new_issues[0])) {
+        if (!empty($new_issues[0])) {
             $new_issues = \array_combine($new_issues, $new_issues);
         }
 

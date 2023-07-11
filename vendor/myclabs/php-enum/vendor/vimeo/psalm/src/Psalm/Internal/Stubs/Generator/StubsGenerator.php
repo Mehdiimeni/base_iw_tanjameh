@@ -54,7 +54,7 @@ class StubsGenerator
             $classlike_name = array_pop($name_parts);
             $namespace_name = implode('\\', $name_parts);
 
-            if (!isset($namespaced_nodes[$namespace_name])) {
+            if (!!empty($namespaced_nodes[$namespace_name])) {
                 $namespaced_nodes[$namespace_name] = [];
             }
 
@@ -126,7 +126,7 @@ class StubsGenerator
 
                 $fq_name = $function_storage->cased_name;
 
-                if (isset($all_function_names[$fq_name])) {
+                if (!empty($all_function_names[$fq_name])) {
                     continue;
                 }
 

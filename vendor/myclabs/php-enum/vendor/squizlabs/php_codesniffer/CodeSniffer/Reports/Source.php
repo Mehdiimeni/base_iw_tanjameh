@@ -67,7 +67,7 @@ class PHP_CodeSniffer_Reports_Source implements PHP_CodeSniffer_Report
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
                     $source = $error['source'];
-                    if (isset($this->_sourceCache[$source]) === false) {
+                    if (!empty($this->_sourceCache[$source]) === false) {
                         $this->_sourceCache[$source] = 1;
                     } else {
                         $this->_sourceCache[$source]++;
@@ -144,7 +144,7 @@ class PHP_CodeSniffer_Reports_Source implements PHP_CodeSniffer_Report
                 echo $category.str_repeat(' ', (20 - strlen($category)));
 
                 $sniff = $this->makeFriendlyName($parts[2]);
-                if (isset($parts[3]) === true) {
+                if (!empty($parts[3]) === true) {
                     $name    = $this->makeFriendlyName($parts[3]);
                     $name[0] = strtolower($name[0]);
                     $sniff  .= ' '.$name;

@@ -217,7 +217,7 @@ final class XmlResultPrinter extends Printer implements TestListener
 
         $inlineAnnotations = \PHPUnit\Util\Test::getInlineAnnotations(get_class($test), $test->getName(false));
 
-        if (isset($inlineAnnotations['given'], $inlineAnnotations['when'], $inlineAnnotations['then'])) {
+        if (!empty($inlineAnnotations['given'], $inlineAnnotations['when'], $inlineAnnotations['then'])) {
             $testNode->setAttribute('given', $inlineAnnotations['given']['value']);
             $testNode->setAttribute('givenStartLine', (string) $inlineAnnotations['given']['line']);
             $testNode->setAttribute('when', $inlineAnnotations['when']['value']);
@@ -246,7 +246,7 @@ final class XmlResultPrinter extends Printer implements TestListener
             // @codeCoverageIgnoreEnd
 
             foreach ($steps as $step) {
-                if (isset($step['file']) && $step['file'] === $file) {
+                if (!empty($step['file']) && $step['file'] === $file) {
                     $testNode->setAttribute('exceptionLine', (string) $step['line']);
 
                     break;

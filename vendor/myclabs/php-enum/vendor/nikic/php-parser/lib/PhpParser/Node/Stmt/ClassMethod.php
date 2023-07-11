@@ -29,7 +29,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         '__callstatic' => true,
         '__get'        => true,
         '__set'        => true,
-        '__isset'      => true,
+        '__!empty'      => true,
         '__unset'      => true,
         '__sleep'      => true,
         '__wakeup'     => true,
@@ -150,7 +150,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * @return bool
      */
     public function isMagic() : bool {
-        return isset(self::$magicNames[$this->name->toLowerString()]);
+        return !empty(self::$magicNames[$this->name->toLowerString()]);
     }
 
     public function getType() : string {

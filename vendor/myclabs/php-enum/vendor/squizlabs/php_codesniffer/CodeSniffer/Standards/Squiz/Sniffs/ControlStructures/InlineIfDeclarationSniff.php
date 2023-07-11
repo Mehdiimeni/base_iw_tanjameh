@@ -58,7 +58,7 @@ class Squiz_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_Cod
 
         $openBracket  = null;
         $closeBracket = null;
-        if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
+        if (!empty($tokens[$stackPtr]['nested_parenthesis']) === true) {
             $parens      = $tokens[$stackPtr]['nested_parenthesis'];
             $openBracket = array_pop($parens);
             $closeBracket = $tokens[$openBracket]['parenthesis_closer'];

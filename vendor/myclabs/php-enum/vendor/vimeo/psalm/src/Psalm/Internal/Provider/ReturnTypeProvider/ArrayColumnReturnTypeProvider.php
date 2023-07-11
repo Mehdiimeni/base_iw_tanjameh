@@ -79,7 +79,7 @@ class ArrayColumnReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
         $key_column_name = null;
         $third_arg_type = null;
         // calculate key column name
-        if (isset($call_args[2])) {
+        if (!empty($call_args[2])) {
             $third_arg_type = $statements_source->node_data->getType($call_args[2]->value);
 
             if ($third_arg_type) {
@@ -96,7 +96,7 @@ class ArrayColumnReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
         $have_at_least_one_res = false;
         // calculate results
         if ($row_shape instanceof Type\Atomic\TKeyedArray) {
-            if ((null !== $value_column_name) && isset($row_shape->properties[$value_column_name])) {
+            if ((null !== $value_column_name) && !empty($row_shape->properties[$value_column_name])) {
                 $result_element_type = $row_shape->properties[$value_column_name];
                 // When the selected key is possibly_undefined, the resulting array can be empty
                 if ($input_array_not_empty && $result_element_type->possibly_undefined !== true) {
@@ -108,12 +108,12 @@ class ArrayColumnReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                 $result_element_type = Type::getMixed();
             }
 
-            if ((null !== $key_column_name) && isset($row_shape->properties[$key_column_name])) {
+            if ((null !== $key_column_name) && !empty($row_shape->properties[$key_column_name])) {
                 $result_key_type = $row_shape->properties[$key_column_name];
             }
         }
 
-        if (isset($call_args[2]) && (string)$third_arg_type !== 'null') {
+        if (!empty($call_args[2]) && (string)$third_arg_type !== 'null') {
             $type = $have_at_least_one_res ?
                 new Type\Atomic\TNonEmptyArray([$result_key_type, $result_element_type ?? Type::getMixed()])
                 : new Type\Atomic\TArray([$result_key_type, $result_element_type ?? Type::getMixed()]);

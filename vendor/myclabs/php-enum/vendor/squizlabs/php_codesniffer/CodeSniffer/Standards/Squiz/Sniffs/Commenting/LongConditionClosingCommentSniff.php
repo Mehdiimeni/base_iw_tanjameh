@@ -87,7 +87,7 @@ class Squiz_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP_Co
     {
         $tokens = $phpcsFile->getTokens();
 
-        if (isset($tokens[$stackPtr]['scope_condition']) === false) {
+        if (!empty($tokens[$stackPtr]['scope_condition']) === false) {
             // No scope condition. It is a function closer.
             return;
         }
@@ -116,11 +116,11 @@ class Squiz_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP_Co
                 if ($tokens[$nextToken]['code'] === T_ELSE || $tokens[$nextToken]['code'] === T_ELSEIF) {
                     // Check for ELSE IF (2 tokens) as opposed to ELSEIF (1 token).
                     if ($tokens[$nextToken]['code'] === T_ELSE
-                        && isset($tokens[$nextToken]['scope_closer']) === false
+                        && !empty($tokens[$nextToken]['scope_closer']) === false
                     ) {
                         $nextToken = $phpcsFile->findNext(T_WHITESPACE, ($nextToken + 1), null, true);
                         if ($tokens[$nextToken]['code'] !== T_IF
-                            || isset($tokens[$nextToken]['scope_closer']) === false
+                            || !empty($tokens[$nextToken]['scope_closer']) === false
                         ) {
                             // Not an ELSE IF or is an inline ELSE IF.
                             break;
@@ -133,7 +133,7 @@ class Squiz_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP_Co
                 } else {
                     break;
                 }
-            } while (isset($tokens[$nextToken]['scope_closer']) === true);
+            } while (!empty($tokens[$nextToken]['scope_closer']) === true);
         }//end if
 
         if ($startCondition['code'] === T_TRY) {
@@ -147,7 +147,7 @@ class Squiz_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP_Co
                 } else {
                     break;
                 }
-            } while (isset($tokens[$nextToken]['scope_closer']) === true);
+            } while (!empty($tokens[$nextToken]['scope_closer']) === true);
         }
 
         $lineDifference = ($endBrace['line'] - $startBrace['line']);

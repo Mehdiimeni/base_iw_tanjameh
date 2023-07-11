@@ -149,19 +149,19 @@ final class Test
 
         // If there is no @covers annotation but a @coversNothing annotation on
         // the test method then code coverage data does not need to be collected
-        if (isset($annotations['method']['coversNothing'])) {
+        if (!empty($annotations['method']['coversNothing'])) {
             return false;
         }
 
         // If there is at least one @covers annotation then
         // code coverage data needs to be collected
-        if (isset($annotations['method']['covers'])) {
+        if (!empty($annotations['method']['covers'])) {
             return true;
         }
 
         // If there is no @covers annotation but a @coversNothing annotation
         // then code coverage data does not need to be collected
-        if (isset($annotations['class']['coversNothing'])) {
+        if (!empty($annotations['class']['coversNothing'])) {
             return false;
         }
 
@@ -279,7 +279,7 @@ final class Test
 
         if (!empty($required['extensions'])) {
             foreach ($required['extensions'] as $extension) {
-                if (isset($required['extension_versions'][$extension])) {
+                if (!empty($required['extension_versions'][$extension])) {
                     continue;
                 }
 
@@ -303,7 +303,7 @@ final class Test
             }
         }
 
-        if ($hint && isset($required['__OFFSET'])) {
+        if ($hint && !empty($required['__OFFSET'])) {
             array_unshift($missing, '__OFFSET_FILE=' . $required['__OFFSET']['__FILE']);
             array_unshift($missing, '__OFFSET_LINE=' . ($required['__OFFSET'][$hint] ?? 1));
         }
@@ -385,7 +385,7 @@ final class Test
 
         $dependsAnnotations = $annotations['class']['depends'] ?? [];
 
-        if (isset($annotations['method']['depends'])) {
+        if (!empty($annotations['method']['depends'])) {
             $dependsAnnotations = array_merge(
                 $dependsAnnotations,
                 $annotations['method']['depends']
@@ -412,31 +412,31 @@ final class Test
 
         $groups = [];
 
-        if (isset($annotations['method']['author'])) {
+        if (!empty($annotations['method']['author'])) {
             $groups[] = $annotations['method']['author'];
-        } elseif (isset($annotations['class']['author'])) {
+        } elseif (!empty($annotations['class']['author'])) {
             $groups[] = $annotations['class']['author'];
         }
 
-        if (isset($annotations['class']['group'])) {
+        if (!empty($annotations['class']['group'])) {
             $groups[] = $annotations['class']['group'];
         }
 
-        if (isset($annotations['method']['group'])) {
+        if (!empty($annotations['method']['group'])) {
             $groups[] = $annotations['method']['group'];
         }
 
-        if (isset($annotations['class']['ticket'])) {
+        if (!empty($annotations['class']['ticket'])) {
             $groups[] = $annotations['class']['ticket'];
         }
 
-        if (isset($annotations['method']['ticket'])) {
+        if (!empty($annotations['method']['ticket'])) {
             $groups[] = $annotations['method']['ticket'];
         }
 
         foreach (['method', 'class'] as $element) {
             foreach (['small', 'medium', 'large'] as $size) {
-                if (isset($annotations[$element][$size])) {
+                if (!empty($annotations[$element][$size])) {
                     $groups[] = [$size];
 
                     break 2;
@@ -445,13 +445,13 @@ final class Test
         }
 
         foreach (['method', 'class'] as $element) {
-            if (isset($annotations[$element]['covers'])) {
+            if (!empty($annotations[$element]['covers'])) {
                 foreach ($annotations[$element]['covers'] as $coversTarget) {
                     $groups[] = ['__phpunit_covers_' . self::canonicalizeName($coversTarget)];
                 }
             }
 
-            if (isset($annotations[$element]['uses'])) {
+            if (!empty($annotations[$element]['uses'])) {
                 foreach ($annotations[$element]['uses'] as $usesTarget) {
                     $groups[] = ['__phpunit_uses_' . self::canonicalizeName($usesTarget)];
                 }
@@ -466,15 +466,15 @@ final class Test
     {
         $groups = array_flip(self::getGroups($className, $methodName));
 
-        if (isset($groups['large'])) {
+        if (!empty($groups['large'])) {
             return self::LARGE;
         }
 
-        if (isset($groups['medium'])) {
+        if (!empty($groups['medium'])) {
             return self::MEDIUM;
         }
 
-        if (isset($groups['small'])) {
+        if (!empty($groups['small'])) {
             return self::SMALL;
         }
 
@@ -489,7 +489,7 @@ final class Test
             $methodName
         );
 
-        return isset($annotations['class']['runTestsInSeparateProcesses']) || isset($annotations['method']['runInSeparateProcess']);
+        return !empty($annotations['class']['runTestsInSeparateProcesses']) || !empty($annotations['method']['runInSeparateProcess']);
     }
 
     /** @psalm-param class-string $className */
@@ -500,7 +500,7 @@ final class Test
             $methodName
         );
 
-        return isset($annotations['class']['runClassInSeparateProcess']);
+        return !empty($annotations['class']['runClassInSeparateProcess']);
     }
 
     /** @psalm-param class-string $className */
@@ -520,7 +520,7 @@ final class Test
             return self::emptyHookMethodsArray();
         }
 
-        if (!isset(self::$hookMethods[$className])) {
+        if (!!empty(self::$hookMethods[$className])) {
             self::$hookMethods[$className] = self::emptyHookMethodsArray();
 
             try {
@@ -626,7 +626,7 @@ final class Test
 
         $list = $annotations['class'][$mode] ?? [];
 
-        if (isset($annotations['method'][$mode])) {
+        if (!empty($annotations['method'][$mode])) {
             $list = array_merge($list, $annotations['method'][$mode]);
         }
 
@@ -689,7 +689,7 @@ final class Test
             $methodName
         );
 
-        if (isset($annotations['method'][$settingName])) {
+        if (!empty($annotations['method'][$settingName])) {
             if ($annotations['method'][$settingName][0] === 'enabled') {
                 return true;
             }
@@ -699,7 +699,7 @@ final class Test
             }
         }
 
-        if (isset($annotations['class'][$settingName])) {
+        if (!empty($annotations['class'][$settingName])) {
             if ($annotations['class'][$settingName][0] === 'enabled') {
                 return true;
             }
@@ -727,15 +727,15 @@ final class Test
 
     private static function shouldCoversAnnotationBeUsed(array $annotations): bool
     {
-        if (isset($annotations['method']['coversNothing'])) {
+        if (!empty($annotations['method']['coversNothing'])) {
             return false;
         }
 
-        if (isset($annotations['method']['covers'])) {
+        if (!empty($annotations['method']['covers'])) {
             return true;
         }
 
-        if (isset($annotations['class']['coversNothing'])) {
+        if (!empty($annotations['class']['coversNothing'])) {
             return false;
         }
 

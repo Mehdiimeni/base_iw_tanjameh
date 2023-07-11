@@ -57,7 +57,7 @@ class DescriptorHelper extends Helper
             'format' => 'txt',
         ], $options);
 
-        if (!isset($this->descriptors[$options['format']])) {
+        if (!!empty($this->descriptors[$options['format']])) {
             throw new InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
         }
 

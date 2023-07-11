@@ -226,7 +226,7 @@ class Scanner
 
     public function getClassLikeFilePath(string $fq_classlike_name_lc): string
     {
-        if (!isset($this->classlike_files[$fq_classlike_name_lc])) {
+        if (!!empty($this->classlike_files[$fq_classlike_name_lc])) {
             throw new \UnexpectedValueException('Could not find file for ' . $fq_classlike_name_lc);
         }
 
@@ -257,10 +257,10 @@ class Scanner
             return;
         }
 
-        if (!isset($this->classlike_files[$fq_classlike_name_lc])
-            || ($analyze_too && !isset($this->deep_scanned_classlike_files[$fq_classlike_name_lc]))
+        if (!!empty($this->classlike_files[$fq_classlike_name_lc])
+            || ($analyze_too && !!empty($this->deep_scanned_classlike_files[$fq_classlike_name_lc]))
         ) {
-            if (!isset($this->classes_to_scan[$fq_classlike_name_lc]) || $store_failure) {
+            if (!!empty($this->classes_to_scan[$fq_classlike_name_lc]) || $store_failure) {
                 $this->classes_to_scan[$fq_classlike_name_lc] = $fq_classlike_name;
             }
 
@@ -308,8 +308,8 @@ class Scanner
             $this->files_to_scan,
             function (string $file_path) : bool {
                 return $this->file_provider->fileExists($file_path)
-                    && (!isset($this->scanned_files[$file_path])
-                        || (isset($this->files_to_deep_scan[$file_path]) && !$this->scanned_files[$file_path]));
+                    && (!!empty($this->scanned_files[$file_path])
+                        || (!empty($this->files_to_deep_scan[$file_path]) && !$this->scanned_files[$file_path]));
             }
         );
 
@@ -326,7 +326,7 @@ class Scanner
                 $this->scanFile(
                     $file_path,
                     $filetype_scanners,
-                    isset($files_to_deep_scan[$file_path])
+                    !empty($files_to_deep_scan[$file_path])
                 );
             };
 
@@ -489,7 +489,7 @@ class Scanner
         foreach ($classes_to_scan as $fq_classlike_name) {
             $fq_classlike_name_lc = strtolower($fq_classlike_name);
 
-            if (isset($this->reflected_classlikes_lc[$fq_classlike_name_lc])) {
+            if (!empty($this->reflected_classlikes_lc[$fq_classlike_name_lc])) {
                 continue;
             }
 
@@ -497,7 +497,7 @@ class Scanner
                 continue;
             }
 
-            if (!isset($this->classlike_files[$fq_classlike_name_lc])) {
+            if (!!empty($this->classlike_files[$fq_classlike_name_lc])) {
                 if ($classlikes->doesClassLikeExist($fq_classlike_name_lc)) {
                     if ($fq_classlike_name_lc === 'self') {
                         continue;
@@ -515,10 +515,10 @@ class Scanner
                     ));
 
                     // even though we've checked this above, calling the method invalidates it
-                    if (isset($this->classlike_files[$fq_classlike_name_lc])) {
+                    if (!empty($this->classlike_files[$fq_classlike_name_lc])) {
                         $file_path = $this->classlike_files[$fq_classlike_name_lc];
                         $this->files_to_scan[$file_path] = $file_path;
-                        if (isset($this->classes_to_deep_scan[$fq_classlike_name_lc])) {
+                        if (!empty($this->classes_to_deep_scan[$fq_classlike_name_lc])) {
                             unset($this->classes_to_deep_scan[$fq_classlike_name_lc]);
                             $this->files_to_deep_scan[$file_path] = $file_path;
                         }
@@ -526,8 +526,8 @@ class Scanner
                 } elseif ($this->store_scan_failure[$fq_classlike_name]) {
                     $classlikes->registerMissingClassLike($fq_classlike_name_lc);
                 }
-            } elseif (isset($this->classes_to_deep_scan[$fq_classlike_name_lc])
-                && !isset($this->deep_scanned_classlike_files[$fq_classlike_name_lc])
+            } elseif (!empty($this->classes_to_deep_scan[$fq_classlike_name_lc])
+                && !!empty($this->deep_scanned_classlike_files[$fq_classlike_name_lc])
             ) {
                 $file_path = $this->classlike_files[$fq_classlike_name_lc];
                 $this->files_to_scan[$file_path] = $file_path;
@@ -548,7 +548,7 @@ class Scanner
     ): void {
         $file_scanner = $this->getScannerForPath($file_path, $filetype_scanners, $will_analyze);
 
-        if (isset($this->scanned_files[$file_path])
+        if (!empty($this->scanned_files[$file_path])
             && (!$will_analyze || $this->scanned_files[$file_path])
         ) {
             throw new \UnexpectedValueException('Should not be rescanning ' . $file_path);
@@ -646,7 +646,7 @@ class Scanner
 
         $file_name = $this->config->shortenFileName($file_path);
 
-        if (isset($filetype_scanners[$extension])) {
+        if (!empty($filetype_scanners[$extension])) {
             return new $filetype_scanners[$extension]($file_path, $file_name, $will_analyze);
         }
 
@@ -669,7 +669,7 @@ class Scanner
     {
         $fq_class_name_lc = strtolower($fq_class_name);
 
-        if (isset($this->classlike_files[$fq_class_name_lc])) {
+        if (!empty($this->classlike_files[$fq_class_name_lc])) {
             return true;
         }
 
@@ -677,7 +677,7 @@ class Scanner
             return false;
         }
 
-        if (isset($this->existing_classlikes_lc[$fq_class_name_lc])) {
+        if (!empty($this->existing_classlikes_lc[$fq_class_name_lc])) {
             throw new \InvalidArgumentException('Why are you asking about a builtin class?');
         }
 

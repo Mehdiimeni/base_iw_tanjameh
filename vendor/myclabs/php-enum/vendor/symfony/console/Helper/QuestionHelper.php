@@ -286,7 +286,7 @@ class QuestionHelper extends Helper
                 $c .= fread($inputStream, 2);
 
                 // A = Up Arrow. B = Down Arrow
-                if (isset($c[2]) && ('A' === $c[2] || 'B' === $c[2])) {
+                if (!empty($c[2]) && ('A' === $c[2] || 'B' === $c[2])) {
                     if ('A' === $c[2] && -1 === $ofs) {
                         $ofs = 0;
                     }
@@ -410,7 +410,7 @@ class QuestionHelper extends Helper
             $value = $trimmable ? rtrim($sExec) : $sExec;
             $output->writeln('');
 
-            if (isset($tmpExe)) {
+            if (!empty($tmpExe)) {
                 unlink($tmpExe);
             }
 

@@ -52,7 +52,7 @@ class CommandTester
     {
         // set the command name automatically if the application requires
         // this argument and no command name was passed
-        if (!isset($input['command'])
+        if (!!empty($input['command'])
             && (null !== $application = $this->command->getApplication())
             && $application->getDefinition()->hasArgument('command')
         ) {
@@ -63,11 +63,11 @@ class CommandTester
         // Use an in-memory input stream even if no inputs are set so that QuestionHelper::ask() does not rely on the blocking STDIN.
         $this->input->setStream(self::createStream($this->inputs));
 
-        if (isset($options['interactive'])) {
+        if (!empty($options['interactive'])) {
             $this->input->setInteractive($options['interactive']);
         }
 
-        if (!isset($options['decorated'])) {
+        if (!!empty($options['decorated'])) {
             $options['decorated'] = false;
         }
 

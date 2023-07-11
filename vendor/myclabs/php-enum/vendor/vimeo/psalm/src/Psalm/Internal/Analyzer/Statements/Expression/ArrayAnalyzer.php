@@ -165,7 +165,7 @@ class ArrayAnalyzer
                     && !$atomic_key_type instanceof Type\Atomic\TTemplateParam
                     && !(
                         $atomic_key_type instanceof Type\Atomic\TObjectWithProperties
-                        && isset($atomic_key_type->methods['__toString'])
+                        && !empty($atomic_key_type->methods['__toString'])
                     )
                 ) {
                     if (IssueBuffer::accepts(
@@ -342,7 +342,7 @@ class ArrayAnalyzer
         $array_creation_info->all_list = $array_creation_info->all_list && $item_is_list_item;
 
         if ($item_key_value !== null) {
-            if (isset($array_creation_info->array_keys[$item_key_value])) {
+            if (!empty($array_creation_info->array_keys[$item_key_value])) {
                 if (IssueBuffer::accepts(
                     new DuplicateArrayKey(
                         'Key \'' . $item_key_value . '\' already exists on array',
@@ -545,7 +545,7 @@ class ArrayAnalyzer
                     $array_creation_info->item_value_atomic_types = array_merge(
                         $array_creation_info->item_value_atomic_types,
                         array_values(
-                            isset($unpacked_atomic_type->type_params[1])
+                            !empty($unpacked_atomic_type->type_params[1])
                                 ? $unpacked_atomic_type->type_params[1]->getAtomicTypes()
                                 : [new Type\Atomic\TMixed()]
                         )

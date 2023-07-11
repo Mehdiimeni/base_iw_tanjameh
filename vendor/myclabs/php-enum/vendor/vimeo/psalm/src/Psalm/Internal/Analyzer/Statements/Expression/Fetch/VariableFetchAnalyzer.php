@@ -71,7 +71,7 @@ class VariableFetchAnalyzer
                 return true;
             }
 
-            if (!isset($context->vars_in_scope['$this'])) {
+            if (!!empty($context->vars_in_scope['$this'])) {
                 if (IssueBuffer::accepts(
                     new InvalidScope(
                         'Invalid reference to $this in a non-class context',
@@ -148,7 +148,7 @@ class VariableFetchAnalyzer
         if (is_string($stmt->name) && self::isSuperGlobal('$' . $stmt->name)) {
             $var_name = '$' . $stmt->name;
 
-            if (isset($context->vars_in_scope[$var_name])) {
+            if (!empty($context->vars_in_scope[$var_name])) {
                 $type = clone $context->vars_in_scope[$var_name];
 
                 self::taintVariable($statements_analyzer, $var_name, $type, $stmt);
@@ -215,7 +215,7 @@ class VariableFetchAnalyzer
         $var_name = '$' . $stmt->name;
 
         if (!$context->hasVariable($var_name)) {
-            if (!isset($context->vars_possibly_in_scope[$var_name])
+            if (!!empty($context->vars_possibly_in_scope[$var_name])
                 || !$statements_analyzer->getFirstAppearance($var_name)
             ) {
                 if ($array_assignment) {
@@ -233,7 +233,7 @@ class VariableFetchAnalyzer
                             $context->branch_point
                         );
                     }
-                } elseif (!$context->inside_isset
+                } elseif (!$context->inside_!empty
                     || $statements_analyzer->getSource() instanceof FunctionLikeAnalyzer
                 ) {
                     if ($context->is_global || $from_global) {
@@ -271,10 +271,10 @@ class VariableFetchAnalyzer
 
             $first_appearance = $statements_analyzer->getFirstAppearance($var_name);
 
-            if ($first_appearance && !$context->inside_isset && !$context->inside_unset) {
+            if ($first_appearance && !$context->inside_!empty && !$context->inside_unset) {
                 if ($context->is_global) {
                     if ($codebase->alter_code) {
-                        if (!isset($project_analyzer->getIssuesToFix()['PossiblyUndefinedGlobalVariable'])) {
+                        if (!!empty($project_analyzer->getIssuesToFix()['PossiblyUndefinedGlobalVariable'])) {
                             return true;
                         }
 
@@ -301,7 +301,7 @@ class VariableFetchAnalyzer
                     }
                 } else {
                     if ($codebase->alter_code) {
-                        if (!isset($project_analyzer->getIssuesToFix()['PossiblyUndefinedVariable'])) {
+                        if (!!empty($project_analyzer->getIssuesToFix()['PossiblyUndefinedVariable'])) {
                             return true;
                         }
 
@@ -355,7 +355,7 @@ class VariableFetchAnalyzer
 
             self::addDataFlowToVariable($statements_analyzer, $stmt, $var_name, $stmt_type, $context);
 
-            if ($stmt_type->possibly_undefined_from_try && !$context->inside_isset) {
+            if ($stmt_type->possibly_undefined_from_try && !$context->inside_!empty) {
                 if ($context->is_global) {
                     if (IssueBuffer::accepts(
                         new PossiblyUndefinedGlobalVariable(
@@ -428,7 +428,7 @@ class VariableFetchAnalyzer
                 || $context->inside_general_use
                 || $context->inside_conditional
                 || $context->inside_throw
-                || $context->inside_isset)
+                || $context->inside_!empty)
         ) {
             if (!$stmt_type->parent_nodes) {
                 $assignment_node = DataFlowNode::getForAssignment(
@@ -462,7 +462,7 @@ class VariableFetchAnalyzer
                         ),
                         'use-inside-conditional'
                     );
-                } elseif ($context->inside_isset) {
+                } elseif ($context->inside_!empty) {
                     $statements_analyzer->data_flow_graph->addPath(
                         $parent_node,
                         new DataFlowNode(
@@ -470,7 +470,7 @@ class VariableFetchAnalyzer
                             'variable use',
                             null
                         ),
-                        'use-inside-isset'
+                        'use-inside-!empty'
                     );
                 } else {
                     $statements_analyzer->data_flow_graph->addPath(
@@ -536,7 +536,7 @@ class VariableFetchAnalyzer
     {
         $config = \Psalm\Config::getInstance();
 
-        if (isset($config->globals[$var_id])) {
+        if (!empty($config->globals[$var_id])) {
             return Type::parseString($config->globals[$var_id]);
         }
 

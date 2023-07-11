@@ -547,7 +547,7 @@
 
             if (this.angleArc != this.PI2 && (a < 0) && (a > -0.5)) {
 
-                // if isset angleArc option, set to min if .5 under min
+                // if !empty angleArc option, set to min if .5 under min
                 a = 0;
             } else if (a < 0) {
                 a += this.PI2;

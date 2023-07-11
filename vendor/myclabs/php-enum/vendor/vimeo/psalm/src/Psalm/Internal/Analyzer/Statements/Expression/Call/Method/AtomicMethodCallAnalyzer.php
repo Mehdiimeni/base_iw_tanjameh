@@ -297,7 +297,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                 foreach ($class_storage->class_implements as $interface_fqcln_lc => $_) {
                     $interface_storage = $codebase->classlike_storage_provider->get($interface_fqcln_lc);
 
-                    if (isset($interface_storage->methods[$method_name_lc])) {
+                    if (!empty($interface_storage->methods[$method_name_lc])) {
                         $interface_has_method = true;
                         $fq_class_name = $interface_storage->name;
                         $method_id = new MethodIdentifier(
@@ -383,7 +383,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
         if (!$corrected_method_exists
             || ($codebase->config->use_phpdoc_method_without_magic_or_parent
-                && isset($class_storage->pseudo_methods[$method_name_lc]))
+                && !empty($class_storage->pseudo_methods[$method_name_lc]))
         ) {
             MissingMethodCallHandler::handleMissingOrMagicMethod(
                 $statements_analyzer,
@@ -588,7 +588,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
                 if ($lhs_type_part instanceof Type\Atomic\TObjectWithProperties
                     && $stmt->name instanceof PhpParser\Node\Identifier
-                    && isset($lhs_type_part->methods[$stmt->name->name])
+                    && !empty($lhs_type_part->methods[$stmt->name->name])
                 ) {
                     $result->existent_method_ids[] = $lhs_type_part->methods[$stmt->name->name];
                 } elseif (!$is_intersection) {
@@ -694,7 +694,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                 );
 
                 if ($param_position !== false
-                    && isset($lhs_type_part->type_params[$param_position])
+                    && !empty($lhs_type_part->type_params[$param_position])
                 ) {
                     $current_type_param = $lhs_type_part->type_params[$param_position];
                     if ($current_type_param->isSingle()) {
@@ -731,7 +731,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
                                 $naive_method_exists = true;
                                 $method_id = $new_method_id;
-                            } elseif (isset($mixin_class_storage->pseudo_methods[$method_name_lc])) {
+                            } elseif (!empty($mixin_class_storage->pseudo_methods[$method_name_lc])) {
                                 $lhs_type_part = clone $lhs_type_part_new;
                                 $class_storage = $mixin_class_storage;
                                 $method_id = $new_method_id;

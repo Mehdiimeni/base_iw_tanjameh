@@ -83,7 +83,7 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
         if ($array_arg_union_type = $statements_source->node_data->getType($array_arg->value)) {
             $arg_types = $array_arg_union_type->getAtomicTypes();
 
-            if (isset($arg_types['array'])) {
+            if (!empty($arg_types['array'])) {
                 $array_arg_atomic_type = $arg_types['array'];
                 $array_arg_type = ArrayType::infer($array_arg_atomic_type);
             }
@@ -130,8 +130,8 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
                 }
 
                 if ($function_call_arg->value instanceof PhpParser\Node\Expr\Array_
-                    && isset($function_call_arg->value->items[0])
-                    && isset($function_call_arg->value->items[1])
+                    && !empty($function_call_arg->value->items[0])
+                    && !empty($function_call_arg->value->items[1])
                     && $function_call_arg->value->items[1]->value instanceof PhpParser\Node\Scalar\String_
                     && $function_call_arg->value->items[0]->value instanceof PhpParser\Node\Expr\Variable
                     && ($variable_type
@@ -389,7 +389,7 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
                             foreach ($callable_type->getAtomicTypes() as $atomic_type) {
                                 if ($atomic_type instanceof Type\Atomic\TKeyedArray
                                     && \count($atomic_type->properties) === 2
-                                    && isset($atomic_type->properties[0])
+                                    && !empty($atomic_type->properties[0])
                                 ) {
                                     $lhs_instance_type = clone $atomic_type->properties[0];
                                 }

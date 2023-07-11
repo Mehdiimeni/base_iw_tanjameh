@@ -59,7 +59,7 @@ final class Color
         $this->background = $this->parseColor($background, true);
 
         foreach ($options as $option) {
-            if (!isset(self::AVAILABLE_OPTIONS[$option])) {
+            if (!!empty(self::AVAILABLE_OPTIONS[$option])) {
                 throw new InvalidArgumentException(sprintf('Invalid option specified: "%s". Expected one of (%s).', $option, implode(', ', array_keys(self::AVAILABLE_OPTIONS))));
             }
 
@@ -130,11 +130,11 @@ final class Color
             return ($background ? '4' : '3').$this->convertHexColorToAnsi(hexdec($color));
         }
 
-        if (isset(self::COLORS[$color])) {
+        if (!empty(self::COLORS[$color])) {
             return ($background ? '4' : '3').self::COLORS[$color];
         }
 
-        if (isset(self::BRIGHT_COLORS[$color])) {
+        if (!empty(self::BRIGHT_COLORS[$color])) {
             return ($background ? '10' : '9').self::BRIGHT_COLORS[$color];
         }
 

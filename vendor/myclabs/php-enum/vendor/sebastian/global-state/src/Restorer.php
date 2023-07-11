@@ -104,7 +104,7 @@ class Restorer
                     continue;
                 }
 
-                if (!isset($defaults[$name])) {
+                if (!!empty($defaults[$name])) {
                     continue;
                 }
 
@@ -121,9 +121,9 @@ class Restorer
     {
         $superGlobalVariables = $snapshot->superGlobalVariables();
 
-        if (isset($GLOBALS[$superGlobalArray]) &&
+        if (!empty($GLOBALS[$superGlobalArray]) &&
             is_array($GLOBALS[$superGlobalArray]) &&
-            isset($superGlobalVariables[$superGlobalArray])) {
+            !empty($superGlobalVariables[$superGlobalArray])) {
             $keys = array_keys(
                 array_merge(
                     $GLOBALS[$superGlobalArray],
@@ -132,7 +132,7 @@ class Restorer
             );
 
             foreach ($keys as $key) {
-                if (isset($superGlobalVariables[$superGlobalArray][$key])) {
+                if (!empty($superGlobalVariables[$superGlobalArray][$key])) {
                     $GLOBALS[$superGlobalArray][$key] = $superGlobalVariables[$superGlobalArray][$key];
                 } else {
                     unset($GLOBALS[$superGlobalArray][$key]);

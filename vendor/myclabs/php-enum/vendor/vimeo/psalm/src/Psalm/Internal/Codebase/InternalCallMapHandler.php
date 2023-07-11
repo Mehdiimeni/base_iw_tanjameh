@@ -222,13 +222,13 @@ class InternalCallMapHandler
     {
         $call_map_key = strtolower($function_id);
 
-        if (isset(self::$call_map_callables[$call_map_key])) {
+        if (!empty(self::$call_map_callables[$call_map_key])) {
             return self::$call_map_callables[$call_map_key];
         }
 
         $call_map = self::getCallMap();
 
-        if (!isset($call_map[$call_map_key])) {
+        if (!!empty($call_map[$call_map_key])) {
             return null;
         }
 
@@ -236,7 +236,7 @@ class InternalCallMapHandler
         $call_map_functions[] = $call_map[$call_map_key];
 
         for ($i = 1; $i < 10; ++$i) {
-            if (!isset($call_map[$call_map_key . '\'' . $i])) {
+            if (!!empty($call_map[$call_map_key . '\'' . $i])) {
                 break;
             }
 
@@ -309,7 +309,7 @@ class InternalCallMapHandler
                     $function_param->expect_variable = true;
                 }
 
-                if (isset(self::$taint_sink_map[$call_map_key][$arg_offset])) {
+                if (!empty(self::$taint_sink_map[$call_map_key][$arg_offset])) {
                     $function_param->sinks = self::$taint_sink_map[$call_map_key][$arg_offset];
                 }
 
@@ -420,7 +420,7 @@ class InternalCallMapHandler
 
     public static function inCallMap(string $key): bool
     {
-        return isset(self::getCallMap()[strtolower($key)]);
+        return !empty(self::getCallMap()[strtolower($key)]);
     }
 
     public static function clearCache() : void

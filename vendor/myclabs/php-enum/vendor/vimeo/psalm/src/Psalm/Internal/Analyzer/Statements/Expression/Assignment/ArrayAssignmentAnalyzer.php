@@ -295,7 +295,7 @@ class ArrayAssignmentAnalyzer
 
             foreach ($key_values as $key_value) {
                 if ($type instanceof TKeyedArray) {
-                    if (isset($type->properties[$key_value->value])) {
+                    if (!empty($type->properties[$key_value->value])) {
                         $has_matching_objectlike_property = true;
 
                         $type->properties[$key_value->value] = clone $current_type;
@@ -573,7 +573,7 @@ class ArrayAssignmentAnalyzer
         if (!$current_dim && !$context->inside_loop) {
             $atomic_root_types = $root_type->getAtomicTypes();
 
-            if (isset($atomic_root_types['array'])) {
+            if (!empty($atomic_root_types['array'])) {
                 if ($array_atomic_type instanceof Type\Atomic\TClassStringMap) {
                     $array_atomic_type = new TNonEmptyArray([
                         $array_atomic_type->getStandinKeyParam(),
@@ -631,7 +631,7 @@ class ArrayAssignmentAnalyzer
         if ($from_countable_object_like) {
             $atomic_root_types = $new_child_type->getAtomicTypes();
 
-            if (isset($atomic_root_types['array'])
+            if (!empty($atomic_root_types['array'])
                 && ($atomic_root_types['array'] instanceof TNonEmptyArray
                     || $atomic_root_types['array'] instanceof TNonEmptyList)
                 && $atomic_root_types['array']->count !== null
@@ -721,7 +721,7 @@ class ArrayAssignmentAnalyzer
 
             $array_var_id = $root_var_id . implode('', $var_id_additions);
 
-            if ($parent_var_id && isset($context->vars_in_scope[$parent_var_id])) {
+            if ($parent_var_id && !empty($context->vars_in_scope[$parent_var_id])) {
                 $child_stmt_var_type = clone $context->vars_in_scope[$parent_var_id];
                 $statements_analyzer->node_data->setType($child_stmt->var, $child_stmt_var_type);
             }
@@ -800,7 +800,7 @@ class ArrayAssignmentAnalyzer
             $array_var_id = $root_var_id . implode('', $var_id_additions);
             $parent_var_id = $root_var_id . implode('', \array_slice($var_id_additions, 0, -1));
 
-            if (isset($context->vars_in_scope[$array_var_id])
+            if (!empty($context->vars_in_scope[$array_var_id])
                 && !$context->vars_in_scope[$array_var_id]->possibly_undefined
             ) {
                 $offset_already_existed = true;

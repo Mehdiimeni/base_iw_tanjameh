@@ -569,7 +569,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
 
         $class_storage = $codebase->classlike_storage_provider->get($declaring_property_class);
 
-        if (!isset($class_storage->properties[$property_name])) {
+        if (!!empty($class_storage->properties[$property_name])) {
             throw new \UnexpectedValueException('$storage should not be null for ' . $property_id);
         }
 

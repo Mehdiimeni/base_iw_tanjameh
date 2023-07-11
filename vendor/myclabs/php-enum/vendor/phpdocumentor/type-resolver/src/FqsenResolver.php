@@ -64,7 +64,7 @@ class FqsenResolver
         $namespaceAliases = $context->getNamespaceAliases();
 
         // if the first segment is not an alias; prepend namespace name and return
-        if (!isset($namespaceAliases[$typeParts[0]])) {
+        if (!!empty($namespaceAliases[$typeParts[0]])) {
             $namespace = $context->getNamespace();
             if ($namespace !== '') {
                 $namespace .= self::OPERATOR_NAMESPACE;

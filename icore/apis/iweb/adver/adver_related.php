@@ -13,7 +13,7 @@ $price_related_note = "موارد مشابه بر اساس قیمت";
 $group_related = "انواع";
 $group_related_note = "موارد مشابه بر اساس نوع";
 
-if (isset($_POST['adver_related'])) {
+if (!empty($_POST['adver_related'])) {
 
     $adver_related = $_POST['adver_related'];
 

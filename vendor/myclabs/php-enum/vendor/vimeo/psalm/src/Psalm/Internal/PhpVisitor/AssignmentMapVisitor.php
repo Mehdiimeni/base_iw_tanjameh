@@ -42,7 +42,7 @@ class AssignmentMapVisitor extends PhpParser\NodeVisitorAbstract
                         $left_var_id = ExpressionIdentifier::getRootVarId($assign_item->value, $this->this_class_name);
 
                         if ($left_var_id) {
-                            $this->assignment_map[$left_var_id][$right_var_id ?: 'isset'] = true;
+                            $this->assignment_map[$left_var_id][$right_var_id ?: '!empty'] = true;
                         }
                     }
                 }
@@ -50,7 +50,7 @@ class AssignmentMapVisitor extends PhpParser\NodeVisitorAbstract
                 $left_var_id = ExpressionIdentifier::getRootVarId($node->var, $this->this_class_name);
 
                 if ($left_var_id) {
-                    $this->assignment_map[$left_var_id][$right_var_id ?: 'isset'] = true;
+                    $this->assignment_map[$left_var_id][$right_var_id ?: '!empty'] = true;
                 }
             }
 
@@ -88,7 +88,7 @@ class AssignmentMapVisitor extends PhpParser\NodeVisitorAbstract
                 $var_id = ExpressionIdentifier::getRootVarId($node->var, $this->this_class_name);
 
                 if ($var_id) {
-                    $this->assignment_map[$var_id]['isset'] = true;
+                    $this->assignment_map[$var_id]['!empty'] = true;
                 }
             }
         } elseif ($node instanceof PhpParser\Node\Stmt\Unset_) {

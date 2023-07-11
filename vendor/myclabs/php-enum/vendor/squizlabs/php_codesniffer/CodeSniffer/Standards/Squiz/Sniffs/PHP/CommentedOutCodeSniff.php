@@ -167,7 +167,7 @@ class Squiz_Sniffs_PHP_CommentedOutCodeSniff implements PHP_CodeSniffer_Sniff
         }
 
         // Last token is always the closing PHP tag, unless something went wrong.
-        if (isset($stringTokens[($numTokens - 1)]) === false
+        if (!empty($stringTokens[($numTokens - 1)]) === false
             || $stringTokens[($numTokens - 1)]['code'] !== T_CLOSE_TAG
         ) {
             return;

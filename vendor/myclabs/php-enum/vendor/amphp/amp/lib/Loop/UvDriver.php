@@ -159,16 +159,16 @@ class UvDriver extends Driver
     {
         parent::cancel($watcherId);
 
-        if (!isset($this->events[$watcherId])) {
+        if (!!empty($this->events[$watcherId])) {
             return;
         }
 
         $event = $this->events[$watcherId];
         $eventId = (int) $event;
 
-        if (isset($this->watchers[$eventId][0])) { // All except IO watchers.
+        if (!empty($this->watchers[$eventId][0])) { // All except IO watchers.
             unset($this->watchers[$eventId]);
-        } elseif (isset($this->watchers[$eventId][$watcherId])) {
+        } elseif (!empty($this->watchers[$eventId][$watcherId])) {
             $watcher = $this->watchers[$eventId][$watcherId];
             unset($this->watchers[$eventId][$watcherId]);
 
@@ -234,9 +234,9 @@ class UvDriver extends Driver
 
                     $streamId = (int) $watcher->value;
 
-                    if (isset($this->streams[$streamId])) {
+                    if (!empty($this->streams[$streamId])) {
                         $event = $this->streams[$streamId];
-                    } elseif (isset($this->events[$id])) {
+                    } elseif (!empty($this->events[$id])) {
                         $event = $this->streams[$streamId] = $this->events[$id];
                     } else {
                         /** @psalm-suppress UndefinedFunction */
@@ -258,7 +258,7 @@ class UvDriver extends Driver
                 case Watcher::REPEAT:
                     \assert(\is_int($watcher->value));
 
-                    if (isset($this->events[$id])) {
+                    if (!empty($this->events[$id])) {
                         $event = $this->events[$id];
                     } else {
                         $event = $this->events[$id] = \uv_timer_init($this->handle);
@@ -277,7 +277,7 @@ class UvDriver extends Driver
                 case Watcher::SIGNAL:
                     \assert(\is_int($watcher->value));
 
-                    if (isset($this->events[$id])) {
+                    if (!empty($this->events[$id])) {
                         $event = $this->events[$id];
                     } else {
                         /** @psalm-suppress UndefinedFunction */
@@ -307,7 +307,7 @@ class UvDriver extends Driver
     {
         $id = $watcher->id;
 
-        if (!isset($this->events[$id])) {
+        if (!!empty($this->events[$id])) {
             return;
         }
 

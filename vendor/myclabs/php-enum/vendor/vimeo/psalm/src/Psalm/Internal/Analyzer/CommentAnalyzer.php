@@ -89,7 +89,7 @@ class CommentAnalyzer
 
         $var_line_number = $comment->getStartLine();
 
-        if (isset($parsed_docblock->combined_tags['var'])) {
+        if (!empty($parsed_docblock->combined_tags['var'])) {
             foreach ($parsed_docblock->combined_tags['var'] as $offset => $var_line) {
                 $var_line = trim($var_line);
 
@@ -189,13 +189,13 @@ class CommentAnalyzer
         }
 
         if (!$var_comments
-            && (isset($parsed_docblock->tags['deprecated'])
-                || isset($parsed_docblock->tags['internal'])
-                || isset($parsed_docblock->tags['readonly'])
-                || isset($parsed_docblock->tags['psalm-readonly'])
-                || isset($parsed_docblock->tags['psalm-readonly-allow-private-mutation'])
-                || isset($parsed_docblock->tags['psalm-taint-escape'])
-                || isset($parsed_docblock->tags['psalm-internal'])
+            && (!empty($parsed_docblock->tags['deprecated'])
+                || !empty($parsed_docblock->tags['internal'])
+                || !empty($parsed_docblock->tags['readonly'])
+                || !empty($parsed_docblock->tags['psalm-readonly'])
+                || !empty($parsed_docblock->tags['psalm-readonly-allow-private-mutation'])
+                || !empty($parsed_docblock->tags['psalm-taint-escape'])
+                || !empty($parsed_docblock->tags['psalm-internal'])
                 || $parsed_docblock->description)
         ) {
             $var_comment = new VarDocblockComment();
@@ -212,28 +212,28 @@ class CommentAnalyzer
         VarDocblockComment $var_comment,
         ParsedDocblock $parsed_docblock
     ) : void {
-        $var_comment->deprecated = isset($parsed_docblock->tags['deprecated']);
-        $var_comment->internal = isset($parsed_docblock->tags['internal']);
-        $var_comment->readonly = isset($parsed_docblock->tags['readonly'])
-            || isset($parsed_docblock->tags['psalm-readonly'])
-            || isset($parsed_docblock->tags['psalm-readonly-allow-private-mutation']);
+        $var_comment->deprecated = !empty($parsed_docblock->tags['deprecated']);
+        $var_comment->internal = !empty($parsed_docblock->tags['internal']);
+        $var_comment->readonly = !empty($parsed_docblock->tags['readonly'])
+            || !empty($parsed_docblock->tags['psalm-readonly'])
+            || !empty($parsed_docblock->tags['psalm-readonly-allow-private-mutation']);
 
         $var_comment->allow_private_mutation
-            = isset($parsed_docblock->tags['psalm-allow-private-mutation'])
-            || isset($parsed_docblock->tags['psalm-readonly-allow-private-mutation']);
+            = !empty($parsed_docblock->tags['psalm-allow-private-mutation'])
+            || !empty($parsed_docblock->tags['psalm-readonly-allow-private-mutation']);
 
         if (!$var_comment->description) {
             $var_comment->description = $parsed_docblock->description;
         }
 
-        if (isset($parsed_docblock->tags['psalm-taint-escape'])) {
+        if (!empty($parsed_docblock->tags['psalm-taint-escape'])) {
             foreach ($parsed_docblock->tags['psalm-taint-escape'] as $param) {
                 $param = trim($param);
                 $var_comment->removed_taints[] = $param;
             }
         }
 
-        if (isset($parsed_docblock->tags['psalm-internal'])) {
+        if (!empty($parsed_docblock->tags['psalm-internal'])) {
             $psalm_internal = reset($parsed_docblock->tags['psalm-internal']);
 
             if (!$psalm_internal) {
@@ -244,7 +244,7 @@ class CommentAnalyzer
             $var_comment->internal = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-suppress'])) {
+        if (!empty($parsed_docblock->tags['psalm-suppress'])) {
             $var_comment->suppressed_issues = $parsed_docblock->tags['psalm-suppress'];
         }
     }

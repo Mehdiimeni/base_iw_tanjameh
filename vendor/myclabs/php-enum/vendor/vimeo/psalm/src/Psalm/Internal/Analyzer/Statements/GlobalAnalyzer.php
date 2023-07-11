@@ -45,7 +45,7 @@ class GlobalAnalyzer
 
                     if ($var->name === 'argv' || $var->name === 'argc') {
                         $context->vars_in_scope[$var_id] = VariableFetchAnalyzer::getGlobalType($var_id);
-                    } elseif (isset($function_storage->global_types[$var_id])) {
+                    } elseif (!empty($function_storage->global_types[$var_id])) {
                         $context->vars_in_scope[$var_id] = clone $function_storage->global_types[$var_id];
                         $context->vars_possibly_in_scope[$var_id] = true;
                     } else {

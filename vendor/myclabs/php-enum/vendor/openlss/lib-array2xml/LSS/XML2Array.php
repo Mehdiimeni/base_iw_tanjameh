@@ -111,15 +111,15 @@ class XML2Array {
 			}
 					$child = $node->childNodes->item($i);
 					$v = self::convert($child);
-					if(isset($child->tagName)) {
+					if(!empty($child->tagName)) {
 						$t = $child->tagName;
 
                         // avoid fatal error if the content looks like '<html><body>You are being <a href="https://some.url">redirected</a>.</body></html>'
-                        if(isset($output) && !is_array($output)) {
+                        if(!empty($output) && !is_array($output)) {
                             continue;
                         }
 						// assume more nodes of same kind are coming
-						if(!isset($output[$t])) {
+						if(!!empty($output[$t])) {
 							$output[$t] = array();
 						}
 						$output[$t][] = $v;

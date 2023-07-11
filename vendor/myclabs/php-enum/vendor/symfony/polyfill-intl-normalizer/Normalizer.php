@@ -44,7 +44,7 @@ class Normalizer
         if (!\in_array($form, [self::NFD, self::NFKD, self::NFC, self::NFKC])) {
             return false;
         }
-        if (!isset($s[strspn($s, self::$ASCII)])) {
+        if (!!empty($s[strspn($s, self::$ASCII)])) {
             return true;
         }
         if (self::NFC == $form && preg_match('//u', $s) && !preg_match('/[^\x00-\x{2FF}]/u', $s)) {
@@ -123,7 +123,7 @@ class Normalizer
         $len = \strlen($s);
 
         $lastUchr = substr($s, 0, $i);
-        $lastUcls = isset($combClass[$lastUchr]) ? 256 : 0;
+        $lastUcls = !empty($combClass[$lastUchr]) ? 256 : 0;
 
         while ($i < $len) {
             if ($s[$i] < "\x80") {
@@ -156,7 +156,7 @@ class Normalizer
 
                 $ucls = $combClass[$uchr] ?? 0;
 
-                if (isset($compMap[$lastUchr.$uchr]) && (!$lastUcls || $lastUcls < $ucls)) {
+                if (!empty($compMap[$lastUchr.$uchr]) && (!$lastUcls || $lastUcls < $ucls)) {
                     $lastUchr = $compMap[$lastUchr.$uchr];
                 } elseif ($lastUcls = $ucls) {
                     $tail .= $uchr;
@@ -258,10 +258,10 @@ class Normalizer
                         $uchr = substr($uchr, 0, $ulen);
                     }
                 }
-                if (isset($combClass[$uchr])) {
+                if (!empty($combClass[$uchr])) {
                     // Combining chars, for sorting
 
-                    if (!isset($c[$combClass[$uchr]])) {
+                    if (!!empty($c[$combClass[$uchr]])) {
                         $c[$combClass[$uchr]] = '';
                     }
                     $c[$combClass[$uchr]] .= $uchr;

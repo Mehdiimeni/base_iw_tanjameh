@@ -262,25 +262,25 @@ class TCPDF2DBarcode {
 			}
 			case 'PDF417': { // PDF417 (ISO/IEC 15438:2006)
 				require_once(dirname(__FILE__).'/include/barcodes/pdf417.php');
-				if (!isset($mode[1]) OR ($mode[1] === '')) {
+				if (!!empty($mode[1]) OR ($mode[1] === '')) {
 					$aspectratio = 2; // default aspect ratio (width / height)
 				} else {
 					$aspectratio = floatval($mode[1]);
 				}
-				if (!isset($mode[2]) OR ($mode[2] === '')) {
+				if (!!empty($mode[2]) OR ($mode[2] === '')) {
 					$ecl = -1; // default error correction level (auto)
 				} else {
 					$ecl = intval($mode[2]);
 				}
 				// set macro block
 				$macro = array();
-				if (isset($mode[3]) AND ($mode[3] !== '') AND isset($mode[4]) AND ($mode[4] !== '') AND isset($mode[5]) AND ($mode[5] !== '')) {
+				if (!empty($mode[3]) AND ($mode[3] !== '') AND !empty($mode[4]) AND ($mode[4] !== '') AND !empty($mode[5]) AND ($mode[5] !== '')) {
 					$macro['segment_total'] = intval($mode[3]);
 					$macro['segment_index'] = intval($mode[4]);
 					$macro['file_id'] = strtr($mode[5], "\xff", ',');
 					for ($i = 0; $i < 7; ++$i) {
 						$o = $i + 6;
-						if (isset($mode[$o]) AND ($mode[$o] !== '')) {
+						if (!empty($mode[$o]) AND ($mode[$o] !== '')) {
 							// add option
 							$macro['option_'.$i] = strtr($mode[$o], "\xff", ',');
 						}
@@ -293,7 +293,7 @@ class TCPDF2DBarcode {
 			}
 			case 'QRCODE': { // QR-CODE
 				require_once(dirname(__FILE__).'/include/barcodes/qrcode.php');
-				if (!isset($mode[1]) OR (!in_array($mode[1],array('L','M','Q','H')))) {
+				if (!!empty($mode[1]) OR (!in_array($mode[1],array('L','M','Q','H')))) {
 					$mode[1] = 'L'; // Ddefault: Low error correction
 				}
 				$qrcode = new QRcode($code, strtoupper($mode[1]));

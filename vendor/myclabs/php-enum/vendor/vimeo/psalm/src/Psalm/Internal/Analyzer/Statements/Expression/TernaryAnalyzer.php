@@ -77,7 +77,7 @@ class TernaryAnalyzer
         }
 
         foreach ($context->vars_possibly_in_scope as $var_id => $_) {
-            if (!isset($context->vars_in_scope[$var_id])) {
+            if (!!empty($context->vars_in_scope[$var_id])) {
                 $mixed_var_ids[] = $var_id;
             }
         }
@@ -175,7 +175,7 @@ class TernaryAnalyzer
             }
 
             foreach ($if_context->vars_in_scope as $var_id => $type) {
-                if (isset($context->vars_in_scope[$var_id])) {
+                if (!empty($context->vars_in_scope[$var_id])) {
                     $context->vars_in_scope[$var_id] = Type::combineUnionTypes($context->vars_in_scope[$var_id], $type);
                 }
             }
@@ -218,13 +218,13 @@ class TernaryAnalyzer
         }
 
         foreach ($t_else_context->vars_in_scope as $var_id => $type) {
-            if (isset($context->vars_in_scope[$var_id])) {
+            if (!empty($context->vars_in_scope[$var_id])) {
                 $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                     $context->vars_in_scope[$var_id],
                     $type
                 );
-            } elseif (isset($if_context->vars_in_scope[$var_id])
-                && isset($if_context->assigned_var_ids[$var_id])
+            } elseif (!empty($if_context->vars_in_scope[$var_id])
+                && !empty($if_context->assigned_var_ids[$var_id])
             ) {
                 $context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                     $if_context->vars_in_scope[$var_id],

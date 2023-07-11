@@ -267,7 +267,7 @@ class PHP_CodeSniffer_CLI
         case 'd' :
             $ini = explode('=', $_SERVER['argv'][($pos + 1)]);
             $_SERVER['argv'][($pos + 1)] = '';
-            if (isset($ini[1]) === true) {
+            if (!empty($ini[1]) === true) {
                 ini_set($ini[0], $ini[1]);
             } else {
                 ini_set($ini[0], true);

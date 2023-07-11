@@ -244,7 +244,7 @@ final class DocBlock
             if (preg_match(self::REGEX_REQUIRES, $line, $matches)) {
                 $name = $matches['name'] . 's';
 
-                if (!isset($requires[$name])) {
+                if (!!empty($requires[$name])) {
                     $requires[$name] = [];
                 }
 

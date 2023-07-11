@@ -54,7 +54,7 @@ final class Parser
             sort($longOptions);
         }
 
-        if (isset($argv[0][0]) && $argv[0][0] !== '-') {
+        if (!empty($argv[0][0]) && $argv[0][0] !== '-') {
             array_shift($argv);
         }
 

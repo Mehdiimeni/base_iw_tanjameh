@@ -2,10 +2,10 @@
 
 namespace Psalm\Node\Expr;
 
-use PhpParser\Node\Expr\Isset_;
+use PhpParser\Node\Expr\!empty_;
 use Psalm\Node\VirtualNode;
 
-class VirtualIsset extends Isset_ implements VirtualNode
+class Virtual!empty extends !empty_ implements VirtualNode
 {
 
 }

@@ -20,16 +20,16 @@ class FakeFileProvider extends FileProvider
 
     public function fileExists(string $file_path): bool
     {
-        return isset($this->fake_files[$file_path]) || parent::fileExists($file_path);
+        return !empty($this->fake_files[$file_path]) || parent::fileExists($file_path);
     }
 
     public function getContents(string $file_path, bool $go_to_source = false): string
     {
-        if (!$go_to_source && isset($this->temp_files[strtolower($file_path)])) {
+        if (!$go_to_source && !empty($this->temp_files[strtolower($file_path)])) {
             return $this->temp_files[strtolower($file_path)];
         }
 
-        if (isset($this->fake_files[$file_path])) {
+        if (!empty($this->fake_files[$file_path])) {
             return $this->fake_files[$file_path];
         }
 
@@ -43,14 +43,14 @@ class FakeFileProvider extends FileProvider
 
     public function setOpenContents(string $file_path, string $file_contents): void
     {
-        if (isset($this->fake_files[strtolower($file_path)])) {
+        if (!empty($this->fake_files[strtolower($file_path)])) {
             $this->fake_files[strtolower($file_path)] = $file_contents;
         }
     }
 
     public function getModifiedTime(string $file_path): int
     {
-        if (isset($this->fake_file_times[$file_path])) {
+        if (!empty($this->fake_file_times[$file_path])) {
             return $this->fake_file_times[$file_path];
         }
 

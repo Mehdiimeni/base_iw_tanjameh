@@ -110,7 +110,7 @@ class Array2XML {
 
         if (is_array($arr)) {
             // get the attributes first.;
-            if (isset($arr['@attributes'])) {
+            if (!empty($arr['@attributes'])) {
                 foreach ($arr['@attributes'] as $key => $value) {
                     if (!self::isValidTagName($key)) {
                         throw new Exception('[Array2XML] Illegal character in attribute name. attribute: ' . $key . ' in node: ' . $node_name);
@@ -122,22 +122,22 @@ class Array2XML {
 
             // check if it has a value stored in @value, if yes store the value and return
             // else check if its directly stored as string
-            if (isset($arr['@value'])) {
+            if (!empty($arr['@value'])) {
                 $node->appendChild($xml->createTextNode(self::bool2str($arr['@value'])));
                 unset($arr['@value']);    //remove the key from the array once done.
                 //return from recursion, as a note with value cannot have child nodes.
                 return $node;
-            } else if (isset($arr['@cdata'])) {
+            } else if (!empty($arr['@cdata'])) {
                 $node->appendChild($xml->createCDATASection(self::bool2str($arr['@cdata'])));
                 unset($arr['@cdata']);    //remove the key from the array once done.
                 //return from recursion, as a note with cdata cannot have child nodes.
                 return $node;
             }
-            else if (isset($arr['@comment']) && is_string($arr['@comment'])) {
+            else if (!empty($arr['@comment']) && is_string($arr['@comment'])) {
                 $node->appendChild($xml->createComment(self::bool2str($arr['@comment'])));
                 unset($arr['@comment']);
             }
-            else if (isset($arr['@xml'])) {
+            else if (!empty($arr['@xml'])) {
                 $fragment = $xml->createDocumentFragment();
                 $fragment->appendXML($arr['@xml']);
                 $node->appendChild($fragment);

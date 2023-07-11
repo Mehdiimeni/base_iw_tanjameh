@@ -46,22 +46,22 @@ class DebugFormatterHelper extends Helper
         $message = '';
 
         if ($error) {
-            if (isset($this->started[$id]['out'])) {
+            if (!empty($this->started[$id]['out'])) {
                 $message .= "\n";
                 unset($this->started[$id]['out']);
             }
-            if (!isset($this->started[$id]['err'])) {
+            if (!!empty($this->started[$id]['err'])) {
                 $message .= sprintf('%s<bg=red;fg=white> %s </> ', $this->getBorder($id), $errorPrefix);
                 $this->started[$id]['err'] = true;
             }
 
             $message .= str_replace("\n", sprintf("\n%s<bg=red;fg=white> %s </> ", $this->getBorder($id), $errorPrefix), $buffer);
         } else {
-            if (isset($this->started[$id]['err'])) {
+            if (!empty($this->started[$id]['err'])) {
                 $message .= "\n";
                 unset($this->started[$id]['err']);
             }
-            if (!isset($this->started[$id]['out'])) {
+            if (!!empty($this->started[$id]['out'])) {
                 $message .= sprintf('%s<bg=green;fg=white> %s </> ', $this->getBorder($id), $prefix);
                 $this->started[$id]['out'] = true;
             }
@@ -79,7 +79,7 @@ class DebugFormatterHelper extends Helper
      */
     public function stop(string $id, string $message, bool $successful, string $prefix = 'RES')
     {
-        $trailingEOL = isset($this->started[$id]['out']) || isset($this->started[$id]['err']) ? "\n" : '';
+        $trailingEOL = !empty($this->started[$id]['out']) || !empty($this->started[$id]['err']) ? "\n" : '';
 
         if ($successful) {
             return sprintf("%s%s<bg=green;fg=white> %s </> <fg=green>%s</>\n", $trailingEOL, $this->getBorder($id), $prefix, $message);

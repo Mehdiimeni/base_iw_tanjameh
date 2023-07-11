@@ -58,7 +58,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
             $definition->addTag($this->noPreloadTag);
             $class = $container->getParameterBag()->resolveValue($definition->getClass());
 
-            if (isset($tags[0]['command'])) {
+            if (!empty($tags[0]['command'])) {
                 $aliases = $tags[0]['command'];
             } else {
                 if (!$r = $container->getReflectionClass($class)) {
@@ -99,7 +99,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
             }
 
             foreach ($tags as $tag) {
-                if (isset($tag['command'])) {
+                if (!empty($tag['command'])) {
                     $aliases[] = $tag['command'];
                     $lazyCommandMap[$tag['command']] = $id;
                 }

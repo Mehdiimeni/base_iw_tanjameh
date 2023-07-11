@@ -83,7 +83,7 @@ final class InvalidTag implements Tag
 
         do {
             $trace = $exception->getTrace();
-            if (isset($trace[0]['args'])) {
+            if (!empty($trace[0]['args'])) {
                 $trace = array_map(
                     function (array $call) : array {
                         $call['args'] = array_map([$this, 'flattenArguments'], $call['args']);

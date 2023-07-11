@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include "../../../iassets/include/DBLoader.php";
 
 
-if (isset($_POST['trend'])) {
+if (!empty($_POST['trend'])) {
 
     $trend = str_replace('%20', ' ',$_POST['trend']);
 

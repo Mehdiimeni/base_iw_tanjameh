@@ -121,7 +121,7 @@ class ForeachAnalyzer
                 continue;
             }
 
-            if (isset($safe_var_ids[$var_comment->var_id])) {
+            if (!empty($safe_var_ids[$var_comment->var_id])) {
                 continue;
             }
 
@@ -157,20 +157,20 @@ class ForeachAnalyzer
                 }
             }
 
-            if (isset($context->vars_in_scope[$var_comment->var_id])
+            if (!empty($context->vars_in_scope[$var_comment->var_id])
                 || VariableFetchAnalyzer::isSuperGlobal($var_comment->var_id)
             ) {
                 if ($codebase->find_unused_variables
                     && $doc_comment
                     && $type_location
-                    && isset($context->vars_in_scope[$var_comment->var_id])
+                    && !empty($context->vars_in_scope[$var_comment->var_id])
                     && $context->vars_in_scope[$var_comment->var_id]->getId() === $comment_type->getId()
                     && !$comment_type->isMixed()
                 ) {
                     $project_analyzer = $statements_analyzer->getProjectAnalyzer();
 
                     if ($codebase->alter_code
-                        && isset($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
+                        && !empty($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
                     ) {
                         FileManipulationBuffer::addVarAnnotationToRemove($type_location);
                     } elseif (IssueBuffer::accepts(
@@ -186,7 +186,7 @@ class ForeachAnalyzer
                     }
                 }
 
-                if (isset($context->vars_in_scope[$var_comment->var_id])) {
+                if (!empty($context->vars_in_scope[$var_comment->var_id])) {
                     $comment_type->parent_nodes = $context->vars_in_scope[$var_comment->var_id]->parent_nodes;
                 }
 
@@ -296,7 +296,7 @@ class ForeachAnalyzer
                 $statements_analyzer->getParentFQCLN()
             );
 
-            if (isset($foreach_context->vars_in_scope[$var_comment->var_id])) {
+            if (!empty($foreach_context->vars_in_scope[$var_comment->var_id])) {
                 $existing_var_type = $foreach_context->vars_in_scope[$var_comment->var_id];
                 $comment_type->parent_nodes = $existing_var_type->parent_nodes;
                 $comment_type->by_ref = $existing_var_type->by_ref;
@@ -869,7 +869,7 @@ class ForeachAnalyzer
                                     // The collection might be an iterator, in which case
                                     // we want to call the iterator function
                                     /** @psalm-suppress PossiblyUndefinedStringArrayOffset */
-                                    if (!isset($generic_storage->template_extended_params['Traversable'])
+                                    if (!!empty($generic_storage->template_extended_params['Traversable'])
                                         || ($generic_storage
                                                 ->template_extended_params['Traversable']['TKey']->isMixed()
                                             && $generic_storage
@@ -1030,7 +1030,7 @@ class ForeachAnalyzer
                 $iterator_atomic_type->value
             );
 
-            if (!isset($generic_storage->template_extended_params['Traversable'])) {
+            if (!!empty($generic_storage->template_extended_params['Traversable'])) {
                 return;
             }
 
@@ -1142,10 +1142,10 @@ class ForeachAnalyzer
         ?array $calling_type_params = null
     ): ?Type\Union {
         if ($calling_class === $template_class) {
-            if (isset($class_template_types[$template_name]) && $calling_type_params) {
+            if (!empty($class_template_types[$template_name]) && $calling_type_params) {
                 $offset = array_search($template_name, array_keys($class_template_types));
 
-                if ($offset !== false && isset($calling_type_params[$offset])) {
+                if ($offset !== false && !empty($calling_type_params[$offset])) {
                     return $calling_type_params[$offset];
                 }
             }
@@ -1153,7 +1153,7 @@ class ForeachAnalyzer
             return null;
         }
 
-        if (isset($template_extended_params[$template_class][$template_name])) {
+        if (!empty($template_extended_params[$template_class][$template_name])) {
             $extended_type = $template_extended_params[$template_class][$template_name];
 
             $return_type = null;

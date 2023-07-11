@@ -79,7 +79,7 @@ class IncDecExpressionAnalyzer
 
             $codebase = $statements_analyzer->getCodebase();
 
-            if ($var_id && isset($context->vars_in_scope[$var_id])) {
+            if ($var_id && !empty($context->vars_in_scope[$var_id])) {
                 $context->vars_in_scope[$var_id] = $result_type;
 
                 if ($codebase->find_unused_variables && $stmt->var instanceof PhpParser\Node\Expr\Variable) {

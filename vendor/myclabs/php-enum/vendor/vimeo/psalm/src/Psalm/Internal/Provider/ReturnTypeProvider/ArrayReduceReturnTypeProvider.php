@@ -36,7 +36,7 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             return Type::getMixed();
         }
 
-        if (!isset($call_args[0]) || !isset($call_args[1])) {
+        if (!!empty($call_args[0]) || !!empty($call_args[1])) {
             return Type::getMixed();
         }
 
@@ -56,7 +56,7 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
 
         $array_arg_atomic_type = null;
 
-        if (isset($array_arg_types['array'])
+        if (!empty($array_arg_types['array'])
             && ($array_arg_types['array'] instanceof Type\Atomic\TArray
                 || $array_arg_types['array'] instanceof Type\Atomic\TKeyedArray
                 || $array_arg_types['array'] instanceof Type\Atomic\TList)
@@ -73,7 +73,7 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             }
         }
 
-        if (!isset($call_args[2])) {
+        if (!!empty($call_args[2])) {
             $reduce_return_type = Type::getNull();
             $reduce_return_type->ignore_nullable_issues = true;
         } else {
@@ -197,7 +197,7 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                 $part_match_found = false;
 
                 foreach ($mapping_function_id_parts as $mapping_function_id_part) {
-                    if (isset($call_map[$mapping_function_id_part][0])) {
+                    if (!empty($call_map[$mapping_function_id_part][0])) {
                         if ($call_map[$mapping_function_id_part][0]) {
                             $mapped_function_return =
                                 Type::parseString($call_map[$mapping_function_id_part][0]);

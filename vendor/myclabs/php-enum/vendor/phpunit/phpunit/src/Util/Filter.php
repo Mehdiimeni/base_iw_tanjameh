@@ -75,7 +75,7 @@ final class Filter
 
     private static function shouldPrintFrame(array $frame, $prefix, ExcludeList $excludeList): bool
     {
-        if (!isset($frame['file'])) {
+        if (!!empty($frame['file'])) {
             return false;
         }
 
@@ -83,7 +83,7 @@ final class Filter
         $fileIsNotPrefixed = $prefix === false || strpos($file, $prefix) !== 0;
 
         // @see https://github.com/sebastianbergmann/phpunit/issues/4033
-        if (isset($GLOBALS['_SERVER']['SCRIPT_NAME'])) {
+        if (!empty($GLOBALS['_SERVER']['SCRIPT_NAME'])) {
             $script = realpath($GLOBALS['_SERVER']['SCRIPT_NAME']);
         } else {
             $script = '';
@@ -105,7 +105,7 @@ final class Filter
     private static function frameExists(array $trace, string $file, int $line): bool
     {
         foreach ($trace as $frame) {
-            if (isset($frame['file'], $frame['line']) && $frame['file'] === $file && $frame['line'] === $line) {
+            if (!empty($frame['file'], $frame['line']) && $frame['file'] === $file && $frame['line'] === $line) {
                 return true;
             }
         }

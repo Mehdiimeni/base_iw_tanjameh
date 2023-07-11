@@ -167,7 +167,7 @@ class ArrayFetchAnalyzer
 
         if ($stmt_var_type) {
             if ($stmt_var_type->isNull()) {
-                if (!$context->inside_isset) {
+                if (!$context->inside_!empty) {
                     if (IssueBuffer::accepts(
                         new NullArrayAccess(
                             'Cannot access array value on null variable ' . $array_var_id,
@@ -226,7 +226,7 @@ class ArrayFetchAnalyzer
 
             $statements_analyzer->node_data->setType($stmt, $stmt_type);
 
-            if ($context->inside_isset
+            if ($context->inside_!empty
                 && $stmt->dim
                 && ($stmt_dim_type = $statements_analyzer->node_data->getType($stmt->dim))
                 && $stmt_var_type->hasArray()
@@ -258,7 +258,7 @@ class ArrayFetchAnalyzer
                         if ($offset_atomic_type instanceof TString
                             || $offset_atomic_type instanceof TInt
                         ) {
-                            if (!isset($const_array_key_atomic_types[$offset_key])
+                            if (!!empty($const_array_key_atomic_types[$offset_key])
                                 && !UnionTypeComparator::isContainedBy(
                                     $codebase,
                                     new Type\Union([$offset_atomic_type]),
@@ -291,7 +291,7 @@ class ArrayFetchAnalyzer
             $statements_analyzer->node_data->setType($stmt, $stmt_type);
         } else {
             if ($stmt_type->possibly_undefined
-                && !$context->inside_isset
+                && !$context->inside_!empty
                 && !$context->inside_unset
                 && ($stmt_var_type && !$stmt_var_type->hasMixed())
             ) {
@@ -310,11 +310,11 @@ class ArrayFetchAnalyzer
             $stmt_type->possibly_undefined = false;
         }
 
-        if ($context->inside_isset && $dim_var_id && $new_offset_type && $new_offset_type->getAtomicTypes()) {
+        if ($context->inside_!empty && $dim_var_id && $new_offset_type && $new_offset_type->getAtomicTypes()) {
             $context->vars_in_scope[$dim_var_id] = $new_offset_type;
         }
 
-        if ($keyed_array_var_id && !$context->inside_isset && $can_store_result) {
+        if ($keyed_array_var_id && !$context->inside_!empty && $can_store_result) {
             $context->vars_in_scope[$keyed_array_var_id] = $stmt_type;
             $context->vars_possibly_in_scope[$keyed_array_var_id] = true;
 
@@ -496,7 +496,7 @@ class ArrayFetchAnalyzer
             }
         }
 
-        if ($offset_type->isNullable() && !$context->inside_isset) {
+        if ($offset_type->isNullable() && !$context->inside_!empty) {
             if (!$offset_type->ignore_nullable_issues) {
                 if (IssueBuffer::accepts(
                     new PossiblyNullArrayOffset(
@@ -586,7 +586,7 @@ class ArrayFetchAnalyzer
                         $array_access_type = new Type\Union([new TEmpty]);
                     }
                 } else {
-                    if (!$context->inside_isset && !MethodCallAnalyzer::hasNullsafe($stmt->var)) {
+                    if (!$context->inside_!empty && !MethodCallAnalyzer::hasNullsafe($stmt->var)) {
                         if (IssueBuffer::accepts(
                             new PossiblyNullArrayAccess(
                                 'Cannot access array value on possibly null variable ' . $array_var_id .
@@ -699,7 +699,7 @@ class ArrayFetchAnalyzer
                     ) {
                         // do nothing
                     }
-                } elseif (!$context->inside_isset) {
+                } elseif (!$context->inside_!empty) {
                     if (IssueBuffer::accepts(
                         new PossiblyInvalidArrayAccess(
                             'Cannot access array value on non-array variable ' .
@@ -781,7 +781,7 @@ class ArrayFetchAnalyzer
                     $used_offset = "using offset value of '" . implode('|', $key_values) . "'";
                 }
 
-                if ($has_valid_expected_offset && $has_valid_absolute_offset && $context->inside_isset) {
+                if ($has_valid_expected_offset && $has_valid_absolute_offset && $context->inside_!empty) {
                     // do nothing
                 } elseif ($has_valid_expected_offset && $has_valid_absolute_offset) {
                     if (!$context->inside_unset) {
@@ -807,7 +807,7 @@ class ArrayFetchAnalyzer
                             && !$atomic_key_type instanceof Type\Atomic\TTemplateParam
                             && !(
                                 $atomic_key_type instanceof Type\Atomic\TObjectWithProperties
-                                && isset($atomic_key_type->methods['__toString'])
+                                && !empty($atomic_key_type->methods['__toString'])
                             )
                         ) {
                             $bad_types[] = $atomic_key_type;
@@ -874,7 +874,7 @@ class ArrayFetchAnalyzer
         Context $context,
         StatementsAnalyzer $statements_analyzer
     ) : void {
-        if ($context->inside_isset || $context->inside_unset) {
+        if ($context->inside_!empty || $context->inside_unset) {
             return;
         }
 
@@ -884,7 +884,7 @@ class ArrayFetchAnalyzer
             foreach ($offset_type->getAtomicTypes() as $offset_type_part) {
                 if ($array_var_id
                     && $offset_type_part instanceof TLiteralInt
-                    && isset(
+                    && !empty(
                         $context->vars_in_scope[
                             $array_var_id . '[' . $offset_type_part->value . ']'
                         ]
@@ -910,7 +910,7 @@ class ArrayFetchAnalyzer
                             . $offset_type->getId() . '\' '
                             . 'is risky given expected type \''
                             . $expected_offset_type->getId() . '\'.'
-                            . ' Consider using isset beforehand.',
+                            . ' Consider using !empty beforehand.',
                         new CodeLocation($statements_analyzer->getSource(), $stmt)
                     ),
                     $statements_analyzer->getSuppressedIssues()
@@ -929,7 +929,7 @@ class ArrayFetchAnalyzer
         Context $context,
         StatementsAnalyzer $statements_analyzer
     ) : void {
-        if ($context->inside_isset || $context->inside_unset) {
+        if ($context->inside_!empty || $context->inside_unset) {
             return;
         }
 
@@ -939,7 +939,7 @@ class ArrayFetchAnalyzer
             foreach ($offset_type->getAtomicTypes() as $offset_type_part) {
                 if ($array_var_id
                     && $offset_type_part instanceof TLiteralString
-                    && isset(
+                    && !empty(
                         $context->vars_in_scope[
                             $array_var_id . '[\'' . $offset_type_part->value . '\']'
                         ]
@@ -960,7 +960,7 @@ class ArrayFetchAnalyzer
                             . $offset_type->getId() . '\' '
                             . 'is risky given expected type \''
                             . $expected_offset_type->getId() . '\'.'
-                            . ' Consider using isset beforehand.',
+                            . ' Consider using !empty beforehand.',
                         new CodeLocation($statements_analyzer->getSource(), $stmt)
                     ),
                     $statements_analyzer->getSuppressedIssues()
@@ -1035,7 +1035,7 @@ class ArrayFetchAnalyzer
             $codebase->analyzer->incrementMixedCount($statements_analyzer->getFilePath());
         }
 
-        if (!$context->inside_isset) {
+        if (!$context->inside_!empty) {
             if ($in_assignment) {
                 if (IssueBuffer::accepts(
                     new MixedArrayAssignment(
@@ -1235,8 +1235,8 @@ class ArrayFetchAnalyzer
             );
         }
 
-        if ($context->inside_isset) {
-            $offset_type->ignore_isset = true;
+        if ($context->inside_!empty) {
+            $offset_type->ignore_!empty = true;
         }
     }
 
@@ -1392,7 +1392,7 @@ class ArrayFetchAnalyzer
         if ($array_access_type->isEmpty()
             && !$array_type->hasMixed()
             && !$in_assignment
-            && !$context->inside_isset
+            && !$context->inside_!empty
         ) {
             if (IssueBuffer::accepts(
                 new EmptyArrayAccess(
@@ -1539,11 +1539,11 @@ class ArrayFetchAnalyzer
 
         if ($key_values) {
             foreach ($key_values as $key_value) {
-                if (isset($type->properties[$key_value]) || $replacement_type) {
+                if (!empty($type->properties[$key_value]) || $replacement_type) {
                     $has_valid_offset = true;
 
                     if ($replacement_type) {
-                        if (isset($type->properties[$key_value])) {
+                        if (!empty($type->properties[$key_value])) {
                             $type->properties[$key_value] = Type::combineUnionTypes(
                                 $type->properties[$key_value],
                                 $replacement_type
@@ -1603,7 +1603,7 @@ class ArrayFetchAnalyzer
 
                     $array_access_type = Type::getMixed();
                 } else {
-                    if ($type->sealed || !$context->inside_isset) {
+                    if ($type->sealed || !$context->inside_!empty) {
                         $object_like_keys = array_keys($type->properties);
 
                         $last_key = array_pop($object_like_keys);
@@ -1648,7 +1648,7 @@ class ArrayFetchAnalyzer
                 $union_comparison_results
             );
 
-            if ($context->inside_isset && !$is_contained) {
+            if ($context->inside_!empty && !$is_contained) {
                 $is_contained = UnionTypeComparator::isContainedBy(
                     $codebase,
                     $key_type,
@@ -1722,7 +1722,7 @@ class ArrayFetchAnalyzer
 
                 $has_valid_offset = true;
             } else {
-                if (!$context->inside_isset
+                if (!$context->inside_!empty
                     || ($type->sealed && !$union_comparison_results->type_coerced)
                 ) {
                     $expected_offset_types[] = $generic_key_type->getId();

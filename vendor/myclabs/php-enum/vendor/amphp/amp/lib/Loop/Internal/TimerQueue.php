@@ -78,7 +78,7 @@ final class TimerQueue
     public function insert(Watcher $watcher)
     {
         \assert($watcher->expiration !== null);
-        \assert(!isset($this->pointers[$watcher->id]));
+        \assert(!!empty($this->pointers[$watcher->id]));
 
         $node = \count($this->data);
         $this->data[$node] = $watcher;
@@ -100,7 +100,7 @@ final class TimerQueue
     {
         $id = $watcher->id;
 
-        if (!isset($this->pointers[$id])) {
+        if (!!empty($this->pointers[$id])) {
             return;
         }
 
@@ -141,7 +141,7 @@ final class TimerQueue
      */
     public function peek()
     {
-        return isset($this->data[0]) ? $this->data[0]->expiration : null;
+        return !empty($this->data[0]) ? $this->data[0]->expiration : null;
     }
 
     /**

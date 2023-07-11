@@ -19,10 +19,10 @@ final class ReturnTypeNode extends TypeNodeAbstract
 
     protected function guardIsValidType()
     {
-        if (isset($this->types['void']) && count($this->types) !== 1) {
+        if (!empty($this->types['void']) && count($this->types) !== 1) {
             throw new DoubleException('void cannot be part of a union');
         }
-        if (isset($this->types['never']) && count($this->types) !== 1) {
+        if (!empty($this->types['never']) && count($this->types) !== 1) {
             throw new DoubleException('never cannot be part of a union');
         }
 

@@ -86,7 +86,7 @@ class TKeyOfClassConstant extends Scalar
             return 'key-of<' . $this->fq_classlike_name . '::' . $this->const_name . '>';
         }
 
-        if (isset($aliased_classes[strtolower($this->fq_classlike_name)])) {
+        if (!empty($aliased_classes[strtolower($this->fq_classlike_name)])) {
             return 'key-of<'
                 . $aliased_classes[strtolower($this->fq_classlike_name)]
                 . '::'

@@ -22,7 +22,7 @@ final class NullsafeTokenEmulator extends TokenEmulator
         // the tokens array on the way
         $line = 1;
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
-            if ($tokens[$i] === '?' && isset($tokens[$i + 1]) && $tokens[$i + 1][0] === \T_OBJECT_OPERATOR) {
+            if ($tokens[$i] === '?' && !empty($tokens[$i + 1]) && $tokens[$i + 1][0] === \T_OBJECT_OPERATOR) {
                 array_splice($tokens, $i, 2, [
                     [\T_NULLSAFE_OBJECT_OPERATOR, '?->', $line]
                 ]);
@@ -31,7 +31,7 @@ final class NullsafeTokenEmulator extends TokenEmulator
             }
 
             // Handle ?-> inside encapsed string.
-            if ($tokens[$i][0] === \T_ENCAPSED_AND_WHITESPACE && isset($tokens[$i - 1])
+            if ($tokens[$i][0] === \T_ENCAPSED_AND_WHITESPACE && !empty($tokens[$i - 1])
                 && $tokens[$i - 1][0] === \T_VARIABLE
                 && preg_match('/^\?->([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)/', $tokens[$i][1], $matches)
             ) {

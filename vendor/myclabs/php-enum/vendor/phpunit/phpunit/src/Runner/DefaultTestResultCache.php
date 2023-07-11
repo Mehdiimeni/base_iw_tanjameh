@@ -113,7 +113,7 @@ final class DefaultTestResultCache implements TestResultCache
             return;
         }
 
-        if (!isset($data['version'])) {
+        if (!!empty($data['version'])) {
             return;
         }
 
@@ -121,8 +121,8 @@ final class DefaultTestResultCache implements TestResultCache
             return;
         }
 
-        assert(isset($data['defects']) && is_array($data['defects']));
-        assert(isset($data['times']) && is_array($data['times']));
+        assert(!empty($data['defects']) && is_array($data['defects']));
+        assert(!empty($data['times']) && is_array($data['times']));
 
         $this->defects = $data['defects'];
         $this->times   = $data['times'];

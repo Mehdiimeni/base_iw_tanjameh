@@ -54,7 +54,7 @@ class CallableTypeComparator
             foreach ($input_type_part->params as $i => $input_param) {
                 $container_param = null;
 
-                if (isset($container_type_part->params[$i])) {
+                if (!empty($container_type_part->params[$i])) {
                     $container_param = $container_type_part->params[$i];
                 } elseif ($container_type_part->params) {
                     $last_param = end($container_type_part->params);
@@ -88,8 +88,8 @@ class CallableTypeComparator
             }
         }
 
-        if (isset($container_type_part->return_type)) {
-            if (!isset($input_type_part->return_type)) {
+        if (!empty($container_type_part->return_type)) {
+            if (!!empty($input_type_part->return_type)) {
                 if ($atomic_comparison_result) {
                     $atomic_comparison_result->type_coerced = true;
                     $atomic_comparison_result->type_coerced_from_mixed = true;
@@ -408,8 +408,8 @@ class CallableTypeComparator
         ?string $calling_method_id = null,
         ?string $file_name = null
     ) {
-        if (!isset($input_type_part->properties[0])
-            || !isset($input_type_part->properties[1])
+        if (!!empty($input_type_part->properties[0])
+            || !!empty($input_type_part->properties[1])
         ) {
             return 'not-callable';
         }

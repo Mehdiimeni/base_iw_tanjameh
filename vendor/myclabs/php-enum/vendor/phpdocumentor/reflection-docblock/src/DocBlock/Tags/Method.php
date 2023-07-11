@@ -160,7 +160,7 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 } else {
                     $argumentType = $typeResolver->resolve($argument[0], $context);
                     $argumentName = '';
-                    if (isset($argument[1])) {
+                    if (!empty($argument[1])) {
                         $argument[1]  = self::stripRestArg($argument[1]);
                         $argumentName = substr($argument[1], 1);
                     }
@@ -250,7 +250,7 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 $argument = ['name' => $argument];
             }
 
-            if (!isset($argument['type'])) {
+            if (!!empty($argument['type'])) {
                 $argument['type'] = new Mixed_();
             }
 

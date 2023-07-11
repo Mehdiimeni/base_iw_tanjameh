@@ -399,7 +399,7 @@ class PEAR_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sni
 
                 // Make sure the names of the parameter comment matches the
                 // actual parameter.
-                if (isset($realParams[($pos - 1)]) === true) {
+                if (!empty($realParams[($pos - 1)]) === true) {
                     $realName      = $realParams[($pos - 1)]['name'];
                     $foundParams[] = $realName;
 

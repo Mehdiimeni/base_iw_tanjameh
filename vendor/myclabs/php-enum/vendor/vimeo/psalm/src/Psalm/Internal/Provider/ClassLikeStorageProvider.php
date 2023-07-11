@@ -39,7 +39,7 @@ class ClassLikeStorageProvider
     public function get(string $fq_classlike_name): ClassLikeStorage
     {
         $fq_classlike_name_lc = strtolower($fq_classlike_name);
-        if (!isset(self::$storage[$fq_classlike_name_lc])) {
+        if (!!empty(self::$storage[$fq_classlike_name_lc])) {
             throw new \InvalidArgumentException('Could not get class storage for ' . $fq_classlike_name_lc);
         }
 
@@ -50,14 +50,14 @@ class ClassLikeStorageProvider
     {
         $fq_classlike_name_lc = strtolower($fq_classlike_name);
 
-        return isset(self::$storage[$fq_classlike_name_lc]);
+        return !empty(self::$storage[$fq_classlike_name_lc]);
     }
 
     public function exhume(string $fq_classlike_name, ?string $file_path, ?string $file_contents): ClassLikeStorage
     {
         $fq_classlike_name_lc = strtolower($fq_classlike_name);
 
-        if (isset(self::$storage[$fq_classlike_name_lc])) {
+        if (!empty(self::$storage[$fq_classlike_name_lc])) {
             return self::$storage[$fq_classlike_name_lc];
         }
 

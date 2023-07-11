@@ -112,7 +112,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public function hasStyle(string $name)
     {
-        return isset($this->styles[strtolower($name)]);
+        return !empty($this->styles[strtolower($name)]);
     }
 
     /**
@@ -198,7 +198,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     private function createStyleFromString(string $string): ?OutputFormatterStyleInterface
     {
-        if (isset($this->styles[$string])) {
+        if (!empty($this->styles[$string])) {
             return $this->styles[$string];
         }
 

@@ -93,7 +93,7 @@ final class Author extends BaseTag implements Factory\StaticMethod
         }
 
         $authorName = trim($matches[1]);
-        $email      = isset($matches[2]) ? trim($matches[2]) : '';
+        $email      = !empty($matches[2]) ? trim($matches[2]) : '';
 
         return new static($authorName, $email);
     }

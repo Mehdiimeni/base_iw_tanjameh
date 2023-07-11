@@ -56,7 +56,7 @@ class ArgumentsWildcard
         $arguments  = array_values($arguments);
         $totalScore = 0;
         foreach ($this->tokens as $i => $token) {
-            $argument = isset($arguments[$i]) ? $arguments[$i] : null;
+            $argument = !empty($arguments[$i]) ? $arguments[$i] : null;
             if (1 >= $score = $token->scoreArgument($argument)) {
                 return false;
             }

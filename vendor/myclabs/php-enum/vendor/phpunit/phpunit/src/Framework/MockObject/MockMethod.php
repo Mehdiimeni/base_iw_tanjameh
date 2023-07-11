@@ -246,7 +246,7 @@ final class MockMethod
     {
         $filename = __DIR__ . DIRECTORY_SEPARATOR . 'Generator' . DIRECTORY_SEPARATOR . $template;
 
-        if (!isset(self::$templates[$filename])) {
+        if (!!empty(self::$templates[$filename])) {
             try {
                 self::$templates[$filename] = new Template($filename);
             } catch (TemplateException $e) {

@@ -102,7 +102,7 @@ class ExistingAtomicStaticCallAnalyzer
                         }
                     }
 
-                    if (!isset($context->initialized_methods[(string) $appearing_method_id])) {
+                    if (!!empty($context->initialized_methods[(string) $appearing_method_id])) {
                         if ($context->initialized_methods === null) {
                             $context->initialized_methods = [];
                         }
@@ -144,14 +144,14 @@ class ExistingAtomicStaticCallAnalyzer
         ) {
             foreach ($self_class_storage->template_extended_params as $template_fq_class_name => $extended_types) {
                 foreach ($extended_types as $type_key => $extended_type) {
-                    if (isset($found_generic_params[$type_key][$template_fq_class_name])) {
+                    if (!empty($found_generic_params[$type_key][$template_fq_class_name])) {
                         $found_generic_params[$type_key][$template_fq_class_name] = clone $extended_type;
                         continue;
                     }
 
                     foreach ($extended_type->getAtomicTypes() as $t) {
                         if ($t instanceof Type\Atomic\TTemplateParam
-                            && isset($found_generic_params[$t->param_name][$t->defining_class])
+                            && !empty($found_generic_params[$t->param_name][$t->defining_class])
                         ) {
                             $found_generic_params[$type_key][$template_fq_class_name]
                                 = $found_generic_params[$t->param_name][$t->defining_class];
@@ -481,7 +481,7 @@ class ExistingAtomicStaticCallAnalyzer
                 $bindable_template_types = $return_type_candidate->getTemplateTypes();
 
                 foreach ($bindable_template_types as $template_type) {
-                    if (!isset(
+                    if (!!empty(
                         $template_result->lower_bounds
                         [$template_type->param_name]
                         [$template_type->defining_class]

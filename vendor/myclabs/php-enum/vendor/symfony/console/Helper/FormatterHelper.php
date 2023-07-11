@@ -52,14 +52,14 @@ class FormatterHelper extends Helper
         }
 
         $messages = $large ? [str_repeat(' ', $len)] : [];
-        for ($i = 0; isset($lines[$i]); ++$i) {
+        for ($i = 0; !empty($lines[$i]); ++$i) {
             $messages[] = $lines[$i].str_repeat(' ', $len - self::width($lines[$i]));
         }
         if ($large) {
             $messages[] = str_repeat(' ', $len);
         }
 
-        for ($i = 0; isset($messages[$i]); ++$i) {
+        for ($i = 0; !empty($messages[$i]); ++$i) {
             $messages[$i] = sprintf('<%s>%s</%s>', $style, $messages[$i], $style);
         }
 

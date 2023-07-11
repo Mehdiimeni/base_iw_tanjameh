@@ -227,7 +227,7 @@ class Analyzer
 
     public function canReportIssues(string $file_path): bool
     {
-        return isset($this->files_with_analysis_results[$file_path]);
+        return !empty($this->files_with_analysis_results[$file_path]);
     }
 
     /**
@@ -242,7 +242,7 @@ class Analyzer
 
         $file_name = $this->config->shortenFileName($file_path);
 
-        if (isset($filetype_analyzers[$extension])) {
+        if (!empty($filetype_analyzers[$extension])) {
             $file_analyzer = new $filetype_analyzers[$extension]($project_analyzer, $file_path, $file_name);
         } else {
             $file_analyzer = new FileAnalyzer($project_analyzer, $file_path, $file_name);
@@ -559,7 +559,7 @@ class Analyzer
                 $this->analyzed_methods = array_merge($pool_data['analyzed_methods'], $this->analyzed_methods);
 
                 foreach ($pool_data['mixed_counts'] as $file_path => [$mixed_count, $nonmixed_count]) {
-                    if (!isset($this->mixed_counts[$file_path])) {
+                    if (!!empty($this->mixed_counts[$file_path])) {
                         $this->mixed_counts[$file_path] = [$mixed_count, $nonmixed_count];
                     } else {
                         $this->mixed_counts[$file_path][0] += $mixed_count;
@@ -568,11 +568,11 @@ class Analyzer
                 }
 
                 foreach ($pool_data['possible_method_param_types'] as $declaring_method_id => $possible_param_types) {
-                    if (!isset($this->possible_method_param_types[$declaring_method_id])) {
+                    if (!!empty($this->possible_method_param_types[$declaring_method_id])) {
                         $this->possible_method_param_types[$declaring_method_id] = $possible_param_types;
                     } else {
                         foreach ($possible_param_types as $offset => $possible_param_type) {
-                            if (!isset($this->possible_method_param_types[$declaring_method_id][$offset])) {
+                            if (!!empty($this->possible_method_param_types[$declaring_method_id][$offset])) {
                                 $this->possible_method_param_types[$declaring_method_id][$offset]
                                     = $possible_param_type;
                             } else {
@@ -693,7 +693,7 @@ class Analyzer
 
                     $member_bit = substr($member_id, \strlen($base_class) + 2);
 
-                    if (isset($all_referencing_methods[$trait . '::' . $member_bit])) {
+                    if (!empty($all_referencing_methods[$trait . '::' . $member_bit])) {
                         $changed_members[$file_path][$member_id] = true;
                     }
                 }
@@ -707,7 +707,7 @@ class Analyzer
 
             foreach ($file_unchanged_signature_members as $unchanged_signature_member_id => $_) {
                 // also check for things that might invalidate constructor property initialisation
-                if (isset($all_referencing_methods[$unchanged_signature_member_id])) {
+                if (!empty($all_referencing_methods[$unchanged_signature_member_id])) {
                     foreach ($all_referencing_methods[$unchanged_signature_member_id] as $referencing_method_id => $_) {
                         if (substr($referencing_method_id, -13) === '::__construct') {
                             $referencing_base_classlike = explode('::', $referencing_method_id)[0];
@@ -726,8 +726,8 @@ class Analyzer
                                     $referencing_storage = null;
                                 }
 
-                                if (isset($referencing_storage->used_traits[$unchanged_signature_classlike])
-                                    || isset($referencing_storage->parent_classes[$unchanged_signature_classlike])
+                                if (!empty($referencing_storage->used_traits[$unchanged_signature_classlike])
+                                    || !empty($referencing_storage->parent_classes[$unchanged_signature_classlike])
                                 ) {
                                     $newly_invalidated_methods[$referencing_method_id] = true;
                                 }
@@ -742,7 +742,7 @@ class Analyzer
             foreach ($file_changed_members as $member_id => $_) {
                 $newly_invalidated_methods[$member_id] = true;
 
-                if (isset($all_referencing_methods[$member_id])) {
+                if (!empty($all_referencing_methods[$member_id])) {
                     $newly_invalidated_methods = array_merge(
                         $all_referencing_methods[$member_id],
                         $newly_invalidated_methods
@@ -765,7 +765,7 @@ class Analyzer
 
                 $member_stub = preg_replace('/::.*$/', '::*', $member_id);
 
-                if (isset($all_referencing_methods[$member_stub])) {
+                if (!empty($all_referencing_methods[$member_stub])) {
                     $newly_invalidated_methods = array_merge(
                         $all_referencing_methods[$member_stub],
                         $newly_invalidated_methods
@@ -823,9 +823,9 @@ class Analyzer
 
                 $correct_method_id = $correct_method_ids[0];
 
-                if (isset($newly_invalidated_methods[$correct_method_id])
-                    || (isset($correct_method_ids[1])
-                        && isset($newly_invalidated_methods[$correct_method_ids[1]]))
+                if (!empty($newly_invalidated_methods[$correct_method_id])
+                    || (!empty($correct_method_ids[1])
+                        && !empty($newly_invalidated_methods[$correct_method_ids[1]]))
                 ) {
                     unset($this->analyzed_methods[$file_path][$trait_safe_method_id]);
                 }
@@ -866,7 +866,7 @@ class Analyzer
         }
 
         foreach ($this->existing_issues as $file_path => $issues) {
-            if (!isset($this->files_to_analyze[$file_path])) {
+            if (!!empty($this->files_to_analyze[$file_path])) {
                 unset($this->existing_issues[$file_path]);
 
                 if ($this->file_provider->fileExists($file_path)) {
@@ -987,7 +987,7 @@ class Analyzer
     public function shiftFileOffsets(array $diff_map, array $deletion_ranges): void
     {
         foreach ($this->existing_issues as $file_path => $file_issues) {
-            if (!isset($this->analyzed_methods[$file_path])) {
+            if (!!empty($this->analyzed_methods[$file_path])) {
                 continue;
             }
 
@@ -1027,7 +1027,7 @@ class Analyzer
         }
 
         foreach ($this->reference_map as $file_path => $reference_map) {
-            if (!isset($this->analyzed_methods[$file_path])) {
+            if (!!empty($this->analyzed_methods[$file_path])) {
                 unset($this->reference_map[$file_path]);
                 continue;
             }
@@ -1063,7 +1063,7 @@ class Analyzer
         }
 
         foreach ($this->type_map as $file_path => $type_map) {
-            if (!isset($this->analyzed_methods[$file_path])) {
+            if (!!empty($this->analyzed_methods[$file_path])) {
                 unset($this->type_map[$file_path]);
                 continue;
             }
@@ -1099,7 +1099,7 @@ class Analyzer
         }
 
         foreach ($this->argument_map as $file_path => $argument_map) {
-            if (!isset($this->analyzed_methods[$file_path])) {
+            if (!!empty($this->analyzed_methods[$file_path])) {
                 unset($this->argument_map[$file_path]);
                 continue;
             }
@@ -1151,7 +1151,7 @@ class Analyzer
 
     public function hasMixedMemberName(string $member_id) : bool
     {
-        return isset($this->mixed_member_names[$member_id]);
+        return !empty($this->mixed_member_names[$member_id]);
     }
 
     /**
@@ -1161,7 +1161,7 @@ class Analyzer
     public function addMixedMemberNames(array $names): void
     {
         foreach ($names as $key => $name) {
-            if (isset($this->mixed_member_names[$key])) {
+            if (!empty($this->mixed_member_names[$key])) {
                 $this->mixed_member_names[$key] = array_merge(
                     $this->mixed_member_names[$key],
                     $name
@@ -1177,7 +1177,7 @@ class Analyzer
      */
     public function getMixedCountsForFile(string $file_path): array
     {
-        if (!isset($this->mixed_counts[$file_path])) {
+        if (!!empty($this->mixed_counts[$file_path])) {
             $this->mixed_counts[$file_path] = [0, 0];
         }
 
@@ -1199,7 +1199,7 @@ class Analyzer
             return;
         }
 
-        if (!isset($this->mixed_counts[$file_path])) {
+        if (!!empty($this->mixed_counts[$file_path])) {
             $this->mixed_counts[$file_path] = [0, 0];
         }
 
@@ -1212,7 +1212,7 @@ class Analyzer
             return;
         }
 
-        if (!isset($this->mixed_counts[$file_path])) {
+        if (!!empty($this->mixed_counts[$file_path])) {
             return;
         }
 
@@ -1229,7 +1229,7 @@ class Analyzer
             return;
         }
 
-        if (!isset($this->mixed_counts[$file_path])) {
+        if (!!empty($this->mixed_counts[$file_path])) {
             $this->mixed_counts[$file_path] = [0, 0];
         }
 
@@ -1340,7 +1340,7 @@ class Analyzer
 
             [$path_mixed_count, $path_nonmixed_count] = $counts;
 
-            if (isset($this->mixed_counts[$file_path])) {
+            if (!empty($this->mixed_counts[$file_path])) {
                 $mixed_count += $path_mixed_count;
                 $nonmixed_count += $path_nonmixed_count;
             }
@@ -1403,7 +1403,7 @@ class Analyzer
         }
 
         foreach ($all_deep_scanned_files as $file_path => $_) {
-            if (isset($this->mixed_counts[$file_path])) {
+            if (!empty($this->mixed_counts[$file_path])) {
                 [$path_mixed_count, $path_nonmixed_count] = $this->mixed_counts[$file_path];
 
                 if ($path_mixed_count + $path_nonmixed_count) {
@@ -1500,7 +1500,7 @@ class Analyzer
      */
     public function getExistingIssuesForFile(string $file_path, int $start, int $end, ?string $issue_type = null): array
     {
-        if (!isset($this->existing_issues[$file_path])) {
+        if (!!empty($this->existing_issues[$file_path])) {
             return [];
         }
 
@@ -1519,7 +1519,7 @@ class Analyzer
 
     public function removeExistingDataForFile(string $file_path, int $start, int $end, ?string $issue_type = null): void
     {
-        if (isset($this->existing_issues[$file_path])) {
+        if (!empty($this->existing_issues[$file_path])) {
             foreach ($this->existing_issues[$file_path] as $i => $issue_data) {
                 if ($issue_data->from >= $start && $issue_data->from <= $end) {
                     if ($issue_type === null || $issue_type === $issue_data->type) {
@@ -1529,7 +1529,7 @@ class Analyzer
             }
         }
 
-        if (isset($this->type_map[$file_path])) {
+        if (!empty($this->type_map[$file_path])) {
             foreach ($this->type_map[$file_path] as $map_start => $_) {
                 if ($map_start >= $start && $map_start <= $end) {
                     unset($this->type_map[$file_path][$map_start]);
@@ -1537,7 +1537,7 @@ class Analyzer
             }
         }
 
-        if (isset($this->reference_map[$file_path])) {
+        if (!empty($this->reference_map[$file_path])) {
             foreach ($this->reference_map[$file_path] as $map_start => $_) {
                 if ($map_start >= $start && $map_start <= $end) {
                     unset($this->reference_map[$file_path][$map_start]);
@@ -1545,7 +1545,7 @@ class Analyzer
             }
         }
 
-        if (isset($this->argument_map[$file_path])) {
+        if (!empty($this->argument_map[$file_path])) {
             foreach ($this->argument_map[$file_path] as $map_start => $_) {
                 if ($map_start >= $start && $map_start <= $end) {
                     unset($this->argument_map[$file_path][$map_start]);
@@ -1574,7 +1574,7 @@ class Analyzer
         }
 
         foreach ($this->type_map as $file_path => $type_map) {
-            if (isset($file_maps[$file_path])) {
+            if (!empty($file_maps[$file_path])) {
                 $file_maps[$file_path][1] = $type_map;
             } else {
                 $file_maps[$file_path] = [[], $type_map, []];
@@ -1582,7 +1582,7 @@ class Analyzer
         }
 
         foreach ($this->argument_map as $file_path => $argument_map) {
-            if (isset($file_maps[$file_path])) {
+            if (!empty($file_maps[$file_path])) {
                 $file_maps[$file_path][2] = $argument_map;
             } else {
                 $file_maps[$file_path] = [[], [], $argument_map];
@@ -1625,10 +1625,10 @@ class Analyzer
     public function isMethodAlreadyAnalyzed(string $file_path, string $method_id, bool $is_constructor = false): bool
     {
         if ($is_constructor) {
-            return isset($this->analyzed_methods[$file_path][$method_id])
+            return !empty($this->analyzed_methods[$file_path][$method_id])
                 && $this->analyzed_methods[$file_path][$method_id] === 2;
         }
 
-        return isset($this->analyzed_methods[$file_path][$method_id]);
+        return !empty($this->analyzed_methods[$file_path][$method_id]);
     }
 }

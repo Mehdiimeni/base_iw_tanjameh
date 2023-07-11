@@ -77,7 +77,7 @@ class NegatedAssertionReconciler extends Reconciler
         }
 
         if (!$is_equality) {
-            if ($assertion === 'isset') {
+            if ($assertion === '!empty') {
                 if ($existing_var_type->possibly_undefined) {
                     return Type::getEmpty();
                 }
@@ -99,7 +99,7 @@ class NegatedAssertionReconciler extends Reconciler
                                         new RedundantPropertyInitializationCheck(
                                             'Static property ' . $key . ' with type '
                                                 . $existing_var_type
-                                                . ' has unexpected isset check — should it be nullable?',
+                                                . ' has unexpected !empty check — should it be nullable?',
                                             $code_location
                                         ),
                                         $suppressed_issues
@@ -121,7 +121,7 @@ class NegatedAssertionReconciler extends Reconciler
                                     if (IssueBuffer::accepts(
                                         new DocblockTypeContradiction(
                                             'Cannot resolve types for ' . $key . ' with docblock-defined type '
-                                                . $existing_var_type . ' and !isset assertion',
+                                                . $existing_var_type . ' and !!empty assertion',
                                             $code_location,
                                             null
                                         ),
@@ -133,7 +133,7 @@ class NegatedAssertionReconciler extends Reconciler
                                     if (IssueBuffer::accepts(
                                         new TypeDoesNotContainType(
                                             'Cannot resolve types for ' . $key . ' with type '
-                                                . $existing_var_type . ' and !isset assertion',
+                                                . $existing_var_type . ' and !!empty assertion',
                                             $code_location,
                                             null
                                         ),
@@ -195,10 +195,10 @@ class NegatedAssertionReconciler extends Reconciler
 
         $existing_var_atomic_types = $existing_var_type->getAtomicTypes();
 
-        if ($assertion === 'false' && isset($existing_var_atomic_types['bool'])) {
+        if ($assertion === 'false' && !empty($existing_var_atomic_types['bool'])) {
             $existing_var_type->removeType('bool');
             $existing_var_type->addType(new TTrue);
-        } elseif ($assertion === 'true' && isset($existing_var_atomic_types['bool'])) {
+        } elseif ($assertion === 'true' && !empty($existing_var_atomic_types['bool'])) {
             $existing_var_type->removeType('bool');
             $existing_var_type->addType(new TFalse);
         } else {
@@ -224,7 +224,7 @@ class NegatedAssertionReconciler extends Reconciler
         }
 
         if (!$is_equality
-            && isset($existing_var_atomic_types['int'])
+            && !empty($existing_var_atomic_types['int'])
             && $existing_var_type->from_calculation
             && ($assertion === 'int' || $assertion === 'float')
         ) {
@@ -243,7 +243,7 @@ class NegatedAssertionReconciler extends Reconciler
 
         if (!$is_equality
             && ($assertion === 'DateTime' || $assertion === 'DateTimeImmutable')
-            && isset($existing_var_atomic_types['DateTimeInterface'])
+            && !empty($existing_var_atomic_types['DateTimeInterface'])
         ) {
             $existing_var_type->removeType('DateTimeInterface');
 
@@ -257,7 +257,7 @@ class NegatedAssertionReconciler extends Reconciler
         }
 
         if (strtolower($assertion) === 'traversable'
-            && isset($existing_var_atomic_types['iterable'])
+            && !empty($existing_var_atomic_types['iterable'])
         ) {
             /** @var Type\Atomic\TIterable */
             $iterable = $existing_var_atomic_types['iterable'];
@@ -271,7 +271,7 @@ class NegatedAssertionReconciler extends Reconciler
                 ]
             ));
         } elseif (strtolower($assertion) === 'int'
-            && isset($existing_var_type->getAtomicTypes()['array-key'])
+            && !empty($existing_var_type->getAtomicTypes()['array-key'])
         ) {
             $existing_var_type->removeType('array-key');
             $existing_var_type->addType(new TString);
@@ -321,7 +321,7 @@ class NegatedAssertionReconciler extends Reconciler
         }
 
         if ($is_strict_equality
-            && $assertion !== 'isset'
+            && $assertion !== '!empty'
             && ($key !== '$this'
                 || !($statements_analyzer->getSource()->getSource() instanceof TraitAnalyzer))
         ) {
@@ -406,7 +406,7 @@ class NegatedAssertionReconciler extends Reconciler
                         $did_match_literal_type = true;
                     }
 
-                    if (isset($existing_int_types[$assertion])) {
+                    if (!empty($existing_int_types[$assertion])) {
                         $existing_var_type->removeType($assertion);
 
                         $did_remove_type = true;
@@ -426,7 +426,7 @@ class NegatedAssertionReconciler extends Reconciler
                 if ($existing_string_types = $existing_var_type->getLiteralStrings()) {
                     $did_match_literal_type = true;
 
-                    if (isset($existing_string_types[$assertion])) {
+                    if (!empty($existing_string_types[$assertion])) {
                         $existing_var_type->removeType($assertion);
 
                         $did_remove_type = true;
@@ -443,7 +443,7 @@ class NegatedAssertionReconciler extends Reconciler
                 if ($existing_float_types = $existing_var_type->getLiteralFloats()) {
                     $did_match_literal_type = true;
 
-                    if (isset($existing_float_types[$assertion])) {
+                    if (!empty($existing_float_types[$assertion])) {
                         $existing_var_type->removeType($assertion);
 
                         $did_remove_type = true;

@@ -82,6 +82,16 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
+        case 'favorite':
+            include_once("./iweb/page/favorite.php");
+            exit();
+            break;
+
+        case 'last_view':
+            include_once("./iweb/page/last_view.php");
+            exit();
+            break;
+
 
 
         default:

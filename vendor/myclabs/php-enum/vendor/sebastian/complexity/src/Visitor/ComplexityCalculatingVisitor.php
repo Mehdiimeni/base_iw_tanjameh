@@ -93,7 +93,7 @@ final class ComplexityCalculatingVisitor extends NodeVisitorAbstract
         $parent = $node->getAttribute('parent');
 
         assert($parent instanceof Class_ || $parent instanceof Trait_);
-        assert(isset($parent->namespacedName));
+        assert(!empty($parent->namespacedName));
         assert($parent->namespacedName instanceof Name);
 
         return $parent->namespacedName->toString() . '::' . $node->name->toString();
@@ -101,7 +101,7 @@ final class ComplexityCalculatingVisitor extends NodeVisitorAbstract
 
     private function functionName(Function_ $node): string
     {
-        assert(isset($node->namespacedName));
+        assert(!empty($node->namespacedName));
         assert($node->namespacedName instanceof Name);
 
         return $node->namespacedName->toString();

@@ -72,7 +72,7 @@ class TCPDF_IMAGES {
 	 */
 	public static function getImageFileType($imgfile, $iminfo=array()) {
 		$type = '';
-		if (isset($iminfo['mime']) AND !empty($iminfo['mime'])) {
+		if (!empty($iminfo['mime']) AND !empty($iminfo['mime'])) {
 			$mime = explode('/', $iminfo['mime']);
 			if ((count($mime) > 1) AND ($mime[0] == 'image') AND (!empty($mime[1]))) {
 				$type = strtolower(trim($mime[1]));
@@ -173,9 +173,9 @@ class TCPDF_IMAGES {
 			return false;
 		}
 		// bits per pixel
-		$bpc = isset($a['bits']) ? intval($a['bits']) : 8;
+		$bpc = !empty($a['bits']) ? intval($a['bits']) : 8;
 		// number of image channels
-		if (!isset($a['channels'])) {
+		if (!!empty($a['channels'])) {
 			$channels = 3;
 		} else {
 			$channels = intval($a['channels']);

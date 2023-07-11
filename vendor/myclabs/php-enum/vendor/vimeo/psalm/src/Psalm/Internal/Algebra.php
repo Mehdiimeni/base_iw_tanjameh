@@ -181,7 +181,7 @@ class Algebra
                     continue;
                 }
 
-                if (isset($clause_b->possibilities[$clause_var]) &&
+                if (!empty($clause_b->possibilities[$clause_var]) &&
                     in_array($negated_clause_type, $clause_b->possibilities[$clause_var], true)
                 ) {
                     $clause_var_possibilities = array_values(
@@ -277,14 +277,14 @@ class Algebra
                 if (count($possible_types) === 1) {
                     $possible_type = array_pop($possible_types);
 
-                    if (isset($truths[$var]) && !isset($clause->redefined_vars[$var])) {
+                    if (!empty($truths[$var]) && !!empty($clause->redefined_vars[$var])) {
                         $truths[$var][] = [$possible_type];
                     } else {
                         $truths[$var] = [[$possible_type]];
                     }
 
                     if ($creating_conditional_id && $creating_conditional_id === $clause->creating_conditional_id) {
-                        if (!isset($active_truths[$var])) {
+                        if (!!empty($active_truths[$var])) {
                             $active_truths[$var] = [];
                         }
 
@@ -373,7 +373,7 @@ class Algebra
                     foreach ($impossible_types as $impossible_type) {
                         $new_clause_possibilities = $grouped_clause->possibilities;
 
-                        if (isset($grouped_clause->possibilities[$var])) {
+                        if (!empty($grouped_clause->possibilities[$var])) {
                             $new_clause_possibilities[$var] = array_values(
                                 array_unique(
                                     array_merge([$impossible_type], $new_clause_possibilities[$var])
@@ -497,11 +497,11 @@ class Algebra
                 }
 
                 foreach ($left_clause->possibilities as $var => $possible_types) {
-                    if (isset($right_clause->redefined_vars[$var])) {
+                    if (!empty($right_clause->redefined_vars[$var])) {
                         continue;
                     }
 
-                    if (isset($possibilities[$var])) {
+                    if (!empty($possibilities[$var])) {
                         $possibilities[$var] = array_merge($possibilities[$var], $possible_types);
                     } else {
                         $possibilities[$var] = $possible_types;
@@ -509,7 +509,7 @@ class Algebra
                 }
 
                 foreach ($right_clause->possibilities as $var => $possible_types) {
-                    if (isset($possibilities[$var])) {
+                    if (!empty($possibilities[$var])) {
                         $possibilities[$var] = array_merge($possibilities[$var], $possible_types);
                     } else {
                         $possibilities[$var] = $possible_types;

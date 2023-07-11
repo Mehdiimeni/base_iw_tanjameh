@@ -238,12 +238,12 @@ class AssignmentAnalyzer
             if ($codebase->find_unused_variables
                 && $temp_assign_value_type
                 && $array_var_id
-                && (!$not_ignored_docblock_var_ids || isset($not_ignored_docblock_var_ids[$array_var_id]))
+                && (!$not_ignored_docblock_var_ids || !empty($not_ignored_docblock_var_ids[$array_var_id]))
                 && $temp_assign_value_type->getId() === $comment_type->getId()
                 && !$comment_type->isMixed()
             ) {
                 if ($codebase->alter_code
-                    && isset($statements_analyzer->getProjectAnalyzer()->getIssuesToFix()['UnnecessaryVarAnnotation'])
+                    && !empty($statements_analyzer->getProjectAnalyzer()->getIssuesToFix()['UnnecessaryVarAnnotation'])
                 ) {
                     FileManipulationBuffer::addVarAnnotationToRemove($comment_type_location);
                 } elseif (IssueBuffer::accepts(
@@ -272,7 +272,7 @@ class AssignmentAnalyzer
                 $assign_value_type = clone $assign_value_type;
                 $assign_value_type->from_property = false;
                 $assign_value_type->from_static_property = false;
-                $assign_value_type->ignore_isset = false;
+                $assign_value_type->ignore_!empty = false;
             } else {
                 $assign_value_type = Type::getMixed();
             }
@@ -295,7 +295,7 @@ class AssignmentAnalyzer
             ];
         }
 
-        if ($array_var_id && isset($context->vars_in_scope[$array_var_id])) {
+        if ($array_var_id && !empty($context->vars_in_scope[$array_var_id])) {
             if ($context->vars_in_scope[$array_var_id]->by_ref) {
                 if ($context->mutation_free) {
                     if (IssueBuffer::accepts(
@@ -330,7 +330,7 @@ class AssignmentAnalyzer
                 $statements_analyzer
             );
 
-            if ($root_var_id && isset($context->vars_in_scope[$root_var_id])) {
+            if ($root_var_id && !empty($context->vars_in_scope[$root_var_id])) {
                 $context->removeVarFromConflictingClauses(
                     $root_var_id,
                     $context->vars_in_scope[$root_var_id],
@@ -409,7 +409,7 @@ class AssignmentAnalyzer
             }
 
             if ($var_id
-                && isset($context->byref_constraints[$var_id])
+                && !empty($context->byref_constraints[$var_id])
                 && ($outer_constraint_type = $context->byref_constraints[$var_id]->type)
             ) {
                 if (!UnionTypeComparator::isContainedBy(
@@ -446,7 +446,7 @@ class AssignmentAnalyzer
             return false;
         }
 
-        if (isset($context->protected_var_ids[$var_id])
+        if (!empty($context->protected_var_ids[$var_id])
             && $assign_value_type->hasLiteralInt()
         ) {
             if (IssueBuffer::accepts(
@@ -525,7 +525,7 @@ class AssignmentAnalyzer
             }
         }
 
-        if ($var_id && isset($context->vars_in_scope[$var_id])) {
+        if ($var_id && !empty($context->vars_in_scope[$var_id])) {
             if ($context->vars_in_scope[$var_id]->isVoid()) {
                 if (IssueBuffer::accepts(
                     new AssignmentToVoid(
@@ -679,13 +679,13 @@ class AssignmentAnalyzer
 
             if ($codebase->find_unused_variables
                 && $type_location
-                && (!$not_ignored_docblock_var_ids || isset($not_ignored_docblock_var_ids[$var_comment->var_id]))
-                && isset($context->vars_in_scope[$var_comment->var_id])
+                && (!$not_ignored_docblock_var_ids || !empty($not_ignored_docblock_var_ids[$var_comment->var_id]))
+                && !empty($context->vars_in_scope[$var_comment->var_id])
                 && $context->vars_in_scope[$var_comment->var_id]->getId() === $var_comment_type->getId()
                 && !$var_comment_type->isMixed()
             ) {
                 if ($codebase->alter_code
-                    && isset($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
+                    && !empty($project_analyzer->getIssuesToFix()['UnnecessaryVarAnnotation'])
                 ) {
                     FileManipulationBuffer::addVarAnnotationToRemove($type_location);
                 } elseif (IssueBuffer::accepts(
@@ -889,7 +889,7 @@ class AssignmentAnalyzer
         }
 
         if ($rhs_var_id) {
-            if (!isset($context->vars_in_scope[$rhs_var_id])) {
+            if (!!empty($context->vars_in_scope[$rhs_var_id])) {
                 $context->vars_in_scope[$rhs_var_id] = Type::getMixed();
             }
 
@@ -899,7 +899,7 @@ class AssignmentAnalyzer
         if ($statements_analyzer->data_flow_graph
             && $lhs_var_id
             && $rhs_var_id
-            && isset($context->vars_in_scope[$rhs_var_id])
+            && !empty($context->vars_in_scope[$rhs_var_id])
         ) {
             $rhs_type = $context->vars_in_scope[$rhs_var_id];
 
@@ -1130,7 +1130,7 @@ class AssignmentAnalyzer
                 ) {
                     // if object-like has int offsets
                     if ($offset_value !== null
-                        && isset($assign_value_atomic_type->properties[$offset_value])
+                        && !empty($assign_value_atomic_type->properties[$offset_value])
                     ) {
                         $value_type = $assign_value_atomic_type->properties[$offset_value];
 
@@ -1296,7 +1296,7 @@ class AssignmentAnalyzer
                     $context->assigned_var_ids[$list_var_id] = (int)$var->getAttribute('startFilePos');
                     $context->possibly_assigned_var_ids[$list_var_id] = true;
 
-                    $already_in_scope = isset($context->vars_in_scope[$list_var_id]);
+                    $already_in_scope = !empty($context->vars_in_scope[$list_var_id]);
 
                     if (strpos($list_var_id, '-') === false && strpos($list_var_id, '[') === false) {
                         $location = new CodeLocation($statements_analyzer, $var);
@@ -1314,7 +1314,7 @@ class AssignmentAnalyzer
                             );
                         }
 
-                        if (isset($context->byref_constraints[$list_var_id])) {
+                        if (!empty($context->byref_constraints[$list_var_id])) {
                             // something
                         }
                     }
@@ -1353,7 +1353,7 @@ class AssignmentAnalyzer
                         if ($assign_var_item->key
                             && ($assign_var_item->key instanceof PhpParser\Node\Scalar\String_
                                 || $assign_var_item->key instanceof PhpParser\Node\Scalar\LNumber)
-                            && isset($assign_value_atomic_type->properties[$assign_var_item->key->value])
+                            && !empty($assign_value_atomic_type->properties[$assign_var_item->key->value])
                         ) {
                             $new_assign_type =
                                 clone $assign_value_atomic_type->properties[$assign_var_item->key->value];
@@ -1618,7 +1618,7 @@ class AssignmentAnalyzer
                         $location,
                         $context->branch_point
                     );
-                } elseif (!$context->inside_isset) {
+                } elseif (!$context->inside_!empty) {
                     $statements_analyzer->registerVariableAssignment(
                         $var_id,
                         $location
@@ -1639,7 +1639,7 @@ class AssignmentAnalyzer
                     );
                 }
 
-                if (isset($context->byref_constraints[$var_id])) {
+                if (!empty($context->byref_constraints[$var_id])) {
                     $assign_value_type->by_ref = true;
                 }
 

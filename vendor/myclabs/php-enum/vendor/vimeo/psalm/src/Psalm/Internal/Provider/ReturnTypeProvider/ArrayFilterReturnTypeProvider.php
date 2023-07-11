@@ -38,7 +38,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             return Type::getMixed();
         }
 
-        $array_arg = isset($call_args[0]->value) ? $call_args[0]->value : null;
+        $array_arg = !empty($call_args[0]->value) ? $call_args[0]->value : null;
 
         $first_arg_array = $array_arg
             && ($first_arg_type = $statements_source->node_data->getType($array_arg))
@@ -64,7 +64,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             $inner_type = $first_arg_array->getGenericValueType();
             $key_type = $first_arg_array->getGenericKeyType();
 
-            if (!isset($call_args[1]) && !$first_arg_array->previous_value_type) {
+            if (!!empty($call_args[1]) && !$first_arg_array->previous_value_type) {
                 $had_one = count($first_arg_array->properties) === 1;
 
                 $first_arg_array = clone $first_arg_array;
@@ -112,7 +112,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             }
         }
 
-        if (!isset($call_args[1])) {
+        if (!!empty($call_args[1])) {
             $inner_type = \Psalm\Internal\Type\AssertionReconciler::reconcile(
                 '!falsy',
                 clone $inner_type,
@@ -156,7 +156,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
             ]);
         }
 
-        if (!isset($call_args[2])) {
+        if (!!empty($call_args[2])) {
             $function_call_arg = $call_args[1];
 
             if ($function_call_arg->value instanceof PhpParser\Node\Scalar\String_
@@ -186,7 +186,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                         $statements_source
                     );
 
-                    if (isset($assertions[$array_var_id . '[$__fake_offset_var__]'])) {
+                    if (!empty($assertions[$array_var_id . '[$__fake_offset_var__]'])) {
                         $changed_var_ids = [];
 
                         $assertions = ['$inner_type' => $assertions[$array_var_id . '[$__fake_offset_var__]']];
@@ -203,7 +203,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                             new CodeLocation($statements_source, $function_call_arg->value)
                         );
 
-                        if (isset($reconciled_types['$inner_type'])) {
+                        if (!empty($reconciled_types['$inner_type'])) {
                             $inner_type = $reconciled_types['$inner_type'];
                         }
                     }
@@ -259,7 +259,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                             $cond_object_id
                         );
 
-                        if (isset($assertions['$' . $first_param->var->name])) {
+                        if (!empty($assertions['$' . $first_param->var->name])) {
                             $changed_var_ids = [];
 
                             $assertions = ['$inner_type' => $assertions['$' . $first_param->var->name]];
@@ -276,7 +276,7 @@ class ArrayFilterReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                                 new CodeLocation($statements_source, $stmt)
                             );
 
-                            if (isset($reconciled_types['$inner_type'])) {
+                            if (!empty($reconciled_types['$inner_type'])) {
                                 $inner_type = $reconciled_types['$inner_type'];
                             }
                         }

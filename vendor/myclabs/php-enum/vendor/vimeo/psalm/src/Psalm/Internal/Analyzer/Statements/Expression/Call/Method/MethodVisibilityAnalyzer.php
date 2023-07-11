@@ -107,7 +107,7 @@ class MethodVisibilityAnalyzer
         $visibility = $storage->visibility;
 
         if ($appearing_method_name
-            && isset($appearing_class_storage->trait_visibility_map[$appearing_method_name])
+            && !empty($appearing_class_storage->trait_visibility_map[$appearing_method_name])
         ) {
             $visibility = $appearing_class_storage->trait_visibility_map[$appearing_method_name];
         }

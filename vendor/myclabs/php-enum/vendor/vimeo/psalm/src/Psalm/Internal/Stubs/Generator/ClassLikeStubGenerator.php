@@ -42,7 +42,7 @@ class ClassLikeStubGenerator
         foreach ($storage->template_types ?: [] as $template_name => $map) {
             $type = array_values($map)[0];
 
-            $key = isset($storage->template_covariants[$template_offset]) ? 'template-covariant' : 'template';
+            $key = !empty($storage->template_covariants[$template_offset]) ? 'template-covariant' : 'template';
 
             $docblock->tags[$key][] = $template_name . ' as ' . $type->toNamespacedString(
                 null,

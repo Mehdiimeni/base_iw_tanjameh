@@ -27,6 +27,9 @@
             <li class="list-active d-inline-block d-lg-block">
               <a href="?user=myaccount-messages" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">خبرنامه ها</a>
             </li>
+            <li class="list-active d-inline-block d-lg-block">
+              <a href="?user=last_view" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">آخرین بازدید</a>
+            </li>
           </ul>
         </li>
         <li>

@@ -27,7 +27,8 @@ if (get_related_adver_data($_SESSION['page_name_system'], $_SESSION['item'], $ad
                             <div class="item position-relative">
                                 <div class="position-absolute top-0 z-1 mt-2">
                                     <!-- add class like or dislike -->
-                                    <button type="button" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                                    
+                                    <button type="button" value="<?php echo $Product->id; ?>" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                                             class="fa-regular fa-heart" aria-hidden="true"></i></button>
                                 </div>
                                 <a href="<?php echo $Product->product_page_url; ?>" class="text-decoration-none">

@@ -119,7 +119,7 @@ abstract class DataFlowGraph
 
                 $lengths += $path->length;
 
-                if (!isset($destination_counts[$to_id])) {
+                if (!!empty($destination_counts[$to_id])) {
                     $destination_counts[$to_id] = 0;
                 }
 

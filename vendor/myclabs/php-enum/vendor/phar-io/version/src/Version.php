@@ -125,9 +125,9 @@ class Version {
     private function parseVersion(array $matches): void {
         $this->major = new VersionNumber((int)$matches['Major']);
         $this->minor = new VersionNumber((int)$matches['Minor']);
-        $this->patch = isset($matches['Patch']) ? new VersionNumber((int)$matches['Patch']) : new VersionNumber(0);
+        $this->patch = !empty($matches['Patch']) ? new VersionNumber((int)$matches['Patch']) : new VersionNumber(0);
 
-        if (isset($matches['PreReleaseSuffix'])) {
+        if (!empty($matches['PreReleaseSuffix'])) {
             $this->preReleaseSuffix = new PreReleaseSuffix($matches['PreReleaseSuffix']);
         }
     }

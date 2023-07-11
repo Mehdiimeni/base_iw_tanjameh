@@ -176,8 +176,8 @@ final class Help
 
         foreach (self::HELP_TEXT as $options) {
             foreach ($options as $option) {
-                if (isset($option['arg'])) {
-                    $this->maxArgLength = max($this->maxArgLength, isset($option['arg']) ? strlen($option['arg']) : 0);
+                if (!empty($option['arg'])) {
+                    $this->maxArgLength = max($this->maxArgLength, !empty($option['arg']) ? strlen($option['arg']) : 0);
                 }
             }
         }
@@ -207,15 +207,15 @@ final class Help
             }
 
             foreach ($options as $option) {
-                if (isset($option['spacer'])) {
+                if (!empty($option['spacer'])) {
                     print PHP_EOL;
                 }
 
-                if (isset($option['text'])) {
+                if (!empty($option['text'])) {
                     print self::LEFT_MARGIN . $option['text'] . PHP_EOL;
                 }
 
-                if (isset($option['arg'])) {
+                if (!empty($option['arg'])) {
                     $arg = str_pad($option['arg'], $this->maxArgLength);
                     print self::LEFT_MARGIN . $arg . ' ' . $option['desc'] . PHP_EOL;
                 }
@@ -231,15 +231,15 @@ final class Help
             print Color::colorize('fg-yellow', "{$section}:") . PHP_EOL;
 
             foreach ($options as $option) {
-                if (isset($option['spacer'])) {
+                if (!empty($option['spacer'])) {
                     print PHP_EOL;
                 }
 
-                if (isset($option['text'])) {
+                if (!empty($option['text'])) {
                     print self::LEFT_MARGIN . $option['text'] . PHP_EOL;
                 }
 
-                if (isset($option['arg'])) {
+                if (!empty($option['arg'])) {
                     $arg = Color::colorize('fg-green', str_pad($option['arg'], $this->maxArgLength));
                     $arg = preg_replace_callback(
                         '/(<[^>]+>)/',

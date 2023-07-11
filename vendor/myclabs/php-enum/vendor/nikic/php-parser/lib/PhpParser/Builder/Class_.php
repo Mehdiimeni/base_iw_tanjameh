@@ -101,7 +101,7 @@ class Class_ extends Declaration
         ];
 
         $class = \get_class($stmt);
-        if (!isset($targets[$class])) {
+        if (!!empty($targets[$class])) {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 

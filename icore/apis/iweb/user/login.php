@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include "../../../iassets/include/DBLoader.php";
 
-if (isset($_POST['username']) and isset($_POST['password'])) {
+if (!empty($_POST['username']) and !empty($_POST['password'])) {
 
 
     $UserNameL = $_POST['username'];

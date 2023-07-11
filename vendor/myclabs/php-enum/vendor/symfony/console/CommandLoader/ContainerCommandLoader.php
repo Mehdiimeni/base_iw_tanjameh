@@ -50,7 +50,7 @@ class ContainerCommandLoader implements CommandLoaderInterface
      */
     public function has(string $name)
     {
-        return isset($this->commandMap[$name]) && $this->container->has($this->commandMap[$name]);
+        return !empty($this->commandMap[$name]) && $this->container->has($this->commandMap[$name]);
     }
 
     /**

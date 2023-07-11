@@ -116,7 +116,7 @@ class Clause
         }
 
         foreach ($other_clause->possibilities as $var => $possible_types) {
-            if (!isset($this->possibilities[$var]) || count(array_diff($possible_types, $this->possibilities[$var]))) {
+            if (!!empty($this->possibilities[$var]) || count(array_diff($possible_types, $this->possibilities[$var]))) {
                 return false;
             }
         }
@@ -264,7 +264,7 @@ class Clause
 
             foreach ($possibility as $type) {
                 if (($type[0] !== '=' && $type[0] !== '~'
-                        && (!isset($type[1]) || ($type[1] !== '=' && $type[1] !== '~')))
+                        && (!!empty($type[1]) || ($type[1] !== '=' && $type[1] !== '~')))
                     || strpos($type, '(')
                     || strpos($type, 'getclass-')
                 ) {

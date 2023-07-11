@@ -98,10 +98,10 @@ abstract class Type
             $class_parts = explode('\\', $class);
             $first_namespace = array_shift($class_parts);
 
-            if (isset($imported_namespaces[strtolower($first_namespace)])) {
+            if (!empty($imported_namespaces[strtolower($first_namespace)])) {
                 return $imported_namespaces[strtolower($first_namespace)] . '\\' . implode('\\', $class_parts);
             }
-        } elseif (isset($imported_namespaces[strtolower($class)])) {
+        } elseif (!empty($imported_namespaces[strtolower($class)])) {
             return $imported_namespaces[strtolower($class)];
         }
 
@@ -130,7 +130,7 @@ abstract class Type
             return 'self';
         }
 
-        if (isset($aliased_classes[strtolower($value)])) {
+        if (!empty($aliased_classes[strtolower($value)])) {
             return $aliased_classes[strtolower($value)];
         }
 
@@ -143,7 +143,7 @@ abstract class Type
 
             $candidate_parts = explode('\\', $candidate);
 
-            if (!isset($aliased_classes[strtolower($candidate_parts[0])])) {
+            if (!!empty($aliased_classes[strtolower($candidate_parts[0])])) {
                 return $candidate;
             }
         } elseif (!$namespace && strpos($value, '\\') === false) {
@@ -158,7 +158,7 @@ abstract class Type
             while ($parts) {
                 $left = implode('\\', $parts);
 
-                if (isset($aliased_classes[strtolower($left)])) {
+                if (!empty($aliased_classes[strtolower($left)])) {
                     return $aliased_classes[strtolower($left)] . '\\' . $suffix;
                 }
 
@@ -285,9 +285,9 @@ abstract class Type
         return new Union([$type]);
     }
 
-    public static function getMixed(bool $from_loop_isset = false): Union
+    public static function getMixed(bool $from_loop_!empty = false): Union
     {
-        $type = new TMixed($from_loop_isset);
+        $type = new TMixed($from_loop_!empty);
 
         return new Union([$type]);
     }

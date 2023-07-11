@@ -123,11 +123,11 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
 
         if (\is_array($this->symbolsMap)) {
             $map = null;
-            if (isset($this->symbolsMap[$locale])) {
+            if (!empty($this->symbolsMap[$locale])) {
                 $map = $this->symbolsMap[$locale];
             } else {
                 $parent = self::getParentLocale($locale);
-                if ($parent && isset($this->symbolsMap[$parent])) {
+                if ($parent && !empty($this->symbolsMap[$parent])) {
                     $map = $this->symbolsMap[$parent];
                 }
             }

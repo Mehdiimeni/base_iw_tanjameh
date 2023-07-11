@@ -47,7 +47,7 @@ class Generic_Sniffs_NamingConventions_CamelCapsFunctionNameSniff extends PHP_Co
                                'callstatic',
                                'get',
                                'set',
-                               'isset',
+                               '!empty',
                                'unset',
                                'sleep',
                                'wakeup',

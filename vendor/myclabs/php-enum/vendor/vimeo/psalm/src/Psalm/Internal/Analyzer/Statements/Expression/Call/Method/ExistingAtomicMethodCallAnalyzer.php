@@ -163,7 +163,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
 
                 $trait_storage = $codebase->classlike_storage_provider->get($fq_trait_name_lc);
 
-                if (isset($trait_storage->methods[$method_name_lc])) {
+                if (!empty($trait_storage->methods[$method_name_lc])) {
                     $trait_method_id = new MethodIdentifier($trait_storage->name, $method_name_lc);
 
                     $class_template_params = ClassTemplateParamCollector::collect(
@@ -454,7 +454,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                 // If `@psalm-seal-properties` is set, the property must be defined with
                 // a `@property` annotation
                 if ($class_storage->sealed_properties
-                    && !isset($class_storage->pseudo_property_set_types['$' . $prop_name])
+                    && !!empty($class_storage->pseudo_property_set_types['$' . $prop_name])
                     && IssueBuffer::accepts(
                         new UndefinedThisPropertyAssignment(
                             'Instance property ' . $property_id . ' is not defined',
@@ -469,11 +469,11 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
 
                 // If a `@property` annotation is set, the type of the value passed to the
                 // magic setter must match the annotation.
-                $second_arg_type = isset($stmt->args[1])
+                $second_arg_type = !empty($stmt->args[1])
                     ? $statements_analyzer->node_data->getType($stmt->args[1]->value)
                     : null;
 
-                if (isset($class_storage->pseudo_property_set_types['$' . $prop_name]) && $second_arg_type) {
+                if (!empty($class_storage->pseudo_property_set_types['$' . $prop_name]) && $second_arg_type) {
                     $pseudo_set_type = \Psalm\Internal\Type\TypeExpander::expandUnion(
                         $codebase,
                         $class_storage->pseudo_property_set_types['$' . $prop_name],
@@ -561,7 +561,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                 // If `@psalm-seal-properties` is set, the property must be defined with
                 // a `@property` annotation
                 if ($class_storage->sealed_properties
-                    && !isset($class_storage->pseudo_property_get_types['$' . $prop_name])
+                    && !!empty($class_storage->pseudo_property_get_types['$' . $prop_name])
                     && IssueBuffer::accepts(
                         new UndefinedThisPropertyFetch(
                             'Instance property ' . $property_id . ' is not defined',
@@ -574,7 +574,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                     // fall through
                 }
 
-                if (isset($class_storage->pseudo_property_get_types['$' . $prop_name])) {
+                if (!empty($class_storage->pseudo_property_get_types['$' . $prop_name])) {
                     return clone $class_storage->pseudo_property_get_types['$' . $prop_name];
                 }
 

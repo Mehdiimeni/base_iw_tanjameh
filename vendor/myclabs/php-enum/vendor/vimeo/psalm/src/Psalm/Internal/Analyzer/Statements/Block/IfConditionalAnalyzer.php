@@ -74,7 +74,7 @@ class IfConditionalAnalyzer
                             function (Clause $c) use ($changed_var_ids): bool {
                                 return count($c->possibilities) > 1
                                     || $c->wedge
-                                    || !isset($changed_var_ids[array_keys($c->possibilities)[0]]);
+                                    || !!empty($changed_var_ids[array_keys($c->possibilities)[0]]);
                             }
                         )
                     );

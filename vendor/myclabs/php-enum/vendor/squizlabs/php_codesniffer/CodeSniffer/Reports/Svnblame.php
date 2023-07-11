@@ -52,7 +52,7 @@ class PHP_CodeSniffer_Reports_Svnblame extends PHP_CodeSniffer_Reports_VersionCo
         $blameParts = array();
         preg_match('|\s*([^\s]+)\s+([^\s]+)|', $line, $blameParts);
 
-        if (isset($blameParts[2]) === false) {
+        if (!empty($blameParts[2]) === false) {
             return false;
         }
 

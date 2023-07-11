@@ -55,7 +55,7 @@ class ClassLikeDocblockParser
         $info = new ClassLikeDocblockComment();
 
         $templates = [];
-        if (isset($parsed_docblock->combined_tags['template'])) {
+        if (!empty($parsed_docblock->combined_tags['template'])) {
             foreach ($parsed_docblock->combined_tags['template'] as $offset => $template_line) {
                 $template_type = preg_split('/[\s]+/', preg_replace('@^[ \t]*\*@m', '', $template_line));
 
@@ -66,9 +66,9 @@ class ClassLikeDocblockParser
                 }
 
                 $source_prefix = 'none';
-                if (isset($parsed_docblock->tags['psalm-template'][$offset])) {
+                if (!empty($parsed_docblock->tags['psalm-template'][$offset])) {
                     $source_prefix = 'psalm';
-                } elseif (isset($parsed_docblock->tags['phpstan-template'][$offset])) {
+                } elseif (!empty($parsed_docblock->tags['phpstan-template'][$offset])) {
                     $source_prefix = 'phpstan';
                 }
 
@@ -95,7 +95,7 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->combined_tags['template-covariant'])) {
+        if (!empty($parsed_docblock->combined_tags['template-covariant'])) {
             foreach ($parsed_docblock->combined_tags['template-covariant'] as $offset => $template_line) {
                 $template_type = preg_split('/[\s]+/', preg_replace('@^[ \t]*\*@m', '', $template_line));
 
@@ -106,9 +106,9 @@ class ClassLikeDocblockParser
                 }
 
                 $source_prefix = 'none';
-                if (isset($parsed_docblock->tags['psalm-template-covariant'][$offset])) {
+                if (!empty($parsed_docblock->tags['psalm-template-covariant'][$offset])) {
                     $source_prefix = 'psalm';
-                } elseif (isset($parsed_docblock->tags['phpstan-template-covariant'][$offset])) {
+                } elseif (!empty($parsed_docblock->tags['phpstan-template-covariant'][$offset])) {
                     $source_prefix = 'phpstan';
                 }
 
@@ -137,14 +137,14 @@ class ClassLikeDocblockParser
 
         foreach ($templates as $template_entries) {
             foreach (['psalm', 'phpstan', 'none'] as $source_prefix) {
-                if (isset($template_entries[$source_prefix])) {
+                if (!empty($template_entries[$source_prefix])) {
                     $info->templates[] = $template_entries[$source_prefix];
                     break;
                 }
             }
         }
 
-        if (isset($parsed_docblock->combined_tags['extends'])) {
+        if (!empty($parsed_docblock->combined_tags['extends'])) {
             foreach ($parsed_docblock->combined_tags['extends'] as $template_line) {
                 $doc_line_parts = CommentAnalyzer::splitDocLine($template_line);
                 $doc_line_parts[0] = CommentAnalyzer::sanitizeDocblockType($doc_line_parts[0]);
@@ -152,7 +152,7 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->tags['psalm-require-extends'])
+        if (!empty($parsed_docblock->tags['psalm-require-extends'])
             && count($extension_requirements = $parsed_docblock->tags['psalm-require-extends']) > 0) {
             $info->extension_requirement = trim(preg_replace(
                 '@^[ \t]*\*@m',
@@ -161,7 +161,7 @@ class ClassLikeDocblockParser
             ));
         }
 
-        if (isset($parsed_docblock->tags['psalm-require-implements'])) {
+        if (!empty($parsed_docblock->tags['psalm-require-implements'])) {
             foreach ($parsed_docblock->tags['psalm-require-implements'] as $implementation_requirement) {
                 $info->implementation_requirements[] = trim(preg_replace(
                     '@^[ \t]*\*@m',
@@ -171,7 +171,7 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->combined_tags['implements'])) {
+        if (!empty($parsed_docblock->combined_tags['implements'])) {
             foreach ($parsed_docblock->combined_tags['implements'] as $template_line) {
                 $doc_line_parts = CommentAnalyzer::splitDocLine($template_line);
                 $doc_line_parts[0] = CommentAnalyzer::sanitizeDocblockType($doc_line_parts[0]);
@@ -179,34 +179,34 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->tags['psalm-yield'])
+        if (!empty($parsed_docblock->tags['psalm-yield'])
         ) {
             $yield = reset($parsed_docblock->tags['psalm-yield']);
 
             $info->yield = trim(preg_replace('@^[ \t]*\*@m', '', $yield));
         }
 
-        if (isset($parsed_docblock->tags['deprecated'])) {
+        if (!empty($parsed_docblock->tags['deprecated'])) {
             $info->deprecated = true;
         }
 
-        if (isset($parsed_docblock->tags['internal'])) {
+        if (!empty($parsed_docblock->tags['internal'])) {
             $info->internal = true;
         }
 
-        if (isset($parsed_docblock->tags['final'])) {
+        if (!empty($parsed_docblock->tags['final'])) {
             $info->final = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-consistent-constructor'])) {
+        if (!empty($parsed_docblock->tags['psalm-consistent-constructor'])) {
             $info->consistent_constructor = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-consistent-templates'])) {
+        if (!empty($parsed_docblock->tags['psalm-consistent-templates'])) {
             $info->consistent_templates = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-internal'])) {
+        if (!empty($parsed_docblock->tags['psalm-internal'])) {
             $psalm_internal = reset($parsed_docblock->tags['psalm-internal']);
             if ($psalm_internal) {
                 $info->psalm_internal = $psalm_internal;
@@ -217,7 +217,7 @@ class ClassLikeDocblockParser
             $info->internal = true;
         }
 
-        if (isset($parsed_docblock->tags['mixin'])) {
+        if (!empty($parsed_docblock->tags['mixin'])) {
             foreach ($parsed_docblock->tags['mixin'] as $rawMixin) {
                 $mixin = trim($rawMixin);
                 $doc_line_parts = CommentAnalyzer::splitDocLine($mixin);
@@ -231,39 +231,39 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->tags['psalm-seal-properties'])) {
+        if (!empty($parsed_docblock->tags['psalm-seal-properties'])) {
             $info->sealed_properties = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-seal-methods'])) {
+        if (!empty($parsed_docblock->tags['psalm-seal-methods'])) {
             $info->sealed_methods = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-immutable'])
-            || isset($parsed_docblock->tags['psalm-mutation-free'])
+        if (!empty($parsed_docblock->tags['psalm-immutable'])
+            || !empty($parsed_docblock->tags['psalm-mutation-free'])
         ) {
             $info->mutation_free = true;
             $info->external_mutation_free = true;
             $info->taint_specialize = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-external-mutation-free'])) {
+        if (!empty($parsed_docblock->tags['psalm-external-mutation-free'])) {
             $info->external_mutation_free = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-taint-specialize'])) {
+        if (!empty($parsed_docblock->tags['psalm-taint-specialize'])) {
             $info->taint_specialize = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-override-property-visibility'])) {
+        if (!empty($parsed_docblock->tags['psalm-override-property-visibility'])) {
             $info->override_property_visibility = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-override-method-visibility'])) {
+        if (!empty($parsed_docblock->tags['psalm-override-method-visibility'])) {
             $info->override_method_visibility = true;
         }
 
-        if (isset($parsed_docblock->tags['psalm-suppress'])) {
+        if (!empty($parsed_docblock->tags['psalm-suppress'])) {
             foreach ($parsed_docblock->tags['psalm-suppress'] as $offset => $suppress_entry) {
                 foreach (DocComment::parseSuppressList($suppress_entry) as $issue_offset => $suppressed_issue) {
                     $info->suppressed_issues[$issue_offset + $offset] = $suppressed_issue;
@@ -288,7 +288,7 @@ class ClassLikeDocblockParser
             ];
         }
 
-        if (isset($parsed_docblock->combined_tags['method'])) {
+        if (!empty($parsed_docblock->combined_tags['method'])) {
             foreach ($parsed_docblock->combined_tags['method'] as $offset => $method_entry) {
                 $method_entry = preg_replace('/[ \t]+/', ' ', trim($method_entry));
 
@@ -425,7 +425,7 @@ class ClassLikeDocblockParser
 
                 if (!$statements
                     || !$statements[0] instanceof \PhpParser\Node\Stmt\Class_
-                    || !isset($statements[0]->stmts[0])
+                    || !!empty($statements[0]->stmts[0])
                     || !$statements[0]->stmts[0] instanceof \PhpParser\Node\Stmt\ClassMethod
                 ) {
                     throw new DocblockParseException('Badly-formatted @method string ' . $method_entry);
@@ -457,7 +457,7 @@ class ClassLikeDocblockParser
             }
         }
 
-        if (isset($parsed_docblock->tags['psalm-stub-override'])) {
+        if (!empty($parsed_docblock->tags['psalm-stub-override'])) {
             $info->stub_override = true;
         }
 
@@ -489,12 +489,12 @@ class ClassLikeDocblockParser
         array $specials,
         string $property_tag
     ) : void {
-        $magic_property_comments = isset($specials[$property_tag]) ? $specials[$property_tag] : [];
+        $magic_property_comments = !empty($specials[$property_tag]) ? $specials[$property_tag] : [];
 
         foreach ($magic_property_comments as $offset => $property) {
             $line_parts = CommentAnalyzer::splitDocLine($property);
 
-            if (count($line_parts) === 1 && isset($line_parts[0][0]) && $line_parts[0][0] === '$') {
+            if (count($line_parts) === 1 && !empty($line_parts[0][0]) && $line_parts[0][0] === '$') {
                 continue;
             }
 

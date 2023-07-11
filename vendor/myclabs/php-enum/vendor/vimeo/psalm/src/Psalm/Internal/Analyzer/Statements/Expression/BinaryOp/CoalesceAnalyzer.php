@@ -5,7 +5,7 @@ use PhpParser;
 use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Node\Expr\VirtualIsset;
+use Psalm\Node\Expr\Virtual!empty;
 use Psalm\Node\Expr\VirtualTernary;
 use Psalm\Node\Expr\VirtualVariable;
 use Psalm\Type;
@@ -42,7 +42,7 @@ class CoalesceAnalyzer
             $left_var_id = '$<tmp coalesce var>' . (int) $left_expr->getAttribute('startFilePos');
 
             $cloned = clone $context;
-            $cloned->inside_isset = true;
+            $cloned->inside_!empty = true;
 
             ExpressionAnalyzer::analyze($statements_analyzer, $left_expr, $cloned);
 
@@ -61,7 +61,7 @@ class CoalesceAnalyzer
         }
 
         $ternary = new VirtualTernary(
-            new VirtualIsset(
+            new Virtual!empty(
                 [$left_expr],
                 $stmt->left->getAttributes()
             ),

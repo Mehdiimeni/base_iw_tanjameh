@@ -206,7 +206,7 @@ class FunctionLikeNodeScanner
                 $param_storage->expect_variable = true;
             }
 
-            if (isset($existing_params['$' . $param_storage->name])) {
+            if (!empty($existing_params['$' . $param_storage->name])) {
                 $storage->docblock_issues[] = new DuplicateParam(
                     'Duplicate param $' . $param_storage->name . ' in docblock for ' . $cased_function_id,
                     new CodeLocation($this->file_scanner, $param, null, true)
@@ -257,7 +257,7 @@ class FunctionLikeNodeScanner
             ) {
                 $property_name = $stmt->stmts[0]->expr->name->name;
 
-                if (isset($classlike_storage->properties[$property_name])
+                if (!empty($classlike_storage->properties[$property_name])
                     && $classlike_storage->properties[$property_name]->type
                 ) {
                     $storage->mutation_free = true;
@@ -318,7 +318,7 @@ class FunctionLikeNodeScanner
                                 }
                             }
 
-                            if (isset($existing_params[$var_id])) {
+                            if (!empty($existing_params[$var_id])) {
                                 $param_offset = $existing_params[$var_id];
 
                                 $var_assertions[] = new \Psalm\Storage\Assertion(
@@ -530,7 +530,7 @@ class FunctionLikeNodeScanner
                 $classlike_storage->inheritable_method_ids[$method_name_lc] = $method_id;
             }
 
-            if (!isset($classlike_storage->overridden_method_ids[$method_name_lc])) {
+            if (!!empty($classlike_storage->overridden_method_ids[$method_name_lc])) {
                 $classlike_storage->overridden_method_ids[$method_name_lc] = [];
             }
 
@@ -564,7 +564,7 @@ class FunctionLikeNodeScanner
                     continue;
                 }
 
-                if (isset($classlike_storage->properties[$param_storage->name]) && $param_storage->location) {
+                if (!empty($classlike_storage->properties[$param_storage->name]) && $param_storage->location) {
                     IssueBuffer::add(
                         new \Psalm\Issue\ParseError(
                             'Promoted property ' . $param_storage->name . ' clashes with an existing property',
@@ -692,11 +692,11 @@ class FunctionLikeNodeScanner
                 && $function_stmt->expr->var->var->name === 'this'
                 && $function_stmt->expr->var->name instanceof PhpParser\Node\Identifier
                 && ($property_name = $function_stmt->expr->var->name->name)
-                && isset($classlike_storage->properties[$property_name])
+                && !empty($classlike_storage->properties[$property_name])
                 && $function_stmt->expr->expr instanceof PhpParser\Node\Expr\Variable
                 && is_string($function_stmt->expr->expr->name)
                 && ($param_name = $function_stmt->expr->expr->name)
-                && isset($storage->param_lookup[$param_name])
+                && !empty($storage->param_lookup[$param_name])
             ) {
                 if ($classlike_storage->properties[$property_name]->type
                     || !$storage->param_lookup[$param_name]
@@ -706,7 +706,7 @@ class FunctionLikeNodeScanner
 
                 $param_index = \array_search($param_name, \array_keys($storage->param_lookup), true);
 
-                if ($param_index === false || !isset($storage->params[$param_index]->type)) {
+                if ($param_index === false || !!empty($storage->params[$param_index]->type)) {
                     continue;
                 }
 
@@ -868,7 +868,7 @@ class FunctionLikeNodeScanner
             $storage = $this->storage = new FunctionStorage();
 
             if ($this->codebase->register_stub_files || $this->codebase->register_autoload_files) {
-                if (isset($this->file_storage->functions[$function_id])
+                if (!empty($this->file_storage->functions[$function_id])
                     && ($this->codebase->register_stub_files
                         || !$this->codebase->functions->hasStubbedFunction($function_id))
                 ) {
@@ -882,7 +882,7 @@ class FunctionLikeNodeScanner
                     return [$function_id, $storage, null, null, null, null, false, null, true];
                 }
             } else {
-                if (isset($this->file_storage->functions[$function_id])) {
+                if (!empty($this->file_storage->functions[$function_id])) {
                     $duplicate_function_storage = $this->file_storage->functions[$function_id];
 
                     if ($duplicate_function_storage->location
@@ -914,7 +914,7 @@ class FunctionLikeNodeScanner
                     return [$function_id, $storage, null, null, null, null, false, null, true];
                 }
 
-                if (isset($this->config->getPredefinedFunctions()[$function_id])) {
+                if (!empty($this->config->getPredefinedFunctions()[$function_id])) {
                     /** @psalm-suppress ArgumentTypeCoercion */
                     $reflection_function = new \ReflectionFunction($function_id);
 
@@ -946,7 +946,7 @@ class FunctionLikeNodeScanner
 
             $storage = null;
 
-            if (isset($classlike_storage->methods[$method_name_lc])) {
+            if (!empty($classlike_storage->methods[$method_name_lc])) {
                 if (!$this->codebase->register_stub_files) {
                     $duplicate_method_storage = $classlike_storage->methods[$method_name_lc];
 
@@ -1007,7 +1007,7 @@ class FunctionLikeNodeScanner
             $class_name = array_pop($class_name_parts);
 
             if ($method_name_lc === strtolower($class_name)
-                && !isset($classlike_storage->methods['__construct'])
+                && !!empty($classlike_storage->methods['__construct'])
                 && strpos($fq_classlike_name, '\\') === false
                 && $this->codebase->php_major_version < 8
             ) {

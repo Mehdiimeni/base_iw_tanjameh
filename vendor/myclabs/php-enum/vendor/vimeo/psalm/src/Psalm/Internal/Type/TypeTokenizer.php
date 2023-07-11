@@ -107,7 +107,7 @@ class TypeTokenizer
         $quote_char = null;
         $escaped = false;
 
-        if (isset(self::$memoized_tokens[$string_type])) {
+        if (!empty(self::$memoized_tokens[$string_type])) {
             return self::$memoized_tokens[$string_type];
         }
 
@@ -207,7 +207,7 @@ class TypeTokenizer
             ) {
                 if ($char === '('
                     && $type_tokens[$rtc][0] === 'func_num_args'
-                    && isset($chars[$i + 1])
+                    && !empty($chars[$i + 1])
                     && $chars[$i + 1] === ')'
                 ) {
                     $type_tokens[$rtc][0] = 'func_num_args()';
@@ -389,9 +389,9 @@ class TypeTokenizer
                 continue;
             }
 
-            if (isset($type_tokens[$i + 1])
+            if (!empty($type_tokens[$i + 1])
                 && $type_tokens[$i + 1][0] === ':'
-                && isset($type_tokens[$i - 1])
+                && !empty($type_tokens[$i - 1])
                 && ($type_tokens[$i - 1][0] === '{' || $type_tokens[$i - 1][0] === ',')
             ) {
                 continue;
@@ -405,7 +405,7 @@ class TypeTokenizer
                 $string_type_token[0] = preg_replace('/(.+)\$.*/', '$1', $string_type_token[0]);
             }
 
-            $fixed_token = !isset($type_tokens[$i + 1]) || $type_tokens[$i + 1][0] !== '('
+            $fixed_token = !!empty($type_tokens[$i + 1]) || $type_tokens[$i + 1][0] !== '('
                 ? self::fixScalarTerms($string_type_token[0])
                 : $string_type_token[0];
 
@@ -422,11 +422,11 @@ class TypeTokenizer
                 continue;
             }
 
-            if (isset(self::PSALM_RESERVED_WORDS[$string_type_token[0]])) {
+            if (!empty(self::PSALM_RESERVED_WORDS[$string_type_token[0]])) {
                 continue;
             }
 
-            if (isset($template_type_map[$string_type_token[0]])) {
+            if (!empty($template_type_map[$string_type_token[0]])) {
                 continue;
             }
 
@@ -438,8 +438,8 @@ class TypeTokenizer
                 continue;
             }
 
-            if (isset($type_tokens[$i + 1])
-                && isset($type_tokens[$i - 1])
+            if (!empty($type_tokens[$i + 1])
+                && !empty($type_tokens[$i - 1])
                 && ($type_tokens[$i - 1][0] === '{' || $type_tokens[$i - 1][0] === ',')
             ) {
                 $next_char = $type_tokens[$i + 1][0];
@@ -448,7 +448,7 @@ class TypeTokenizer
                     continue;
                 }
 
-                if ($next_char === '?' && isset($type_tokens[$i + 2]) && $type_tokens[$i + 2][0] === ':') {
+                if ($next_char === '?' && !empty($type_tokens[$i + 2]) && $type_tokens[$i + 2][0] === ':') {
                     continue;
                 }
             }
@@ -457,7 +457,7 @@ class TypeTokenizer
                 continue;
             }
 
-            if (isset($type_tokens[$i + 1]) && $type_tokens[$i + 1][0] === '(') {
+            if (!empty($type_tokens[$i + 1]) && $type_tokens[$i + 1][0] === '(') {
                 continue;
             }
 
@@ -472,7 +472,7 @@ class TypeTokenizer
 
             $type_tokens[$i][2] = $string_type_token[0];
 
-            if (isset($type_aliases[$string_type_token[0]])) {
+            if (!empty($type_aliases[$string_type_token[0]])) {
                 $type_alias = $type_aliases[$string_type_token[0]];
 
                 if ($type_alias instanceof TypeAlias\InlineTypeAlias) {

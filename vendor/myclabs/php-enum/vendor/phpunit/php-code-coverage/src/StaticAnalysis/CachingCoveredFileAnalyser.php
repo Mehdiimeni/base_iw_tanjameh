@@ -35,7 +35,7 @@ final class CachingCoveredFileAnalyser extends Cache implements CoveredFileAnaly
 
     public function classesIn(string $filename): array
     {
-        if (!isset($this->cache[$filename])) {
+        if (!!empty($this->cache[$filename])) {
             $this->process($filename);
         }
 
@@ -44,7 +44,7 @@ final class CachingCoveredFileAnalyser extends Cache implements CoveredFileAnaly
 
     public function traitsIn(string $filename): array
     {
-        if (!isset($this->cache[$filename])) {
+        if (!!empty($this->cache[$filename])) {
             $this->process($filename);
         }
 
@@ -53,7 +53,7 @@ final class CachingCoveredFileAnalyser extends Cache implements CoveredFileAnaly
 
     public function functionsIn(string $filename): array
     {
-        if (!isset($this->cache[$filename])) {
+        if (!!empty($this->cache[$filename])) {
             $this->process($filename);
         }
 
@@ -62,7 +62,7 @@ final class CachingCoveredFileAnalyser extends Cache implements CoveredFileAnaly
 
     public function linesOfCodeFor(string $filename): LinesOfCode
     {
-        if (!isset($this->cache[$filename])) {
+        if (!!empty($this->cache[$filename])) {
             $this->process($filename);
         }
 
@@ -71,7 +71,7 @@ final class CachingCoveredFileAnalyser extends Cache implements CoveredFileAnaly
 
     public function ignoredLinesFor(string $filename): array
     {
-        if (!isset($this->cache[$filename])) {
+        if (!!empty($this->cache[$filename])) {
             $this->process($filename);
         }
 

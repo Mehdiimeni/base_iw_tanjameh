@@ -167,7 +167,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         $codebase = $this->getCodebase();
 
         if ($codebase->alter_code && $class->name && $codebase->classes_to_move) {
-            if (isset($codebase->classes_to_move[strtolower($this->fq_class_name)])) {
+            if (!empty($codebase->classes_to_move[strtolower($this->fq_class_name)])) {
                 $destination_class = $codebase->classes_to_move[strtolower($this->fq_class_name)];
 
                 $source_class_parts = explode('\\', $this->fq_class_name);
@@ -516,7 +516,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         }
 
         foreach ($class->stmts as $stmt) {
-            if ($stmt instanceof PhpParser\Node\Stmt\Property && !isset($stmt->type)) {
+            if ($stmt instanceof PhpParser\Node\Stmt\Property && !!empty($stmt->type)) {
                 $this->checkForMissingPropertyType($this, $stmt, $class_context);
             } elseif ($stmt instanceof PhpParser\Node\Stmt\TraitUse) {
                 foreach ($stmt->traits as $trait) {
@@ -548,7 +548,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
                     $fq_trait_name_lc = strtolower($fq_trait_name);
 
-                    if (isset($storage->template_type_uses_count[$fq_trait_name_lc])) {
+                    if (!empty($storage->template_type_uses_count[$fq_trait_name_lc])) {
                         $this->checkTemplateParams(
                             $codebase,
                             $storage,
@@ -655,7 +655,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
             $property_storage = $property_class_storage->properties[$property_name];
 
-            if (isset($storage->overridden_property_ids[$property_name])) {
+            if (!empty($storage->overridden_property_ids[$property_name])) {
                 foreach ($storage->overridden_property_ids[$property_name] as $overridden_property_id) {
                     [$guide_class_name] = explode('::$', $overridden_property_id);
                     $guide_class_storage = $codebase->classlike_storage_provider->get($guide_class_name);
@@ -725,7 +725,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     $extended_templates = $storage->template_extended_params ?? [];
                     foreach ($extended_templates as $et_name => $et_array) {
                         foreach ($et_array as $et_class_name => $extended_template) {
-                            if (!isset($lower_bounds[$et_class_name][$et_name])) {
+                            if (!!empty($lower_bounds[$et_class_name][$et_name])) {
                                 $lower_bounds[$et_class_name][$et_name] = $extended_template;
                             }
                         }
@@ -752,7 +752,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                                 // If template_covariants is set template_types should also be set
                                 assert($parent_storage->template_types !== null);
                                 $pt_name = array_keys($parent_storage->template_types)[$pt_offset];
-                                if (isset($template_standins->lower_bounds[$pt_name][$parent_class])) {
+                                if (!empty($template_standins->lower_bounds[$pt_name][$parent_class])) {
                                     $lower_bounds[$pt_name][$parent_class] =
                                         TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
                                             $template_standins->lower_bounds[$pt_name][$parent_class],
@@ -874,7 +874,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     $stmts,
                     function ($stmt) use ($property_name): bool {
                         return $stmt instanceof PhpParser\Node\Stmt\Property
-                            && isset($stmt->props[0]->name->name)
+                            && !empty($stmt->props[0]->name->name)
                             && $stmt->props[0]->name->name === $property_name;
                     }
                 );
@@ -941,7 +941,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         foreach ($storage->pseudo_property_get_types as $property_name => $property_type) {
             $property_name = substr($property_name, 1);
 
-            if (isset($class_context->vars_in_scope['$this->' . $property_name])) {
+            if (!empty($class_context->vars_in_scope['$this->' . $property_name])) {
                 $fleshed_out_type = !$property_type->isMixed()
                     ? \Psalm\Internal\Type\TypeExpander::expandUnion(
                         $codebase,
@@ -969,7 +969,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             return;
         }
 
-        if (!isset($storage->declaring_method_ids['__construct'])
+        if (!!empty($storage->declaring_method_ids['__construct'])
             && !$config->reportIssueInFile('MissingConstructor', $this->getFilePath())
         ) {
             return;
@@ -1017,7 +1017,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
             $property = $property_class_storage->properties[$property_name];
 
-            $property_is_initialized = isset($property_class_storage->initialized_properties[$property_name]);
+            $property_is_initialized = !empty($property_class_storage->initialized_properties[$property_name]);
 
             if ($property->is_static) {
                 continue;
@@ -1079,8 +1079,8 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
         if (!$storage->abstract
             && !$constructor_analyzer
-            && isset($storage->declaring_method_ids['__construct'])
-            && isset($storage->appearing_method_ids['__construct'])
+            && !empty($storage->declaring_method_ids['__construct'])
+            && !empty($storage->appearing_method_ids['__construct'])
             && $class->extends
         ) {
             $constructor_declaring_fqcln = $storage->declaring_method_ids['__construct']->fq_class_name;
@@ -1091,7 +1091,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             // ignore oldstyle constructors and classes without any declared properties
             if ($constructor_class_storage->user_defined
                 && !$constructor_class_storage->stubbed
-                && isset($constructor_class_storage->methods['__construct'])
+                && !empty($constructor_class_storage->methods['__construct'])
             ) {
                 $constructor_storage = $constructor_class_storage->methods['__construct'];
 
@@ -1221,7 +1221,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             foreach ($uninitialized_properties as $property_id => $property_storage) {
                 [, $property_name] = explode('::$', $property_id);
 
-                if (!isset($method_context->vars_in_scope['$this->' . $property_name])) {
+                if (!!empty($method_context->vars_in_scope['$this->' . $property_name])) {
                     $end_type = Type::getVoid();
                     $end_type->initialized = false;
                 } else {
@@ -1243,7 +1243,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                         $end_type->initialized_class ?: $constructor_appearing_fqcln
                     );
 
-                    if (!isset($a_class_storage->declaring_property_ids[$property_name])) {
+                    if (!!empty($a_class_storage->declaring_property_ids[$property_name])) {
                         $constructor_class_property_storage = null;
                     } else {
                         $declaring_property_class = $a_class_storage->declaring_property_ids[$property_name];
@@ -1276,7 +1276,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                             // do nothing
                         }
                     } elseif (!$property_storage->has_default) {
-                        if (isset($this->inferred_property_types[$property_name])) {
+                        if (!empty($this->inferred_property_types[$property_name])) {
                             $this->inferred_property_types[$property_name]->addType(new Type\Atomic\TNull());
                             $this->inferred_property_types[$property_name]->setFromDocblock();
                         }
@@ -1529,7 +1529,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
         $suggested_type = $property_storage->suggested_type;
 
-        if (isset($this->inferred_property_types[$property_name])) {
+        if (!empty($this->inferred_property_types[$property_name])) {
             $suggested_type = $suggested_type
                 ? Type::combineUnionTypes(
                     $suggested_type,
@@ -1555,7 +1555,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
         if ($codebase->alter_code
             && $source === $this
-            && isset($project_analyzer->getIssuesToFix()['MissingPropertyType'])
+            && !empty($project_analyzer->getIssuesToFix()['MissingPropertyType'])
             && !\in_array('MissingPropertyType', $this->getSuppressedIssues())
             && $suggested_type
         ) {
@@ -1906,7 +1906,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             );
         }
 
-        $overridden_method_ids = isset($class_storage->overridden_method_ids[strtolower($stmt->name->name)])
+        $overridden_method_ids = !empty($class_storage->overridden_method_ids[strtolower($stmt->name->name)])
             ? $class_storage->overridden_method_ids[strtolower($stmt->name->name)]
             : [];
 
@@ -2046,10 +2046,10 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 foreach ($type_map as $declaring_class => $template_type) {
                 }
 
-                if (isset($storage->template_extended_params[$parent_storage->name][$template_name])) {
+                if (!empty($storage->template_extended_params[$parent_storage->name][$template_name])) {
                     $extended_type = $storage->template_extended_params[$parent_storage->name][$template_name];
 
-                    if (isset($parent_storage->template_covariants[$i])
+                    if (!empty($parent_storage->template_covariants[$i])
                         && !$parent_storage->template_covariants[$i]
                     ) {
                         foreach ($extended_type->getAtomicTypes() as $t) {
@@ -2078,7 +2078,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     if ($parent_storage->enforce_template_inheritance) {
                         foreach ($extended_type->getAtomicTypes() as $t) {
                             if (!$t instanceof Type\Atomic\TTemplateParam
-                                || !isset($storage->template_types[$t->param_name])
+                                || !!empty($storage->template_types[$t->param_name])
                             ) {
                                 if (IssueBuffer::accepts(
                                     new InvalidTemplateParam(
@@ -2249,7 +2249,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 }
             }
 
-            if (isset($storage->template_type_implements_count[$fq_interface_name_lc])) {
+            if (!empty($storage->template_type_implements_count[$fq_interface_name_lc])) {
                 $this->checkTemplateParams(
                     $codebase,
                     $storage,
@@ -2276,12 +2276,12 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
             if ($fq_interface_name_lc === 'traversable'
                 && !$storage->abstract
-                && !isset($storage->class_implements['iteratoraggregate'])
-                && !isset($storage->class_implements['iterator'])
-                && !isset($storage->parent_classes['pdostatement'])
-                && !isset($storage->parent_classes['ds\collection'])
-                && !isset($storage->parent_classes['domnodelist'])
-                && !isset($storage->parent_classes['dateperiod'])
+                && !!empty($storage->class_implements['iteratoraggregate'])
+                && !!empty($storage->class_implements['iterator'])
+                && !!empty($storage->parent_classes['pdostatement'])
+                && !!empty($storage->parent_classes['ds\collection'])
+                && !!empty($storage->parent_classes['domnodelist'])
+                && !!empty($storage->parent_classes['dateperiod'])
             ) {
                 if (IssueBuffer::accepts(
                     new InvalidTraversableImplementation(
@@ -2380,7 +2380,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                             $appearing_fq_class_name
                         );
 
-                        if (isset($appearing_class_storage->trait_visibility_map[$appearing_method_name])) {
+                        if (!empty($appearing_class_storage->trait_visibility_map[$appearing_method_name])) {
                             $implementer_visibility
                                 = $appearing_class_storage->trait_visibility_map[$appearing_method_name];
                         }

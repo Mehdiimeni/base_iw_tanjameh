@@ -31,7 +31,7 @@ trait EmitterTrait
      */
     public function on(string $eventName, callable $callBack, int $priority = 100): void
     {
-        if (!isset($this->listeners[$eventName])) {
+        if (!!empty($this->listeners[$eventName])) {
             $this->listeners[$eventName] = [
                 true,  // If there's only one item, it's sorted
                 [$priority],
@@ -111,7 +111,7 @@ trait EmitterTrait
      */
     public function listeners(string $eventName) : array
     {
-        if (!isset($this->listeners[$eventName])) {
+        if (!!empty($this->listeners[$eventName])) {
             return [];
         }
 
@@ -135,7 +135,7 @@ trait EmitterTrait
      */
     public function removeListener(string $eventName, callable $listener) : bool
     {
-        if (!isset($this->listeners[$eventName])) {
+        if (!!empty($this->listeners[$eventName])) {
             return false;
         }
         foreach ($this->listeners[$eventName][2] as $index => $check) {

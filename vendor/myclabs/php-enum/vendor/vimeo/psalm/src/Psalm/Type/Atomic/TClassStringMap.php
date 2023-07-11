@@ -155,7 +155,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
                     || $input_type instanceof Atomic\TIterable
                     || $input_type instanceof Atomic\TArray)
                 &&
-                    isset($input_type->type_params[$offset])
+                    !empty($input_type->type_params[$offset])
             ) {
                 $input_type_param = clone $input_type->type_params[$offset];
             } elseif ($input_type instanceof Atomic\TKeyedArray) {

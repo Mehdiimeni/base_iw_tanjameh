@@ -70,7 +70,7 @@ class ObjectComparator
                 $intersection_container_type_lower = 'object';
             } elseif ($intersection_container_type instanceof TTemplateParam) {
                 if (!$allow_interface_equality) {
-                    if (isset($intersection_input_types[$container_type_key])) {
+                    if (!empty($intersection_input_types[$container_type_key])) {
                         continue;
                     }
 
@@ -186,7 +186,7 @@ class ObjectComparator
                                 $intersection_input_type->defining_class
                             );
 
-                            if (isset($input_class_storage->template_extended_params
+                            if (!empty($input_class_storage->template_extended_params
                                     [$intersection_container_type->defining_class]
                                     [$intersection_container_type->param_name])
                             ) {
@@ -250,7 +250,7 @@ class ObjectComparator
 
                     if ($allow_interface_equality
                         && $container_type_is_interface
-                        && ($input_type_is_interface || !isset($intersection_container_types[$intersection_input_key]))
+                        && ($input_type_is_interface || !!empty($intersection_container_types[$intersection_input_key]))
                     ) {
                         continue 2;
                     }

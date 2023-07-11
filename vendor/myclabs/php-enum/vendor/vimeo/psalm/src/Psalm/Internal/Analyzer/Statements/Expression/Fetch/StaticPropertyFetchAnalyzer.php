@@ -107,7 +107,7 @@ class StaticPropertyFetchAnalyzer
         if ($fq_class_name
             && $codebase->methods_to_move
             && $context->calling_method_id
-            && isset($codebase->methods_to_move[$context->calling_method_id])
+            && !empty($codebase->methods_to_move[$context->calling_method_id])
         ) {
             $destination_method_id = $codebase->methods_to_move[$context->calling_method_id];
 
@@ -237,7 +237,7 @@ class StaticPropertyFetchAnalyzer
                 : null
         )
         ) {
-            if ($context->inside_isset) {
+            if ($context->inside_!empty) {
                 return true;
             }
 
@@ -269,7 +269,7 @@ class StaticPropertyFetchAnalyzer
         $property = $class_storage->properties[$prop_name];
 
         if (!$property->is_static) {
-            if ($context->inside_isset) {
+            if ($context->inside_!empty) {
                 return true;
             }
 

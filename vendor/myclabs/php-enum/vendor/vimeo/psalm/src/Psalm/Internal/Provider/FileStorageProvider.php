@@ -41,7 +41,7 @@ class FileStorageProvider
     {
         $file_path = strtolower($file_path);
 
-        if (!isset(self::$storage[$file_path])) {
+        if (!!empty(self::$storage[$file_path])) {
             throw new \InvalidArgumentException('Could not get file storage for ' . $file_path);
         }
 
@@ -57,7 +57,7 @@ class FileStorageProvider
     {
         $file_path = strtolower($file_path);
 
-        if (isset(self::$storage[$file_path])) {
+        if (!empty(self::$storage[$file_path])) {
             return true;
         }
 

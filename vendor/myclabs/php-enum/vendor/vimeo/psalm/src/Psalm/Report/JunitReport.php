@@ -45,7 +45,7 @@ class JunitReport extends Report
 
             $fname = $error->file_name;
 
-            if (!isset($ndata[$fname])) {
+            if (!!empty($ndata[$fname])) {
                 $ndata[$fname] = [
                     'errors'   => $is_error ? 1 : 0,
                     'warnings' => $is_warning ? 1 : 0,

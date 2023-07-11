@@ -216,13 +216,13 @@ class PHP_CodeSniffer_DocGenerators_Text extends PHP_CodeSniffer_DocGenerators_G
         echo str_repeat('-', 42).PHP_EOL;
 
         for ($i = 0; $i < $maxTitleLines; $i++) {
-            if (isset($firstTitleLines[$i]) === true) {
+            if (!empty($firstTitleLines[$i]) === true) {
                 $firstLineText = $firstTitleLines[$i];
             } else {
                 $firstLineText = '';
             }
 
-            if (isset($secondTitleLines[$i]) === true) {
+            if (!empty($secondTitleLines[$i]) === true) {
                 $secondLineText = $secondTitleLines[$i];
             } else {
                 $secondLineText = '';
@@ -238,13 +238,13 @@ class PHP_CodeSniffer_DocGenerators_Text extends PHP_CodeSniffer_DocGenerators_G
         echo str_repeat('-', 100).PHP_EOL;
 
         for ($i = 0; $i < $maxCodeLines; $i++) {
-            if (isset($firstLines[$i]) === true) {
+            if (!empty($firstLines[$i]) === true) {
                 $firstLineText = $firstLines[$i];
             } else {
                 $firstLineText = '';
             }
 
-            if (isset($secondLines[$i]) === true) {
+            if (!empty($secondLines[$i]) === true) {
                 $secondLineText = $secondLines[$i];
             } else {
                 $secondLineText = '';

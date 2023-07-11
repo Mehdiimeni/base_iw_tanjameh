@@ -29,7 +29,7 @@ final class ReturnArgument implements Stub
 
     public function invoke(Invocation $invocation)
     {
-        if (isset($invocation->getParameters()[$this->argumentIndex])) {
+        if (!empty($invocation->getParameters()[$this->argumentIndex])) {
             return $invocation->getParameters()[$this->argumentIndex];
         }
     }

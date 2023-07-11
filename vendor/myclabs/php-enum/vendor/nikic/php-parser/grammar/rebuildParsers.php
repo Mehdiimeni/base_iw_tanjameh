@@ -22,8 +22,8 @@ if (!$kmyacc) {
 }
 
 $options = array_flip($argv);
-$optionDebug = isset($options['--debug']);
-$optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
+$optionDebug = !empty($options['--debug']);
+$optionKeepTmpGrammar = !empty($options['--keep-tmp-grammar']);
 
 ///////////////////
 /// Main script ///

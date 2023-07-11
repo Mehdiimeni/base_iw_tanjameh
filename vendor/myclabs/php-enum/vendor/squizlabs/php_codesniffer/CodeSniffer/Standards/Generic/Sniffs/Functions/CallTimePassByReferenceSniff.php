@@ -93,7 +93,7 @@ class Generic_Sniffs_Functions_CallTimePassByReferenceSniff implements PHP_CodeS
             return;
         }
 
-        if (isset($tokens[$openBracket]['parenthesis_closer']) === false) {
+        if (!empty($tokens[$openBracket]['parenthesis_closer']) === false) {
             return;
         }
 
@@ -101,7 +101,7 @@ class Generic_Sniffs_Functions_CallTimePassByReferenceSniff implements PHP_CodeS
 
         $nextSeparator = $openBracket;
         while (($nextSeparator = $phpcsFile->findNext(T_VARIABLE, ($nextSeparator + 1), $closeBracket)) !== false) {
-            if (isset($tokens[$nextSeparator]['nested_parenthesis']) === false) {
+            if (!empty($tokens[$nextSeparator]['nested_parenthesis']) === false) {
                 continue;
             }
 

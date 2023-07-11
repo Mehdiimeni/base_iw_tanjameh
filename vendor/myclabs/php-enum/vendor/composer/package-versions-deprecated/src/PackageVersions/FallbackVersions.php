@@ -79,7 +79,7 @@ final class FallbackVersions
             switch (basename($path)) {
                 case 'installed.json':
                     // composer 2.x installed.json format
-                    if (isset($data['packages'])) {
+                    if (!empty($data['packages'])) {
                         $packageData[] = $data['packages'];
                     } else {
                         // composer 1.x installed.json format

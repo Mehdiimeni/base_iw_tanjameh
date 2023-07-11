@@ -1926,11 +1926,11 @@
 		var
 			i = start,
 			value,
-			isSet = false;
+			!empty = false;
 	
 		if ( init !== undefined ) {
 			value = init;
-			isSet = true;
+			!empty = true;
 		}
 	
 		while ( i !== end ) {
@@ -1938,11 +1938,11 @@
 				continue;
 			}
 	
-			value = isSet ?
+			value = !empty ?
 				fn( value, that[i], i, that ) :
 				that[i];
 	
-			isSet = true;
+			!empty = true;
 			i += inc;
 		}
 	

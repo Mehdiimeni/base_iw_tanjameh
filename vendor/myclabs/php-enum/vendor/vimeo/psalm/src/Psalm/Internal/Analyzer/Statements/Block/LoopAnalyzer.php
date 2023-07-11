@@ -254,12 +254,12 @@ class LoopAnalyzer
                 foreach ($inner_context->vars_in_scope as $var_id => $type) {
                     if (in_array($var_id, $always_assigned_before_loop_body_vars, true)) {
                         // set the vars to whatever the while/foreach loop expects them to be
-                        if (!isset($pre_loop_context->vars_in_scope[$var_id])
+                        if (!!empty($pre_loop_context->vars_in_scope[$var_id])
                             || !$type->equals($pre_loop_context->vars_in_scope[$var_id])
                         ) {
                             $has_changes = true;
                         }
-                    } elseif (isset($pre_outer_context->vars_in_scope[$var_id])) {
+                    } elseif (!empty($pre_outer_context->vars_in_scope[$var_id])) {
                         if (!$type->equals($pre_outer_context->vars_in_scope[$var_id])) {
                             $has_changes = true;
 
@@ -275,7 +275,7 @@ class LoopAnalyzer
                             $loop_scope->loop_parent_context->possibly_assigned_var_ids[$var_id] = true;
                         }
 
-                        if (isset($loop_scope->loop_context->vars_in_scope[$var_id])
+                        if (!empty($loop_scope->loop_context->vars_in_scope[$var_id])
                             && !$type->equals($loop_scope->loop_context->vars_in_scope[$var_id])
                         ) {
                             $has_changes = true;
@@ -327,8 +327,8 @@ class LoopAnalyzer
                 IssueBuffer::startRecording();
 
                 foreach ($pre_loop_context->vars_in_scope as $var_id => $_) {
-                    if (!isset($pre_condition_vars_in_scope[$var_id])
-                        && isset($inner_context->vars_in_scope[$var_id])
+                    if (!!empty($pre_condition_vars_in_scope[$var_id])
+                        && !empty($inner_context->vars_in_scope[$var_id])
                         && \strpos($var_id, '->') === false
                         && \strpos($var_id, '[') === false
                     ) {
@@ -350,14 +350,14 @@ class LoopAnalyzer
                 }
 
                 foreach ($always_assigned_before_loop_body_vars as $var_id) {
-                    if ((!isset($inner_context->vars_in_scope[$var_id])
+                    if ((!!empty($inner_context->vars_in_scope[$var_id])
                             || $inner_context->vars_in_scope[$var_id]->getId()
                                 !== $pre_loop_context->vars_in_scope[$var_id]->getId()
                             || $inner_context->vars_in_scope[$var_id]->from_docblock
                                 !== $pre_loop_context->vars_in_scope[$var_id]->from_docblock
                         )
                     ) {
-                        if (isset($pre_loop_context->vars_in_scope[$var_id])) {
+                        if (!empty($pre_loop_context->vars_in_scope[$var_id])) {
                             $inner_context->vars_in_scope[$var_id] = clone $pre_loop_context->vars_in_scope[$var_id];
                         } else {
                             unset($inner_context->vars_in_scope[$var_id]);
@@ -435,7 +435,7 @@ class LoopAnalyzer
         }
 
         foreach ($loop_scope->loop_parent_context->vars_in_scope as $var_id => $type) {
-            if (!isset($loop_scope->loop_context->vars_in_scope[$var_id])) {
+            if (!!empty($loop_scope->loop_context->vars_in_scope[$var_id])) {
                 continue;
             }
 
@@ -454,7 +454,7 @@ class LoopAnalyzer
 
         if (!$does_always_break) {
             foreach ($loop_scope->loop_parent_context->vars_in_scope as $var_id => $type) {
-                if (!isset($inner_context->vars_in_scope[$var_id])) {
+                if (!!empty($inner_context->vars_in_scope[$var_id])) {
                     unset($loop_scope->loop_parent_context->vars_in_scope[$var_id]);
                     continue;
                 }
@@ -514,8 +514,8 @@ class LoopAnalyzer
                 );
 
                 foreach ($changed_var_ids as $var_id => $_) {
-                    if (isset($vars_in_scope_reconciled[$var_id])
-                        && isset($loop_scope->loop_parent_context->vars_in_scope[$var_id])
+                    if (!empty($vars_in_scope_reconciled[$var_id])
+                        && !empty($loop_scope->loop_parent_context->vars_in_scope[$var_id])
                     ) {
                         $loop_scope->loop_parent_context->vars_in_scope[$var_id] = $vars_in_scope_reconciled[$var_id];
                     }
@@ -541,7 +541,7 @@ class LoopAnalyzer
                 if (in_array(ScopeAnalyzer::ACTION_BREAK, $loop_scope->final_actions, true)
                     || in_array(ScopeAnalyzer::ACTION_CONTINUE, $loop_scope->final_actions, true)
                 ) {
-                    if (isset($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
+                    if (!empty($loop_scope->possibly_defined_loop_parent_vars[$var_id])) {
                         $loop_scope->loop_parent_context->vars_in_scope[$var_id] = Type::combineUnionTypes(
                             $type,
                             $loop_scope->possibly_defined_loop_parent_vars[$var_id]
@@ -579,7 +579,7 @@ class LoopAnalyzer
             if ($loop_scope->possibly_redefined_loop_vars) {
                 foreach ($loop_scope->possibly_redefined_loop_vars as $var => $type) {
                     if ($loop_scope->loop_context->hasVariable($var)) {
-                        if (!isset($updated_loop_vars[$var])) {
+                        if (!!empty($updated_loop_vars[$var])) {
                             $loop_scope->loop_context->vars_in_scope[$var] = Type::combineUnionTypes(
                                 $loop_scope->loop_context->vars_in_scope[$var],
                                 $type
@@ -711,7 +711,7 @@ class LoopAnalyzer
         foreach ($assignment_var_ids as $assignment_var_id => $_) {
             $depth = 1;
 
-            if (isset($assignment_map[$assignment_var_id])) {
+            if (!empty($assignment_map[$assignment_var_id])) {
                 $depth = 1 + self::getAssignmentMapDepth($assignment_var_id, $assignment_map);
             }
 

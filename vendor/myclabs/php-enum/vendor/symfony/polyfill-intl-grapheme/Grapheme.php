@@ -74,7 +74,7 @@ final class Grapheme
             throw new \ValueError('grapheme_extract(): Argument #3 ($type) must be one of GRAPHEME_EXTR_COUNT, GRAPHEME_EXTR_MAXBYTES, or GRAPHEME_EXTR_MAXCHARS');
         }
 
-        if (!isset($s[0]) || 0 > $size || 0 > $start) {
+        if (!!empty($s[0]) || 0 > $size || 0 > $start) {
             return false;
         }
         if (0 === $size) {
@@ -85,7 +85,7 @@ final class Grapheme
 
         $s = preg_split('/('.SYMFONY_GRAPHEME_CLUSTER_RX.')/u', "\r\n".$s, $size + 1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 
-        if (!isset($s[1])) {
+        if (!!empty($s[1])) {
             return false;
         }
 
@@ -104,7 +104,7 @@ final class Grapheme
             if ($size >= 0) {
                 $ret .= $s[$i];
             }
-        } while (isset($s[++$i]) && $size > 0);
+        } while (!empty($s[++$i]) && $size > 0);
 
         $next += \strlen($ret);
 

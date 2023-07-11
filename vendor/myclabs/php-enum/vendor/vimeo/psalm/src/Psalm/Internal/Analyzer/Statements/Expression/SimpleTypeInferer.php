@@ -231,7 +231,7 @@ class SimpleTypeInferer
                 && $stmt->class->parts !== ['static']
                 && $stmt->class->parts !== ['parent']
             ) {
-                if (isset($existing_class_constants[$stmt->name->name])
+                if (!empty($existing_class_constants[$stmt->name->name])
                     && $existing_class_constants[$stmt->name->name]->type
                 ) {
                     if ($stmt->class->parts === ['self']) {
@@ -249,7 +249,7 @@ class SimpleTypeInferer
                 }
 
                 if (strtolower($const_fq_class_name) === strtolower($fq_classlike_name)
-                    && isset($existing_class_constants[$stmt->name->name])
+                    && !empty($existing_class_constants[$stmt->name->name])
                     && $existing_class_constants[$stmt->name->name]->type
                 ) {
                     return clone $existing_class_constants[$stmt->name->name]->type;
@@ -403,7 +403,7 @@ class SimpleTypeInferer
 
                     foreach ($array_type->getAtomicTypes() as $array_atomic_type) {
                         if ($array_atomic_type instanceof Type\Atomic\TKeyedArray) {
-                            if (isset($array_atomic_type->properties[$dim_value])) {
+                            if (!empty($array_atomic_type->properties[$dim_value])) {
                                 return clone $array_atomic_type->properties[$dim_value];
                             }
 
@@ -698,7 +698,7 @@ class SimpleTypeInferer
                 $array_creation_info->item_value_atomic_types = array_merge(
                     $array_creation_info->item_value_atomic_types,
                     array_values(
-                        isset($unpacked_atomic_type->type_params[1])
+                        !empty($unpacked_atomic_type->type_params[1])
                             ? $unpacked_atomic_type->type_params[1]->getAtomicTypes()
                             : [new Type\Atomic\TMixed()]
                     )

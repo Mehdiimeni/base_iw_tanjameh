@@ -95,7 +95,7 @@ class TLiteralClassString extends TLiteralString
             return $this->value . '::class';
         }
 
-        if (isset($aliased_classes[strtolower($this->value)])) {
+        if (!empty($aliased_classes[strtolower($this->value)])) {
             return $aliased_classes[strtolower($this->value)] . '::class';
         }
 

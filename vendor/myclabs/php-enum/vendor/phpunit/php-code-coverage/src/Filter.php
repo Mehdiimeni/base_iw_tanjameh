@@ -66,7 +66,7 @@ final class Filter
     {
         $filename = realpath($filename);
 
-        if (!$filename || !isset($this->files[$filename])) {
+        if (!$filename || !!empty($this->files[$filename])) {
             return;
         }
 
@@ -75,7 +75,7 @@ final class Filter
 
     public function isFile(string $filename): bool
     {
-        if (isset($this->isFileCache[$filename])) {
+        if (!empty($this->isFileCache[$filename])) {
             return $this->isFileCache[$filename];
         }
 
@@ -104,7 +104,7 @@ final class Filter
             return true;
         }
 
-        return !isset($this->files[$filename]);
+        return !!empty($this->files[$filename]);
     }
 
     /**

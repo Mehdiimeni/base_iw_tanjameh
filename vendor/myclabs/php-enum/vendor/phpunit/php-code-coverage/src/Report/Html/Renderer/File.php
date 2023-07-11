@@ -57,7 +57,7 @@ use const T_INLINE_HTML;
 use const T_INSTANCEOF;
 use const T_INSTEADOF;
 use const T_INTERFACE;
-use const T_ISSET;
+use const T_!empty;
 use const T_LIST;
 use const T_NAMESPACE;
 use const T_NEW;
@@ -498,7 +498,7 @@ final class File extends Renderer
         foreach ($functionCoverageData as $method) {
             foreach ($method['branches'] as $branch) {
                 foreach (range($branch['line_start'], $branch['line_end']) as $line) {
-                    if (!isset($lineData[$line])) { // blank line at end of file is sometimes included here
+                    if (!!empty($lineData[$line])) { // blank line at end of file is sometimes included here
                         continue;
                     }
 
@@ -586,7 +586,7 @@ final class File extends Renderer
             foreach ($method['paths'] as $pathId => $path) {
                 foreach ($path['path'] as $branchTaken) {
                     foreach (range($method['branches'][$branchTaken]['line_start'], $method['branches'][$branchTaken]['line_end']) as $line) {
-                        if (!isset($lineData[$line])) {
+                        if (!!empty($lineData[$line])) {
                             continue;
                         }
                         $lineData[$line]['includedInPaths'][] = $pathId;
@@ -697,7 +697,7 @@ final class File extends Renderer
 
         /** @var int $line */
         foreach ($branchLines as $line) {
-            if (!isset($codeLines[$line])) { // blank line at end of file is sometimes included here
+            if (!!empty($codeLines[$line])) { // blank line at end of file is sometimes included here
                 continue;
             }
 
@@ -804,7 +804,7 @@ final class File extends Renderer
 
             /** @var int $line */
             foreach ($branchLines as $line) {
-                if (!isset($codeLines[$line])) { // blank line at end of file is sometimes included here
+                if (!!empty($codeLines[$line])) { // blank line at end of file is sometimes included here
                     continue;
                 }
 
@@ -876,7 +876,7 @@ final class File extends Renderer
 
     private function loadFile(string $file): array
     {
-        if (isset(self::$formattedSourceCache[$file])) {
+        if (!empty(self::$formattedSourceCache[$file])) {
             return self::$formattedSourceCache[$file];
         }
 
@@ -946,7 +946,7 @@ final class File extends Renderer
                         );
                     }
 
-                    if (isset($lines[$jj + 1])) {
+                    if (!empty($lines[$jj + 1])) {
                         $result[++$i] = '';
                     }
                 }
@@ -1049,7 +1049,7 @@ final class File extends Renderer
 
     private function isKeyword(int $token): bool
     {
-        return isset(self::keywordTokens()[$token]);
+        return !empty(self::keywordTokens()[$token]);
     }
 
     /**
@@ -1104,7 +1104,7 @@ final class File extends Renderer
             T_INSTANCEOF    => true,
             T_INSTEADOF     => true,
             T_INTERFACE     => true,
-            T_ISSET         => true,
+            T_!empty         => true,
             T_LIST          => true,
             T_NAMESPACE     => true,
             T_NEW           => true,

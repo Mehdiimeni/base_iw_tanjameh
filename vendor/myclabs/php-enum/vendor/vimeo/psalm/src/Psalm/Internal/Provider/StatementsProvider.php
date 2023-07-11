@@ -248,7 +248,7 @@ class StatementsProvider
                     array_flip($changed_members)
                 );
 
-                if (isset($this->unchanged_members[$file_path])) {
+                if (!empty($this->unchanged_members[$file_path])) {
                     $this->unchanged_members[$file_path] = array_intersect_key(
                         $this->unchanged_members[$file_path],
                         $unchanged_members
@@ -257,7 +257,7 @@ class StatementsProvider
                     $this->unchanged_members[$file_path] = $unchanged_members;
                 }
 
-                if (isset($this->unchanged_signature_members[$file_path])) {
+                if (!empty($this->unchanged_signature_members[$file_path])) {
                     $this->unchanged_signature_members[$file_path] = array_intersect_key(
                         $this->unchanged_signature_members[$file_path],
                         $unchanged_signature_members
@@ -266,7 +266,7 @@ class StatementsProvider
                     $this->unchanged_signature_members[$file_path] = $unchanged_signature_members;
                 }
 
-                if (isset($this->changed_members[$file_path])) {
+                if (!empty($this->changed_members[$file_path])) {
                     $this->changed_members[$file_path] = array_merge(
                         $this->changed_members[$file_path],
                         $changed_members
@@ -354,11 +354,11 @@ class StatementsProvider
 
     public function setUnchangedFile(string $file_path): void
     {
-        if (!isset($this->diff_map[$file_path])) {
+        if (!!empty($this->diff_map[$file_path])) {
             $this->diff_map[$file_path] = [];
         }
 
-        if (!isset($this->deletion_ranges[$file_path])) {
+        if (!!empty($this->deletion_ranges[$file_path])) {
             $this->deletion_ranges[$file_path] = [];
         }
     }
