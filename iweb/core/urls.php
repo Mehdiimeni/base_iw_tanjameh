@@ -92,6 +92,16 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
+        case 'checkout_address':
+            include_once("./iweb/page/checkout_address.php");
+            exit();
+            break;
+
+        case 'checkout_confirm':
+            include_once("./iweb/page/checkout_confirm.php");
+            exit();
+            break;
+
 
 
         default:

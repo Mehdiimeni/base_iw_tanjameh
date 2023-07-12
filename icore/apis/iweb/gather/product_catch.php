@@ -307,6 +307,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
                                         price_current= $price_current,
                                         price_previous= $price_previous,
                                         isProp65Risk=$isProp65Risk,
+                                        iw_company_id=$iw_company_id,
                                         iw_api_products_id = $iw_api_product_id ";
 
                         $variant_condition = "product_id= $product_id";

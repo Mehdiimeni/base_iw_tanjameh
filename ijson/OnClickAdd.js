@@ -122,6 +122,26 @@ $(document).ready(function(){
     });
 });
 
+
+$(document).ready(function(){
+    $(".weight-product_type").on('change', function postinput(){
+        var wproduct_type = $(this).val(); // this.value
+        var product_typename = $(this).attr('id');
+        $.ajax({
+            url: '../ijson/OnClickAdd.php',
+            data: { w_product_type: wproduct_type , product_type_name : product_typename },
+            type: 'get'
+        }).done(function(responseData) {
+            console.log('Done: ', responseData);
+        }).fail(function() {
+            console.log('Failed');
+        });
+    });
+});
+
+
+
+
 $(document).ready(function(){
     $(".order_number").on('change', function postinput(){
         var ordernu = $(this).val(); // this.value

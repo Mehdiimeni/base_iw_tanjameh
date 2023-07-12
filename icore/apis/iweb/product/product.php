@@ -18,7 +18,7 @@ if (!empty($_POST['item'])) {
     if ($objORM->DataExist($condition, TableIWAPIProducts, 'id')) {
 
         // view count
-        if ($objORM->DataExist("iw_api_products_id = $item", TableIWApiProductStatus,'iw_api_products_id')) {
+        if ($objORM->DataExist("iw_api_products_id = $item", TableIWApiProductStatus, 'iw_api_products_id')) {
             $USet = "PView = PView + 1";
             $objORM->DataUpdate("iw_api_products_id = $item", $USet, TableIWApiProductStatus);
         } else {
@@ -58,12 +58,15 @@ if (!empty($_POST['item'])) {
         $curtime = time();
         $now_modify = date("Y-m-d H:i:s");
 
+
+        $iw_company_id =$obj_product->iw_company_id;
+
         // API Count and Connect
         // check api count
         $expire_date = date("m-Y");
         $obj_api_connect = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
-        if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (($curtime - $last_modify) > 21600)) {
+        if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (strtotime($now_modify)-$last_modify) > 100000 ) {
 
 
             $whitelist = array(
@@ -199,6 +202,8 @@ if (!empty($_POST['item'])) {
                                 iw_api_product_type_id=$iw_api_product_type_id ";
 
                 $objORM->DataUpdate($product_condition, $str_change, TableIWAPIProducts);
+                
+                $objORM->DeleteRow("iw_api_products_id=$obj_product->id", TableIWApiProductVariants);
 
 
                 foreach ($objProductData['variants'] as $variant) {
@@ -233,18 +238,13 @@ if (!empty($_POST['item'])) {
                                    price_previous= $price_previous,
                                    isProp65Risk=$isProp65Risk,
                                    last_modify = '$now_modify',
+                                   iw_company_id = $iw_company_id,
                                    iw_api_products_id = $obj_product->id ";
 
                     $variant_condition = "product_id= $product_id";
 
-                    if (!$objORM->DataExist($variant_condition, TableIWApiProductVariants, 'id')) {
+                    $objORM->DataAdd($str_change, TableIWApiProductVariants);
 
-                        $objORM->DataAdd($str_change, TableIWApiProductVariants);
-
-                    } else {
-
-                        $objORM->DataUpdate($variant_condition, $str_change, TableIWApiProductVariants);
-                    }
 
                 }
 
@@ -331,19 +331,17 @@ if (!empty($_POST['item'])) {
         // shipping price
 
         $strShippingPrice = '';
-        $PWIdKey = $obj_product->iw_product_weight_id;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
 
-        if($objShippingTools->FindItemWeight($obj_product) == -1)
-        {
+        if ($objShippingTools->FindItemWeight($obj_product) == -1) {
             $product_weight = 2;
             $objORM->DataUpdate("id = $obj_product->id", " NoWeightValue = 1 ", TableIWAPIProducts);
-        }else{
+        } else {
 
             $product_weight = $objShippingTools->FindItemWeight($obj_product);
         }
-   
+
 
         $intTotalShipping = $objShippingTools->FindBasketWeightPrice($product_weight, $obj_product->MainPrice, $currencies_conversion_id);
 
@@ -388,7 +386,7 @@ if (!empty($_POST['item'])) {
 
         }
 
- 
+
 
         $arr_info = json_decode($obj_product->info, 1);
 
@@ -443,7 +441,7 @@ if (!empty($_POST['item'])) {
                 break;
         }
 
-        $product_web_score = round(($product_web_score+$count_score+$user_score)/3);
+        $product_web_score = round(($product_web_score + $count_score + $user_score) / 3);
 
         $objORM->DataUpdate("iw_api_products_id = $item", "PScore = $product_web_score", TableIWApiProductStatus);
 

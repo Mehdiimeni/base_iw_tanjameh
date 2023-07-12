@@ -74,7 +74,7 @@ if (get_nav()) {
           <?php if (get_user_acl()) { ?>
             <!-- wishlist -->
             <li class="nav-item b-drop position-relative">
-              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">0</span>
+              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"><?php echo get_favorite_count(); ?></span>
               <a class="nav-link" href="?user=favorite">
                 <svg height="1.3em" width="1.5em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                   aria-labelledby="wish-list-8883410" role="img" aria-hidden="false">
@@ -88,8 +88,8 @@ if (get_nav()) {
           <?php } ?>
           <!-- cart -->
           <li class="cart nav-item b-drop position-relative">
-            <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"></span>
-            <a class="nav-link" href="#">
+            <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"><?php echo get_cart_count(); ?></span>
+            <a class="nav-link" href="./?user=cart">
               <svg height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                 aria-labelledby="your-bag-8883411" role="img" aria-hidden="false">
                 <title id="your-bag-8883411">سبد خرید</title>
@@ -99,6 +99,7 @@ if (get_nav()) {
               </svg>
             </a>
             <div id="cart-items" class="position-absolute">
+              <?php if(get_cart_count() == 0){ ?>
               <div id="bag-empty" class="pt-3 text-center">
                 <h6 class="fw-semibold">سبد شما خالی است</h6>
                 <h6 class="mx-2">برو آن را با تمام امیدها و رویاهای مد خود پر کن.</h6>
@@ -107,11 +108,9 @@ if (get_nav()) {
                   <a href="#" class="btn box-shadow w-100 btn-outline-light rounded-0">جدیدترین ها را ببین</a>
                 </div>
               </div>
-              <h5 id="cartTitle" class="text-center my-3 fw-semibold">سبد خرید شما</h5>
-              <ol id="list-item-product">
-              </ol>
+              <?php } ?>
               <div id="total-text">      
-                <a href="#" class="btn btn-dark w-100 my-3">ورود به سبد خرید</a>
+                <a href="./?user=cart" class="btn btn-dark w-100 my-3">ورود به سبد خرید</a>
               </div>
             </div>
           </li>

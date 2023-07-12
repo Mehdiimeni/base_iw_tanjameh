@@ -274,53 +274,69 @@ Enabled,
 modify_ip,
 id', 'id ASC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
-
     $ListItem->modify_ip == null ? $ListItem->modify_ip = FA_LC["no_viewed"] : FA_LC["viewed"];
-
+    $ListItem->iw_product_weight_id == '' ? $iw_product_weight_id = 0 : $iw_product_weight_id = $ListItem->iw_product_weight_id;
 
     // add  weight product
-    $ListItem->iw_products_weight_price_id = @$objORM->Fetch(
-        "id = ". @$objORM->Fetch("id = $ListItem->iw_products_weight_price_id","iw_product_weight_id",TableIWWebWeightPrice),
+    $Weight = @$objORM->Fetch(
+        "id = $iw_product_weight_id ",
         'Weight',
         TableIWWebWeight
     )->Weight;
 
-    $ListItem->iw_products_weight_price_id = '<input type="text" class="weight-product" maxlength="3" size="3" id="' . $ListItem->ProductId . '" value="' . $ListItem->iw_products_weight_price_id . '">';
+    $ListItem->iw_product_weight_id = '<input type="text" class="weight-product" maxlength="3" size="3" id="' . $ListItem->ProductId . '" value="' . $Weight . '">';
 
 
     // add weight gender
     $url_gender = $ListItem->url_gender;
-    $MainWeightIdKey = $objORM->Fetch(" Name = '$url_gender'", 'iw_products_weight_price_id', TableIWNewMenu)->iw_products_weight_price_id;
-    $SCondition = "id = '$MainWeightIdKey'";
+    $MainWeightIdKey = $objORM->Fetch(" Name = '$url_gender'", 'iw_product_weight_id', TableIWNewMenu)->iw_product_weight_id;
+    $SCondition = "id = $MainWeightIdKey";
     $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeight)->Weight;
     $ListItem->url_gender = $ListItem->url_gender . '<br /><input type="text" class="weight-main" maxlength="3" size="3" id="' . $url_gender . '" value="' . $WeightValue . '">';
 
 
     // add weight category
     $url_category = $ListItem->url_category;
-    $SubWeightIdKey = @$objORM->Fetch(" Name = '$url_category'", 'iw_products_weight_price_id', TableIWNewMenu2)->iw_products_weight_price_id;
-    $SCondition = "id = '$SubWeightIdKey'";
-    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
+    $SubWeightIdKey = @$objORM->Fetch(" Name = '$url_category'", 'iw_product_weight_id', TableIWNewMenu2)->iw_product_weight_id;
+    $SCondition = "id = $SubWeightIdKey";
+    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeight)->Weight;
     $ListItem->url_category = $ListItem->url_category . '<br /><input type="text" class="weight-sub" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_category) . '" value="' . $WeightValue . '">';
 
     // add weight group
     $url_group = $ListItem->url_group;
-    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$url_group'", 'iw_products_weight_price_id', TableIWNewMenu3)->iw_products_weight_price_id;
-    $SCondition = "id = '$Sub2WeightIdKey'";
-    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
+    $Sub2WeightIdKey = @$objORM->Fetch(" Name = '$url_group'", 'iw_product_weight_id', TableIWNewMenu3)->iw_product_weight_id;
+    $SCondition = "id = $Sub2WeightIdKey";
+    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeight)->Weight;
     $ListItem->url_group = $ListItem->url_group . '<br /><input type="text" class="weight-sub2" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group) . '" value="' . $WeightValue . '">';
 
     // add weight submit 4
     $url_group2 = $ListItem->url_group2;
     $Sub4WeightIdKey = @$objORM->Fetch(" Name = '$url_group2'", 'iw_product_weight_id', TableIWNewMenu4)->iw_product_weight_id;
-    $SCondition = "id = '$Sub4WeightIdKey'";
-    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice)->Weight;
+    if ($Sub4WeightIdKey != '') {
+        $SCondition = "id = $Sub4WeightIdKey";
+    } else {
+        $SCondition = "id = 0";
+    }
+    $WeightValue = @$objORM->Fetch($SCondition, 'Weight', TableIWWebWeight)->Weight;
     $ListItem->url_group2 = $ListItem->url_group2 . '<br /><input type="text" class="weight-sub4" maxlength="3" size="3" id="' . $objGlobalVar->getUrlDecode($url_group2) . '" value="' . $WeightValue . '">';
 
     // brand
     $ListItem->iw_api_brands_id = @$objORM->Fetch("id = '$ListItem->iw_api_brands_id' ", 'name', TableIWApiBrands)->name;
+
+
+ 
     //type
-    $ListItem->iw_api_product_type_id = @$objORM->Fetch("id = '$ListItem->iw_api_product_type_id' ", 'name', TableIWApiProductType)->name;
+
+    $obj_product_type = @$objORM->Fetch("id = $ListItem->iw_api_product_type_id ", 'name,iw_product_weight_id', TableIWApiProductType);
+if($obj_product_type->iw_product_weight_id != ''){
+    $product_type_weight = @$objORM->Fetch("id = $obj_product_type->iw_product_weight_id ", 'Weight', TableIWWebWeight)->Weight;
+}else{
+    $product_type_weight = 0;
+}
+
+    $ListItem->iw_api_product_type_id = $obj_product_type->name . '<br /><input type="text" class="weight-product_type" maxlength="3" size="3" id="' . $obj_product_type->name . '" value="' . $product_type_weight . '">';
+
+
 
     $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
 

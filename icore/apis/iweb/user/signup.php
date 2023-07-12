@@ -66,7 +66,7 @@ if (
         fclose($FOpen);
 
         $UserSessionId = session_id();
-        $SCondition = "  ( iw_user_id = $iw_user_id or session_id = '$UserSessionId'  ) and iw_api_product_variants_id != ''  ";
+        $SCondition = "  ( iw_user_id = $iw_user_id or session_id = '$UserSessionId'  ) and iw_api_products_id != ''  ";
         $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart, 'id');
 
 

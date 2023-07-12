@@ -66,7 +66,7 @@ class ShippingTools extends DBORM
                 "id = $iw_product_weight_id",
                 'Weight',
                 TableIWWebWeight
-            )->Weight ?? null;
+            )->Weight ?? 0;
         }
     }
 
@@ -75,10 +75,11 @@ class ShippingTools extends DBORM
 
         if (!$this->ProductHasWeight(@$ProductItem->iw_product_weight_id))
             if (!$this->CatHasWeight(@$ProductItem->CatIds))
-                if (!$this->TypeHasWeight(@$ProductItem->iw_api_product_type_id))
-                    if (!$this->GroupHasWeight(@$ProductItem->url_group))
-                        if (!$this->CategoryHasWeight(@$ProductItem->url_category))
-                            $this->MainHasWeight(@$ProductItem->url_gender);
+                if (!$this->Group2HasWeight(@$ProductItem->url_group2))
+                    if (!$this->TypeHasWeight(@$ProductItem->iw_api_product_type_id))
+                        if (!$this->GroupHasWeight(@$ProductItem->url_group))
+                            if (!$this->CategoryHasWeight(@$ProductItem->url_category))
+                                $this->MainHasWeight(@$ProductItem->url_gender);
 
         return $this->ProductWeight;
 
@@ -87,10 +88,14 @@ class ShippingTools extends DBORM
 
     public function ProductHasWeight($ProductWeightIdKey)
     {
+
+
         if ($ProductWeightIdKey != '') {
             $Weight = $this->FindIntWeight($ProductWeightIdKey);
+
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
+            return true;
 
         } else {
             return false;
@@ -105,14 +110,14 @@ class ShippingTools extends DBORM
 
         if ($main_cat_id != '') {
             $GroupWeightIdKey = @$this->Fetch(
-                "CatId = '$main_cat_id' ",
+                "CatId = $main_cat_id ",
                 'iw_product_weight_id',
                 TableIWNewMenu4
             )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
             if ($Weight == '') {
                 $GroupWeightIdKey = @$this->Fetch(
-                    " CatId = '$main_cat_id' ",
+                    " CatId = $main_cat_id ",
                     'iw_product_weight_id',
                     TableIWNewMenu3
                 )->iw_product_weight_id;
@@ -121,7 +126,7 @@ class ShippingTools extends DBORM
 
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
-
+            return true;
         } else {
             return false;
         }
@@ -132,22 +137,37 @@ class ShippingTools extends DBORM
     {
         if ($iw_api_product_type_id != '') {
 
-            $type_name = @$this->Fetch(
+            $TypeWeightIdKey = @$this->Fetch(
                 "id = $iw_api_product_type_id",
-                "name",
+                "iw_product_weight_id",
                 TableIWApiProductType
-            )->name;
+            )->iw_product_weight_id;
 
-            $GroupWeightIdKey = @$this->Fetch(
-                " Name = '$type_name' ",
+            $Weight = $this->FindIntWeight($TypeWeightIdKey);
+
+            if (isset($Weight) and $Weight != 0)
+                $this->ProductWeight = $Weight;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+
+    public function Group2HasWeight($ProductGroupName)
+    {
+        if ($ProductGroupName != '') {
+            $GroupWeightIdKey = $this->Fetch(
+                " Name LIKE '$ProductGroupName' ",
                 'iw_product_weight_id',
                 TableIWNewMenu4
             )->iw_product_weight_id;
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
-
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
-
+            return true;
         } else {
             return false;
         }
@@ -168,7 +188,7 @@ class ShippingTools extends DBORM
             $Weight = $this->FindIntWeight($GroupWeightIdKey);
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
-
+            return true;
         } else {
             return false;
         }
@@ -188,7 +208,7 @@ class ShippingTools extends DBORM
 
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
-
+            return true;
         } else {
             return false;
         }
@@ -206,7 +226,7 @@ class ShippingTools extends DBORM
             $Weight = $this->FindIntWeight($MainWeightIdKey);
             if (isset($Weight) and $Weight != 0)
                 $this->ProductWeight = $Weight;
-
+            return true;
         } else {
             return false;
         }

@@ -128,7 +128,7 @@ if ($_GET['rebasket']) {
 if (isset($_GET['w_product']) and isset($_GET['product_id'])) {
     $ProductId = @$_GET['product_id'];
     $Weight = @$_GET['w_product'];
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeightPrice)->id;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeight)->id;
 
     if ($iw_product_weight_id != null) {
         $objORM->DataUpdate("  ProductId = $ProductId  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWAPIProducts);
@@ -140,7 +140,7 @@ if (isset($_GET['w_product']) and isset($_GET['product_id'])) {
 if (isset($_GET['w_main']) and isset($_GET['main_name'])) {
     $Weight = @$_GET['w_main'];
     $main_name = @$_GET['main_name'];
-    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeightPrice)->id;
+    $iw_product_weight_id = $objORM->Fetch(" Weight = '$Weight'", 'id', TableIWWebWeight)->id;
 
     if ($iw_product_weight_id != null) {
         $objORM->DataUpdate("  Name = '$main_name'  ", " iw_product_weight_id = '$iw_product_weight_id'", TableIWWebMainMenu);
@@ -239,6 +239,46 @@ if (isset($_GET['w_sub4']) and isset($_GET['sub4_name'])) {
 
             } else {
                 $WeightInProduct = $objORM->Fetch(" id = '$ListItem->iw_product_weight_id'", 'Weight', TableIWWebWeight)->Weight;
+
+                if ($WeightInProduct >= $Weight) {
+                    continue;
+                } else {
+                    $USet = " iw_product_weight_id = '$iw_product_weight_id'";
+                    $UCondition = " id = $ListItem->id ";
+                    $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
+
+                }
+
+            }
+        }
+    }
+
+}
+
+
+// add weight to product_type
+if (isset($_GET['w_product_type']) and isset($_GET['product_type_name'])) {
+    $Weight = @$_GET['w_product_type'];
+    $product_type_name = $objGlobalVar->getUrlEncode(@$_GET['product_type_name']);
+    $iw_product_weight_id = $objORM->Fetch(" Weight = $Weight ", 'id', TableIWWebWeight)->id;
+
+    
+
+    $obj_product_type = $objORM->Fetch(" Name = '$product_type_name' ", 'id', TableIWApiProductType)->id;
+
+    if ($iw_product_weight_id != null) {
+        $objORM->DataUpdate("  Name = '$product_type_name'  ", " iw_product_weight_id = $iw_product_weight_id ", TableIWApiProductType);
+
+        $SCondition = " iw_api_product_type_id = $obj_product_type->id ";
+        foreach ($objORM->FetchAll($SCondition, 'id,iw_product_weight_id', TableIWAPIProducts) as $ListItem) {
+
+            if ($ListItem->iw_product_weight_id == '') {
+                $USet = " iw_product_weight_id = $iw_product_weight_id ";
+                $UCondition = " id = $ListItem->id ";
+                $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
+
+            } else {
+                $WeightInProduct = $objORM->Fetch(" id = $ListItem->iw_product_weight_id ", 'Weight', TableIWWebWeight)->Weight;
 
                 if ($WeightInProduct >= $Weight) {
                     continue;

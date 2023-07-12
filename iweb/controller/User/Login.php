@@ -31,13 +31,7 @@ function get_user_acl()
 
 }
 
-function get_user_cart()
-{
-        $filds = array('user_id' => get_user_id());
-        $objIAPI = set_server();
-        return $objIAPI->GetPostApi('user/cart', $filds);
 
-}
 
 function user_login($username,$password)
 {

@@ -53,3 +53,24 @@ function get_website_alert($type)
     $objIAPI = set_server();
     return json_decode($objIAPI->GetGeneralApi('global/website_alert'));
 }
+
+
+function get_cart_count()
+{
+    $cart_items = json_decode(@$_COOKIE['cart_items'], true);
+    if (!empty($cart_items)) {
+        return count($cart_items);
+    } else {
+        return 0;
+    }
+}
+
+function get_favorite_count()
+{
+    $favorite_items = json_decode(@$_COOKIE['favorite_items'], true);
+    if (!empty($favorite_items)) {
+        return count($favorite_items);
+    } else {
+        return 0;
+    }
+}

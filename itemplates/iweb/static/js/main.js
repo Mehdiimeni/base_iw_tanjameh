@@ -162,13 +162,13 @@ $(document).on('click', '.clike-follow', function () {
     if ($("#boxBrandSelected")) {
       $("#boxBrandSelected").append(
         `
-        <li class="brandItem col nav-hover">
-          <div class="border-bottom px-1 py-2 d-flex align-items-center">
-            <a href="${brandName.attr("data-url")}" class="text-decoration-none text-dark">${brandName.text()}</a>
-            <button class="btn border-1 rounded-0 btn-outline-dark ms-auto d-flex align-items-center clike-follow follow"><i class="fa-solid fa-check me-2"></i><span>دنبال شده</span></button>
-        </div>
-        </li>
-        `
+      <li class="brandItem col nav-hover">
+        <div class="border-bottom px-1 py-2 d-flex align-items-center">
+          <a href="${brandName.attr("data-url")}" class="text-decoration-none text-dark">${brandName.text()}</a>
+          <button class="btn border-1 rounded-0 btn-outline-dark ms-auto d-flex align-items-center clike-follow follow"><i class="fa-solid fa-check me-2"></i><span>دنبال شده</span></button>
+      </div>
+      </li>
+      `
       )
     }
   }
@@ -205,11 +205,11 @@ function brand_search() {
   const outputHtml = matchs => {
     if (matchs.length > 0) {
       const html = matchs.map(match => `
-            <div class="ms-3 py-2 d-flex border-bottom align-items-center">
-              <span class="">${match}</span>
-              <button class="btn border-1 rounded-0 btn-outline-dark ms-auto d-flex align-items-center clike-follow notfollow"><i class="fa-solid fa-plus me-2"></i><span>دنبال کنید</span></button>
-          </div>
-        `).join('')
+          <div class="ms-3 py-2 d-flex border-bottom align-items-center">
+            <span class="">${match}</span>
+            <button class="btn border-1 rounded-0 btn-outline-dark ms-auto d-flex align-items-center clike-follow notfollow"><i class="fa-solid fa-plus me-2"></i><span>دنبال کنید</span></button>
+        </div>
+      `).join('')
       matchList.innerHTML = html
     }
   }
@@ -376,14 +376,14 @@ $('#newsletter').submit(function (e) {
         success: function (response) {
           $('#newsletter').toggle(300);
           $('#newsletterResult').append(`
-        <i class="fa fa-message fs-1"></i>
-        <div>
-          <h6 class="fw-bold">Welcome aboard!</h6>
-          <h6>we sent you a welcome email</h6>
-          <small class="my-3 d-block">amir@hotmail.com</small>
-          <h6>you'r subscribe</h6>
-        </div>
-        `);
+      <i class="fa fa-message fs-1"></i>
+      <div>
+        <h6 class="fw-bold">Welcome aboard!</h6>
+        <h6>we sent you a welcome email</h6>
+        <small class="my-3 d-block">amir@hotmail.com</small>
+        <h6>you'r subscribe</h6>
+      </div>
+      `);
         }
       });
     }
@@ -454,7 +454,7 @@ $(function () {
     $("#cart-items").slideUp(500);
   });
 
-  $(".items-basket").text(($("#list-item-product").children().length));
+  $(".items-basket2").text(($("#list-item-product").children().length));
 
   $("#addToCart").on("click", function () {
     if ($(".dropbtn").val() == 'true') {
@@ -466,9 +466,9 @@ $(function () {
       var addToCart = $("#addToCart");
       addToCart.attr('disabled', true);
       addToCart.html(`
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        افزودن به سبد ...
-        `);
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      افزودن به سبد ...
+      `);
       setTimeout(function () {
         addToCart.removeClass('btn-dark');
         addToCart.addClass('btn-success');
@@ -497,38 +497,29 @@ $(function () {
         var wishList = "<a href='#' class='wishList text-decoration-none text-body-tertiary d-inline-block'>انتقال به علاقمندی</a>";
         var size = $(this).find("#btnSize").text();
         var cena = $(this).find(".product-price").text();
-
-
-
-        var product_id = $(this).find(".product-id").text();
-
-        var cart_items = JSON.parse($.cookie('cart_items'));
-        $(".items-basket").text(cart_items.length);
-        $(".items-basket").text();
-
-
-
         $("#list-item-product").addClass("p-2 overflow-y-scroll");
         $("#list-item-product").append(`
-      <li class="hstack gap-1 align-items-start mb-5 li-item">
-      <img src='${firstColorImg}' class="width-42" alt=""> 
-      <div class="b-animate b-dark font-x-s w-100">
-        <div class="hstack">
-        <a href="${brandHref}" class="d-inline-block text-decoration-none text-dark mb-2">${brand}</a>
-        <h6 class="fw-semibold ms-auto"><span class='eachPrice'>${cena}</span> تومان</h6>
-        </div>
-        <a class="d-block text-decoration-none text-dark fs-6">${name}</a>
-        <p class="text-body-secondary m-0">اندازه: <span class="sizeItem">${size}</span></p>
-        <p class="text-body-secondary">تعداد: <span>1</span></p>
-        ${remove}
-        
+    <li class="hstack gap-1 align-items-start mb-5 li-item">
+    <img src='${firstColorImg}' class="width-42" alt=""> 
+    <div class="b-animate b-dark font-x-s w-100">
+      <div class="hstack">
+      <a href="${brandHref}" class="d-inline-block text-decoration-none text-dark mb-2">${brand}</a>
+      <h6 class="fw-semibold ms-auto"><span class='eachPrice'>${cena}</span></h6>
       </div>
-    </li>
-      `);
+      <a class="d-block text-decoration-none text-dark fs-6">${name}</a>
+      <p class="text-body-secondary m-0">اندازه: <span class="sizeItem">${size}</span></p>
+    
+  
+    </div>
+  </li>
+    `);
 
         //number of items in basket
-        // $(".items-basket").text(($("#list-item-product").children().length));
-        // $(".items-basket").text();
+
+         $(".items-basket2").text(($("#list-item-product").children().length));
+   
+
+        
 
         //calculate total price
         var totalPrice = 0;
@@ -547,7 +538,7 @@ $(function () {
           totalPrice += cenaEach;
         });
         $("#total-price").text(totalPrice + deliveryPrice);
-        $(".items-basket").text(($("#list-item-product").children().length));
+        $(".items-basket2").text(($("#list-item-product").children().length));
 
         if (totalPrice == 0) {
           bag_empty.addClass("d-block");
@@ -629,38 +620,6 @@ $(".icon-search").on("click", function () {
   $(".fa-search").toggleClass("fa-times").css("transform", "rotate(0deg)");
   $(".fa-times").css("transform", "rotate(180deg)");
 });
-// search autocomplete
-function all_search() {
-  const search = document.getElementById('all_search')
-  const matchList = document.getElementById('all_match_list')
-  // Search and filter
-  const allSearch = async searchText => {
-    const items = ["adidas", "puma", "nike", "boss", "jean", "ALDO", "ASICS"];
-    // Get matches to current text input
-    let matchs = items.filter(user => {
-      const regex = new RegExp(`^${searchText}`, 'gi')
-      return user.match(regex)
-    })
-    if (searchText.length === 0) {
-      matchs = []
-      matchList.innerHTML = ''
-    }
-    // Output
-    outputHtml(matchs);
-  }
-  const outputHtml = matchs => {
-    if (matchs.length > 0) {
-      const html = matchs.map(match => `
-            <a href="#" class="nav-link nav-hover py-2 px-4 d-flex border-bottom align-items-center">
-              <span class="">${match}</span>
-              <i class="fa fa-search ms-auto" aria-hidden="trues"></i>
-          </a>
-        `).join('')
-      matchList.innerHTML = html
-    }
-  }
-  search.addEventListener('input', () => allSearch(search.value))
-}
 
 // feedback helpful
 $('.btnPositive').click(function () {
