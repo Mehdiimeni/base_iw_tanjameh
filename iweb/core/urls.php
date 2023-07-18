@@ -5,6 +5,7 @@ $group = @$_GET["group"];
 $gender = @$_GET["gender"];
 $brand = @$_GET["brand"];
 $trend = @$_GET["trend"];
+$search = @$_GET["search"];
 $item = @$_GET["item"];
 
 
@@ -102,6 +103,18 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
+        case 'set_bank':
+            include_once("./iweb/page/set_bank.php");
+            exit();
+            break;
+
+        case 'ref_bank':
+            include_once("./iweb/page/ref_bank.php");
+            exit();
+            break;
+
+
+
 
 
         default:
@@ -133,6 +146,12 @@ if ($gender == '' and $group == '') {
 
     if ($trend != '') {
         include_once("./iweb/page/trend.php");
+        exit();
+
+    }
+
+    if ($search != '') {
+        include_once("./iweb/page/search.php");
         exit();
 
     }

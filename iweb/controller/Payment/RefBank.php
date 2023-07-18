@@ -1,13 +1,13 @@
 <?php
 //RefBank.php
-require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
+require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 $objGlobalVar = new GlobalVarTools();
 
-$Enabled = true;
+$Enabled = BoolEnum::BOOL_TRUE();
 
 $objTimeTools = new TimeTools();
 $objAclTools = new ACLTools();
-$Disabled = false;
+$Disabled = BoolEnum::BOOL_FALSE();
 $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
@@ -83,33 +83,33 @@ if ($_POST['Status'] == 2) {
     }
 
 
-    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    
-    
+    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    $ModifyTime = $objTimeTools->jdate("H:i:s");
+    $ModifyDate = $objTimeTools->jdate("Y/m/d");
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
     $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
-    $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
-    if($UserId == ''){
-        $UserId = $objGlobalVar->de2Base64($secUID);
-    }elseif($objGlobalVar->de2Base64($secUID) != $UserId)
+    $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
+    if($UserIdKey == ''){
+        $UserIdKey = $objGlobalVar->de2Base64($secUID);
+    }elseif($objGlobalVar->de2Base64($secUID) != $UserIdKey)
     {
         $objBankSaman->ReverseTransaction($_POST['ResNum']);
         JavaTools::JsAlertWithRefresh(FA_LC['user_data_error'] . '. ' . FA_LC['payment_return_message'], 0, './?type=usr&act=logout&q=y');
         exit();
     }
-    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
+    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
     if (!$objORM->DataExist($SCondition, TableIWUser)) {
         $objBankSaman->ReverseTransaction($_POST['ResNum']);
         JavaTools::JsAlertWithRefresh(FA_LC['user_data_error'] . '. ' . FA_LC['payment_return_message'], 0, './?type=usr&act=logout&q=y');
         exit();
     }
 
-    $objGlobalVar->setSessionVar('_IWUserId', $UserId);
-    $objGlobalVar->setCookieVar('_IWUserId', $objAclTools->en2Base64($UserId, 1));
+    $objGlobalVar->setSessionVar('_IWUserIdKey', $UserIdKey);
+    $objGlobalVar->setCookieVar('_IWUserIdKey', $objAclTools->en2Base64($UserIdKey, 1));
 
 
-    
+    $IdKey = $objAclTools->IdKey();
     $PaymentIdKey = $IdKey;
 // add to payment
 
@@ -121,9 +121,9 @@ if ($_POST['Status'] == 2) {
     $BasketIdKey = $ResNum;
 
     $InSet = "";
-    
-    $InSet .= " Enabled = $Enabled ,";
-    $InSet .= " UserId = '$UserId' ,";
+    $InSet .= " IdKey = '$IdKey' ,";
+    $InSet .= " Enabled = '$Enabled' ,";
+    $InSet .= " UserIdKey = '$UserIdKey' ,";
     $InSet .= " BasketIdKey = '$BasketIdKey' ,";
     $InSet .= " ResitId = '$ResitId' ,";
     $InSet .= " State = '$State' ,";
@@ -141,18 +141,18 @@ if ($_POST['Status'] == 2) {
     $InSet .= " SecurePan = '$SecurePan' ,";
     $InSet .= " HashedCardNumber = '$HashedCardNumber' ,";
     $InSet .= " Token = '$Token' ,";
-    $InSet .= " modify_ip = '$modify_ip' ,";
-    
-    
-    $InSet .= " last_modify = '$now_modify' ,";
-    $InSet .= " ModifyId = '$UserId' ";
+    $InSet .= " ModifyIP = '$ModifyIP' ,";
+    $InSet .= " ModifyTime = '$ModifyTime' ,";
+    $InSet .= " ModifyDate = '$ModifyDate' ,";
+    $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
+    $InSet .= " ModifyId = '$UserIdKey' ";
 
     $objORM->DataAdd($InSet, TableIWAPaymentState);
 
     //add to main basket
     $intCountBasket = 0;
 
-    $SCondition = "  UserId = '$UserId' ";
+    $SCondition = "  UserIdKey = '$UserIdKey' ";
     $objUserTempCart = $objORM->FetchAll($SCondition, '*', TableIWUserTempCart);
 
     foreach ($objUserTempCart as $UserTempCart) {
@@ -165,10 +165,10 @@ if ($_POST['Status'] == 2) {
         $IdKeyCart = $objAclTools->IdKey();
         $InSet = "";
         $InSet .= " IdKey = '$IdKeyCart' ,";
-        $InSet .= " Enabled = $Enabled ,";
+        $InSet .= " Enabled = '$Enabled' ,";
         $InSet .= " ProductId = '$UserTempCart->ProductId' ,";
         $InSet .= " PaymentIdKey = '$PaymentIdKey' ,";
-        $InSet .= " UserId = '$UserId' ,";
+        $InSet .= " UserIdKey = '$UserIdKey' ,";
         $InSet .= " Size = '$UserTempCart->Size' ,";
         $InSet .= " ProductSizeId = '$UserTempCart->ProductSizeId' , ";
         $InSet .= " ProductCode = '$ProductCode' , ";
@@ -176,10 +176,10 @@ if ($_POST['Status'] == 2) {
         $InSet .= " BasketIdKey = '$BasketIdKey' ,";
         $InSet .= " ChkState = 'none' ,";
         $InSet .= " UserAddressId = '$UserAddressId' ,";
-        $InSet .= " modify_ip = '$modify_ip' ,";
-        
-        
-        $InSet .= " last_modify = '$now_modify' ";
+        $InSet .= " ModifyIP = '$ModifyIP' ,";
+        $InSet .= " ModifyTime = '$ModifyTime' ,";
+        $InSet .= " ModifyDate = '$ModifyDate' ,";
+        $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
 
         $objORM->DataAdd($InSet, TableIWAUserMainCart);
 
@@ -194,7 +194,7 @@ if ($_POST['Status'] == 2) {
 
     $objBankSaman->VerifyTransaction($_POST['ResNum']);
 
-    $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
+    $SCondition = "IdKey = '$UserIdKey' and  Enabled = '$Enabled' ";
     $strProfile = $objORM->Fetch($SCondition, 'CellNumber,Name', TableIWUser);
 
     // SMS user
@@ -209,21 +209,21 @@ if ($_POST['Status'] == 2) {
 
     $SCondition = "  Sms = 1 ";
 
-    foreach ($objORM->FetchAll($SCondition, 'AdminId', TableIWAdminNotification) as $AdminNotification) {
+    foreach ($objORM->FetchAll($SCondition, 'AdminIdKey', TableIWAdminNotification) as $AdminNotification) {
 
-        $AdminId = $AdminNotification->AdminId;
-        $SCondition = "  IdKey = '$AdminId' ";
+        $AdminIdKey = $AdminNotification->AdminIdKey;
+        $SCondition = "  IdKey = '$AdminIdKey' ";
         $objSms->AdminNewBasketSms($objORM->Fetch($SCondition, 'CellNumber', TableIWAdmin)->CellNumber, $intCountBasket, $ResNum);
     }
 
 
     // count sms
-    $expire_date = date("m-Y");
-    $UCondition = " iw_company_id = 'e45fef12' and expire_date = '$expire_date' ";
+    $strExpireDate = date("m-Y");
+    $UCondition = " CompanyIdKey = 'e45fef12' and ExpireDate = '$strExpireDate' ";
     $USet = " Count = Count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWSMSAllConnect);
 
-    $objORM->DeleteRow("  UserId = '$UserId' ", TableIWUserTempCart);
+    $objORM->DeleteRow("  UserIdKey = '$UserIdKey' ", TableIWUserTempCart);
 
 
     // create invoice file
@@ -239,14 +239,14 @@ if ($_POST['Status'] == 2) {
 
         $strSizeSelect = $UserTempCart->Size;
         $UserTempCart->Count != '' ? $intCountSelect = $UserTempCart->Count : $intCountSelect = 1;
-        $SCondition = "Enabled = $Enabled AND  ProductId = '$UserTempCart->ProductId' ";
+        $SCondition = "Enabled = '$Enabled' AND  ProductId = '$UserTempCart->ProductId' ";
 
         $ListItem = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
         $strExistence = FA_LC["available"];
 
 
-        $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";
+        $SArgument = "'$ListItem->IdKey','c72cc40d','fea9f1bf'";
         $CarentCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncPricing);
         $PreviousCurrencyPrice = @$objORM->FetchFunc($SArgument, FuncIWFuncLastPricing);
         $CarentCurrencyPrice = $CarentCurrencyPrice[0]->Result;
@@ -259,10 +259,10 @@ if ($_POST['Status'] == 2) {
 
         // Shipping part
 
-        $PWIdKey = $ListItem->iw_product_weight_id;
+        $PWIdKey = $ListItem->WeightIdKey;
 
         $objShippingTools = new ShippingTools((new MySQLConnection($objFileToolsDBInfo))->getConn());
-        $arrListProductShip[] = array('IdKey' => $ListItem->id,
+        $arrListProductShip[] = array('IdKey' => $ListItem->IdKey,
             'MainPrice' => $ListItem->MainPrice,
             'ValueWeight' => $objShippingTools->FindItemWeight($ListItem));
 
@@ -288,10 +288,10 @@ if ($_POST['Status'] == 2) {
         $IdKeyInvoice = $objAclTools->IdKey();
         $InSet = "";
         $InSet .= " IdKey = '$IdKeyInvoice' ,";
-        $InSet .= " Enabled = $Enabled ,";
+        $InSet .= " Enabled = '$Enabled' ,";
         $InSet .= " ProductId = '$UserTempCart->ProductId' ,";
         $InSet .= " PaymentIdKey = '$PaymentIdKey' ,";
-        $InSet .= " UserId = '$UserId' ,";
+        $InSet .= " UserIdKey = '$UserIdKey' ,";
         $InSet .= " Size = '$UserTempCart->Size' ,";
         $InSet .= " ProductSizeId = '$UserTempCart->ProductSizeId' , ";
         $InSet .= " ProductCode = '$ProductCode' , ";
@@ -299,11 +299,11 @@ if ($_POST['Status'] == 2) {
         $InSet .= " ItemPrice = $strPricingPartTotal ,";
         $InSet .= " BasketIdKey = '$BasketIdKey' ,";
         $InSet .= " UserAddressIdKey = '$UserAddressId' ,";
-        $InSet .= " modify_ip = '$modify_ip' ,";
+        $InSet .= " ModifyIP = '$ModifyIP' ,";
         $InSet .= " SetDate = '$strDateTime' ,";
-        
-        
-        $InSet .= " last_modify = '$now_modify' ";
+        $InSet .= " ModifyTime = '$ModifyTime' ,";
+        $InSet .= " ModifyDate = '$ModifyDate' ,";
+        $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
 
         $objORM->DataAdd($InSet, TableIWAUserInvoice);
 

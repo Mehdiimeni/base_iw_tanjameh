@@ -1,8 +1,6 @@
 <?php
 ///template/user/cart.php
 if (!empty(get_cart_info())) {
-
-
   ?>
   <div class="container-md basket">
     <div class="basket-exists row bg-gainsboro-light px-md-3 pb-3">
@@ -39,8 +37,11 @@ if (!empty(get_cart_info())) {
                     <div class="product-quantity d-inline-block ms-sm-auto mb-3 mb-sm-0">
                       <?php if ($product->sizeOrder > 0) { ?>
                         <select id="mySelect" name="<?php echo ($product->product_id); ?>" class="form-select rounded-0 border-dark-subtle width-87">
-                          <?php for ($counter = 1; $counter < $product->sizeOrder; $counter++) { ?>
-                            <option data-product-id="<?php echo ($product->product_id); ?>" data-product-price="<?php echo ($product->price); ?>" value="<?php echo ($counter); ?>">
+                          <?php for ($counter = 1; $counter < $product->sizeOrder; $counter++) { 
+                            $product->qty == $counter ? $selected = "selected" : $selected = "";
+                            
+                            ?>
+                            <option <?php echo $selected; ?>  data-product-id="<?php echo ($product->product_id); ?>" data-product-price="<?php echo ($product->price); ?>" value="<?php echo ($counter); ?>">
                               <?php echo ($counter); ?></option>
                           <?php } ?>
                         </select>
@@ -52,7 +53,7 @@ if (!empty(get_cart_info())) {
                   <div class="d-block d-sm-flex align-items-start">
                     <div class="d-flex font-x-s align-items-center">
                       <div class="product-removal">
-                        <a href='?user=cart&delitem=<?php echo ($product->product_id); ?>'
+                        <a href='?user=cart&delitem=<?php echo ($product->product_id); ?>&cartid=<?php echo ($product->cart_id); ?>'
                           class='remove-product d-flex align-items-center text-decoration-none text-body-tertiary'>
                           <i class="fa-regular fa-trash-can me-2"></i>
                           <span>حذف مورد</span>

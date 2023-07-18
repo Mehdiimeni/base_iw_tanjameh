@@ -5,34 +5,34 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
 } else {
 
 
-    require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
+    require IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
     $objGlobalVar = new GlobalVarTools();
 
-    $Enabled = true;
+    $Enabled = BoolEnum::BOOL_TRUE();
 
     $objTimeTools = new TimeTools();
     $objAclTools = new ACLTools();
 
     //User info
 
-    $UserId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $UserIdKey = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
-    $SCondition = "  IdKey = '$UserId' ";
+    $SCondition = "  IdKey = '$UserIdKey' ";
     $objIWUser = $objORM->Fetch($SCondition, '*', TableIWUser);
 
-    $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    
-    
-    $ResNum = $UserId.date("YmdHis") . rand(11, 99);
+    $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
+    $ModifyTime = $objTimeTools->jdate("H:i:s");
+    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $ResNum = $UserIdKey.date("YmdHis") . rand(11, 99);
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
     $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 
 
-    $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
+    $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
 
-    if ($UserId == '') {
+    if ($UserIdKey == '') {
 
         JavaTools::JsTimeRefresh(0, './');
 
@@ -44,7 +44,7 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
         $AmountRial = $intValue * 10; // Price in rial
 
         if ($BankName == 'saman') {
-            $objBankSaman = new SamanPayment($objGlobalVar->en2Base64($UserId,1));
+            $objBankSaman = new SamanPayment($objGlobalVar->en2Base64($UserIdKey,1));
             JavaTools::JsTimeRefresh(0,'https://sep.shaparak.ir/OnlinePG/SendToken?token='.$objBankSaman->getToken($AmountRial, $ResNum, $AddressId,  $objIWUser->CellNumber ));
             exit();
 

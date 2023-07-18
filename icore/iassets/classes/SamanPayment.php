@@ -11,7 +11,7 @@ class  SamanPayment extends ACLTools
     public function __construct($secUId)
     {
         $this->TerminalId = '13113817';
-        $this->RedirectUrl = 'https://tanjameh.com/iweb/index.php?part=Payment&BankName=Saman&page=RefBank&SU='.$secUId.'&R=';
+        $this->RedirectUrl = 'https://new.tanjameh.com/?user=ref_bank&bank=Saman&SU='.$secUId.'&R=';
     }
 
 
@@ -58,7 +58,6 @@ class  SamanPayment extends ACLTools
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://sep.shaparak.ir/OnlinePG/SendToken',
             CURLOPT_URL => 'https://sep.shaparak.ir/OnlinePG/SendToken?token=' . $strToken,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',

@@ -57,19 +57,34 @@ function get_website_alert($type)
 
 function get_cart_count()
 {
-    $cart_items = json_decode(@$_COOKIE['cart_items'], true);
-    if (!empty($cart_items)) {
-        return count($cart_items);
-    } else {
-        return 0;
+    $objIAPI = set_server();
+
+    $cart_list = array(
+        'user_id' => get_user_id(),
+    );
+
+    $count_cart = (int) $objIAPI->GetPostApi('user/cart_temp', $cart_list);
+
+    if (!empty(@$_COOKIE['cart_items'])) {
+        $cart_items = json_decode(@$_COOKIE['cart_items'], true);
+        if (!empty($cart_items)) {
+            $count_cart += count($cart_items);
+        }
     }
+
+    return $count_cart;
+
 }
 
 function get_favorite_count()
 {
-    $favorite_items = json_decode(@$_COOKIE['favorite_items'], true);
-    if (!empty($favorite_items)) {
-        return count($favorite_items);
+    if (!empty(@$_COOKIE['favorite_items'])) {
+        $favorite_items = json_decode(@$_COOKIE['favorite_items'], true);
+        if (!empty($favorite_items)) {
+            return count($favorite_items);
+        } else {
+            return 0;
+        }
     } else {
         return 0;
     }

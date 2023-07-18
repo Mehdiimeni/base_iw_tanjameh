@@ -16,6 +16,7 @@ $('#glasscase').glassCase();
     readOnly: true
   });
 </script>
+<script src="./itemplates/iweb/static/js/jquery.min.js"></script>
 <script src="./itemplates/iweb/static/js/bootstrap.bundle.min.js"></script>
 <script src="./itemplates/iweb/static/owl/owl.carousel.js"></script>
 <script src="./itemplates/iweb/static/js/main.js"></script>
@@ -68,6 +69,54 @@ document.querySelectorAll('button').forEach(function(button) {
     });
   });
 });
+
+  // search autocomplete
+  function all_search() {
+    const search = document.getElementById('all_search')
+    const matchList = document.getElementById('all_match_list')
+    // Search and filter
+    const allSearch = async searchText => {
+
+      fetch('./ijson/search.php')
+        .then(response => response.json())
+        .then(data => {
+          // Work with the JSON data here
+          let matchs = data.filter(user => {
+            const regex = new RegExp(`^${searchText}`, 'gi')
+            return user.match(regex)
+          })
+          if (searchText.length === 0) {
+            matchs = []
+            matchList.innerHTML = ''
+          }
+          // Output
+          outputHtml(matchs);
+        })
+        .catch(error => {
+          console.error('Error fetching JSON data:', error);
+        });
+      // Get matches to current text input
+
+    }
+    const outputHtml = matchs => {
+      if (matchs.length > 0) {
+        const html = matchs.map(match => `
+          <a href="?search=${match}" class="nav-link nav-hover py-2 px-4 d-flex border-bottom align-items-center">
+            <span class="">${match}</span>
+            <i class="fa fa-search ms-auto" aria-hidden="trues"></i>
+        </a>
+      `).join('')
+        matchList.innerHTML = html
+      }
+    }
+    search.addEventListener('input', () => allSearch(search.value))
+  }
+
+
+
+
+
+
 
 </script>
 </body>

@@ -29,8 +29,6 @@
             <div class="col-12 col-md-10 m-auto">
                 <div class="d-flex align-items-end w-100 mb-3">
                     <h5 class="fw-bold lh-sm m-0 p-0">خلاصه سفارش</h5>
-                    <a href="#"
-                        class="btn-next btn w-25 border-0 rounded-0 bg-orange text-white ms-auto">پرداخت</a>
                 </div>
                 <hr class="mt-0 mb-4">
                 <div class="row gx-3">
@@ -43,11 +41,9 @@
                             <input id="deliveryOption1" class="form-check-input" type="radio" name="deliveryOption"
                                 checked />
                             <label class="form-check-label ms-3" for="deliveryOption1">
-                                <span class="fw-bold fs-5">چهارشنبه، 01.03. - Sa, 04.03.</span>
+                                <span class="fw-bold fs-5"> 25 روز کاری </span>
                                 <br>
                                 <span class="text-secondary-emphasis">تحویل استاندارد</span>
-                                <br>
-                                رایگان
                             </label>
                         </div>
                         <p class="small text-body-tertiary my-3">ارسال سریع برای این سفارش امکان پذیر نیست.</p>
@@ -55,57 +51,70 @@
                             <h5 class="fw-bold lh-base">سفارش</h5>
                         </div>
                         <hr class="mt-0">
-                        <h6>بسته توسط تن جامه تحویل داده می شود</h6>
-                        <p class="fw-bold fs-5">چهارشنبه، 01.03. - Sa, 04.03.</p>
+                        <h6>بسته توسط پست تحویل داده می شود</h6>
                         <ul class="p-0 list-unstyled">
                             <!-- items product -->
-                            <li class="product hstack gap-3 align-items-start py-3">
-                                <div class="product-image">
-                                    <img src='media/product/product-detail-color-box-1.webp' width="120" alt="">
-                                </div>
-                                <div>
-                                    <div class="product-brand lh-sm">Nike</div>
-                                    <div class="product-title">سوییشرت کلاه دار</div>
-                                    <p class="m-0">رنگ: <span>سرمه ای</span></p>
-                                    <p>اندازه: <span>xl</span></p>
-                                    <div class="product-line-price fw-semibold d-block text-danger">
-                                        12.99&nbsp;<span>تومان</span></div>
-                                    <del class="me-2 d-inline-block">14.99&nbsp;<span>تومان</span></del>
-                                    <p class="small d-inline-block text-danger">20%</p>
-                                </div>
-                                <div class="ms-auto">
-                                    <button class="btn"><i class="fa fa-remove"></i></button>
-                                </div>
-                            </li>
-                            <li>
-                                <hr class="text-secondary-emphasis">
-                            </li>
-                            <!-- items product -->
-                            <li class="product hstack gap-3 align-items-start py-3">
-                                <div class="product-image">
-                                    <img src='media/product/product-detail-color-box-1.webp' width="120" alt="">
-                                </div>
-                                <div>
-                                    <div class="product-brand lh-sm">Nike</div>
-                                    <div class="product-title">سوییشرت کلاه دار</div>
-                                    <p class="m-0">رنگ: <span>سرمه ای</span></p>
-                                    <p>اندازه: <span>m</span></p>
-                                    <div class="product-line-price fw-semibold d-block text-danger">
-                                        12.99&nbsp;<span>تومان</span></div>
-                                    <del class="me-2 d-inline-block">14.99&nbsp;<span>تومان</span></del>
-                                    <p class="small d-inline-block text-danger">20%</p>
-                                </div>
-                                <div class="ms-auto">
-                                    <button class="btn"><i class="fa fa-remove"></i></button>
-                                </div>
-                            </li>
+                            <?php $total_parice = 0;
+                            $count_product = 0;
+                            $total_discount_persent = 0;
+                            $total_with_shipping = 0;
+                            $total_shipping = 0;
+                            foreach ((array) get_cart_info() as $product) { ?>
+                                <li class="product hstack gap-3 align-items-start py-3">
+                                    <div class="product-image">
+                                        <img src='<?php echo $product->images_address; ?>' width="120" alt="">
+                                    </div>
+                                    <div>
+                                        <div class="product-brand lh-sm">
+                                            <?php echo ($product->name); ?>
+                                        </div>
+                                        <div class="product-title">
+                                            <?php echo ($product->product_type); ?>
+                                        </div>
+                                        <p class="m-0">رنگ: <span>
+                                                <?php echo ($product->colour); ?>
+                                            </span></p>
+                                        <p>اندازه: <span>
+                                                <?php echo ($product->size); ?>
+                                            </span></p>
+                                        <p>تعداد: <span>
+                                                <?php echo ($product->qty); ?>
+                                            </span></p>
+                                        <div class="product-line-price fw-semibold d-block text-danger">
+                                            <?php echo ($product->price); ?>&nbsp;<span>
+                                                <?php echo ($product->name_currency); ?>
+                                            </span>
+                                        </div>
+                                        <?php if ($product->discount_persent) { ?>
+                                            <del class="me-2 d-inline-block">
+                                                <?php echo ($product->old_price); ?>&nbsp;<span>
+                                                    <?php echo ($product->name_currency); ?>
+                                                </span>
+                                            </del>
+                                            <p class="small d-inline-block text-danger">
+                                                <?php echo ($product->discount_persent); ?>%
+                                            </p>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <button class="btn"><i class="fa fa-remove"></i></button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="text-secondary-emphasis">
+                                </li>
+                                <?php
+                                ++$count_product;
+                                $total_parice += $product->int_price;
+                                $total_shipping += $product->int_shipping_price;
+                                $total_discount_persent += $product->int_discount_persent;
+
+                            } ?>
                         </ul>
                         <div class="d-flex w-100">
                             <h5 class="fw-bold lh-base">شرایط قیمت گذاری توضیح داده شده است</h5>
                         </div>
                         <hr class="mt-0">
-                        <h6 class="text-body-tertiary">در اصل</h6>
-                        <h6>قیمت کالا برای اولین بار در لیست شده است.</h6>
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="d-flex w-100">
@@ -114,7 +123,18 @@
                                     class="fa-solid fa-pen"></i></a>
                         </div>
                         <hr class="mt-0">
-                        <address class="">Seyed Shirazi<br>High Street<br>EN6 5BA Potters Bar<br>United Kingdom<br>
+                        <address class="">
+
+                            <?php echo get_user_address_default()[0]->NicName; ?>
+                            <br>
+                            <?php echo get_user_address_default()[0]->city; ?>
+                            <br>
+                            <?php echo get_user_address_default()[0]->Address; ?>
+                            <br>
+                            <?php echo get_user_address_default()[0]->PostCode; ?>
+                            <br>
+                            <?php echo get_user_address_default()[0]->iw_country_id; ?>
+                            <br>
                         </address>
                         <!-- payment method -->
                         <div class="w-100">
@@ -126,17 +146,10 @@
                                         autocomplete="off">
                                     <label class="btn btn-outline-dark border-dark-subtle rounded-0"
                                         for="btn-payment-1">
-                                        <img src="media/enamad.png" alt="">
+                                        <img src="./itemplates/iweb/media/sep.jpg" alt="بانک سامان">
                                     </label>
                                 </div>
-                                <div class="d-inline-block mb-1">
-                                    <input type="radio" class="btn-check" name="payment" id="btn-payment-2"
-                                        autocomplete="off">
-                                    <label class="btn btn-outline-dark border-dark-subtle rounded-0"
-                                        for="btn-payment-2">
-                                        <img src="media/enamad.png" alt="">
-                                    </label>
-                                </div>
+
                             </div>
                             <div class="d-flex w-100">
                                 <h5 class="fw-bold lh-base">کوپن / کارت هدیه <span
@@ -159,12 +172,14 @@
                                 </div>
                                 <div class="totals-item d-flex mb-3">
                                     <label>تحویل</label>
-                                    <div class="totals-value ms-auto" id="cart-shipping">15.00</div>
+                                    <div class="totals-value ms-auto" id="cart-shipping">
+                                        <?php echo ($total_parice); ?>
+                                    </div>
                                 </div>
                                 <hr class="mt-0">
                                 <div class="summary-promo mb-3 d-none">
                                     <label>تخفیف</label>
-                                    <div class="promo-value final-value ms-auto" id="basket-promo"></div>
+                                    <div class="promo-value final-value ms-auto" id="basket-promo"><?php $total_discount_persent/$count_product ?>%</div>
                                 </div>
                                 <div
                                     class="totals-item totals-item-total d-flex fw-semibold border-top border-secondary-subtle py-2">
@@ -172,9 +187,9 @@
                                         جمع کل
                                         <br>
                                         (با احتساب مالیات بر ارزش افزوده)</label>
-                                    <div class="totals-value ms-auto" id="cart-total">42.28</div>
+                                    <div class="totals-value ms-auto" id="cart-total"><?php echo $total_shipping+$total_parice; ?></div>
                                 </div>
-                                <a href="#"
+                                <a href="./?user=set_bank&bank=saman&price=<?php echo 1500; ?>&cnu=<?php echo base64_encode(base64_encode((1500).'saman')); ?>"
                                     class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">پرداخت</a>
                             </div>
                             <p class="mt-4 small">

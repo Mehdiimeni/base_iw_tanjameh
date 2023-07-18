@@ -12,7 +12,7 @@ function set_server()
 
 function get_user_id()
 {
-    isset($_REQUEST['user_id']) ? $UserId = $_REQUEST['user_id']  : $UserId = null;
+    !empty($_COOKIE['user_id']) ? $UserId = $_COOKIE['user_id']  : $UserId = null;
     return $UserId;
 
 }

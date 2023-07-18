@@ -23,8 +23,10 @@ const TableIWPanelUserPart = "iw_panel_user_part";
 const TableIWUserAccess = "iw_user_access";
 const TableIWUserTempCart = "iw_user_temp_cart";
 const TableIWUserAddress = "iw_user_address";
+const TableIWUserAddressDetails = "iw_user_address_details";
 const TableIWUserShopOrder = "iw_user_shop_order";
 const TableIWUserOrderStatus = "iw_user_order_status";
+const TableIWUserShoppingCart = "iw_user_shopping_cart";
 
 // other
 const TableIWNoTable = "iw_";
