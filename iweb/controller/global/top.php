@@ -63,8 +63,7 @@ function get_cart_count()
         'user_id' => get_user_id(),
     );
 
-    $count_cart = (int) $objIAPI->GetPostApi('user/cart_temp', $cart_list);
-
+    $count_cart = (int) $objIAPI->GetPostApi('user/count_cart', $cart_list);
     if (!empty(@$_COOKIE['cart_items'])) {
         $cart_items = json_decode(@$_COOKIE['cart_items'], true);
         if (!empty($cart_items)) {

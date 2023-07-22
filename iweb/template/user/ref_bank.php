@@ -1,6 +1,8 @@
 <?php
 ///template/user/ref_bank.php
 
+
+
 if (!isset($_POST['Status'])) {
     JavaTools::JsAlertWithRefresh(_LANG['bank_do_not_response'], 0, './?user=checkout_confirm');
     exit();
@@ -27,7 +29,6 @@ if (!isset($_POST['Status'])) {
 
 if ($_POST['Status'] == 2) {
 
-
     $retun_bank_data = array(
         'ResitId' => $_POST['MID'],
         'State' => $_POST['State'],
@@ -42,11 +43,11 @@ if ($_POST['Status'] == 2) {
         'Wage' => $_POST['Wage'],
         'SecurePan' => $_POST['SecurePan'],
         'HashedCardNumber' => $_POST['HashedCardNumber'],
-        'BankName' => $_GET['BankName'],
+        'BankName' => $_GET['bank'],
         'Sec' => $_GET['Sec'],
         'UserAddressId' => $_GET['AddId'],
         'secUID' => $_GET['SU'],
-        'AmountRial' => base64_decode(base64_decode($Sec)),
+        'AmountRial' => base64_decode(base64_decode($_GET['Sec'])),
         'R' => $_GET['R'],
         'iw_company_id' => 1,
     );
@@ -78,6 +79,16 @@ if ($_POST['Status'] == 2) {
 
     if ($setpayment_result->stat == false and $setpayment_result->code == 5) {
         JavaTools::JsAlertWithRefresh(_LANG['user_data_error'] . '. ' . _LANG['payment_return_message'], 0, './?user=exit');
+        exit();
+    }
+
+    if ($setpayment_result->stat == false and $setpayment_result->code == 6) {
+        JavaTools::JsAlertWithRefresh(_LANG['user_data_error'] . '. ' . _LANG['user_need_login'], 0, './?user=login');
+        exit();
+    }
+
+    if ($setpayment_result->stat == true and $setpayment_result->code == 1) {
+        JavaTools::JsAlertWithRefresh(_LANG['payment_ok__2'] . '. ' . _LANG['tanks_for_shopping'], 0, './?user=myaccount-orders');
         exit();
     }
 }

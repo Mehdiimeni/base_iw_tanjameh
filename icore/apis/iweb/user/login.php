@@ -53,7 +53,7 @@ if (!empty($_POST['username']) and !empty($_POST['password'])) {
 
 
         $UserSessionId = session_id();
-        $SCondition = "  ( iw_user_id = $obj_user_info->id or session_id = '$UserSessionId'  ) and iw_api_products_id != ''  ";
+        $SCondition = "  ( iw_user_id = $obj_user_info->id or session_id = '$UserSessionId'  ) and iw_user_shopping_cart_id != ''  ";
         $intCountAddToCart = $objORM->DataCount($SCondition, TableIWUserTempCart,'id');
 
 

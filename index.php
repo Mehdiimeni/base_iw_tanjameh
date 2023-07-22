@@ -18,7 +18,7 @@ if (str_contains($jsonHost->host, "localhost")) {
 }
 
 
-//error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 $objFileToolsInit = new FileTools("./icore/idefine/conf/init.iw");
 

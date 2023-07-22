@@ -12,7 +12,8 @@ function set_server()
 
 function get_user_id()
 {
-    !empty($_COOKIE['user_id']) ? $UserId = $_COOKIE['user_id']  : $UserId = null;
+    isset($_SESSION['user_id']) and $_SESSION['user_id'] > 0  ? $UserId = $_SESSION['user_id'] : $UserId = (int) base64_decode($_COOKIE['user_id']);
+    $_SESSION['user_id'] = $UserId;
     return $UserId;
 
 }

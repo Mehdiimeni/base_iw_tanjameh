@@ -17,9 +17,9 @@ function get_currency($currency_id = 1)
 function get_user_id()
 {
 
-    isset($_SESSION['user_id']) ? $UserId = $_SESSION['user_id'] : $UserId = @base64_decode($_COOKIE['user_id']);
+    isset($_SESSION['user_id']) and $_SESSION['user_id'] > 0  ? $UserId = $_SESSION['user_id'] : $UserId = (int) base64_decode($_COOKIE['user_id']);
+    $_SESSION['user_id'] = $UserId;
     return $UserId;
-
 }
 
 function get_user_address_default()
@@ -72,6 +72,8 @@ function set_bank($post_all_data)
 
 
     get_user_address_default()[0]->OtherTel != '' ? $user_cell_number = get_user_address_default()[0]->OtherTel : $user_cell_number = get_user_info()[0]->CellNumber;
+
+
     $filds = array(
         'bank' => $post_all_data['bank'],
         'user_address_id' => get_user_address_default()[0]->id,
@@ -81,6 +83,8 @@ function set_bank($post_all_data)
         'res_number' => get_user_id() . date("YmdHis") . rand(1111, 9999),
 
     );
+
+  
 
     if ($filds['bank'] == 'saman') {
         $objBankSaman = new SamanPayment(base64_encode(base64_encode($filds['user_id'])));

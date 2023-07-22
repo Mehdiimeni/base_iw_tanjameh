@@ -42,10 +42,10 @@ if (get_nav()) {
             <ul id="accountDrop" class="dropdown-menu b-animate b-dark border-0 rounded-0 position-absolute">
               <!-- show li when user is not login -->
               <?php if (!get_user_acl()) { ?>
-              <li class="px-3 mt-2"><a class="btn btn-dark w-100 rounded-0" href="./?user=login">
-                  <?php echo (_LANG['login']); ?>
-                </a></li>
-              
+                <li class="px-3 mt-2"><a class="btn btn-dark w-100 rounded-0" href="./?user=login">
+                    <?php echo (_LANG['login']); ?>
+                  </a></li>
+
                 <li class="b-animate b-purple px-3 pt-2">
                   <a class="text-decoration-none text-mediumpurple d-inline-block" href="./?user=login">ثبت نام</a>
                   <span class="font-x-s">- تنها یک دقیقه طول می کشد.</span>
@@ -74,21 +74,29 @@ if (get_nav()) {
           <?php if (get_user_acl()) { ?>
             <!-- wishlist -->
             <li class="nav-item b-drop position-relative">
-              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"><?php echo get_favorite_count(); ?></span>
-              <a class="nav-link" href="?user=favorite">
-                <svg height="1.3em" width="1.5em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
-                  aria-labelledby="wish-list-8883410" role="img" aria-hidden="false">
-                  <title id="wish-list-8883410">علاقمندی</title>
-                  <path
-                    d="M17.488 1.11h-.146a6.552 6.552 0 0 0-5.35 2.81A6.57 6.57 0 0 0 6.62 1.116 6.406 6.406 0 0 0 .09 7.428c0 7.672 11.028 15.028 11.497 15.338a.745.745 0 0 0 .826 0c.47-.31 11.496-7.666 11.496-15.351a6.432 6.432 0 0 0-6.42-6.306zM12 21.228C10.018 19.83 1.59 13.525 1.59 7.442c.05-2.68 2.246-4.826 4.934-4.826h.088c2.058-.005 3.93 1.251 4.684 3.155.226.572 1.168.572 1.394 0 .755-1.907 2.677-3.17 4.69-3.16h.02c2.7-.069 4.96 2.118 5.01 4.817 0 6.089-8.429 12.401-10.41 13.8z">
-                  </path>
-                </svg>
-              </a>
+              <span class="heartCounter position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">
+                <?php echo get_favorite_count(); ?>
+              </span>
+              <?php if (get_favorite_count() > 0) { ?>
+                <a class="nav-link" href="?user=favorite">
+                <?php } else { ?>
+                  <a class="nav-link" href="#">
+                  <?php } ?>
+                  <svg height="1.3em" width="1.5em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
+                    aria-labelledby="wish-list-8883410" role="img" aria-hidden="false">
+                    <title id="wish-list-8883410">علاقمندی</title>
+                    <path
+                      d="M17.488 1.11h-.146a6.552 6.552 0 0 0-5.35 2.81A6.57 6.57 0 0 0 6.62 1.116 6.406 6.406 0 0 0 .09 7.428c0 7.672 11.028 15.028 11.497 15.338a.745.745 0 0 0 .826 0c.47-.31 11.496-7.666 11.496-15.351a6.432 6.432 0 0 0-6.42-6.306zM12 21.228C10.018 19.83 1.59 13.525 1.59 7.442c.05-2.68 2.246-4.826 4.934-4.826h.088c2.058-.005 3.93 1.251 4.684 3.155.226.572 1.168.572 1.394 0 .755-1.907 2.677-3.17 4.69-3.16h.02c2.7-.069 4.96 2.118 5.01 4.817 0 6.089-8.429 12.401-10.41 13.8z">
+                    </path>
+                  </svg>
+                </a>
             </li>
           <?php } ?>
           <!-- cart -->
           <li class="cart nav-item b-drop position-relative">
-            <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s"><?php echo get_cart_count(); ?></span>
+            <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">
+              <?php echo get_cart_count(); ?>
+            </span>
             <a class="nav-link" href="./?user=cart">
               <svg height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                 aria-labelledby="your-bag-8883411" role="img" aria-hidden="false">
@@ -99,17 +107,17 @@ if (get_nav()) {
               </svg>
             </a>
             <div id="cart-items" class="position-absolute">
-              <?php if(get_cart_count() == 0){ ?>
-              <div id="bag-empty" class="pt-3 text-center">
-                <h6 class="fw-semibold">سبد شما خالی است</h6>
-                <h6 class="mx-2">برو آن را با تمام امیدها و رویاهای مد خود پر کن.</h6>
-                <div class="text-bg-dark p-5">
-                  <h6 class="fw-semibold">نمیدونی از کجا شروع کنی؟</h6>
-                  <a href="#" class="btn box-shadow w-100 btn-outline-light rounded-0">جدیدترین ها را ببین</a>
+              <?php if (get_cart_count() == 0) { ?>
+                <div id="bag-empty" class="pt-3 text-center">
+                  <h6 class="fw-semibold">سبد شما خالی است</h6>
+                  <h6 class="mx-2">برو آن را با تمام امیدها و رویاهای مد خود پر کن.</h6>
+                  <div class="text-bg-dark p-5">
+                    <h6 class="fw-semibold">نمیدونی از کجا شروع کنی؟</h6>
+                    <a href="#" class="btn box-shadow w-100 btn-outline-light rounded-0">جدیدترین ها را ببین</a>
+                  </div>
                 </div>
-              </div>
               <?php } ?>
-              <div id="total-text">      
+              <div id="total-text">
                 <a href="./?user=cart" class="btn btn-dark w-100 my-3">ورود به سبد خرید</a>
               </div>
             </div>

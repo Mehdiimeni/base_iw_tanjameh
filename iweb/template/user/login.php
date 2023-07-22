@@ -46,41 +46,50 @@ if (isset($_POST['loginL'])) {
     $username = $_POST['UserNameL'];
     $password = $_POST['PasswordL'];
 
-    $user_login_result = @user_login($username, $password);
-    if ($user_login_result->stat) {
+    if (!empty($username) and !empty($password)) {
 
 
-        $_SESSION['user_id'] = $user_login_result->user_id;
+        $user_login_result = user_login($username, $password);
+        if ($user_login_result->stat) {
 
-        setcookie(
-            'user_id',
-            base64_encode($user_login_result->user_id),
-            time() + (7 * 24 * 60 * 60),
-            '/'
-        );
 
-        switch (user_login($username, $password)->stat_detials) {
-            case '20':
-                echo "<script>window.location.href = './?user=cart';</script>";
-                break;
+            $_SESSION['user_id'] = $user_login_result->user_id;
 
-            case '21':
-                echo "<script>window.location.href = './?user=myaccount';</script>";
-                break;
+            setcookie(
+                'user_id',
+                base64_encode($user_login_result->user_id),
+                time() + (6 * 60 * 60),
+                '/'
+            );
+
+            switch (user_login($username, $password)->stat_detials) {
+                case '20':
+                    echo "<script>window.location.href = './?user=cart';</script>";
+                    break;
+
+                case '21':
+                    echo "<script>window.location.href = './?user=myaccount';</script>";
+                    break;
+            }
+
+        } else {
+
+            switch ($user_login_result->stat_detials) {
+                case '10':
+                    echo "<script>alert('" . _LANG['user_pass_null'] . "');</script>";
+                    break;
+
+                case '11':
+                    echo "<script>alert('" . _LANG['user_login_error'] . "');</script>";
+                    break;
+            }
+
         }
+
 
     } else {
-
-        switch ($user_login_result->stat_detials) {
-            case '10':
-                echo "<script>alert('" . _LANG['user_pass_null'] . "');</script>";
-                break;
-
-            case '11':
-                echo "<script>alert('" . _LANG['user_login_error'] . "');</script>";
-                break;
-        }
-
+        echo "<script>alert('" . _LANG['server_error'] . "');</script>";
+        exit();
     }
 }
 

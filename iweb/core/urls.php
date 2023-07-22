@@ -113,10 +113,6 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
-
-
-
-
         default:
             include_once("./iweb/page/index.php");
             exit();

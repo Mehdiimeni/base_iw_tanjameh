@@ -30,7 +30,8 @@ function get_user_address_default()
 function get_user_id()
 {
 
-    isset($_SESSION['user_id']) ? $UserId = $_SESSION['user_id'] : $UserId = @base64_decode($_COOKIE['user_id']);
+    isset($_SESSION['user_id']) and $_SESSION['user_id'] > 0  ? $UserId = $_SESSION['user_id'] : $UserId = (int) base64_decode($_COOKIE['user_id']);
+    $_SESSION['user_id'] = $UserId;
     return $UserId;
 
 }
