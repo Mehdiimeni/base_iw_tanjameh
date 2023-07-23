@@ -88,6 +88,10 @@ if ($_POST['Status'] == 2) {
     }
 
     if ($setpayment_result->stat == true and $setpayment_result->code == 1) {
+        if (isset($_COOKIE['cart_items'])) {
+            unset($_COOKIE['cart_items']);
+            setcookie('cart_items', '', -1, '/');
+        }
         JavaTools::JsAlertWithRefresh(_LANG['payment_ok__2'] . '. ' . _LANG['tanks_for_shopping'], 0, './?user=myaccount-orders');
         exit();
     }

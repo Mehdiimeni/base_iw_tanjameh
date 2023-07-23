@@ -31,7 +31,10 @@ if (!empty($_POST['user_id'])) {
     $Wage = $_POST['Wage'];
     $SecurePan = $_POST['SecurePan'];
     $Token = $_POST['Token'];
+    $UserAddressId = $_POST['UserAddressId'];
     $iw_company_id = $_POST['iw_company_id'];
+
+
 
     $objBankSaman = new SamanPayment($secUID);
 
@@ -57,17 +60,17 @@ if (!empty($_POST['user_id'])) {
         exit();
 
     }
-   
-        if ($objORM->DataCount(" RefNum = '$RefNum' ", TableIWAPaymentState) > 0) {
-            $objBankSaman->ReverseTransaction($ResNum);
-            $status = array(
-                'stat' => false,
-                'code' => 3
-            );
-            echo json_encode($status);
-            exit();
-        }
-    
+
+    if ($objORM->DataCount(" RefNum = '$RefNum' ", TableIWAPaymentState) > 0) {
+          $objBankSaman->ReverseTransaction($ResNum);
+          $status = array(
+              'stat' => false,
+              'code' => 3
+          );
+          echo json_encode($status);
+          exit();
+      }
+  
 
     if (base64_decode(base64_decode($secUID)) != $user_id) {
         $objBankSaman->ReverseTransaction($ResNum);
@@ -91,7 +94,18 @@ if (!empty($_POST['user_id'])) {
 
 
     $none_status_id = $objORM->Fetch("status = 'none'", "id", TableIWUserOrderStatus)->id;
-    $shopping_cart = $objORM->Fetch(" iw_user_id = $user_id and iw_user_order_status_id = $none_status_id ", "id,iw_user_address", TableIWUserShoppingCart);
+    $shopping_cart = $objORM->Fetch(" iw_user_id = $user_id and iw_user_order_status_id = $none_status_id ", "id", TableIWUserShoppingCart);
+
+    if (empty($shopping_cart->id)) {
+        $objBankSaman->ReverseTransaction($ResNum);
+        $status = array(
+            'stat' => false,
+            'code' => 6
+        );
+        echo json_encode($status);
+        exit();
+    }
+
     $modify_ip = (new IPTools('../../../idefine/'))->getUserIP();
     $now_modify = date("Y-m-d H:i:s");
 
@@ -127,12 +141,13 @@ if (!empty($_POST['user_id'])) {
     $payment_id = $objORM->LastId();
 
 
+
+
     //add to main basket
 
-    $objUserTempCart = $objORM->FetchAll(" iw_user_id = $user_id and iw_user_shopping_cart_id = $shopping_cart->id ", '*', TableIWUserTempCart);
+    $objUserTempCart = $objORM->FetchAll(" iw_user_id = $user_id  ", '*', TableIWUserTempCart);
 
     foreach ($objUserTempCart as $UserTempCart) {
-
 
         $str_change = "
             Enabled= 1,
@@ -143,6 +158,7 @@ if (!empty($_POST['user_id'])) {
             promo_code = '$UserTempCart->promo_code',
             product_id	 = $UserTempCart->product_id,
             iw_user_shopping_cart_id = $shopping_cart->id,
+            iw_api_products_id = $UserTempCart->iw_api_products_id,
             last_modify = '$now_modify',
             modify_id = $user_id,
             modify_ip = '$modify_ip'";
@@ -150,11 +166,7 @@ if (!empty($_POST['user_id'])) {
         $objORM->DataAdd($str_change, TableIWAUserMainCart);
 
 
-
-
         // create invoice file
-
-        $UserTempCart->qty != '' and $UserTempCart->qty > 0 ? $intCountSelect = $UserTempCart->qty : $intCountSelect = 1;
 
         $obj_product_variants = @$objORM->Fetch(
             "product_id = $UserTempCart->product_id",
@@ -162,7 +174,7 @@ if (!empty($_POST['user_id'])) {
             TableIWApiProductVariants
         );
 
-        // shipping price
+
 
         $obj_product = $objORM->Fetch(
             "id = $obj_product_variants->iw_api_products_id",
@@ -171,11 +183,16 @@ if (!empty($_POST['user_id'])) {
         );
 
 
-        $objORM->DataUpdate(
-            "iw_api_products_id = $obj_product->id",
-            "PBuy = PBuy + 1",
-            TableIWApiProductStatus
-        );
+        $str_change = " PView = PView + 1 , iw_api_products_id = $obj_product->id ";
+        $type_condition = "iw_api_products_id = $obj_product->id";
+        if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'iw_api_products_id')) {
+
+            $objORM->DataAdd($str_change, TableIWApiProductStatus);
+        } else {
+
+            $objORM->DataUpdate($type_condition, $str_change, TableIWApiProductStatus);
+        }
+
 
         //invoice
         $InSet = " Enabled = 1 ,";
@@ -186,7 +203,8 @@ if (!empty($_POST['user_id'])) {
         $InSet .= " qty = $UserTempCart->qty ,";
         $InSet .= " price = $UserTempCart->price ,";
         $InSet .= " shopping_cart_id = $shopping_cart->id ,";
-        $InSet .= " iw_user_address = $shopping_cart->iw_user_address ,";
+        $InSet .= " currencies_conversion_id = $UserTempCart->currencies_conversion_id ,";
+        $InSet .= " iw_user_address = $UserAddressId ,";
         $InSet .= " last_modify = '$now_modify' ,";
         $InSet .= " modify_id = $user_id, ";
         $InSet .= " modify_ip = '$modify_ip' ";
@@ -199,11 +217,13 @@ if (!empty($_POST['user_id'])) {
 
     $objORM->DataUpdate(
         "id = $shopping_cart->id",
-        "iw_user_order_status_id = $bought_status_id",
+        "iw_user_order_status_id = $bought_status_id , iw_user_address = $UserAddressId ",
         TableIWUserShoppingCart
     );
 
-    $objORM->DeleteRow(" iw_user_id = $user_id and iw_user_shopping_cart_id = $shopping_cart->id ", TableIWUserTempCart);
+
+
+    $objORM->DeleteRow(" iw_user_id = $user_id ", TableIWUserTempCart);
 
 
 
@@ -226,7 +246,7 @@ if (!empty($_POST['user_id'])) {
     $USet = " all_count = all_count + 1 ";
     $objORM->DataUpdate($UCondition, $USet, TableIWSMSAllConnect);
 
- 
+
 
 
     if ($Amount == $AmountRial) {
@@ -248,5 +268,4 @@ if (!empty($_POST['user_id'])) {
         'code' => 6
     );
     echo json_encode($status);
-    exit();
 }

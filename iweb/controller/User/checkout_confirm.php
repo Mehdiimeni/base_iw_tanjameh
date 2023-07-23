@@ -16,10 +16,10 @@ function get_currency($currency_id = 1)
 function get_user_address_default()
 {
 
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
-        $filds = array('user_id' => get_user_id());
+        $filds = array('user_id' =>(int) base64_decode($_COOKIE['user_id']));
         $objIAPI = set_server();
         return json_decode($objIAPI->GetPostApi('user/default_address', $filds));
 
@@ -38,7 +38,7 @@ function get_user_id()
 
 function get_user_acl()
 {
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
 
@@ -57,7 +57,7 @@ function get_cart_info()
 {
     $cart_items = array('products_id' => @json_decode(@$_COOKIE['cart_items'], true));
     $user_id = array(
-        'user_id' => get_user_id(),
+        'user_id' =>(int) base64_decode($_COOKIE['user_id']),
         'currencies_conversion_id' => get_currency()
     );
 

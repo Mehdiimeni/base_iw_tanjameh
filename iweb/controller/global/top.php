@@ -25,11 +25,11 @@ function get_user_id()
 
 function get_user_acl()
 {
-    if (get_user_id() == null) {
+    if (!isset($_COOKIE['user_id'])) {
         return false;
     } else {
 
-        if (file_exists('./irepository/log/login/user/' . get_user_id() . '.iw')) {
+        if (file_exists('./irepository/log/login/user/' . base64_decode($_COOKIE['user_id']) . '.iw')) {
 
             return true;
         } else {
@@ -59,19 +59,26 @@ function get_cart_count()
 {
     $objIAPI = set_server();
 
-    $cart_list = array(
-        'user_id' => get_user_id(),
-    );
+    if (!isset($_COOKIE['user_id'])) {
+        return 0;
 
-    $count_cart = (int) $objIAPI->GetPostApi('user/count_cart', $cart_list);
-    if (!empty(@$_COOKIE['cart_items'])) {
-        $cart_items = json_decode(@$_COOKIE['cart_items'], true);
-        if (!empty($cart_items)) {
-            $count_cart += count($cart_items);
+    } else {
+
+        $cart_list = array(
+            'user_id' => (int) base64_decode($_COOKIE['user_id']),
+        );
+
+
+        $count_cart = (int) $objIAPI->GetPostApi('user/count_cart', $cart_list);
+        if (!empty(@$_COOKIE['cart_items'])) {
+            $cart_items = json_decode(@$_COOKIE['cart_items'], true);
+            if (!empty($cart_items)) {
+                $count_cart += count($cart_items);
+            }
         }
-    }
 
-    return $count_cart;
+        return $count_cart;
+    }
 
 }
 

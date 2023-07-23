@@ -25,10 +25,10 @@ function get_user_id()
 function get_user_address_default()
 {
 
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
-        $filds = array('user_id' => get_user_id());
+        $filds = array('user_id' =>(int) base64_decode($_COOKIE['user_id']));
         $objIAPI = set_server();
         return json_decode($objIAPI->GetPostApi('user/default_address', $filds));
 
@@ -39,10 +39,10 @@ function get_user_address_default()
 function get_user_info()
 {
 
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
-        $filds = array('user_id' => get_user_id());
+        $filds = array('user_id' =>(int) base64_decode($_COOKIE['user_id']));
         $objIAPI = set_server();
         return json_decode($objIAPI->GetPostApi('user/user_info', $filds));
 
@@ -52,7 +52,7 @@ function get_user_info()
 
 function get_user_acl()
 {
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
 
@@ -79,8 +79,8 @@ function set_bank($post_all_data)
         'user_address_id' => get_user_address_default()[0]->id,
         'user_cell_number' => $user_cell_number,
         'price' => ((int) $post_all_data['price']) * 10,
-        'user_id' => get_user_id(),
-        'res_number' => get_user_id() . date("YmdHis") . rand(1111, 9999),
+        'user_id' =>(int) base64_decode($_COOKIE['user_id']),
+        'res_number' =>(int) base64_decode($_COOKIE['user_id']) . date("YmdHis") . rand(1111, 9999),
 
     );
 

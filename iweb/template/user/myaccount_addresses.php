@@ -146,7 +146,7 @@ if (isset($_POST['addressL'])) {
                         آدرس تحویل پیش فرض
                       </label>
                     </div>
-                    <button type="submit" type="submit" name="addressL"
+                    <button type="submit"  name="addressL"
                       class="btn btn-dark btn-lg fw-bold fs-6 w-100 rounded-0">ذخیره</button>
                   </form>
                 </div>

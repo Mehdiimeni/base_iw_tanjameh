@@ -21,10 +21,10 @@ function get_user_id()
 function get_user_acl()
 {
 
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
-        $filds = array('user_id' => get_user_id());
+        $filds = array('user_id' =>(int) base64_decode($_COOKIE['user_id']));
         $objIAPI = set_server();
         return $objIAPI->GetPostApi('user/acl', $filds);
 

@@ -16,7 +16,7 @@ function user_adress($post_all_data)
         'Address' => $post_all_data['Address'],
         'Description' => $post_all_data['Description'],
         'is_default' => $post_all_data['is_default'],
-        'user_id' => get_user_id()
+        'user_id' =>(int) base64_decode($_COOKIE['user_id'])
     );
         
     $objIAPI = set_server();
@@ -34,10 +34,10 @@ function get_countreis()
 function get_user_address()
 {
 
-    if (get_user_id() == null) {
+    if ( base64_decode($_COOKIE['user_id']) == null) {
         return false;
     } else {
-        $filds = array('user_id' => get_user_id());
+        $filds = array('user_id' =>(int) base64_decode($_COOKIE['user_id']));
         $objIAPI = set_server();
         return json_decode($objIAPI->GetPostApi('user/address', $filds));
 
