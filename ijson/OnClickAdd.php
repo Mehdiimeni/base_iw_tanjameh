@@ -115,13 +115,7 @@ if (isset($_GET['basket'])) {
 
     }
 }
-// del from TableIWUserTempCart
-if ($_GET['rebasket']) {
-    $ProductId = @$_GET['rebasket'];
-    $UserId = @$_SESSION['_IWUserId'];
-    $UserSessionId = session_id();
-    $objORM->DeleteRow(" ProductId = $ProductId and ( UserId = '$UserId' or UserSessionId = '$UserSessionId' )  ", TableIWUserTempCart);
-}
+
 
 
 // add weight to product
@@ -300,11 +294,8 @@ if (isset($_GET['w_product_type']) and isset($_GET['product_type_name'])) {
 if (isset($_GET['order_nu']) and isset($_GET['order_id'])) {
 
     $id = $_GET['order_id'];
-    $OrderNu = $_GET['order_nu'];
-
-    $UCondition = " id = $id";
-    $USet = " OrderNu = '$OrderNu', ChkState = 'bought' ";
-    $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
+    $qty = $_GET['order_nu'];
+    $objORM->DataUpdate(" id = $id", " qty = $qty ", TableIWAUserMainCart);
 
 }
 

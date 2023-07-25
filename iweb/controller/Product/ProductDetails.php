@@ -80,7 +80,7 @@ if (isset($_GET['IdKey'])) {
 
     $SCondition = "  Content IS NOT NULL AND id = $IdKey AND Enabled = $Enabled And AdminOk = 1  ";
 
-    $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+    $last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
     if ($objORM->DataExist($SCondition, TableIWAPIProducts)) {
 
@@ -93,7 +93,7 @@ if (isset($_GET['IdKey'])) {
 
         $strOtherData = '';
 
-        //   if ($objProduct->ApiContent == '' or $objProduct->ApiContent == NULL or $objProduct->ModifyDate != $ModifyDateNow) {
+        //   if ($objProduct->ApiContent == '' or $objProduct->ApiContent == NULL or $objProduct->last_modify != $last_modifyNow) {
 
 
         // API Count and Connect

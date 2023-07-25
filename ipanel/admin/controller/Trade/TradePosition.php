@@ -13,7 +13,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,TradeIdKey,TypePosition,TimePosition,ModifyDate,ModifyTime,Enabled,id', TableIWTradePosition) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,TradeIdKey,TypePosition,TimePosition,last_modify,created_time,Enabled,id', TableIWTradePosition) as $ListItem) {
 
 
     $SCondition = "id = '$ListItem->GroupIdKey'";

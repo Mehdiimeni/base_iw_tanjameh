@@ -9,39 +9,39 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["product"], FA_LC["product_code"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["user"], FA_LC["product"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
 
 
 $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
-$SCondition = " ChkState = 'none'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
+$bought_id = $objORM->Fetch("status = 'bought' ", "id", TableIWUserOrderStatus)->id;
+$SCondition = " c.iw_user_order_status_id = $bought_id   order by id DESC limit " . $getStart . " , " . $getEnd;
 
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,ProductId,ProductSizeId,Size,Count,ModifyDate,OrderNu,Enabled', TableIWAUserMainCart) as $ListItem) {
+$item_list = " i.* , c.iw_user_order_status_id , c.iw_user_address ";
 
+foreach ($objORM->FetchAll($SCondition, $item_list, TableIWAUserInvoice . " as i left join " . TableIWUserShoppingCart . " as c on c.id = i.shopping_cart_id") as $ListItem) {
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $ListItem->user_id = @$objORM->Fetch("id = $ListItem->user_id", 'Name', TableIWUser)->Name;
+    $obj_products = $objORM->Fetch("id = $ListItem->iw_api_products_id ", 'Content,Name,Url', TableIWAPIProducts);
+    $ProductVariant = $objORM->Fetch("product_id = $ListItem->product_id ", '*', TableIWApiProductVariants);
+    $ListItem->product_id = $ProductVariant->name;
+    $ListItem->created_time = $ProductVariant->displaySizeText;
 
-
-    $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem->ProductId' ";
-
-    $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
-
-    if (@$APIProducts->Content == '')
+    if (@$obj_products->Content == '')
         continue;
 
-    $objArrayImage = explode('==::==', $APIProducts->Content);
+    $objArrayImage = explode('==::==', $obj_products->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 
-    $ListItem->BasketIdKey = @$APIProducts->Name;
-    $ListItem->Url = @$APIProducts->Url;
+    $ListItem->BasketIdKey = @$obj_products->Name;
+    $ListItem->Url = @$obj_products->Url;
 
     $intImageCounter = 1;
     foreach ($objArrayImage as $image) {
-        if (@strpos($APIProducts->ImageSet, (string) $intImageCounter) === false) {
+        if (@strpos($obj_products->ImageSet, (string) $intImageCounter) === false) {
 
             unset($objArrayImage[$intImageCounter]);
         }
@@ -50,10 +50,10 @@ foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,ProductId,P
     $objArrayImage = array_values($objArrayImage);
 
 
-    $urlWSize = explode("?", basename(@$ListItem->Url));
-    $urlWSize = str_replace(basename(@$ListItem->Url), $ListItem->ProductSizeId . '?' . @$urlWSize[1], @$ListItem->Url);
-    $ListItem->BasketIdKey = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->BasketIdKey . '</a>';
-    $ListItem->ProductSizeId = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$APIProducts->Name, 120, 'class="main-image"');
+    $urlWSize = explode("?", basename(@$obj_products->Url));
+    $urlWSize = str_replace(basename(@$obj_products->Url), $ProductVariant->product_id . '?' . @$urlWSize[1], @$obj_products->Url);
+    $ListItem->product_id = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ProductVariant->name . '</a>';
+    $ListItem->promo_code = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$obj_products->Name, 120, 'class="main-image"');
 
 
     $strPricingPart = '';
@@ -61,10 +61,10 @@ foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,ProductId,P
     $intCountSelect = 1;
 
 
-    $strSizeSelect = $ListItem->Size;
-    $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
+    $strSizeSelect = $ProductVariant->displaySizeText;
+    $ListItem->qty != '' ? $intCountSelect = $ListItem->qty : $intCountSelect = 1;
 
-    $ListItem->OrderNu = '<input type="text" class="order_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->OrderNu . '">';
+    $ListItem->qty = '<input type="text" class="order_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->qty . '">';
 
 
     if ($ListItem->Enabled == false) {
@@ -73,5 +73,5 @@ foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,ProductId,P
         $ToolsIcons[2] = $arrToolsIcon["active"];
     }
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 7, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }

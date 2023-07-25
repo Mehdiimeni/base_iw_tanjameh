@@ -79,8 +79,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=AllBasket">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-upload"></i></div>
-                                <div class="count"><?php echo($intCountMainCartNone); ?></div>
-                                <h3>در انتظار</h3>
+                                <div class="count"><?php echo($intCountMainCartBought); ?></div>
+                                <h3>جدید</h3>
                                 <p>خریدهای در انتظار تایید</p>
                             </div>
                         </a>

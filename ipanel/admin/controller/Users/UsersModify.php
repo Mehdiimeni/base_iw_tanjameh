@@ -27,7 +27,7 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 
 //Group Name
 $strGroupIdKey = '';
-$SCondition = " Enabled = $Enabled and ApiId !='' ORDER BY id ";
+$SCondition = " Enabled = 1  ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'Name,id,ApiId', TableIWUserGroup) as $ListItem) {
     $strGroupIdKey .= '<option value="' . $ListItem->id . '::==::' . $ListItem->ApiId . '">' . $ListItem->Name . '</option>';
 }

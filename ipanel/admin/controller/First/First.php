@@ -3,29 +3,28 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 //user count
 $SCondition = " Enabled != 0 ";
-$intCountAllUser = $objORM->DataCount($SCondition, TableIWUser, 'id');
+$intCountAllUser = $objORM->DataCount(" Enabled != 0 ", TableIWUser, 'id');
 $intCountTempCart = $objORM->DataCount($SCondition, TableIWUserTempCart, 'id');
 $intCountPaymentState = $objORM->DataCount($SCondition, TableIWAPaymentState);
 
 
-$intCountMainCartNone = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "none"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
-);
 
 
+$bought_id = $objORM->Fetch("status = 'bought' " , "id" ,TableIWUserOrderStatus)->id;
 $intCountMainCartBought = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "bought"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
+    "c.iw_user_order_status_id = $bought_id ",
+    TableIWAUserInvoice . ' as i left join ' . TableIWUserShoppingCart . ' as c on c.id = i.shopping_cart_id',
+    'i.id'
 );
 
+$bought_id = $objORM->Fetch("status = 'preparation' " , "id" ,TableIWUserOrderStatus)->id;
 $intCountMainCartPack = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "bought" or ' . TableIWUserOrderStatus . '.status = "preparation"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
+    "c.iw_user_order_status_id = $bought_id ",
+    TableIWAUserInvoice . ' as i left join ' . TableIWUserShoppingCart . ' as c on c.id = i.shopping_cart_id',
+    'i.id'
 );
+
+
 
 $intCountMainCartBooking = $objORM->DataCount(
     TableIWUserOrderStatus . '.status = "packing"',

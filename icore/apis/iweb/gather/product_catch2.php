@@ -125,6 +125,9 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                     $USet = " all_count = all_count + 1 ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
+                    if (in_array(strtolower($objProductData['productType']['name']), ARR_PRODUCT_FILTER)) {
+                        continue;
+                    }
 
                     $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
                     if (!$isInStock)
@@ -326,16 +329,14 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
             
                             $arrImage = array();
             
-                            $ProductType = $objProductData['productType']['name'] ?? null;
             
-                            if (in_array(strtolower($ProductType), ARR_PRODUCT_FILTER))
-                                continue;
+                            
             
                             foreach ($objProductData['media']['images'] as $ProductImage) {
             
             
                                 $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1200');
+                                curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1400');
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
                                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
@@ -350,11 +351,11 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                                 curl_close($ch);
             
             
-                                $FileNewName = $objShowFile->FileSetNewName('jpg');
+                                $FileNewName = $objShowFile->FileSetNewName('webp');
                                 $arrImage[] = $FileNewName;
-            
-            
-                                $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "w");
+
+
+                                $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "x");
                                 fwrite($fp, $content);
                                 fclose($fp);
             
@@ -368,6 +369,14 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,i
                             $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
             
             
+                        }else{
+
+                            $UCondition = " ProductId = $ProductId ";
+                            $USet = "Enabled = 0 ";
+            
+                            $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
+
+
                         }
                     }
 

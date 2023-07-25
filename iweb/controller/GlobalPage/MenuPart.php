@@ -8,7 +8,7 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 $Enabled = true;
 $objAclTools = new ACLTools();
 $objTimeTools = new TimeTools();
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 /*
 $arrAddToCart = '';
@@ -61,7 +61,7 @@ $MainMenuSite .= '<li class="nav-item " ><a title="' . FA_LC["type"] . '"  href 
 //Product Menu
 
 $SCondition = "Enabled = $Enabled and LocalName != ''  ";
-foreach ($objORM->FetchAll($SCondition, 'Name,LocalName,ApiId,Description,IdKey', TableIWNewMenu) as $MainMenu) {
+foreach ($objORM->FetchAll($SCondition, 'Name,LocalName,ApiId,Description', TableIWNewMenu) as $MainMenu) {
     $MainMenuSite .= '<li class="nav-item " ><a title="' . $MainMenu->Description . '"  href = "?Gender=' . $objGlobalVar->getUrlDecode($MainMenu->Name) . '" class="nav-link" >' . $MainMenu->LocalName . '<i class="bx bx-chevron-down"></i></a>';
     $MainMenuSite .= '<ul class="dropdown-menu">';
 
@@ -69,7 +69,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,LocalName,ApiId,Description,IdKey'
     $SCondition2 = "Enabled = $Enabled  and GroupIdKey = '$GroupIdKey'   and LocalName != ''";
 
 
-    foreach ($objORM->FetchAll($SCondition2, 'Name,ApiId,Description,IdKey,LocalName', TableIWNewMenu2) as $SubMenu) {
+    foreach ($objORM->FetchAll($SCondition2, 'Name,ApiId,Description,LocalName', TableIWNewMenu2) as $SubMenu) {
 
         $MainMenuSite .= '<li class="nav-item " ><a title="' . $SubMenu->Description . '" href = "?Gender=' . $objGlobalVar->getUrlDecode($MainMenu->Name) .  '&Category=' . $objGlobalVar->getUrlDecode($SubMenu->Name) .'&ProductList=1" class="nav-link" >' . $SubMenu->LocalName . '<i class="bx bx-chevron-down"></i></a>';
         $MainMenuSite .= '<ul class="dropdown-menu">';

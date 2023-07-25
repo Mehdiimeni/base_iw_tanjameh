@@ -78,10 +78,7 @@ if (!empty($_POST['user_id'])) {
             }
 
         
-            if (isset($_COOKIE['cart_items'])) {
-                unset($_COOKIE['cart_items']);
-                setcookie('cart_items', '', -1, '/');
-            }
+            
 
 
         }

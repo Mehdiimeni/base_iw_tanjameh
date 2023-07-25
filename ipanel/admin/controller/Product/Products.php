@@ -240,7 +240,7 @@ $strListBody = '';
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
     $SCondition = "ProductId LIKE '%$strSearch%' OR 
-                   ModifyDate LIKE '%$strSearch%' OR 
+                   last_modify LIKE '%$strSearch%' OR 
                    IdKey LIKE '%$strSearch%' OR 
                    LocalName REGEXP '%$strSearch%' OR 
                    Name REGEXP '%$strSearch%' OR 
@@ -255,7 +255,7 @@ if (isset($_POST['SubmitSearch'])) {
 $intTotalFind = 0;
 $intTotalFind = $objORM->DataCount($SCondition,TableIWAPIProducts);
 
-foreach ($objORM->FetchLimit($SCondition, 'ApiContent,ModifyDate,Content,IdKey,ProductId,Name,PGender,PCategory,PGroup,PGroup2,Attribute,ProductType,BrandName,MainPrice,iw_product_weight_id,ModifyId,Enabled,id', 'id DESC', $strLimit, TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'ApiContent,last_modify,Content,ProductId,Name,PGender,PCategory,PGroup,PGroup2,Attribute,ProductType,BrandName,MainPrice,iw_product_weight_id,ModifyId,Enabled,id', 'id DESC', $strLimit, TableIWAPIProducts) as $ListItem) {
 
     var_dump( $objAclTools->JsonDecodeArray($objAclTools->deBase64($ListItem->ApiContent)));
     exit();

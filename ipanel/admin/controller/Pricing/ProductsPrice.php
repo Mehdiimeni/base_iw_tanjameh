@@ -13,7 +13,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,CurrencyIdKey,ChangeRate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWAProductPrice) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,CurrencyIdKey,ChangeRate,last_modify,created_time,ModifyId,Enabled,id', TableIWAProductPrice) as $ListItem) {
 
 
     $SCondition = "id = '$ListItem->CurrencyIdKey'";
@@ -21,7 +21,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,CurrencyIdKey,ChangeR
 
 
 
-    $ListItem->ModifyDate = $ListItem->ModifyTime . ' ' . $ListItem->ModifyDate;
+    $ListItem->last_modify = $ListItem->created_time . ' ' . $ListItem->last_modify;
     $ListItem->ChangeRate = $ListItem->ChangeRate .'%';
 
     if ($ListItem->Enabled == false) {

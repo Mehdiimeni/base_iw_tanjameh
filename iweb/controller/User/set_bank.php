@@ -14,13 +14,7 @@ function get_currency($currency_id = 1)
     return $currency_id;
 }
 
-function get_user_id()
-{
 
-    isset($_SESSION['user_id']) and $_SESSION['user_id'] > 0  ? $UserId = $_SESSION['user_id'] : $UserId = (int) base64_decode($_COOKIE['user_id']);
-    $_SESSION['user_id'] = $UserId;
-    return $UserId;
-}
 
 function get_user_address_default()
 {
@@ -56,7 +50,7 @@ function get_user_acl()
         return false;
     } else {
 
-        if (file_exists('./irepository/log/login/user/' . get_user_id() . '.iw')) {
+        if (file_exists('./irepository/log/login/user/' . base64_decode($_COOKIE['user_id']) . '.iw')) {
 
             return true;
         } else {

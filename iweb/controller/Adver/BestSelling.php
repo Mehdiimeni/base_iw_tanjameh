@@ -27,7 +27,7 @@ if (@$_GET['Group'] != '') {
     $SCondition .= " AND  PGroup = '$PGroup'  ";
 }
 
-foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PGroup2,ImageSet,Name,Content,IdKey,CatId', 'RAND(),PBuy DESC', 6, TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PGroup2,ImageSet,Name,Content,CatId', 'RAND(),PBuy DESC', 6, TableIWAPIProducts) as $ListItem) {
 
     $strPricingPart = '';
     $SArgument = "'$ListItem->id','c72cc40d','fea9f1bf'";

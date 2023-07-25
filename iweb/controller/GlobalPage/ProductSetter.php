@@ -64,7 +64,7 @@ foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and Cat
                 $USet .= " CatId = concat_ws(',',CatId,'" . $CatId . "') ,";
                 $USet .= " MainPrice = $MainPrice ,";
                 $USet .= " LastPrice = $ApiLastPrice, ";
-                $USet .= " ModifyDateP = '$ModifyDate' ,";
+                $USet .= " last_modifyP = '$last_modify' ,";
                 $USet .= " BrandName = '$BrandName' ,";
                 $USet .= " TypeSet = '$TypeSet' ,";
                 $USet .= " modify_ip = '$modify_ip' ,";
@@ -94,7 +94,7 @@ foreach ($objORM->FetchLimit("Enabled = $Enabled and Content IS NOT NULL and Cat
                 $InSet .= " CatId = '$CatId' ,";
                 $InSet .= " MainPrice = $MainPrice ,";
                 $InSet .= " LastPrice = $ApiLastPrice, ";
-                $InSet .= " ModifyDateP = '$ModifyDate' ,";
+                $InSet .= " last_modifyP = '$last_modify' ,";
                 $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
                 $InSet .= " BrandName = '$BrandName' ,";
                 $InSet .= " TypeSet = '$TypeSet' ,";

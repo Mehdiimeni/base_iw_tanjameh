@@ -21,7 +21,7 @@ if (isset($_GET['Size'])) {
 
     $Size = $objGlobalVar->getUrlEncode($_GET['Size']);
     $SCondition = " (Enabled = $Enabled AND Content IS NOT NULL And AdminOk = 1  ) and (  Size LIKE '%$Size%') ";
-    $strFilter = "ModifyDate DESC";
+    $strFilter = "last_modify DESC";
 
     if (isset($_GET['filter'])) {
 
@@ -35,7 +35,7 @@ if (isset($_GET['Size'])) {
             $strFilter = "MainPrice ASC";
 
         if ($_GET['filter'] == 'latest')
-            $strFilter = "ModifyDate DESC";
+            $strFilter = "last_modify DESC";
 
         if ($_GET['filter'] == 'highprice')
             $strFilter = "MainPrice DESC";

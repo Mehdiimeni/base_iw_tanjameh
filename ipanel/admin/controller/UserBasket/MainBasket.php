@@ -20,11 +20,11 @@ $strListBody = '';
 $SCondition = " ChkState = 'none' GROUP BY BasketIdKey order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,PaymentIdKey,ModifyDate,ModifyTime,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,UserId,BasketIdKey,PaymentIdKey,last_modify,created_time,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

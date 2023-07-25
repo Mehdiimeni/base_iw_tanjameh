@@ -13,9 +13,9 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Weight,NormalPrice,ExtraPrice,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWWebWeightPrice) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Weight,NormalPrice,ExtraPrice,last_modify,created_time,ModifyId,Enabled,id', TableIWWebWeightPrice) as $ListItem) {
 
-    $ListItem->ModifyDate = $ListItem->ModifyTime . ' ' . $ListItem->ModifyDate;
+    $ListItem->last_modify = $ListItem->created_time . ' ' . $ListItem->last_modify;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

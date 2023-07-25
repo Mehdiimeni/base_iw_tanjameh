@@ -24,10 +24,10 @@ $strNewTicket = '';
 $SCondition = " SetView = '0' Limit 0,10";
 $intCountAllTicket = $objORM->DataCount($SCondition, TableIWTicket);
 
-foreach ($objORM->FetchAll($SCondition, 'SenderIdKey,TicketSubject,ModifyDate,IdKey', TableIWTicket) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'SenderIdKey,TicketSubject,last_modify', TableIWTicket) as $ListItem) {
     $SCondition = "id = '$ListItem->SenderIdKey'";
     $SenderName = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
-    $strNewTicket .= '<li><a href="?ln=&part=Ticket&page=UserTicket&modify=edit&ref=' . $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWTicket, 0) . '"><span><span>' . $SenderName . '</span><span class="time">' . $ListItem->ModifyDate . '</span></span>
+    $strNewTicket .= '<li><a href="?ln=&part=Ticket&page=UserTicket&modify=edit&ref=' . $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWTicket, 0) . '"><span><span>' . $SenderName . '</span><span class="time">' . $ListItem->last_modify . '</span></span>
                       <span class="message">' . $ListItem->TicketSubject . '</span></a></li>';
 }
 $SCondition = " ChkState = 'none' and Enabled = $Enabled ";

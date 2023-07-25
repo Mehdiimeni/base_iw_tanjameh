@@ -20,7 +20,7 @@ if (isset($_GET['ProductType'])) {
 
     $ProductType = $objGlobalVar->getUrlEncode($_GET['ProductType']);
     $SCondition = " (Enabled = $Enabled AND Content IS NOT NULL And AdminOk = 1  ) and (  ProductType LIKE '%$ProductType%') ";
-    $strFilter = "ModifyDate DESC";
+    $strFilter = "last_modify DESC";
 
     if (isset($_GET['filter'])) {
 
@@ -34,7 +34,7 @@ if (isset($_GET['ProductType'])) {
             $strFilter = "MainPrice ASC";
 
         if ($_GET['filter'] == 'latest')
-            $strFilter = "ModifyDate DESC";
+            $strFilter = "last_modify DESC";
 
         if ($_GET['filter'] == 'highprice')
             $strFilter = "MainPrice DESC";

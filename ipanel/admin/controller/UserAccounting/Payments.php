@@ -22,11 +22,11 @@ $strListBody = '';
 $SCondition = " 1 order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,State,AmountRial,BankName,ModifyTime,ModifyDate,Enabled', TableIWAPaymentState) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,iw_user_id,iw_user_shopping_cart_id,State,AmountRial,BankName,created_time,last_modify,Enabled', TableIWAPaymentState) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -51,7 +51,7 @@ foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,BasketIdKey,State,Amoun
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAPaymentState, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 7, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAPaymentState, 0));
 }
 
 

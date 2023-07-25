@@ -21,14 +21,14 @@ if (isset($_POST['SubmitF'])) {
 
 
     $ProductCode = @$_POST['ProductCode'];
-    $OrderNu = @$_POST['OrderNu'];
+    $qty = @$_POST['qty'];
     $Size = @$_POST['Size'];
 
 
     if ($ProductCode != '')
         $SCondition .= " ProductCode = '$ProductCode' and ";
-    if ($OrderNu != '')
-        $SCondition .= " OrderNu = '$OrderNu' and ";
+    if ($qty != '')
+        $SCondition .= " qty = $qty and ";
     if ($Size != '')
         $SCondition .= " Size = '$Size' and ";
 }
@@ -36,12 +36,12 @@ if (isset($_POST['SubmitF'])) {
 $SCondition .= " ChkState = 'bought'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,UserId,ProductId,ProductCode,OrderNu,Size,SortingNu,Count,ModifyIP,ProductSizeId,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,ProductId,ProductCode,OrderNu,Size,SortingNu,Count,ModifyIP,ProductSizeId,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
+    $SCondition = "id = $ListItem->iw_user_id";
     $objUser = @$objORM->Fetch($SCondition, 'Name,id', TableIWUser);
-    $ListItem->UserId = $objUser->Name;
+    $ListItem->iw_user_id = $objUser->Name;
     $ListItem->id = $objUser->id;
 
     $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem->ProductId' ";

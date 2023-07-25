@@ -25,7 +25,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-$ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 
@@ -35,7 +35,7 @@ $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 $strAdrresses = '<option readonly="readonly" selected value=""><b>' . FA_LC['select_address'] . '</b> </option>';
 $boolAddress = 1;
 $SCondition = " Enabled = $Enabled and UserId = '$UserId' ORDER BY id ";
-foreach ($objORM->FetchAll($SCondition, 'NicName,Address,IdKey', TableIWUserAddress) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'NicName,Address', TableIWUserAddress) as $ListItem) {
     $strAdrresses .= '<option  value="' . $ListItem->id . '"><b>' . $ListItem->NicName . '</b> </option>';
 
 }
@@ -47,7 +47,7 @@ $objUserAddressInfo = '';
 if ($_GET['AddId'] != null) {
     $AddressIdKey = $_GET['AddId'];
     $SCondition = " Enabled = $Enabled and UserId = '$UserId' and IdKey = '$AddressIdKey' ";
-    $objUserAddressInfo = $objORM->Fetch($SCondition, 'NicName,Address,IdKey', TableIWUserAddress);
+    $objUserAddressInfo = $objORM->Fetch($SCondition, 'NicName,Address', TableIWUserAddress);
 
 }
 $boolGotoBank = 1;

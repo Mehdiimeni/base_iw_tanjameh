@@ -10,9 +10,16 @@ include "../../../iassets/include/DBLoader.php";
 $now_modify = date("Y-m-d H:i:s");
 $modify_ip = (new IPTools('../../../idefine/'))->getUserIP();
 
-if (!empty($_POST['user_id'])) {
+if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
 
-    $user_id = $_POST['user_id'];
+    if (!empty($_POST['user_id']) and ((int) $_POST['user_id']) > 0) {
+
+        $user_id = (int) $_POST['user_id'];
+    } elseif (!empty($_POST['secUID'])) {
+        $user_id = (int) (base64_decode(base64_decode($_POST['secUID'])));
+    }
+
+
     $secUID = $_POST['secUID'];
     $ResNum = $_POST['ResNum'];
     $Amount = $_POST['Amount'];
@@ -62,15 +69,15 @@ if (!empty($_POST['user_id'])) {
     }
 
     if ($objORM->DataCount(" RefNum = '$RefNum' ", TableIWAPaymentState) > 0) {
-          $objBankSaman->ReverseTransaction($ResNum);
-          $status = array(
-              'stat' => false,
-              'code' => 3
-          );
-          echo json_encode($status);
-          exit();
-      }
-  
+        $objBankSaman->ReverseTransaction($ResNum);
+        $status = array(
+            'stat' => false,
+            'code' => 3
+        );
+        echo json_encode($status);
+        exit();
+    }
+
 
     if (base64_decode(base64_decode($secUID)) != $user_id) {
         $objBankSaman->ReverseTransaction($ResNum);

@@ -18,7 +18,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
 $ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
-$ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 $strProductsShop = '';

@@ -1,13 +1,13 @@
 <?php
 // MainDataLoader.php
 $intResult = 0 ;
-foreach ($objORM->FetchAll(1, 'Name,ApiId,IdKey', TableIWWebMainMenu) as $MainRoot) {
+foreach ($objORM->FetchAll(1, 'Name,ApiId', TableIWWebMainMenu) as $MainRoot) {
 
     $PGender = $MainRoot->Name;
     $PGenderId = $MainRoot->ApiId;
     $MainGroupIdKey  = $MainRoot->IdKey;
     $SCondition = " GroupIdKey = '$MainGroupIdKey' ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,ApiId,ApiCategoryId,IdKey', TableIWWebSubMenu) as $SubMenu ) {
+    foreach ($objORM->FetchAll($SCondition, 'Name,ApiId,ApiCategoryId', TableIWWebSubMenu) as $SubMenu ) {
 
         $PCategory = $SubMenu->Name;
         $PCategoryId = $SubMenu->ApiId;

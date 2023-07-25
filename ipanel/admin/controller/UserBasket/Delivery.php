@@ -20,11 +20,11 @@ $strListBody = '';
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
 $SCondition = " Enabled != 0 and (ChkState = 'delivery'  ) group by PackingNu  order by id DESC limit " . $getStart . " , " . $getEnd;
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,PackingNu,PackWeight,TrackingNu,CopFile,ModifyDate,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,UserId,PackingNu,PackWeight,TrackingNu,CopFile,last_modify,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     if ($ListItem->Enabled == false) {

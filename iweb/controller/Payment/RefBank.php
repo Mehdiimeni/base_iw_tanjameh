@@ -84,10 +84,10 @@ if ($_POST['Status'] == 2) {
 
 
     $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $created_time = $objTimeTools->jdate("H:i:s");
+    $last_modify = $objTimeTools->jdate("Y/m/d");
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+    $last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
     $UserIdKey = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserIdKey'));
     if($UserIdKey == ''){
@@ -142,8 +142,8 @@ if ($_POST['Status'] == 2) {
     $InSet .= " HashedCardNumber = '$HashedCardNumber' ,";
     $InSet .= " Token = '$Token' ,";
     $InSet .= " ModifyIP = '$ModifyIP' ,";
-    $InSet .= " ModifyTime = '$ModifyTime' ,";
-    $InSet .= " ModifyDate = '$ModifyDate' ,";
+    $InSet .= " created_time = '$created_time' ,";
+    $InSet .= " last_modify = '$last_modify' ,";
     $InSet .= " ModifyStrTime = '$ModifyStrTime' ,";
     $InSet .= " ModifyId = '$UserIdKey' ";
 
@@ -177,8 +177,8 @@ if ($_POST['Status'] == 2) {
         $InSet .= " ChkState = 'none' ,";
         $InSet .= " UserAddressId = '$UserAddressId' ,";
         $InSet .= " ModifyIP = '$ModifyIP' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
+        $InSet .= " created_time = '$created_time' ,";
+        $InSet .= " last_modify = '$last_modify' ,";
         $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
 
         $objORM->DataAdd($InSet, TableIWAUserMainCart);
@@ -284,7 +284,7 @@ if ($_POST['Status'] == 2) {
 
 
         //invoice
-        $strDateTime = $ModifyDate . ' ' . $ModifyTime;
+        $strDateTime = $last_modify . ' ' . $created_time;
         $IdKeyInvoice = $objAclTools->IdKey();
         $InSet = "";
         $InSet .= " IdKey = '$IdKeyInvoice' ,";
@@ -301,8 +301,8 @@ if ($_POST['Status'] == 2) {
         $InSet .= " UserAddressIdKey = '$UserAddressId' ,";
         $InSet .= " ModifyIP = '$ModifyIP' ,";
         $InSet .= " SetDate = '$strDateTime' ,";
-        $InSet .= " ModifyTime = '$ModifyTime' ,";
-        $InSet .= " ModifyDate = '$ModifyDate' ,";
+        $InSet .= " created_time = '$created_time' ,";
+        $InSet .= " last_modify = '$last_modify' ,";
         $InSet .= " ModifyStrTime = '$ModifyStrTime' ";
 
         $objORM->DataAdd($InSet, TableIWAUserInvoice);

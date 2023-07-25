@@ -16,7 +16,7 @@ $ToolsIcons[] = $arrToolsIcon["delete"];
 $strListBody = '';
 $ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
 $SCondition = " modify_id = $ModifyId ";
-foreach ($objORM->FetchAll($SCondition,'IdKey,UserName,GroupIdKey,Name,Email,CountEnter,ModifyDate,Enabled,id', TableIWUser) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition,'IdKey,UserName,GroupIdKey,Name,Email,CountEnter,last_modify,Enabled,id', TableIWUser) as $ListItem) {
 
     $ListItem->UserName = $objGlobalVar->de2Base64($ListItem->UserName);
 

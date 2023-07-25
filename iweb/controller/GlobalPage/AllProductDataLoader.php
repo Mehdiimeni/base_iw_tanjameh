@@ -13,10 +13,10 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $now_modify = date("Y-m-d H:i:s");
 
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
-$objAPIAllData = $objORM->Fetch("Enabled = $Enabled  and ( CategoryId IS NOT NULL OR CategoryId = '' ) and ModifyDate = '$ModifyDateNow' and CreateCad = 0 and TypeSet = 'Product' ", '*', TableIWAPIAllCat);
+$objAPIAllData = $objORM->Fetch("Enabled = $Enabled  and ( CategoryId IS NOT NULL OR CategoryId = '' ) and last_modify = '$last_modifyNow' and CreateCad = 0 and TypeSet = 'Product' ", '*', TableIWAPIAllCat);
 
 
 $AllProductsContent = $objAsos->ProductsList($objAPIAllData->CategoryId);

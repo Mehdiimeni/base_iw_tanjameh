@@ -60,7 +60,7 @@ $pdf->SetFont('dejavusans', '', 12);
 $SCondition = " PaymentIdKey = '$PaymentIdKey' and  BasketIdKey = '$BasketIdKey' ";
 foreach ($objORM->FetchAll($SCondition, '*', TableIWAUserInvoice) as $UserInvoice) {
     $SCondition = " IdKey = '$UserInvoice->UserAddressIdKey'  ";
-    $UserAddress = $objORM->Fetch($SCondition, 'NicName,Address,IdKey', TableIWUserAddress);
+    $UserAddress = $objORM->Fetch($SCondition, 'NicName,Address', TableIWUserAddress);
 
 
     $SCondition = "Enabled = $Enabled AND  ProductId = '$UserInvoice->ProductId' ";

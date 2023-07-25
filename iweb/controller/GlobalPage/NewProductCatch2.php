@@ -16,7 +16,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $now_modify = date("Y-m-d H:i:s");
 
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 $arrIdAllProduct = array();
@@ -30,7 +30,7 @@ $TimePriod = $TimePriod["date"];
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
 $SCondition = "1 ";
-foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu4) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,NewMenuId,GroupIdKey,iw_product_weight_id,Enabled,id,ModifyStrTime', TableIWNewMenu4) as $ListItem) {
 
 
     $objPGroup = $objORM->Fetch("IdKey = '$ListItem->GroupIdKey' ", 'Name,GroupIdKey', TableIWNewMenu3);
@@ -89,7 +89,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $USet .= " Url = '$ProductUrl' ,";
             $USet .= " MainPrice = $MainPrice ,";
             $USet .= " LastPrice = $ApiLastPrice, ";
-            $USet .= " ModifyDateP = '$ModifyDate' ,";
+            $USet .= " last_modifyP = '$last_modify' ,";
             $USet .= " BrandName = '$BrandName' ,";
             $USet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
             $USet .= " Attribute = '$Attribute'  ,";
@@ -119,7 +119,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,IdKey,Name,LocalName,NewMenuId,Gr
             $InSet .= " CatId = '$CatId' ,";
             $InSet .= " MainPrice = $MainPrice ,";
             $InSet .= " LastPrice = $ApiLastPrice, ";
-            $InSet .= " ModifyDateP = '$ModifyDate' ,";
+            $InSet .= " last_modifyP = '$last_modify' ,";
             $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
             $InSet .= " BrandName = '$BrandName' ,";
             $InSet .= " iw_product_weight_id = '$iw_product_weight_id' ,";

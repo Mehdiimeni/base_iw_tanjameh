@@ -14,7 +14,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $now_modify = date("Y-m-d H:i:s");
 
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 switch (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
     case 'add' :
@@ -196,7 +196,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         
         $now_modify = date("Y-m-d H:i:s");
 
-        $ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+        $last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 
@@ -269,7 +269,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $USet .= " CatId = concat_ws(',',CatId,'" . $CatId . "') ,";
                 $USet .= " MainPrice = $MainPrice ,";
                 $USet .= " LastPrice = $ApiLastPrice, ";
-                $USet .= " ModifyDateP = '$ModifyDate' ,";
+                $USet .= " last_modifyP = '$last_modify' ,";
                 $USet .= " BrandName = '$BrandName' ,";
                 $USet .= " TypeSet = '$TypeSet' ,";
                 $USet .= " iw_product_weight_id = '$iw_product_weight_id' ,";
@@ -301,7 +301,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $InSet .= " CatId = '$CatId' ,";
                 $InSet .= " MainPrice = $MainPrice ,";
                 $InSet .= " LastPrice = $ApiLastPrice, ";
-                $InSet .= " ModifyDateP = '$ModifyDate' ,";
+                $InSet .= " last_modifyP = '$last_modify' ,";
                 $InSet .= " iw_company_id = $obj_product->iw_company_id ,";
                 $InSet .= " BrandName = '$BrandName' ,";
                 $InSet .= " TypeSet = '$TypeSet' ,";

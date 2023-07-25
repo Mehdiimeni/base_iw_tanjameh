@@ -64,7 +64,7 @@ if (isset($_GET['CatId']) and $_GET['CatId'] != '') {
     }
 }
 
-$strFilter = "ModifyDate DESC";
+$strFilter = "last_modify DESC";
 
 if (isset($_GET['Sort'])) {
 
@@ -78,7 +78,7 @@ if (isset($_GET['Sort'])) {
         $strFilter = "MainPrice ASC";
 
     if ($_GET['Sort'] == 'latest')
-        $strFilter = "ModifyDate DESC";
+        $strFilter = "last_modify DESC";
 
     if ($_GET['Sort'] == 'highprice')
         $strFilter = "MainPrice DESC";

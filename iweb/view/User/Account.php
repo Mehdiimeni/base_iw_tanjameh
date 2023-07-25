@@ -46,7 +46,7 @@ include "./controller/GlobalPage/MenuPart.php";
                                 <li>
                                     <i class='bx bx-calendar'></i>
                                     <span><?php echo FA_LC["last_admin_login"]; ?></span>
-                                    <a href="#"><?php echo $stdProfile->ModifyDate; ?></a>
+                                    <a href="#"><?php echo $stdProfile->last_modify; ?></a>
                                 </li>
                             </ul>
                         </div>

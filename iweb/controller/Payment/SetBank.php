@@ -21,11 +21,11 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
     $objIWUser = $objORM->Fetch($SCondition, '*', TableIWUser);
 
     $ModifyIP = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-    $ModifyTime = $objTimeTools->jdate("H:i:s");
-    $ModifyDate = $objTimeTools->jdate("Y/m/d");
+    $created_time = $objTimeTools->jdate("H:i:s");
+    $last_modify = $objTimeTools->jdate("Y/m/d");
     $ResNum = $UserIdKey.date("YmdHis") . rand(11, 99);
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+    $last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 

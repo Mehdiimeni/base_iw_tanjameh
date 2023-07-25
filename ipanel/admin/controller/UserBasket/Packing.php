@@ -83,7 +83,7 @@ if (@$_GET['IdKey'] != null) {
     foreach ($objORM->FetchAll($SCondition, '*', TableIWAUserMainCart) as $ListItem) {
 
         // user
-        $SCondition = "id = '$ListItem->UserId'";
+        $SCondition = "id = $ListItem->iw_user_id";
         $objUserData = @$objORM->Fetch($SCondition, '*', TableIWUser);
 
         //address

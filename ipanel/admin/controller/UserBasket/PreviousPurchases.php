@@ -39,7 +39,7 @@ $SCondition = " ";
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
     $SCondition = "ProductId = '$strSearch' OR 
-                   ModifyDate LIKE '%$strSearch%' OR 
+                   last_modify LIKE '%$strSearch%' OR 
                    IdKey = '$strSearch' OR 
                    UserId = '$strSearch' OR 
                    BasketIdKey = '$strSearch' OR 
@@ -60,11 +60,11 @@ if (isset($_POST['SubmitSearch'])) {
 $SCondition .= " and ChkState = 'complete'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,ChkState,UserId,BasketIdKey,ProductId,ProductCode,ProductSizeId,Size,Count,ModifyDate,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,ChkState,UserId,BasketIdKey,ProductId,ProductCode,ProductSizeId,Size,Count,last_modify,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     $SCondition = "  ProductId = '$ListItem->ProductId' ";

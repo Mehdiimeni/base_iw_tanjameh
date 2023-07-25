@@ -82,7 +82,7 @@ if ($_POST['Status'] == 2) {
     
     
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+    $last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
     $UserId = @$objGlobalVar->JsonDecode($objGlobalVar->SessionVarToJson())->_IWUserId;
 

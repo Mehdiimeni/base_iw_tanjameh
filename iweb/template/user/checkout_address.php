@@ -58,6 +58,7 @@ if (isset($_POST['addressL'])) {
                                 <h5 class="fw-bold">آدرس تحویل</h5>
                                 <button class="show-choice-address btn ms-auto"><i class="fa-solid fa-pen"></i></button>
                             </div>
+                            <?php if(get_user_address_default()){ ?>
                             <hr class="mt-0">
                             <address>
 
@@ -72,6 +73,13 @@ if (isset($_POST['addressL'])) {
                                     <?php echo get_user_address_default()[0]->iw_country_id; ?>
                               
                             </address>
+                            <?php }else{ ?>
+                                <address>
+
+                              لطفا آدرس تحویل را وارد کنید
+                              
+                            </address>
+                                <?php } ?>
                         </div>
                         <div class="col">
                             <div class="d-flex w-100">
@@ -84,10 +92,12 @@ if (isset($_POST['addressL'])) {
                                 ما بگذارید. فراموش نکنید که شناسنامه خود را همراه داشته باشید.
                             </p>
                         </div>
+                        <?php if(get_user_address_default()){ ?>
                         <div class="col">
                             <a href="./?user=checkout_confirm"
                                 class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="choice-address hide col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
@@ -330,10 +340,12 @@ if (isset($_POST['addressL'])) {
                             </div>
                         </div>
                     </div>
+                    <?php if(get_user_address_default()){ ?>
                     <div class="mb-4">
                         <a href="./?user=checkout_confirm"
                             class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

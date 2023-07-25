@@ -24,7 +24,7 @@ if (!isset($_GET['Value']) or $_GET['Value'] == '' or $_GET['Value'] == 0) {
     
     $ResNum = $UserId.date("YmdHis") . rand(11, 99);
     $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
-    $ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+    $last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 

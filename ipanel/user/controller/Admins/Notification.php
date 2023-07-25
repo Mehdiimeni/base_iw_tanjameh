@@ -17,8 +17,8 @@ foreach ($objORM->FetchAllWhitoutCondition('UserId,Email,Sms,Enabled,id', TableI
 
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWAdmin)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWAdmin)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

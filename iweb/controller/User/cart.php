@@ -5,7 +5,7 @@ function get_cart_info()
 {
     $cart_items = array('products_id' => @json_decode(@$_COOKIE['cart_items'], true));
     $user_id = array(
-        'user_id' =>(int) base64_decode($_COOKIE['user_id']),
+        'user_id' => (int) base64_decode($_COOKIE['user_id']),
         'currencies_conversion_id' => get_currency()
     );
 
@@ -32,7 +32,7 @@ if (!empty($_GET['delitem'])) {
     if (!empty($_GET['cartid'])) {
 
         $filds = array(
-            'user_id' =>(int) base64_decode($_COOKIE['user_id']),
+            'user_id' => (int) base64_decode($_COOKIE['user_id']),
             'product_id' => $product_id,
             'cart_id' => $_GET['cartid']
         );
@@ -55,14 +55,19 @@ if (@$_POST['SubmitM'] == 'A') {
     unset($arr_post['promo-code']);
 
     $cart_list = array(
-        'user_id' =>(int) base64_decode($_COOKIE['user_id']),
+        'user_id' => (int) base64_decode($_COOKIE['user_id']),
         'currencies_conversion_id' => get_currency(),
         'promo_code' => $promo_code,
         'cart_data' => $arr_post
     );
 
     $objIAPI = set_server();
-    if (json_decode($objIAPI->GetPostApi('user/cart_temp', $cart_list)))
+    if (json_decode($objIAPI->GetPostApi('user/cart_temp', $cart_list))) {
+        if (isset($_COOKIE['cart_items'])) {
+            unset($_COOKIE['cart_items']);
+            setcookie('cart_items', '', -1, '/');
+        }
         echo "<script>window.location.href = './?user=checkout_address';</script>";
+    }
 
 }

@@ -28,7 +28,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebSubMenu) as $ListIt
 // Weight
 $strWeightIdKey = '';
 $SCondition = " Enabled = $Enabled ORDER BY id ";
-foreach ($objORM->FetchAll($SCondition, 'Weight,IdKey', TableIWWebWeightPrice) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'Weight', TableIWWebWeightPrice) as $ListItem) {
     $strWeightIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Weight . '</option>';
 }
 
@@ -109,10 +109,10 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
     //Weight
     $SCondition = "  IdKey = '$objEditView->iw_product_weight_id' ";
-    $Item = $objORM->Fetch($SCondition, 'Weight,IdKey', TableIWWebWeightPrice);
+    $Item = $objORM->Fetch($SCondition, 'Weight', TableIWWebWeightPrice);
     $strWeightIdKey = '<option selected value="' . @$Item->id . '">' . @$Item->Weight . '</option>';
     $SCondition = " Enabled = $Enabled ORDER BY id ";
-    foreach ($objORM->FetchAll($SCondition, 'Weight,IdKey', TableIWWebWeightPrice) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'Weight', TableIWWebWeightPrice) as $ListItem) {
         $strWeightIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Weight . '</option>';
     }
 

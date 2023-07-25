@@ -7,7 +7,7 @@
 $SCondition = "Enabled = $Enabled and LocalName != ''  ";
 foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebMainMenu) as $MainMenu) {
     $MainName = strtolower($MainMenu->Name);
-    $SCondition = " Enabled = $Enabled   and ModifyDate = '$ModifyDateNow' and Main = '$MainName' and TypeSet = 'Product'  GROUP BY Sub ";
+    $SCondition = " Enabled = $Enabled   and last_modify = '$last_modifyNow' and Main = '$MainName' and TypeSet = 'Product'  GROUP BY Sub ";
     foreach ($objORM->FetchAll($SCondition, '*', TableIWAPIAllCat) as $APIAllCatSub) {
 
         if (!$objORM->DataExist("GroupIdKey = '$MainMenu->IdKey' and Name = '$APIAllCatSub->Sub' ", TableIWWebSubMenu)) {
@@ -44,7 +44,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebMainMenu) as $MainM
             $objORM->DataUpdate("GroupIdKey = '$MainMenu->IdKey' and Name = '$APIAllCatSub->Sub' ", $USet, TableIWWebSubMenu);
         }
 
-        $SCondition = " Enabled = $Enabled   and ModifyDate = '$ModifyDateNow' and Main = '$MainName' and Sub = '$APIAllCatSub->Sub' and TypeSet = 'Product' GROUP BY Sub2 ";
+        $SCondition = " Enabled = $Enabled   and last_modify = '$last_modifyNow' and Main = '$MainName' and Sub = '$APIAllCatSub->Sub' and TypeSet = 'Product' GROUP BY Sub2 ";
         foreach ($objORM->FetchAll($SCondition, '*', TableIWAPIAllCat) as $APIAllCatSub2) {
 
             if(!isset($APIAllCatSub2->Sub2))
@@ -83,7 +83,7 @@ foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebMainMenu) as $MainM
             }
 
 
-            $SCondition = " Enabled = $Enabled   and ModifyDate = '$ModifyDateNow' and Main = '$MainName' and Sub = '$APIAllCatSub->Sub' and Sub2 = '$APIAllCatSub2->Sub2' and TypeSet = 'Product' GROUP BY Sub3 ";
+            $SCondition = " Enabled = $Enabled   and last_modify = '$last_modifyNow' and Main = '$MainName' and Sub = '$APIAllCatSub->Sub' and Sub2 = '$APIAllCatSub2->Sub2' and TypeSet = 'Product' GROUP BY Sub3 ";
             foreach ($objORM->FetchAll($SCondition, '*', TableIWAPIAllCat) as $APIAllCatSub3) {
 
                 if(!isset($APIAllCatSub3->Sub3))

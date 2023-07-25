@@ -19,7 +19,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $ModifyStrTime = $objGlobalVar->JsonDecode($objTimeTools->getDateTimeNow())->date;
 $ModifyId = @$objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWUserId'));
-$ModifyDateNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objGlobalVar->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 $strProductsShop = '';
@@ -96,7 +96,7 @@ foreach ($objUserBasket as $UserBasket) {
         $strProductsShop .= $strStatus;
         $strProductsShop .= '</td>';
         $strProductsShop .= '<td class="product-quantity">' . $intCountSelect . '</td>';
-        $strProductsShop .= '<td class="product-quantity">' . $UserMainCart->ModifyDate . '</td>';
+        $strProductsShop .= '<td class="product-quantity">' . $UserMainCart->last_modify . '</td>';
     }
 
 

@@ -7,6 +7,52 @@ $brand = @$_GET["brand"];
 $trend = @$_GET["trend"];
 $search = @$_GET["search"];
 $item = @$_GET["item"];
+$page = @$_GET["page"];
+
+
+if (!empty($page)) {
+
+    switch ($page) {
+
+        case 'signup':
+            include_once("./iweb/page/help_signup.php");
+            exit();
+            break;
+
+        case 'tanjameh':
+            include_once("./iweb/page/help_tanjameh.php");
+            exit();
+            break;
+
+        case 'buy':
+            include_once("./iweb/page/help_buy.php");
+            exit();
+            break;
+
+        case 'note':
+            include_once("./iweb/page/help_note.php");
+            exit();
+            break;
+
+        case 'complaint':
+            include_once("./iweb/page/help_complaint.php");
+            exit();
+            break;
+
+        case 'law':
+            include_once("./iweb/page/help_law.php");
+            exit();
+            break;
+
+        case 'contact':
+            include_once("./iweb/page/help_contact.php");
+            exit();
+            break;
+
+
+    }
+
+}
 
 
 if (@$_GET['user'] != '') {

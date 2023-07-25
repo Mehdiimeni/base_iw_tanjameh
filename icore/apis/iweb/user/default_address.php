@@ -16,9 +16,9 @@ if (
 
     echo @$objORM->FetchJson(
         TableIWUserAddressDetails . ' as d inner join ' . TableIWUserAddress . ' as a on d.id = a.iw_user_address_details_id',
-        " a.is_default = 1 and d.Enabled = 1 and a.iw_user_id = $iw_user_id ",
+        " d.Enabled = 1 and a.iw_user_id = $iw_user_id ",
         '*',
-        'id',
+        'a.is_default DESC , id DESC',
         1
     );
 

@@ -14,7 +14,7 @@ $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
 
 $now_modify = date("Y-m-d H:i:s");
 
-$ModifyDateNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
+$last_modifyNow = $objAclTools->Nu2EN($objTimeTools->jdate("Y/m/d"));
 
 
 $objAsos = new AsosConnections();

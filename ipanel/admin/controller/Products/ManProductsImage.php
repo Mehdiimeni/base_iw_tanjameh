@@ -304,15 +304,15 @@ $strListBody = '';
 
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
-    $SCondition = "ProductId LIKE '%$strSearch%' OR 
-                   id LIKE '%$strSearch%' OR 
+    $SCondition = "ProductId = $strSearch OR 
+                   id = $strSearch OR 
                    LocalName REGEXP '$strSearch' OR 
                    Name REGEXP '$strSearch' OR 
                    url_gender REGEXP '$strSearch' OR 
                    url_category REGEXP '$strSearch' OR 
                    url_group REGEXP '$strSearch' OR 
                    url_group2 REGEXP '$strSearch' OR 
-                   ProductCode LIKE '%$strSearch%'  ";
+                   ProductCode = $strSearch  ";
 }
 $intTotalFind = 0;
 $intTotalFind = $objORM->DataCount($SCondition, ViewIWProductNotCheck);
@@ -322,7 +322,6 @@ $intIdMaker = 0;
 
 
 $strListBody = '';
-
 
 foreach ($objORM->FetchLimit($SCondition, 'Name,Content,ProductId,AdminOk,ImageSet,Url,id', 'id ASC', $strLimit, ViewIWProductNotCheck) as $ListItem) {
 

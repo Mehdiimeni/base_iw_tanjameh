@@ -23,7 +23,7 @@ if(isset($_GET['PGenderIdKey'])) {
     $arrGroupIdKey= explode("==::==", @$GroupIdKey);
     $SCondition = "GroupIdKey = '$arrGroupIdKey[0]'";
     echo '<option value="" selected></option>';
-    foreach ($objORM->FetchAll($SCondition, 'Name,LocalName,IdKey', TableIWWebSubMenu) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'Name,LocalName', TableIWWebSubMenu) as $ListItem) {
         if ($ListItem->LocalName == '')
             continue;
         echo '<option value="' . $ListItem->id.'==::=='.$ListItem->Name .'" >' . $ListItem->LocalName . '</option>';

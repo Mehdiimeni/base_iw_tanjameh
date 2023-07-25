@@ -15,13 +15,6 @@ function get_currency($currency_id = 1)
     return $currency_id;
 }
 
-function get_user_id()
-{
-
-    isset($_SESSION['user_id']) ? $UserId = $_SESSION['user_id'] : $UserId = @base64_decode($_COOKIE['user_id']);
-    return $UserId;
-
-}
 
 function get_user_acl()
 {

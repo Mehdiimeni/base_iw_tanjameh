@@ -12,7 +12,7 @@ $SCondition = "id = '$UserId' and  Enabled = $Enabled ";
 $stdProfile = $objORM->Fetch($SCondition, 'Name,Image,GroupIdKey,CountEnter,ApiId,GroupApiId', TableIWUser);
 
 $SCondition = "id = '$stdProfile->GroupIdKey'";
-$strUserGroup = @$objORM->Fetch($SCondition, 'Name,ApiId,IdKey,SuperUser,SuperTrade', TableIWUserGroup);
+$strUserGroup = @$objORM->Fetch($SCondition, 'Name,ApiId,SuperUser,SuperTrade', TableIWUserGroup);
 $strUserGroupName = @$strUserGroup->Name;
 
 $SCondition = "GroupIdKey = '$stdProfile->GroupIdKey'";

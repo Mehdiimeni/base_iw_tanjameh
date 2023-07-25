@@ -50,11 +50,11 @@ if (@$_GET['CountShow'] != '') {
 $strListBody = '';
 $SCondition = "Enabled != 0 and (ChkState = 'bought' or ChkState = 'preparation') group by UserId";
 
-foreach ($objORM->FetchLimit($SCondition, 'UserId', 'ModifyDate ASC', $strLimit, TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'UserId', 'last_modify ASC', $strLimit, TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->UserId . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->iw_user_id . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
 
     if (@$ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

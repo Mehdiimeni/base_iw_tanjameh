@@ -15,11 +15,9 @@
               <h5 class="d-none d-md-block text-white">
                 <i class="fa-regular fa-comments"></i><span class="ms-3">راهنما و تماس</span>
               </h5>
-              <a href="#">همه موضوعات راهنما</a>
-              <a href="#">بسته خود را پیگیری کنید</a>
-              <a href="#">اطلاعات تحویل</a>
-              <a href="#">اندازه مناسب را پیدا کنید</a>
-              <a href="#">روش های پرداخت پذیرفته شده</a>
+              <a href="./?page=signup">ثبت نام در سایت تن جامه</a>
+              <a href="./?page=buy">پروسه خرید از سایت</a>
+              <a href="./?page=complaint">شکایات و انتقادات</a>
             </div>
           </div>
         </div>
@@ -30,19 +28,17 @@
             aria-controls="Toggler02" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-chevron-down float-start"></i>
             <div class="float-end">
-              <span class="fs-6 me-3">کارت هدیه</span><i class="fa-solid fa-gift"></i>
+              <span class="fs-6 me-3">شرایط و قوانین</span><i class="fa-solid fa-gift"></i>
             </div>
           </button>
           <div class="collapse navbar-collapse pt-2 pt-md-0" id="Toggler02">
             <div class="d-grid lh-lg b-animate b-light">
               <h5 class="d-none d-md-block text-white">
-                <i class="fa-solid fa-gift"></i><span class="ms-3">کارت هدیه</span>
+                <i class="fa-solid fa-warning"></i><span class="ms-3">شرایط و قوانین</span>
               </h5>
-              <a href="#">خرید گیفت کارت</a>
-              <a href="#">درباره کارت های هدیه و کوپن ها</a>
-              <a href="#">بازخرید یک کارت هدیه</a>
-              <a href="#">کارت های هدیه شرکتی</a>
-              <a href="#">مشترک شدن در خبرنامه</a>
+              <a href="./?page=note">نکته های مهم</a>
+              <a href="./?page=law">قوانین</a>
+              
             </div>
           </div>
         </div>
@@ -61,9 +57,8 @@
               <h5 class="d-none d-md-block text-white">
                 <i class="fa-solid fa-hat-cowboy-side"></i><span class="ms-3">درباره ما</span>
               </h5>
-              <a href="#">از سایت شرکتی ما دیدن کنید</a>
-              <a href="#">تماس</a>
-              <a href="#">آدرس</a>
+              <a href="./?page=tanjameh">درباره تن جامه</a>
+              <a href="./?page=contact">تماس</a>
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,ModifyDate,ModifyTime,ModifyId,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,last_modify,created_time,ModifyId,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
 
     $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
 
@@ -24,7 +24,7 @@ foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,M
     $ListItem->CurrencyIdKey2 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
     $ListItem->Rate = $objGlobalVar->NumberFormat($ListItem->Rate);
-    $ListItem->ModifyDate = $ListItem->ModifyTime.' '.$ListItem->ModifyDate;
+    $ListItem->last_modify = $ListItem->created_time.' '.$ListItem->last_modify;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

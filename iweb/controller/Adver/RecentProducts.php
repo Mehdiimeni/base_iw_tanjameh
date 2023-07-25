@@ -28,7 +28,7 @@ if (@$_GET['Group'] != '') {
 }
 
 
-foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PGroup2,ImageSet,Name,Content,IdKey,CatId', 'ModifyStrTime DESC', 6, TableIWAPIProducts) as $ListItem) {
+foreach ($objORM->FetchLimit($SCondition, 'ProductId,PGender,PCategory,PGroup,PGroup2,ImageSet,Name,Content,CatId', 'ModifyStrTime DESC', 6, TableIWAPIProducts) as $ListItem) {
 
 
     $strPricingPart = '';

@@ -19,15 +19,15 @@ $strListBody = '';
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
 $SCondition = " Enabled != 0 and (ChkState = 'packing' ) group by PackingNu  order by id DESC limit " . $getStart . " , " . $getEnd;
-foreach ($objORM->FetchAll($SCondition, 'id,IdKey,UserId,PackingNu,PackWeight,TrackingNu,ModifyDate,ModifyTime,IdKey,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,UserId,PackingNu,PackWeight,TrackingNu,last_modify,created_time,Enabled', TableIWAUserMainCart) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->UserId'";
-    $ListItem->UserId = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_user_id";
+    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
     $ListItem->TrackingNu = '<input type="text" dir="ltr" class="tracking_number"  size="16" id="' . $ListItem->PackingNu . '" value="' . $ListItem->TrackingNu . '">';
-    $ListItem->ModifyTime = '<a target="_blank" href="?ln=&part=Users&page=AddressLabelBook&PackingNu='.$ListItem->PackingNu.'">'.FA_LC["download"].'</a>';
+    $ListItem->created_time = '<a target="_blank" href="?ln=&part=Users&page=AddressLabelBook&PackingNu='.$ListItem->PackingNu.'">'.FA_LC["download"].'</a>';
 
 
     if ($ListItem->Enabled == false) {

@@ -24,6 +24,7 @@ $objTimeTools = new TimeTools();
 
 $iw_company_id = $_POST['iw_company_id'];
 
+
 // check api count
 $expire_date = date("m-Y");
 if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "all_count", TableIWAPIAllConnect)->all_count) > 39000)
@@ -132,6 +133,11 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
                     $objORM->DataUpdate($UCondition, $USet, TableIWAPIAllConnect);
 
 
+                    if (in_array(strtolower($objProductData['productType']['name']), ARR_PRODUCT_FILTER)) {
+                        continue;
+                    }
+
+
                     $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
                     if (!$isInStock)
                         continue;
@@ -226,6 +232,8 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
                         $arrColor = array_unique($arrColor);
                         $Color = strtolower($arrColor[0]);
                     }
+
+                    
 
                     $str_change = "
                                 ProductId = $ProductId ,
@@ -322,26 +330,20 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
 
                     }
 
+
+
                     if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts, 'id')) {
 
 
-                      
-            
-            
                         if (!empty($objProductData['media']['images']) and count($objProductData['media']['images']) > 0 and $objProductData['isInStock']) {
-            
+
                             $arrImage = array();
-            
-                            $ProductType = $objProductData['productType']['name'] ?? null;
-            
-                            if (in_array(strtolower($ProductType), ARR_PRODUCT_FILTER))
-                                continue;
-            
+
                             foreach ($objProductData['media']['images'] as $ProductImage) {
-            
-            
+
+
                                 $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1200');
+                                curl_setopt($ch, CURLOPT_URL, 'https://' . $ProductImage['url'] . '?wid=1400');
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
                                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_WHATEVER);
@@ -351,29 +353,37 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                                 curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            
+
                                 $content = curl_exec($ch);
                                 curl_close($ch);
-            
-            
-                                $FileNewName = $objShowFile->FileSetNewName('jpg');
+
+
+                                $FileNewName = $objShowFile->FileSetNewName('webp');
                                 $arrImage[] = $FileNewName;
-            
-            
-                                $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "w");
+
+
+                                $fp = fopen('../../../../irepository/img/attachedimage/' . $FileNewName, "x");
                                 fwrite($fp, $content);
                                 fclose($fp);
-            
-            
+
+
                             }
-            
+
                             $strImages = implode("==::==", $arrImage);
                             $UCondition = " ProductId = $ProductId ";
                             $USet = "Content = '$strImages'";
-            
+
                             $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
-            
-            
+
+
+                        } else {
+
+                            $UCondition = " ProductId = $ProductId ";
+                            $USet = "Enabled = 0 ";
+
+                            $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
+
+
                         }
                     }
 
@@ -394,7 +404,7 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
 
 
 
-      
+
     }
 
 

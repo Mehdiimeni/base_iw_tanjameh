@@ -116,7 +116,7 @@ foreach ($objORM->FetchAll($SCondition, '*', TableIWTicket) as $ListItem) {
     $strTicketAll .= '<b class="fn">' . $stdProfile->Name . '</b>';
     $strTicketAll .= '<span class="says">says:</span>';
     $strTicketAll .= '</div><div class="comment-metadata"><a href="#">';
-    $strTicketAll .= '<span>' . $ListItem->ModifyDate . ' ' . $ListItem->ModifyTime . '</span>';
+    $strTicketAll .= '<span>' . $ListItem->last_modify . ' ' . $ListItem->created_time . '</span>';
     $strTicketAll .= '</a></div></footer><div class="comment-content">';
     $strTicketAll .= '<p>' . $ListItem->TicketSubject . '</p>';
     $strTicketAll .= '<p>' . $ListItem->SenderTicket . '</p>';
