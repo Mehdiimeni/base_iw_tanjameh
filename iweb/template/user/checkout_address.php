@@ -58,28 +58,28 @@ if (isset($_POST['addressL'])) {
                                 <h5 class="fw-bold">آدرس تحویل</h5>
                                 <button class="show-choice-address btn ms-auto"><i class="fa-solid fa-pen"></i></button>
                             </div>
-                            <?php if(get_user_address_default()){ ?>
-                            <hr class="mt-0">
-                            <address>
+                            <?php if (get_user_address_default()) { ?>
+                                <hr class="mt-0">
+                                <address>
 
-                                    <?php echo get_user_address_default()[0]->NicName; ?>
+                                    <?php echo get_user_address_default()[0]->address_nicname; ?>
                                     <br>
                                     <?php echo get_user_address_default()[0]->city; ?>
                                     <br>
-                                    <?php echo get_user_address_default()[0]->Address; ?>
+                                    <?php echo get_user_address_default()[0]->address; ?>
                                     <br>
-                                    <?php echo get_user_address_default()[0]->PostCode; ?>
+                                    <?php echo get_user_address_default()[0]->address_post_code; ?>
                                     <br>
-                                    <?php echo get_user_address_default()[0]->iw_country_id; ?>
-                              
-                            </address>
-                            <?php }else{ ?>
+                                    <?php echo get_user_address_default()[0]->country_name; ?>
+
+                                </address>
+                            <?php } else { ?>
                                 <address>
 
-                              لطفا آدرس تحویل را وارد کنید
-                              
-                            </address>
-                                <?php } ?>
+                                    لطفا آدرس تحویل را وارد کنید
+
+                                </address>
+                            <?php } ?>
                         </div>
                         <div class="col">
                             <div class="d-flex w-100">
@@ -92,11 +92,11 @@ if (isset($_POST['addressL'])) {
                                 ما بگذارید. فراموش نکنید که شناسنامه خود را همراه داشته باشید.
                             </p>
                         </div>
-                        <?php if(get_user_address_default()){ ?>
-                        <div class="col">
-                            <a href="./?user=checkout_confirm"
-                                class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
-                        </div>
+                        <?php if (get_user_address_default()) { ?>
+                            <div class="col">
+                                <a href="./?user=checkout_confirm"
+                                    class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
+                            </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -108,129 +108,142 @@ if (isset($_POST['addressL'])) {
                             <i class="fa-solid fa-house-chimney fs-1"></i>
                             <p class="font-x-s">آدرس من</p>
                         </div>
-                        
-                        
+
+
                     </div>
                     <div class="accordion" id="accordionWithRadio">
                         <!-- address exists -->
                         <?php foreach (get_user_address() as $address) { ?>
-                        <div class="mb-4 pb-4 border-bottom">
-                            <div class="form-check d-flex align-items-start">
-                                <input id="customRadio1" class="form-check-input" name="iw_user_address" value="<?php echo $address->id; ?>" type="radio" name="customRadio" <?php if($address->is_default == 1){ echo 'checked';} ?> />
-                                <label class="form-check-label ms-4" for="customRadio1">
-                                    <?php echo $address->NicName; ?>
-                                    <br>
-                                    <?php echo $address->city; ?>
-                                    <br>
-                                    <?php echo $address->Address; ?>
-                                    <br>
-                                    <?php echo $address->PostCode; ?>
-                                    <br>
-                                    <?php echo $address->iw_country_id; ?>
-                                </label>
-                                <button class="btn ms-auto" data-bs-toggle="collapse" data-bs-target="#collapseOne"><i
-                                        class="fa-solid fa-pen"></i></button>
-                            </div>
-                            <div id="collapseOne" class="collapse" data-bs-parent="#accordionWithRadio">
-                                <div class="m-4">
-                                    <form class="needs-validation small" novalidate method="post" action=""
-                                        name="from_address">
-                                        <div class="mb-3">
-                                            <label for="nameInputEdit1" class="form-label">عنوان*</label>
-                                            <input type="text" value="<?php echo $address->NicName; ?>" name="NicName"
-                                                class="form-control rounded-0" id="nameInputEdit1" required>
-                                            <div class="invalid-feedback">
-                                                فیلد عنوان را کامل نمایید
+                            <div class="mb-4 pb-4 border-bottom">
+                                <div class="form-check d-flex align-items-start">
+                                    <input id="customRadio1" class="form-check-input" name="iw_user_address"
+                                        value="<?php echo $address->id; ?>" type="radio" name="customRadio" <?php if ($address->is_default == 1) {
+                                               echo 'checked';
+                                           } ?> />
+                                    <label class="form-check-label ms-4" for="customRadio1">
+                                        <?php echo $address->address_nicname; ?>
+                                        <br>
+                                        <?php echo $address->city; ?>
+                                        <br>
+                                        <?php echo $address->address; ?>
+                                        <br>
+                                        <?php echo $address->address_post_code; ?>
+                                        <br>
+                                        <?php echo $address->country_name; ?>
+                                    </label>
+                                    <button class="btn ms-auto" data-bs-toggle="collapse" data-bs-target="#collapseOne"><i
+                                            class="fa-solid fa-pen"></i></button>
+                                </div>
+                                <div id="collapseOne" class="collapse" data-bs-parent="#accordionWithRadio">
+                                    <div class="m-4">
+                                        <form class="needs-validation small" novalidate method="post" action=""
+                                            name="from_address">
+                                            <div class="mb-3">
+                                                <label for="nameInputEdit1" class="form-label">عنوان*</label>
+                                                <input type="text" value="<?php echo $address->address_nicname; ?>"
+                                                    name="address_nicname" class="form-control rounded-0"
+                                                    id="nameInputEdit1" required>
+                                                <div class="invalid-feedback">
+                                                    فیلد عنوان را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="radio-btn-group mb-3">
-                                            <div class="radio">
-                                                <input type="radio" name="gender" value="men" checked="checked"
-                                                    v-model="checked" id="menEdit1" />
-                                                <label for="menEdit1">مرد</label>
+                                            <div class="radio-btn-group mb-3">
+                                                <div class="radio">
+                                                    <input <?php if ($address->address_user_gender == 'men') {
+                                                        echo 'checked';
+                                                    } ?> type="radio" name="gender" value="men" checked="checked"
+                                                        v-model="checked" id="menEdit1" />
+                                                    <label for="menEdit1">مرد</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <input <?php if ($address->address_user_gender == 'women') {
+                                                        echo 'checked';
+                                                    } ?> type="radio" name="gender" value="women" v-model="checked"
+                                                        id="womenEdit1" />
+                                                    <label for="womenEdit1">زن</label>
+                                                </div>
                                             </div>
-                                            <div class="radio">
-                                                <input type="radio" name="gender" value="women" v-model="checked"
-                                                    id="womenEdit1" />
-                                                <label for="womenEdit1">زن</label>
+                                            <div class="mb-3">
+                                                <label for="nameInputEdit1" class="form-label">نام*</label>
+                                                <input type="text" value="<?php echo $address->address_user_name; ?>" name="name"
+                                                    class="form-control rounded-0" id="nameInputEdit1" required>
+                                                <div class="invalid-feedback">
+                                                    فیلد نام را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="nameInputEdit1" class="form-label">نام*</label>
-                                            <input type="text" value="<?php echo $address->name; ?>" name="name"
-                                                class="form-control rounded-0" id="nameInputEdit1" required>
-                                            <div class="invalid-feedback">
-                                                فیلد نام را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="familyInputEdit1" class="form-label">نام خانوادگی*</label>
+                                                <input type="text" value="<?php echo $address->address_user_family; ?>" name="family"
+                                                    class="form-control rounded-0" id="familyInputEdit1" required>
+                                                <div class="invalid-feedback">
+                                                    فیلد نام خانوادگی را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="familyInputEdit1" class="form-label">نام خانوادگی*</label>
-                                            <input type="text" value="<?php echo $address->family; ?>" name="family"
-                                                class="form-control rounded-0" id="familyInputEdit1" required>
-                                            <div class="invalid-feedback">
-                                                فیلد نام خانوادگی را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="conturyEdit1" class="form-label">کشور *</label>
+                                                <select name="country_name" class="form-control rounded-0" id="AddTitle">
+                                                    <?php foreach (get_countreis() as $country) {
+
+                                                        $country->Name == $address->country_name ? $selected = 'selected' : $selected = '';
+                                                        ?>
+                                                        <option <?php echo $selected; ?> value="<?php echo $country->id; ?>">
+                                                            <?php echo $country->Name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    فیلد کشور را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="conturyEdit1" class="form-label">کشور *</label>
-                                            <select name="iw_country_id" class="form-control rounded-0" id="AddTitle">
-                                                <?php foreach (get_countreis() as $country) { ?>
-                                                    <option value="<?php echo $country->id; ?>"><?php echo $country->Name; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                فیلد کشور را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="zipcodeInputEdit1" class="form-label">کد پستی*</label>
+                                                <input name="address_post_code"
+                                                    value="<?php echo $address->address_post_code; ?>" type="text"
+                                                    class="form-control rounded-0" id="zipcodeInputEdit1" required>
+                                                <div class="invalid-feedback">
+                                                    فیلد کد پستی را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="zipcodeInputEdit1" class="form-label">کد پستی*</label>
-                                            <input name="PostCode" value="<?php echo $address->PostCode; ?>" type="text"
-                                                class="form-control rounded-0" id="zipcodeInputEdit1" required>
-                                            <div class="invalid-feedback">
-                                                فیلد کد پستی را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="OtherTelEdit1" class="form-label">شماره اضطراری</label>
+                                                <input type="text" name="OtherTel" value="<?php echo $address->address_other_tel; ?>"
+                                                    class="form-control rounded-0" id="OtherTelEdit1">
+                                                <div class="invalid-feedback">
+                                                    فیلد شماره اضطراری را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="OtherTelEdit1" class="form-label">شماره اضطراری</label>
-                                            <input type="text" name="OtherTel" value="<?php echo $address->OtherTel; ?>"
-                                                class="form-control rounded-0" id="OtherTelEdit1">
-                                            <div class="invalid-feedback">
-                                                فیلد شماره اضطراری را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="cityInputEdit1" class="form-label">شهر*</label>
+                                                <input name="city" type="text" value="<?php echo $address->city; ?>"
+                                                    class="form-control rounded-0" id="cityInputEdit1" required>
+                                                <div class="invalid-feedback">
+                                                    فیلد شهر را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="cityInputEdit1" class="form-label">شهر*</label>
-                                            <input name="city" type="text" value="<?php echo $address->city; ?>"
-                                                class="form-control rounded-0" id="cityInputEdit1" required>
-                                            <div class="invalid-feedback">
-                                                فیلد شهر را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="addressInputEdit1" class="form-label">آدرس*</label>
+                                                <textarea name="Address" type="text" class="form-control rounded-0"
+                                                    id="addressInputEdit1"
+                                                    required><?php echo $address->address; ?></textarea>
+                                                <div class="invalid-feedback">
+                                                    فیلد آدرس را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="addressInputEdit1" class="form-label">آدرس*</label>
-                                            <textarea name="Address" type="text" class="form-control rounded-0"
-                                                id="addressInputEdit1"
-                                                required><?php echo $address->Address; ?></textarea>
-                                            <div class="invalid-feedback">
-                                                فیلد آدرس را کامل نمایید
+                                            <div class="mb-3">
+                                                <label for="addressInputEdit1" class="form-label">توضیحات</label>
+                                                <textarea name="Description" type="text" class="form-control rounded-0"
+                                                    id="addressInputEdit1"><?php echo $address->address_description; ?></textarea>
+                                                <div class="invalid-feedback">
+                                                    فیلد توضیحات را کامل نمایید
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="addressInputEdit1" class="form-label">توضیحات</label>
-                                            <textarea name="Description" type="text" class="form-control rounded-0"
-                                                id="addressInputEdit1"><?php echo $address->Description; ?></textarea>
-                                            <div class="invalid-feedback">
-                                                فیلد توضیحات را کامل نمایید
+                                            <div class="mb-3">
+                                                <button type="submit" name="addressL"
+                                                    class="btn-white btn border-orange border-2 w-100 text-orange rounded-0">ذخیره</button>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <button type="submit" name="addressL"
-                                                class="btn-white btn border-orange border-2 w-100 text-orange rounded-0">ذخیره</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php } ?>
                         <!-- add new address -->
                         <div class="mb-5">
@@ -245,8 +258,8 @@ if (isset($_POST['addressL'])) {
                                         name="from_address">
                                         <div class="mb-3">
                                             <label for="nameInputEdit1" class="form-label">عنوان*</label>
-                                            <input type="text"  name="NicName"
-                                                class="form-control rounded-0" id="nameInputEdit1" required>
+                                            <input type="text" name="address_nicname" class="form-control rounded-0"
+                                                id="nameInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد عنوان را کامل نمایید
                                             </div>
@@ -265,23 +278,23 @@ if (isset($_POST['addressL'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="nameInputEdit1" class="form-label">نام*</label>
-                                            <input type="text"  name="name"
-                                                class="form-control rounded-0" id="nameInputEdit1" required>
+                                            <input type="text" name="name" class="form-control rounded-0"
+                                                id="nameInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد نام را کامل نمایید
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="familyInputEdit1" class="form-label">نام خانوادگی*</label>
-                                            <input type="text"  name="family"
-                                                class="form-control rounded-0" id="familyInputEdit1" required>
+                                            <input type="text" name="family" class="form-control rounded-0"
+                                                id="familyInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد نام خانوادگی را کامل نمایید
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="conturyEdit1" class="form-label">کشور *</label>
-                                            <select name="iw_country_id" class="form-control rounded-0" id="AddTitle">
+                                            <select name="country_name" class="form-control rounded-0" id="AddTitle">
                                                 <?php foreach (get_countreis() as $country) { ?>
                                                     <option value="<?php echo $country->id; ?>"><?php echo $country->Name; ?></option>
                                                 <?php } ?>
@@ -292,24 +305,24 @@ if (isset($_POST['addressL'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="zipcodeInputEdit1" class="form-label">کد پستی*</label>
-                                            <input name="PostCode"  type="text"
-                                                class="form-control rounded-0" id="zipcodeInputEdit1" required>
+                                            <input name="address_post_code" type="text" class="form-control rounded-0"
+                                                id="zipcodeInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد کد پستی را کامل نمایید
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="OtherTelEdit1" class="form-label">شماره اضطراری</label>
-                                            <input type="text" name="OtherTel" 
-                                                class="form-control rounded-0" id="OtherTelEdit1">
+                                            <input type="text" name="OtherTel" class="form-control rounded-0"
+                                                id="OtherTelEdit1">
                                             <div class="invalid-feedback">
                                                 فیلد شماره اضطراری را کامل نمایید
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="cityInputEdit1" class="form-label">شهر*</label>
-                                            <input name="city" type="text" 
-                                                class="form-control rounded-0" id="cityInputEdit1" required>
+                                            <input name="city" type="text" class="form-control rounded-0"
+                                                id="cityInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد شهر را کامل نمایید
                                             </div>
@@ -317,8 +330,7 @@ if (isset($_POST['addressL'])) {
                                         <div class="mb-3">
                                             <label for="addressInputEdit1" class="form-label">آدرس*</label>
                                             <textarea name="Address" type="text" class="form-control rounded-0"
-                                                id="addressInputEdit1"
-                                                required></textarea>
+                                                id="addressInputEdit1" required></textarea>
                                             <div class="invalid-feedback">
                                                 فیلد آدرس را کامل نمایید
                                             </div>
@@ -340,11 +352,11 @@ if (isset($_POST['addressL'])) {
                             </div>
                         </div>
                     </div>
-                    <?php if(get_user_address_default()){ ?>
-                    <div class="mb-4">
-                        <a href="./?user=checkout_confirm"
-                            class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
-                    </div>
+                    <?php if (get_user_address_default()) { ?>
+                        <div class="mb-4">
+                            <a href="./?user=checkout_confirm"
+                                class="btn-next btn w-100 border-0 rounded-0 text-white bg-orange">بعدی</a>
+                        </div>
                     <?php } ?>
                 </div>
             </div>

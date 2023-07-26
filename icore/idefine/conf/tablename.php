@@ -75,6 +75,7 @@ const TableIWApiProductType = "iw_api_product_type";
 const TableIWApiProductVariants = "iw_api_product_variants";
 const TableIWApiProductStatus = "iw_product_status";
 const TableIWCompany = "iw_company";
+const TableIWShippingProduct = "iw_shipping_product";
 
 
 

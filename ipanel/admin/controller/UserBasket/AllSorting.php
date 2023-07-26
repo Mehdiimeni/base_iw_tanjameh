@@ -9,7 +9,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC['user_id'], FA_LC["user"], FA_LC["product_id"], FA_LC["product_code"], FA_LC["order_number"], FA_LC["size"], FA_LC["sorting_number"], FA_LC["count_property"], FA_LC["product"], FA_LC["image"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["user"], FA_LC["product"], FA_LC["image"], FA_LC["size"], FA_LC["barcode_number"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["reverse"];
 
@@ -20,67 +20,48 @@ $SCondition = "";
 if (isset($_POST['SubmitF'])) {
 
 
-    $ProductCode = @$_POST['ProductCode'];
-    $qty = @$_POST['qty'];
-    $Size = @$_POST['Size'];
+    $product_code = @$_POST['product_code'];
+    $id = @$_POST['id'];
+    $size = @$_POST['size'];
 
 
-    if ($ProductCode != '')
-        $SCondition .= " ProductCode = '$ProductCode' and ";
+    if ($product_code != '')
+        $SCondition .= " product_code = $product_code and ";
     if ($qty != '')
-        $SCondition .= " qty = $qty and ";
-    if ($Size != '')
-        $SCondition .= " Size = '$Size' and ";
+        $SCondition .= " id = $id and ";
+    if ($size != '')
+        $SCondition .= " size = '$size' and ";
 }
 
-$SCondition .= " ChkState = 'bought'  order by id DESC limit " . $getStart . " , " . $getEnd;
+$SCondition .= " status = 'bought' or status = 'preparation'  order by id DESC limit " . $getStart . " , " . $getEnd;
+$item_list = " user_name, product_name, images, size_text,barcode_number, qty, last_modify,id,product_id,url,user_id,user_address,user_shopping_cart_id,Enabled ";
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,ProductId,ProductCode,OrderNu,Size,SortingNu,Count,ModifyIP,ProductSizeId,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, $item_list, ViewIWUserCart) as $ListItem) {
 
 
-    $SCondition = "id = $ListItem->iw_user_id";
-    $objUser = @$objORM->Fetch($SCondition, 'Name,id', TableIWUser);
-    $ListItem->iw_user_id = $objUser->Name;
-    $ListItem->id = $objUser->id;
+    if (!$objORM->DataExist("main_cart_id = $ListItem->id  and user_id = $ListItem->user_id and product_id", TableIWShippingProduct)) {
+        $in_set = " user_id = $ListItem->user_id, product_id = $ListItem->product_id,
+        cart_id = $ListItem->user_shopping_cart_id,size = '$ListItem->size_text' ,
+        address_id = $ListItem->user_address,main_cart_id = $ListItem->id ";
+        $objORM->DataAdd($in_set, TableIWShippingProduct);
+        $shipping_product_id = $objORM->LastId();
+    } else {
 
-    $SCondition = "Enabled = $Enabled AND  ProductId = '$ListItem->ProductId' ";
+        $shipping_product_id = $objORM->Fetch("main_cart_id = $ListItem->id  and user_id = $ListItem->user_id and product_id", "id", TableIWShippingProduct)->id;
+    }
 
-    $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
-    $objArrayImage = explode('==::==', $APIProducts->Content);
+    $objArrayImage = explode('==::==', $ListItem->images);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 
-
-    $ListItem->ModifyIP = $APIProducts->Name;
-    $ListItem->Url = $APIProducts->Url;
-
-    $intImageCounter = 1;
-    foreach ($objArrayImage as $image) {
-        if (@strpos($APIProducts->ImageSet, (string)$intImageCounter) === false) {
-
-            unset($objArrayImage[$intImageCounter]);
-        }
-        $intImageCounter++;
-    }
-    $objArrayImage = array_values($objArrayImage);
+    $urlWSize = explode("?", basename($ListItem->url));
+    $urlWSize = str_replace(basename($ListItem->url), $ListItem->product_id . '?' . @$urlWSize[1], $ListItem->url);
+    $ListItem->product_name = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->product_name . '</a>';
+    $ListItem->images = @$objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$ListItem->product_name, 120, 'class="main-image"');
 
 
-    $urlWSize = explode("?", basename($ListItem->Url));
-    $urlWSize = str_replace(basename($ListItem->Url), $ListItem->ProductSizeId . '?' . $urlWSize[1], $ListItem->Url);
-    $ListItem->ProductId = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->ProductId . '</a>';
-    $ListItem->ProductSizeId = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $APIProducts->Name, 120, 'class="main-image"');
-
-
-    $strPricingPart = '';
-    $strSizeSelect = '';
-    $intCountSelect = 1;
-
-
-    $strSizeSelect = $ListItem->Size;
-    $ListItem->Count != '' ? $intCountSelect = $ListItem->Count : $intCountSelect = 1;
-
-    $ListItem->SortingNu = '<input type="text" class="sorting_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->SortingNu . '">';
+    $ListItem->barcode_number = '<input type="text" class="barcode_number" data-cart="'.$ListItem->user_shopping_cart_id.'"  size="16" id="' . $shipping_product_id . '" value="' . $ListItem->barcode_number . '">';
 
 
     if ($ListItem->Enabled == false) {
@@ -90,9 +71,5 @@ foreach ($objORM->FetchAll($SCondition, 'id,ProductId,ProductCode,OrderNu,Size,S
     }
 
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 10, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
 }
-
-
-
-

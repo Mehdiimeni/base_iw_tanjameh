@@ -2,58 +2,58 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
 //user count
-$SCondition = " Enabled != 0 ";
-$intCountAllUser = $objORM->DataCount(" Enabled != 0 ", TableIWUser, 'id');
-$intCountTempCart = $objORM->DataCount($SCondition, TableIWUserTempCart, 'id');
-$intCountPaymentState = $objORM->DataCount($SCondition, TableIWAPaymentState);
+$intCountAllUser = $objORM->DataCount(" 1 order by id DESC ", TableIWUser, 'id');
+$intCountTempCart = $objORM->DataCount("1", TableIWUserTempCart, 'id');
+$intCountPaymentState = $objORM->DataCount("1", TableIWAPaymentState);
 
 
-
-
-$bought_id = $objORM->Fetch("status = 'bought' " , "id" ,TableIWUserOrderStatus)->id;
-$intCountMainCartBought = $objORM->DataCount(
-    "c.iw_user_order_status_id = $bought_id ",
-    TableIWAUserInvoice . ' as i left join ' . TableIWUserShoppingCart . ' as c on c.id = i.shopping_cart_id',
-    'i.id'
+$intCartBought = $objORM->DataCount(
+    " status = 'bought' ",
+    ViewIWUserCart,
+    'id'
 );
 
-$bought_id = $objORM->Fetch("status = 'preparation' " , "id" ,TableIWUserOrderStatus)->id;
-$intCountMainCartPack = $objORM->DataCount(
-    "c.iw_user_order_status_id = $bought_id ",
-    TableIWAUserInvoice . ' as i left join ' . TableIWUserShoppingCart . ' as c on c.id = i.shopping_cart_id',
-    'i.id'
+$intCartSorting = $objORM->DataCount(
+    " status = 'bought' or status = 'preparation'  ",
+    ViewIWUserCart,
+    'id'
+);
+
+$intCartPack = $objORM->DataCount(
+    " status = 'packing'  ",
+    ViewIWUserCart,
+    'id'
+);
+
+$intCartBooking = $objORM->DataCount(
+    " status = 'booking'  ",
+    ViewIWUserCart,
+    'id'
+);
+
+$intCartDispatch = $objORM->DataCount(
+    " status = 'dispatch'  ",
+    ViewIWUserCart,
+    'id'
+);
+
+$intCartDelivery = $objORM->DataCount(
+    " status = 'delivery'  ",
+    ViewIWUserCart,
+    'id'
 );
 
 
-
-$intCountMainCartBooking = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "packing"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
+$intCartClaim = $objORM->DataCount(
+    " status = 'claim'  ",
+    ViewIWUserCart,
+    'id'
 );
 
-$intCountMainCartDispatch = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "booking"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
-);
-
-$intCountMainCartDelivery = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "delivery"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
-);
-
-$intCountMainCartClaim = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "claim"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
-);
-
-$intCountMainCartAll = $objORM->DataCount(
-    TableIWUserOrderStatus . '.status = "complete"',
-    TableIWUserShopOrder . ' left join ' . TableIWUserOrderStatus . ' on ' . TableIWUserShopOrder . '.iw_user_order_status_id = ' . TableIWUserOrderStatus . '.id',
-    TableIWUserShopOrder . '.id'
+$intCartComplete = $objORM->DataCount(
+    " status = 'complete'  ",
+    ViewIWUserCart,
+    'id'
 );
 
 

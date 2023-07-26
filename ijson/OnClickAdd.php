@@ -299,15 +299,23 @@ if (isset($_GET['order_nu']) and isset($_GET['order_id'])) {
 
 }
 
-// add sorting number
-if (isset($_GET['sorting_nu']) and isset($_GET['sorting_id'])) {
+// add barcode number
+if (isset($_GET['barcode_number']) and isset($_GET['shipping_product_id'])) {
 
-    $id = $_GET['sorting_id'];
-    $SortingNu = $_GET['sorting_nu'];
+    $barcode_number = $_GET['barcode_number'];
+    $shipping_product_id = $_GET['shipping_product_id'];
+    $shop_cart_id = $_GET['shop_cart_id'];
 
-    $UCondition = " id = $id";
-    $USet = " SortingNu = '$SortingNu', ChkState = 'preparation' ";
-    $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
+    $UCondition = " id = $shipping_product_id";
+    $USet = " barcode_number = $barcode_number ";
+    $objORM->DataUpdate($UCondition, $USet, TableIWShippingProduct);
+
+    $bought_status_id = $objORM->Fetch("status = 'preparation'", "id", TableIWUserOrderStatus)->id;
+    $objORM->DataUpdate(
+        "id = $shop_cart_id ",
+        "iw_user_order_status_id = $bought_status_id  ",
+        TableIWUserShoppingCart
+    );
 
 }
 

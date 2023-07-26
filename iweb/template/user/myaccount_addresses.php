@@ -161,20 +161,20 @@ if (isset($_POST['addressL'])) {
           <div class="p-4 border border-1">
 
             <h6 class="fw-bold mb-4">
-              <?php echo $address->NicName; ?>
+              <?php echo $address->address_nicname; ?>
             </h6>
             <h4 class="mb-4">
               <?php echo $address->city; ?>
             </h4>
             <ol class="list-unstyled mb-5">
               <li>
-                <?php echo $address->Address; ?>
+                <?php echo $address->address; ?>
               </li>
               <li>
-                <?php echo $address->PostCode; ?>
+                <?php echo $address->address_post_code; ?>
               </li>
               <li>
-                <?php echo $address->iw_country_id; ?>
+                <?php echo $address->country_name; ?>
               </li>
             </ol>
             <div class="mb-4 text-secondary-emphasis">
@@ -206,20 +206,20 @@ if (isset($_POST['addressL'])) {
                     <h4 class="fw-bold mb-1">آدرس حذف شود؟</h4>
                     <h6 class="mb-4">با حذف این مورد، آن را از آدرس‌های ذخیره‌شده‌تان هنگام تسویه‌حساب حذف می‌کنید.</h6>
                     <h6 class="fw-bold mb-4">
-                      <?php echo $address->NicName; ?>
+                      <?php echo $address->address_nicname; ?>
                     </h6>
                     <h4 class="mb-4">
                       <?php echo $address->city; ?>
                     </h4>
                     <ol class="list-unstyled mb-5">
                       <li>
-                        <?php echo $address->Address; ?>
+                        <?php echo $address->address; ?>
                       </li>
                       <li>
-                        <?php echo $address->PostCode; ?>
+                        <?php echo $address->address_post_code; ?>
                       </li>
                       <li>
-                        <?php echo $address->iw_country_id; ?>
+                        <?php echo $address->country_name; ?>
                       </li>
                     </ol>
                     <button type="submit" class="btn btn-dark btn-lg fw-bold fs-6 w-100 rounded-0">حذف</button>
@@ -245,7 +245,7 @@ if (isset($_POST['addressL'])) {
                         <label for="AddZipcode" class="form-label m-0 p-1 border border-bottom-0 border-dark">عنوان
                           *</label>
                         <div class="input-group">
-                          <input value="<?php echo $address->NicName; ?>" name="NicName" type="text"
+                          <input value="<?php echo $address->address_nicname; ?>" name="NicName" type="text"
                             class="form-control form-control-lg fs-6 rounded-0 border-dark" id="AddZipcode" required>
                         </div>
                       </div>
@@ -253,15 +253,15 @@ if (isset($_POST['addressL'])) {
                         <label for="AddTitle" class="form-label m-0 p-1 border border-bottom-0 border-dark">جنسیت
                           *</label>
                         <select name="gender" class="form-select form-select-lg rounded-0 border-dark" id="AddTitle">
-                          <option value="men">آقا</option>
-                          <option value="women">خانم</option>
+                          <option <?php if($address->address_user_gender == 'men'){ echo 'selected'; } ?> value="men">آقا</option>
+                          <option <?php if($address->address_user_gender == 'women'){ echo 'selected'; } ?> value="women">خانم</option>
                         </select>
                       </div>
                       <div class="d-block d-md-flex gap-md-3">
                         <div class="mb-4 col-12 col-md-6">
                           <label for="AddName" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام *</label>
                           <div class="input-group">
-                            <input value="<?php echo $address->name; ?>" name="name" type="text" class="form-control form-control-lg fs-6 rounded-0 border-dark"
+                            <input value="<?php echo $address->address_user_name; ?>" name="name" type="text" class="form-control form-control-lg fs-6 rounded-0 border-dark"
                               id="AddName" required>
                           </div>
                         </div>
@@ -269,7 +269,7 @@ if (isset($_POST['addressL'])) {
                           <label for="AddFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام
                             خانوادگی *</label>
                           <div class="input-group">
-                            <input value="<?php echo $address->family; ?>" name="family" type="text"
+                            <input value="<?php echo $address->address_user_family; ?>" name="family" type="text"
                               class="form-control form-control-lg fs-6 rounded-0 border-dark" id="AddFamily" required>
                           </div>
                         </div>
@@ -279,8 +279,11 @@ if (isset($_POST['addressL'])) {
                         <h6 class="fw-bold m-0">کشور</h6>
                         <select name="iw_country_id" class="form-select form-select-lg rounded-0 border-dark"
                           id="AddTitle">
-                          <?php foreach (get_countreis() as $country) { ?>
-                            <option value="<?php echo $country->id; ?>"><?php echo $country->Name; ?></option>
+                          <?php foreach (get_countreis() as $country) { 
+                            $country->Name == $address->country_name ? $selected = 'selected' : $selected='';
+                            
+                            ?>
+                            <option <?php echo $selected;?> value="<?php echo $country->id; ?>"><?php echo $country->Name; ?></option>
                           <?php } ?>
                         </select>
                       </div>
@@ -288,7 +291,7 @@ if (isset($_POST['addressL'])) {
                         <label for="AddZipcode" class="form-label m-0 p-1 border border-bottom-0 border-dark">کد پستی
                           *</label>
                         <div class="input-group">
-                          <input value="<?php echo $address->PostCode; ?>" name="PostCode" type="text"
+                          <input value="<?php echo $address->address_post_code; ?>" name="PostCode" type="text"
                             class="form-control form-control-lg fs-6 rounded-0 border-dark" id="AddZipcode" required>
                         </div>
                       </div>
@@ -297,7 +300,7 @@ if (isset($_POST['addressL'])) {
                         <label for="OtherTel" class="form-label m-0 p-1 border border-bottom-0 border-dark">شماره
                           اضطراری</label>
                         <div class="input-group">
-                          <input value="<?php echo $address->OtherTel; ?>" name="OtherTel" type="text"
+                          <input value="<?php echo $address->address_other_tel; ?>" name="OtherTel" type="text"
                             class="form-control form-control-lg fs-6 rounded-0 border-dark" id="OtherTel">
                         </div>
                       </div>
@@ -314,7 +317,7 @@ if (isset($_POST['addressL'])) {
                         <div class="input-group">
                           <textarea name="Address" type="text"
                             class="form-control form-control-lg fs-6 rounded-0 border-dark" id="AddAddress"
-                            required><?php echo $address->Address; ?></textarea>
+                            required><?php echo $address->address; ?></textarea>
                         </div>
                       </div>
 
@@ -324,7 +327,7 @@ if (isset($_POST['addressL'])) {
                         <div class="input-group">
                           <textarea name="Description" type="text"
                             class="form-control form-control-lg fs-6 rounded-0 border-dark"
-                            id="AddDescription"><?php echo $address->Description; ?></textarea>
+                            id="AddDescription"><?php echo $address->address_description; ?></textarea>
                         </div>
                       </div>
                       <div class="form-check mb-4">

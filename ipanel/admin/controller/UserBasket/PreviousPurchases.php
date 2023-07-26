@@ -21,7 +21,7 @@ $strListHead = (new ListTools())->TableHead(array(
     FA_LC["count_property"],
     FA_LC["date"],
     FA_LC["order_number"],
-    FA_LC["sorting_number"],
+    FA_LC["barcode_number"],
     FA_LC["packing_number"],
     FA_LC["dispatch_number"],
     FA_LC["tracking_number"],

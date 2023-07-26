@@ -17,52 +17,17 @@ $strListBody = '';
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
 
-$bought_id = $objORM->Fetch("status = 'bought' ", "id", TableIWUserOrderStatus)->id;
-$SCondition = " c.iw_user_order_status_id = $bought_id   order by id DESC limit " . $getStart . " , " . $getEnd;
+$item_list = " user_name, product_name, images, size_text, qty, last_modify,id,product_id,url,  Enabled ";
+foreach ($objORM->FetchAll("status = 'bought'", $item_list, ViewIWUserCart) as $ListItem) {
 
-$item_list = " i.* , c.iw_user_order_status_id , c.iw_user_address ";
 
-foreach ($objORM->FetchAll($SCondition, $item_list, TableIWAUserInvoice . " as i left join " . TableIWUserShoppingCart . " as c on c.id = i.shopping_cart_id") as $ListItem) {
-
-    $ListItem->user_id = @$objORM->Fetch("id = $ListItem->user_id", 'Name', TableIWUser)->Name;
-    $obj_products = $objORM->Fetch("id = $ListItem->iw_api_products_id ", 'Content,Name,Url', TableIWAPIProducts);
-    $ProductVariant = $objORM->Fetch("product_id = $ListItem->product_id ", '*', TableIWApiProductVariants);
-    $ListItem->product_id = $ProductVariant->name;
-    $ListItem->created_time = $ProductVariant->displaySizeText;
-
-    if (@$obj_products->Content == '')
-        continue;
-
-    $objArrayImage = explode('==::==', $obj_products->Content);
+    $objArrayImage = explode('==::==', $ListItem->images);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 
-    $ListItem->BasketIdKey = @$obj_products->Name;
-    $ListItem->Url = @$obj_products->Url;
-
-    $intImageCounter = 1;
-    foreach ($objArrayImage as $image) {
-        if (@strpos($obj_products->ImageSet, (string) $intImageCounter) === false) {
-
-            unset($objArrayImage[$intImageCounter]);
-        }
-        $intImageCounter++;
-    }
-    $objArrayImage = array_values($objArrayImage);
-
-
-    $urlWSize = explode("?", basename(@$obj_products->Url));
-    $urlWSize = str_replace(basename(@$obj_products->Url), $ProductVariant->product_id . '?' . @$urlWSize[1], @$obj_products->Url);
-    $ListItem->product_id = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ProductVariant->name . '</a>';
-    $ListItem->promo_code = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$obj_products->Name, 120, 'class="main-image"');
-
-
-    $strPricingPart = '';
-    $strSizeSelect = '';
-    $intCountSelect = 1;
-
-
-    $strSizeSelect = $ProductVariant->displaySizeText;
-    $ListItem->qty != '' ? $intCountSelect = $ListItem->qty : $intCountSelect = 1;
+    $urlWSize = explode("?", basename($ListItem->url));
+    $urlWSize = str_replace(basename($ListItem->url), $ListItem->product_id . '?' . @$urlWSize[1], $ListItem->url);
+    $ListItem->product_name = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->product_name . '</a>';
+    $ListItem->images = @$objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$ListItem->product_name, 120, 'class="main-image"');
 
     $ListItem->qty = '<input type="text" class="order_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->qty . '">';
 

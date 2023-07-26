@@ -54,7 +54,7 @@
           <div class="my-4 d-block d-sm-flex align-items-start">
             <div class="me-0 me-sm-3">
               <h6>
-                <?php echo $user_order->address_name; ?>
+               شماره پیگیری : <?php echo $user_order->payment_track_number; ?>
               </h6>
               <h6 class="fw-bold">
                 <?php echo $user_order->address; ?>

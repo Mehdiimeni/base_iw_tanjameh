@@ -125,16 +125,15 @@
                         <hr class="mt-0">
                         <address class="">
 
-                            <?php echo get_user_address_default()[0]->NicName; ?>
+                            <?php echo get_user_address_default()[0]->address_nicname; ?>
                             <br>
                             <?php echo get_user_address_default()[0]->city; ?>
                             <br>
-                            <?php echo get_user_address_default()[0]->Address; ?>
+                            <?php echo get_user_address_default()[0]->address; ?>
                             <br>
-                            <?php echo get_user_address_default()[0]->PostCode; ?>
+                            <?php echo get_user_address_default()[0]->address_post_code; ?>
                             <br>
-                            <?php echo get_user_address_default()[0]->iw_country_id; ?>
-                            <br>
+                            <?php echo get_user_address_default()[0]->country_name; ?>
                         </address>
                         <!-- payment method -->
                         <div class="w-100">
@@ -179,7 +178,9 @@
                                 <hr class="mt-0">
                                 <div class="summary-promo mb-3 d-none">
                                     <label>تخفیف</label>
-                                    <div class="promo-value final-value ms-auto" id="basket-promo"><?php $total_discount_persent/$count_product ?>%</div>
+                                    <div class="promo-value final-value ms-auto" id="basket-promo">
+                                        <?php $total_discount_persent / $count_product ?>%
+                                    </div>
                                 </div>
                                 <div
                                     class="totals-item totals-item-total d-flex fw-semibold border-top border-secondary-subtle py-2">
@@ -187,9 +188,11 @@
                                         جمع کل
                                         <br>
                                         (با احتساب مالیات بر ارزش افزوده)</label>
-                                    <div class="totals-value ms-auto" id="cart-total"><?php echo $total_shipping+$total_parice; ?></div>
+                                    <div class="totals-value ms-auto" id="cart-total">
+                                        <?php echo $total_shipping + $total_parice; ?>
+                                    </div>
                                 </div>
-                                <a href="./?user=set_bank&bank=saman&price=<?php echo 1500; ?>&cnu=<?php echo base64_encode(base64_encode((1500).'saman')); ?>"
+                                <a href="./?user=set_bank&bank=saman&price=<?php echo 1500; ?>&cnu=<?php echo base64_encode(base64_encode((1500) . 'saman')); ?>"
                                     class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">پرداخت</a>
                             </div>
                             <p class="mt-4 small">

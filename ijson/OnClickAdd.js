@@ -160,12 +160,13 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-    $(".sorting_number").on('change', function postinput(){
-        var sortingnu = $(this).val(); // this.value
-        var sortingid = $(this).attr('id');
+    $(".barcode_number").on('change', function postinput(){
+        var value = $(this).val(); // this.value
+        var id = $(this).attr('id');
+        var cart_id = $(this).data('cart');
         $.ajax({
             url: '../ijson/OnClickAdd.php',
-            data: { sorting_nu: sortingnu , sorting_id : sortingid },
+            data: { barcode_number: value , shipping_product_id : id , shop_cart_id : cart_id },
             type: 'get'
         }).done(function(responseData) {
             console.log('Done: ', responseData);

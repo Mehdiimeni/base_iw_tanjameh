@@ -12,10 +12,8 @@ if (
     !empty($_POST['user_id'])
 ) {
 
-    $iw_user_id = $objACLTools->CleanStr($_POST['user_id']);
-
-    echo @$objORM->FetchJson(TableIWUserAddressDetails . ' as d inner join ' . TableIWUserAddress . ' as a on d.id = a.iw_user_address_details_id', " d.Enabled = 1 and a.iw_user_id = $iw_user_id ", '*', 'id');
-
+    $user_id = $objACLTools->CleanStr($_POST['user_id']);
+    echo @$objORM->FetchJson(ViewIWUserAddress, " enabled = 1 and user_id = $user_id ", "*");
 
 } else {
     echo false;

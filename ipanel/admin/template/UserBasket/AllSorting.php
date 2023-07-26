@@ -169,7 +169,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="OrderNu" class="date-picker form-control col-md-7 col-xs-12"
+                                <input name="id" class="date-picker form-control col-md-7 col-xs-12"
                                        type="text"
                                 >
                             </div>
@@ -179,9 +179,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="ProductCode" class="date-picker form-control col-md-7 col-xs-12"
-                                       type="text"
-                                       >
+                                <input name="product_code" class="date-picker form-control col-md-7 col-xs-12"
+                                       type="text">
                             </div>
                         </div>
 
@@ -190,7 +189,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="Email" class="date-picker form-control col-md-7 col-xs-12"
+                                <input name="size" class="date-picker form-control col-md-7 col-xs-12"
                                         type="text">
                             </div>
                         </div>

@@ -79,7 +79,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=AllBasket">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-upload"></i></div>
-                                <div class="count"><?php echo($intCountMainCartBought); ?></div>
+                                <div class="count"><?php echo($intCartBought); ?></div>
                                 <h3>جدید</h3>
                                 <p>خریدهای در انتظار تایید</p>
                             </div>
@@ -89,7 +89,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=AllSorting">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-bars"></i></div>
-                                <div class="count"><?php echo($intCountMainCartBought); ?></div>
+                                <div class="count"><?php echo($intCartSorting); ?></div>
                                 <h3> سورتینگ</h3>
                                 <p>کالاهای رسیده</p>
                             </div>
@@ -99,7 +99,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=AllPacking">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-dropbox"></i></div>
-                                <div class="count"><?php echo($intCountMainCartPack); ?></div>
+                                <div class="count"><?php echo($intCartPack); ?></div>
                                 <h3>پکینگ</h3>
                                 <p>سیستم پکینگ</p>
                             </div>
@@ -109,7 +109,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=Booking">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-paper-plane"></i></div>
-                                <div class="count"><?php echo($intCountMainCartBooking); ?></div>
+                                <div class="count"><?php echo($intCartBooking); ?></div>
                                 <h3>بوکینگ</h3>
                                 <p>سیستم بوکینگ</p>
                             </div>
@@ -121,7 +121,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=Dispatch">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-barcode"></i></div>
-                                <div class="count"><?php echo($intCountMainCartDispatch); ?></div>
+                                <div class="count"><?php echo($intCartDispatch); ?></div>
                                 <h3>دیسپچ</h3>
                                 <p>سیستم دیسپچ</p>
                             </div>
@@ -131,7 +131,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=Delivery">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-thumbs-up"></i></div>
-                                <div class="count"><?php echo($intCountMainCartDelivery); ?></div>
+                                <div class="count"><?php echo($intCartDelivery); ?></div>
                                 <h3>دلیوری</h3>
                                 <p>بسته های رسیده</p>
                             </div>
@@ -141,7 +141,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=Claim">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-thumbs-down"></i></div>
-                                <div class="count"><?php echo($intCountMainCartClaim); ?></div>
+                                <div class="count"><?php echo($intCartClaim); ?></div>
                                 <h3>Claim</h3>
                                 <p>بسته های نرسیده</p>
                             </div>
@@ -151,7 +151,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                         <a href="?ln=&part=UserBasket&page=PreviousPurchases">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-archive"></i></div>
-                                <div class="count"><?php echo($intCountMainCartAll); ?></div>
+                                <div class="count"><?php echo($intCartComplete); ?></div>
                                 <h3>خریدهای قبلی</h3>
                                 <p>بسته های قبلی</p>
                             </div>
