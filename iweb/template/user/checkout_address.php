@@ -141,7 +141,7 @@ if (isset($_POST['addressL'])) {
                                             <div class="mb-3">
                                                 <label for="nameInputEdit1" class="form-label">عنوان*</label>
                                                 <input type="text" value="<?php echo $address->address_nicname; ?>"
-                                                    name="address_nicname" class="form-control rounded-0"
+                                                    name="NicName" class="form-control rounded-0"
                                                     id="nameInputEdit1" required>
                                                 <div class="invalid-feedback">
                                                     فیلد عنوان را کامل نمایید
@@ -181,7 +181,7 @@ if (isset($_POST['addressL'])) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="conturyEdit1" class="form-label">کشور *</label>
-                                                <select name="country_name" class="form-control rounded-0" id="AddTitle">
+                                                <select name="iw_country_id" class="form-control rounded-0" id="AddTitle">
                                                     <?php foreach (get_countreis() as $country) {
 
                                                         $country->Name == $address->country_name ? $selected = 'selected' : $selected = '';
@@ -196,7 +196,7 @@ if (isset($_POST['addressL'])) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="zipcodeInputEdit1" class="form-label">کد پستی*</label>
-                                                <input name="address_post_code"
+                                                <input name="PostCode"
                                                     value="<?php echo $address->address_post_code; ?>" type="text"
                                                     class="form-control rounded-0" id="zipcodeInputEdit1" required>
                                                 <div class="invalid-feedback">
@@ -258,7 +258,7 @@ if (isset($_POST['addressL'])) {
                                         name="from_address">
                                         <div class="mb-3">
                                             <label for="nameInputEdit1" class="form-label">عنوان*</label>
-                                            <input type="text" name="address_nicname" class="form-control rounded-0"
+                                            <input type="text" name="NicName" class="form-control rounded-0"
                                                 id="nameInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد عنوان را کامل نمایید
@@ -294,7 +294,7 @@ if (isset($_POST['addressL'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="conturyEdit1" class="form-label">کشور *</label>
-                                            <select name="country_name" class="form-control rounded-0" id="AddTitle">
+                                            <select name="iw_country_id" class="form-control rounded-0" id="AddTitle">
                                                 <?php foreach (get_countreis() as $country) { ?>
                                                     <option value="<?php echo $country->id; ?>"><?php echo $country->Name; ?></option>
                                                 <?php } ?>
@@ -305,7 +305,7 @@ if (isset($_POST['addressL'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="zipcodeInputEdit1" class="form-label">کد پستی*</label>
-                                            <input name="address_post_code" type="text" class="form-control rounded-0"
+                                            <input name="PostCode" type="text" class="form-control rounded-0"
                                                 id="zipcodeInputEdit1" required>
                                             <div class="invalid-feedback">
                                                 فیلد کد پستی را کامل نمایید
