@@ -48,9 +48,10 @@ if (@$_GET['CountShow'] != '') {
 
 
 $strListBody = '';
-$SCondition = "Enabled != 0 and (ChkState = 'bought' or ChkState = 'preparation') group by UserId";
+$SCondition = " status = 'bought' or status = 'preparation'  order by id DESC group by user_id";
+$item_list = " user_name, product_name, images, size_text,barcode_number, qty, last_modify,id,product_id,url,user_id,user_address,user_shopping_cart_id,Enabled ";
 
-foreach ($objORM->FetchLimit($SCondition, 'UserId', 'last_modify ASC', $strLimit, TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, $item_list, ViewIWUserCart) as $ListItem) {
 
 
     $SCondition = "id = $ListItem->iw_user_id";
