@@ -700,3 +700,17 @@ background-repeat: no-repeat;
   min-width: 336px !important;
   max-width: 336px !important;
 }
+
+@media only screen and (max-width:768px){
+
+  .card-img
+  {
+    min-height: 216px !important;
+    max-height: 216px !important;
+  
+    min-width: 150px !important;
+    max-width: 150px !important;
+  }
+  
+
+}

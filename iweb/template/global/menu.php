@@ -53,8 +53,8 @@
                       <div class="card bg-danger rounded-0 border-0 ps-4 mt-5" style="max-width: 18rem;">
                         <a href="#"><img src="./itemplates/iweb/media/owned-index.png" class="card-img-top" alt="..."></a>
                         <div class="card-body">
-                          <p class="card-text b-animate b-light"><a href="#" class="text-white text-decoration-none ">فروش
-                              متعلق به تو <i class="fa-solid fa-arrow-left"></i></a></p>
+                          <p class="card-text b-animate b-light"><a href="./?gender=<?php echo @$_GET['gender']; ?>&category=<?php echo @$Category->Name ?>" class="text-white text-decoration-none ">خرید
+                              <i class="fa-solid fa-arrow-left"></i></a></p>
                         </div>
                       </div>
                     </div>

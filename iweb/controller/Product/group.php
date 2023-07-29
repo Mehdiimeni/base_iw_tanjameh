@@ -9,6 +9,9 @@ function get_group_info($cat_id, $gender, $category, $group)
 
 }
 
+
+
+
 function group_product_details($cat_id,$gender, $page_condition)
 {
     $objIAPI = set_server();

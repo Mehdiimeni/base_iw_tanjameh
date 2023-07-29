@@ -1,49 +1,37 @@
 <?php
-///template/product/group.php
+///template/product/category.php
 
 $gender = str_ireplace('%20',' ',$_SESSION['gender']);
 $category = str_ireplace('%20',' ',$_SESSION['category']);
-$group = str_ireplace('%20',' ',$_SESSION['group']);
-$cat_id = str_ireplace('%20',' ',$_SESSION['cat_id']);
 $page_offcet_nu = 15;
 
 (isset($_GET['page']) and $_GET['page'] > 1) ? $str_limit = ($_GET['page'] - 1) * $page_offcet_nu . '  , ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 
 $page_condition = "order by id DESC LIMIT " . $str_limit;
 
-if(get_group_info($cat_id, $gender, $category, $group)){
+if(get_category_info($gender, $category)){
 ?>
 <div class="container-md pt-5">
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb b-animate b-dark">
       <li class="breadcrumb-item"><a
-          href="./?gender=<?php echo get_group_info($cat_id, $gender, $category, $group)->gender_name; ?>"
-          class="text-decoration-none text-dark fw-semibold d-inline-block"><?php echo get_group_info($cat_id, $gender, $category, $group)->gender_local_name; ?></a>
+          href="./?gender=<?php echo get_category_info($gender, $category)->gender_name; ?>"
+          class="text-decoration-none text-dark fw-semibold d-inline-block"><?php echo get_category_info($gender, $category)->gender_local_name; ?></a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-        <?php echo get_group_info($cat_id, $gender, $category, $group)->category_local_name; ?>
+        <?php echo get_category_info($gender, $category)->category_local_name; ?>
       </li>
     </ol>
   </nav>
   <h1 class="fw-semibold mb-5">
-    <?php echo get_group_info($cat_id, $gender, $category, $group)->group_local_name; ?>
+    <?php echo get_category_info($gender, $category)->category_local_name; ?>
   </h1>
   <div class="row my-4">
     <div class="col-12 col-lg-3 b-animate b-dark brand-cat lh-lg">
       <ul class="list-unstyled">
         <li>
-          <span class="text-mediumpurple fw-bold">
-            <?php echo get_group_info($cat_id, $gender, $category, $group)->category_local_name; ?>
-          </span>
-          <ul class="list-unstyled ms-0 ms-lg-3 d-flex d-lg-block scroll-y-nowrap">
-            <?php foreach (get_category($gender, $category) as $Category) { ?>
-              <li class="list-active d-inline-block d-lg-block">
-                <a href="./?gender=<?php echo urlencode($gender); ?>&category=<?php echo urlencode($category); ?>&group=<?php echo urlencode(@$Category->Name); ?>&CatId=<?php echo @$Category->CatId; ?>"
-                  class="text-decoration-none text-dark d-inline-block d-lg-block"><?php echo @$Category->LocalName ?></a>
-              </li>
-            <?php } ?>
-          </ul>
+          
         </li>
       </ul>
       <hr class="d-lg-none">
@@ -196,14 +184,14 @@ if(get_group_info($cat_id, $gender, $category, $group)){
       </div>
       <div class="hstack gap-2 text-muted my-3">
         <h6>
-          <?php echo get_group_info($cat_id, $gender, $category, $group)->total . " " . _LANG['product']; ?>
+          <?php echo get_category_info($gender, $category)->total . " " . _LANG['product']; ?>
         </h6>
       </div>
       <!-- products -->
       <div class="row row-cols-2 row-cols-sm-3 g-3">
 
-        <?php if (group_product_details($cat_id,$gender, $page_condition)) {
-          foreach (group_product_details($cat_id,$gender, $page_condition) as $product_data) { ?>
+        <?php if (category_product_details($gender, $category, $page_condition)) {
+          foreach (category_product_details($gender, $category, $page_condition) as $product_data) { ?>
             <div class="col card rounded-0 border-0">
               <div class="position-relative d-inline-block product">
                 <div class="position-absolute top-0 z-1 mt-2">
@@ -269,8 +257,8 @@ if(get_group_info($cat_id, $gender, $category, $group)){
       <!-- pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
-          <?php if (group_product_details($cat_id,$gender, $page_condition)) {
-            echo group_product_paging($page_offcet_nu, get_group_info($cat_id, $gender, $category, $group)->total_en, $_SESSION['actual_link']);
+          <?php if (category_product_details($gender, $category, $page_condition)) {
+            echo category_product_paging($page_offcet_nu, get_category_info($gender, $category)->total_en, $_SESSION['actual_link']);
           } ?>
         </ul>
       </nav>

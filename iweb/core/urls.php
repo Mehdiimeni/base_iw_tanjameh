@@ -8,6 +8,16 @@ $trend = @$_GET["trend"];
 $search = @$_GET["search"];
 $item = @$_GET["item"];
 $page = @$_GET["page"];
+$category = @$_GET["category"];
+
+
+if($category != '' and $group == '')
+{
+
+    include_once("./iweb/page/category.php");
+    exit();
+
+}
 
 
 if (!empty($page)) {
@@ -177,6 +187,8 @@ if ($item != '') {
     exit();
 
 }
+
+
 
 if ($gender == '' and $group == '') {
 

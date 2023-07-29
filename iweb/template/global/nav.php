@@ -30,7 +30,8 @@ if (get_nav()) {
         <ul class="navbar-nav float-end flex-row">
           <!-- account -->
           <li class="nav-item dropdown b-drop">
-            <a class="nav-link" href="#">
+          <?php if (!get_user_acl()) { ?>
+            <a class="nav-link" href="./?user=login">
               <svg class="" height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                 aria-labelledby="your-account-8883409" role="img" aria-hidden="false">
                 <title id="your-account-8883409">پروفایل</title>
@@ -39,6 +40,17 @@ if (get_nav()) {
                 </path>
               </svg>
             </a>
+            <?php }else{ ?>
+              <a class="nav-link" href="?user=myaccount">
+              <svg class="" height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
+                aria-labelledby="your-account-8883409" role="img" aria-hidden="false">
+                <title id="your-account-8883409">پروفایل</title>
+                <path
+                  d="M21.645 22.866a28.717 28.717 0 0 0-6.46-7.817c-2.322-1.892-4.048-1.892-6.37 0a28.74 28.74 0 0 0-6.46 7.817.75.75 0 0 0 1.294.76 27.264 27.264 0 0 1 6.113-7.413A3.98 3.98 0 0 1 12 15.125a3.81 3.81 0 0 1 2.236 1.088 27.252 27.252 0 0 1 6.115 7.412.75.75 0 1 0 1.294-.76zM12 12.002A6.01 6.01 0 0 0 18.003 6 6.003 6.003 0 1 0 12 12.002zm0-10.505a4.502 4.502 0 1 1 0 9.005 4.502 4.502 0 0 1 0-9.005z">
+                </path>
+              </svg>
+            </a>
+            <?php } ?>
             <ul id="accountDrop" class="dropdown-menu b-animate b-dark border-0 rounded-0 position-absolute">
               <!-- show li when user is not login -->
               <?php if (!get_user_acl()) { ?>
@@ -97,7 +109,11 @@ if (get_nav()) {
             <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">
               <?php echo get_cart_count(); ?>
             </span>
+            <?php if (get_cart_count() > 0){ ?>
             <a class="nav-link" href="./?user=cart">
+              <?php }else{ ?>
+                <a class="nav-link" href="#">
+                <?php } ?>
               <svg height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
                 aria-labelledby="your-bag-8883411" role="img" aria-hidden="false">
                 <title id="your-bag-8883411">سبد خرید</title>
