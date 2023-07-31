@@ -11,8 +11,7 @@ $page = @$_GET["page"];
 $category = @$_GET["category"];
 
 
-if($category != '' and $group == '')
-{
+if ($category != '' and $group == '') {
 
     include_once("./iweb/page/category.php");
     exit();
@@ -95,6 +94,11 @@ if (@$_GET['user'] != '') {
 
         case 'myaccount-orders':
             include_once("./iweb/page/myaccount_orders.php");
+            exit();
+            break;
+
+        case 'myaccount-order-detail':
+            include_once("./iweb/page/myaccount_order_detail.php");
             exit();
             break;
 

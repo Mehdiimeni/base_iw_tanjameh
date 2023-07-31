@@ -28,7 +28,7 @@
             <h4 class="fw-bold">شماره سفارش:<span>
                 <?php echo $user_order->id; ?>
               </span></h4>
-            <a href="?user=myaccount-order-detail" class="text-decoration-none text-mediumpurple">مشاهده سفارش</a>
+            <a href="?user=myaccount-order-detail&id=<?php echo $user_order->id; ?>" class="text-decoration-none text-mediumpurple">مشاهده سفارش</a>
           </div>
           <dl class="my-4">
             <div class="d-inline-block me-4">
