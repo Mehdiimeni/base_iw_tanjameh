@@ -10,7 +10,6 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
 $strListHead = (new ListTools())->TableHead(array(
-    FA_LC["id"],
     FA_LC["status"],
     FA_LC["user"],
     FA_LC["name"],
@@ -38,21 +37,19 @@ $SCondition = " ";
 
 if (isset($_POST['SubmitSearch'])) {
     $strSearch = @$_POST['Search'];
-    $SCondition = "ProductId = '$strSearch' OR 
+    $SCondition = "product_id = $strSearch OR 
                    last_modify LIKE '%$strSearch%' OR 
-                   IdKey = '$strSearch' OR 
-                   UserId = '$strSearch' OR 
-                   BasketIdKey = '$strSearch' OR 
-                   PaymentIdKey = '$strSearch' OR 
-                   ProductCode = '$strSearch' OR 
-                   ChkState REGEXP '$strSearch' OR 
-                   OrderNu = '$strSearch' OR 
-                   SortingNu = '$strSearch' OR 
-                   PackingNu = '$strSearch' OR 
+                   user_id = $strSearch OR 
+                   user_shopping_cart_id = $strSearch OR 
+                   payment_id = $strSearch OR 
+                   product_code = '$strSearch' OR 
+                   id = $strSearch OR 
+                   barcode_number = $strSearch OR 
+                   packing_number = $strSearch OR 
                    DispatchNu = '$strSearch' OR 
-                   PackWeight REGEXP '$strSearch' OR 
-                   UserAddressId = '$strSearch' OR 
-                   TrackingNu = '$strSearch' ";
+                   packing_weight REGEXP '$strSearch' OR 
+                   address = '$strSearch' OR 
+                   tracking_number = '$strSearch' ";
 } else {
     $SCondition = " Enabled != 2  ";
 }
@@ -60,14 +57,14 @@ if (isset($_POST['SubmitSearch'])) {
 $SCondition .= " and ChkState = 'complete'  order by id DESC limit " . $getStart . " , " . $getEnd;
 
 
-foreach ($objORM->FetchAll($SCondition, 'id,ChkState,UserId,BasketIdKey,ProductId,ProductCode,ProductSizeId,Size,Count,last_modify,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', TableIWAUserMainCart) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'id,ChkState,user_id,user_shopping_cart_id,product_id,product_code,ProductSizeId,Size,Count,last_modify,OrderNu,SortingNu,PackingNu,DispatchNu,TrackingNu,PackWeight,UserAddressId,Enabled', ViewIWUserCart) as $ListItem) {
 
 
     $SCondition = "id = $ListItem->iw_user_id";
     $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
 
-    $SCondition = "  ProductId = '$ListItem->ProductId' ";
+    $SCondition = "  product_id = '$ListItem->product_id' ";
     $APIProducts = $objORM->Fetch($SCondition, '*', TableIWAPIProducts);
 
     $SConditionAddress = "  IdKey = '$ListItem->UserAddressId' ";
@@ -76,7 +73,7 @@ foreach ($objORM->FetchAll($SCondition, 'id,ChkState,UserId,BasketIdKey,ProductI
     $objArrayImage = explode('==::==', $APIProducts->Content);
     $objArrayImage = array_combine(range(1, count($objArrayImage)), $objArrayImage);
 
-    $ListItem->BasketIdKey = $APIProducts->Name;
+    $ListItem->user_shopping_cart_id = $APIProducts->Name;
     $ListItem->Url = $APIProducts->Url;
 
     $intImageCounter = 1;
@@ -92,7 +89,7 @@ foreach ($objORM->FetchAll($SCondition, 'id,ChkState,UserId,BasketIdKey,ProductI
 
     $urlWSize = explode("?", basename($ListItem->Url));
     $urlWSize = str_replace(basename($ListItem->Url), $ListItem->ProductSizeId . '?' . $urlWSize[1], $ListItem->Url);
-    $ListItem->BasketIdKey = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->BasketIdKey . '</a>';
+    $ListItem->user_shopping_cart_id = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->user_shopping_cart_id . '</a>';
     $ListItem->ProductSizeId = $objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], $APIProducts->Name, 120, 'class="main-image"');
 
 

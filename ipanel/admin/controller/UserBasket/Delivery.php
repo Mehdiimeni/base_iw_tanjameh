@@ -1,6 +1,5 @@
 <?php
-//Dispatch.php
-
+//Delivery.php
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
@@ -9,7 +8,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array( FA_LC["id"], FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"],FA_LC['attached_file'],FA_LC["date"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(  FA_LC["user"], FA_LC["pack"],FA_LC["weight"],FA_LC["tracking_number"],FA_LC['attached_file']), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -19,12 +18,11 @@ $strListBody = '';
 @$_GET['s'] != null ? $getStart = @$_GET['s'] : $getStart = 0;
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
-$SCondition = " Enabled != 0 and (ChkState = 'delivery'  ) group by PackingNu  order by id DESC limit " . $getStart . " , " . $getEnd;
-foreach ($objORM->FetchAll($SCondition, 'id,UserId,PackingNu,PackWeight,TrackingNu,CopFile,last_modify,Enabled', TableIWAUserMainCart) as $ListItem) {
+$strListBody = '';
+$SCondition = " status = 'dispatch'  group by packing_number  limit " . $getStart . " , " . $getEnd;
+$item_list = " user_name,packing_number,packing_weight,tracking_number,cop_file,user_shopping_cart_id,invoice_id,Enabled ";
 
-
-    $SCondition = "id = $ListItem->iw_user_id";
-    $ListItem->iw_user_id = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+foreach ($objORM->FetchAll($SCondition, $item_list, ViewIWUserCart) as $ListItem) {
 
 
     if ($ListItem->Enabled == false) {
@@ -33,14 +31,14 @@ foreach ($objORM->FetchAll($SCondition, 'id,UserId,PackingNu,PackWeight,Tracking
         $ToolsIcons[2] = $arrToolsIcon["active"];
     }
 
-    if($ListItem->CopFile != null)
+    if($ListItem->cop_file != null)
     {
-        $ListItem->CopFile = '<a target="_blank" href="' . IW_REPOSITORY_FROM_PANEL . 'attach/copfile/download/' . $ListItem->CopFile . '">Cop File</a>';
+        $ListItem->cop_file = '<a target="_blank" href="' . IW_REPOSITORY_FROM_PANEL . 'attach/copfile/download/' . $ListItem->cop_file . '">Cop File</a>';
        // $ListItem->CopFile .= '<a target="_blank" href="?ln=&part=UserBasket&page=Output">pdf</a>';
     }
 
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64($ListItem->PackingNu . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->packing_number . '::==::' . TableIWShippingProduct, 0));
 }
 
 

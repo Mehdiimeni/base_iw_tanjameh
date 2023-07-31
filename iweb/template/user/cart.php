@@ -11,81 +11,83 @@ if (!empty(get_cart_info())) {
             <!-- items product -->
             <?php foreach ((array) get_cart_info() as $product) { ?>
               <form method="post" action="">
-              <li class="product hstack gap-3 align-items-start li-item border-bottom border-secondary-subtle py-3">
-                <div class="product-image">
-                  <img src='<?php echo $product->images_address; ?>' width="86" alt="">
-                </div>
-                <div class="w-100">
-                  <div class="d-block d-sm-flex">
-                    <div>
-                      <a href="<?php echo ($product->product_page_url); ?>"
-                        class="product-details d-inline-block text-decoration-none text-dark">
-                        <div class="product-brand lh-sm">
-                          <?php echo ($product->name); ?>
-                        </div>
-                        <div class="product-title text-body-secondary">
-                          <?php echo ($product->product_type); ?>
-                        </div>
-                      </a>
-                      <p class="text-body-secondary m-0">رنگ: <span>
-                          <?php echo ($product->colour); ?>
-                        </span></p>
-                      <p class="text-body-secondary">اندازه: <span>
-                          <?php echo ($product->size); ?>
-                        </span></p>
-                    </div>
-                    <div class="product-quantity d-inline-block ms-sm-auto mb-3 mb-sm-0">
-                      <?php if ($product->sizeOrder > 0) { ?>
-                        <select id="mySelect" name="<?php echo ($product->product_id); ?>" class="form-select rounded-0 border-dark-subtle width-87">
-                          <?php for ($counter = 1; $counter < $product->sizeOrder; $counter++) { 
-                            $product->qty == $counter ? $selected = "selected" : $selected = "";
-                            
-                            ?>
-                            <option <?php echo $selected; ?>  data-product-id="<?php echo ($product->product_id); ?>" data-product-price="<?php echo ($product->price); ?>" value="<?php echo ($counter); ?>">
-                              <?php echo ($counter); ?></option>
-                          <?php } ?>
-                        </select>
-                      <?php } else { ?>
-                        <div class="fw-semibold ms-auto d-inline-block text-danger">اتمام کالا</div>
-                      <?php } ?>
-                    </div>
+                <li class="product hstack gap-3 align-items-start li-item border-bottom border-secondary-subtle py-3">
+                  <div class="product-image">
+                    <img src='<?php echo $product->images_address; ?>' width="86" alt="">
                   </div>
-                  <div class="d-block d-sm-flex align-items-start">
-                    <div class="d-flex font-x-s align-items-center">
-                      <div class="product-removal">
-                        <a href='?user=cart&delitem=<?php echo ($product->product_id); ?>&cartid=<?php echo ($product->cart_id); ?>'
-                          class='remove-product d-flex align-items-center text-decoration-none text-body-tertiary'>
-                          <i class="fa-regular fa-trash-can me-2"></i>
-                          <span>حذف مورد</span>
+                  <div class="w-100">
+                    <div class="d-block d-sm-flex">
+                      <div>
+                        <a href="<?php echo ($product->product_page_url); ?>"
+                          class="product-details d-inline-block text-decoration-none text-dark">
+                          <div class="product-brand lh-sm">
+                            <?php echo ($product->name); ?>
+                          </div>
+                          <div class="product-title text-body-secondary">
+                            <?php echo ($product->product_type); ?>
+                          </div>
                         </a>
+                        <p class="text-body-secondary m-0">رنگ: <span>
+                            <?php echo ($product->colour); ?>
+                          </span></p>
+                        <p class="text-body-secondary">اندازه: <span>
+                            <?php echo ($product->size); ?>
+                          </span></p>
+                      </div>
+                      <div class="product-quantity d-inline-block ms-sm-auto mb-3 mb-sm-0">
+                        <?php if ($product->sizeOrder > 0) { ?>
+                          <select id="mySelect" name="<?php echo ($product->product_id); ?>"
+                            class="form-select rounded-0 border-dark-subtle width-87">
+                            <?php for ($counter = 1; $counter < $product->sizeOrder; $counter++) {
+                              $product->qty == $counter ? $selected = "selected" : $selected = "";
+
+                              ?>
+                              <option <?php echo $selected; ?> data-product-id="<?php echo ($product->product_id); ?>"
+                                data-product-price="<?php echo ($product->price); ?>" value="<?php echo ($counter); ?>">
+                                <?php echo ($counter); ?></option>
+                            <?php } ?>
+                          </select>
+                        <?php } else { ?>
+                          <div class="fw-semibold ms-auto d-inline-block text-danger">اتمام کالا</div>
+                        <?php } ?>
                       </div>
                     </div>
-                    <div class="d-inline-block ms-sm-auto my-3 my-sm-0">
-                      <?php if ($product->sizeOrder > 0) { ?>
-                        <div class="product-price" hidden>
-                          <?php echo ($product->price); ?>
+                    <div class="d-block d-sm-flex align-items-start">
+                      <div class="d-flex font-x-s align-items-center">
+                        <div class="product-removal">
+                          <a href='?user=cart&delitem=<?php echo ($product->product_id); ?>&cartid=<?php echo ($product->cart_id); ?>'
+                            class='remove-product d-flex align-items-center text-decoration-none text-body-tertiary'>
+                            <i class="fa-regular fa-trash-can me-2"></i>
+                            <span>حذف مورد</span>
+                          </a>
                         </div>
-                        <?php if ($product->discount_persent) { ?>
-                          <del class="me-2">
-                            <?php echo ($product->old_price); ?>
-                          </del>
-                        <?php } ?>
-                        <div class="product-line-price fw-semibold ms-auto d-inline-block text-danger">
-                          <?php echo ($product->price); ?>
-                        </div>&nbsp;<span class="text-danger">
-                          <?php echo ($product->name_currency); ?>
-                        </span>
-                        <?php if ($product->discount_persent) { ?>
-                          <p class="font-x-s text-danger">شما
-                            <?php echo ($product->discount_persent); ?>% پس انداز می کنید
-                          </p>
-                        <?php }
-                      } ?>
+                      </div>
+                      <div class="d-inline-block ms-sm-auto my-3 my-sm-0">
+                        <?php if ($product->sizeOrder > 0) { ?>
+                          <div class="product-price" hidden>
+                            <?php echo ($product->price); ?>
+                          </div>
+                          <?php if ($product->discount_persent) { ?>
+                            <del class="me-2">
+                              <?php echo ($product->old_price); ?>
+                            </del>
+                          <?php } ?>
+                          <div class="product-line-price fw-semibold ms-auto d-inline-block text-danger">
+                            <?php echo ($product->price); ?>
+                          </div>&nbsp;<span class="text-danger">
+                            <?php echo ($product->name_currency); ?>
+                          </span>
+                          <?php if ($product->discount_persent) { ?>
+                            <p class="font-x-s text-danger">شما
+                              <?php echo ($product->discount_persent); ?>% پس انداز می کنید
+                            </p>
+                          <?php }
+                        } ?>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            <?php } ?>
+                </li>
+              <?php } ?>
           </ul>
           <!-- notice -->
           <p class="text-primary-emphasis font-x-s opacity-75 d-flex align-items-baseline gap-2 my-3">
@@ -103,58 +105,15 @@ if (!empty(get_cart_info())) {
           <h4 class="fw-bold mb-4">ما می پذیریم</h4>
           <ul class="hstack gap-2 list-unstyled">
             <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
-                <rect width="46.6" height="30.6" x="0.7" y="0.7" fill="#fff" rx="3.301"></rect>
-                <path fill="#ddd"
-                  d="M43.999 1.4A2.604 2.604 0 0 1 46.6 4.001V28a2.604 2.604 0 0 1-2.601 2.601H4A2.604 2.604 0 0 1 1.4 27.999V4A2.604 2.604 0 0 1 4.001 1.4H44m0-1.4H4A4.001 4.001 0 0 0 0 4.001V28A4.001 4.001 0 0 0 4.001 32H44A4.001 4.001 0 0 0 48 27.999V4A4.001 4.001 0 0 0 43.999 0z">
-                </path>
-                <path fill="#233065" fill-rule="evenodd"
-                  d="m23.824 10.624-2.43 11.357h-2.938l2.43-11.357zm12.36 7.333 1.548-4.265.89 4.265zm3.279 4.024h2.717L39.81 10.624H37.3a1.338 1.338 0 0 0-1.25.833l-4.408 10.524h3.085l.612-1.696h3.77zm-7.668-3.708c.012-2.998-4.146-3.163-4.117-4.502.009-.407.397-.84 1.246-.951a5.544 5.544 0 0 1 2.897.508l.516-2.408a7.89 7.89 0 0 0-2.748-.504c-2.904 0-4.949 1.544-4.966 3.755-.018 1.635 1.46 2.547 2.573 3.09 1.144.557 1.529.914 1.524 1.411-.008.763-.913 1.099-1.758 1.112a6.142 6.142 0 0 1-3.018-.717l-.533 2.488a8.906 8.906 0 0 0 3.268.604c3.086 0 5.106-1.525 5.116-3.886zm-12.17-7.65-4.76 11.358H11.76l-2.342-9.064a1.244 1.244 0 0 0-.699-.998 12.279 12.279 0 0 0-2.898-.965l.07-.33h5a1.369 1.369 0 0 1 1.354 1.158l1.237 6.572 3.058-7.73z">
-                </path>
-              </svg>
+
+              <img class="rounded-2" src="./itemplates/iweb/media/sep.jpg" alt="">
+
             </li>
             <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
-                <g fill="none">
-                  <rect width="45.333" height="29.333" x="1.333" y="1.333" fill="#FFF" rx="2"></rect>
-                  <path fill="#DDD"
-                    d="M44 1.333A2.667 2.667 0 0 1 46.667 4v24A2.667 2.667 0 0 1 44 30.667H4A2.667 2.667 0 0 1 1.333 28V4A2.667 2.667 0 0 1 4 1.333h40zM44 0H4a4.012 4.012 0 0 0-4 4v24a4.012 4.012 0 0 0 4 4h40a4.012 4.012 0 0 0 4-4V4a4.012 4.012 0 0 0-4-4z">
-                  </path>
-                  <path fill="#231F20"
-                    d="M13.568 27.975V26.38a.946.946 0 0 0-1-1.01.983.983 0 0 0-.893.453.933.933 0 0 0-.84-.452.84.84 0 0 0-.744.377v-.313H9.54v2.54h.559v-1.398a.597.597 0 0 1 .621-.674c.367 0 .553.238.553.669v1.413h.559v-1.408a.598.598 0 0 1 .621-.674c.378 0 .559.238.559.669v1.413l.556-.01zm8.257-2.542h-.909v-.77h-.559v.77h-.504v.506h.516v1.169c0 .59.228.941.883.941.244.002.484-.068.69-.197l-.16-.473a1.034 1.034 0 0 1-.489.144c-.265 0-.366-.171-.366-.426V25.94h.904l-.006-.506zm4.715-.064a.748.748 0 0 0-.67.372v-.308h-.547v2.54h.553V26.55c0-.42.181-.653.532-.653a.897.897 0 0 1 .345.064l.171-.532a1.197 1.197 0 0 0-.393-.07l.009.011zm-7.128.266a1.886 1.886 0 0 0-1.036-.266c-.643 0-1.063.308-1.063.814 0 .414.308.669.878.749l.265.037c.303.043.447.123.447.266 0 .196-.202.308-.579.308a1.355 1.355 0 0 1-.845-.266l-.266.431c.323.225.708.34 1.1.33.734 0 1.159-.346 1.159-.83s-.335-.68-.888-.76l-.265-.037c-.239-.032-.431-.08-.431-.25 0-.169.181-.297.484-.297.28.003.555.079.797.217l.243-.446zm14.805-.266a.748.748 0 0 0-.669.372v-.308H33v2.542h.553V26.55c0-.42.182-.654.532-.654a.897.897 0 0 1 .346.064l.17-.532a1.197 1.197 0 0 0-.393-.069l.01.01zm-7.121 1.328a1.282 1.282 0 0 0 1.236 1.33c.04.001.08.001.12-.002.332.018.659-.09.915-.302l-.266-.447c-.19.145-.424.225-.664.228a.817.817 0 0 1 0-1.627c.24.003.474.083.664.228l.266-.446a1.326 1.326 0 0 0-.915-.303 1.284 1.284 0 0 0-1.356 1.33v.011zm5.176 0v-1.265h-.552v.308a.962.962 0 0 0-.797-.372 1.33 1.33 0 0 0-.015 2.657h.015a.962.962 0 0 0 .797-.372v.308h.553l-.001-1.264zm-2.056 0a.763.763 0 1 1-.001.062c-.002-.022 0-.042.001-.062zm-6.67-1.328a1.33 1.33 0 0 0 .031 2.659h.006c.382.02.758-.104 1.054-.345l-.265-.41c-.21.168-.47.262-.739.266a.703.703 0 0 1-.76-.622h1.887v-.212a1.208 1.208 0 0 0-1.207-1.329l-.008-.007zm0 .495a.628.628 0 0 1 .642.616h-1.33c.02-.355.32-.63.675-.616h.012zm13.847.839v-2.291h-.532v1.33a.962.962 0 0 0-.797-.373 1.33 1.33 0 0 0 0 2.659.962.962 0 0 0 .797-.372v.308h.532v-1.261zm.923.901a.25.25 0 0 1 .239.348.256.256 0 0 1-.139.133.243.243 0 0 1-.101.022.266.266 0 0 1-.239-.155.25.25 0 0 1 0-.196.26.26 0 0 1 .247-.152h-.007zm0 .45a.191.191 0 1 0-.077-.367.186.186 0 0 0-.064.042.192.192 0 0 0 .149.324h-.008zm.016-.318a.107.107 0 0 1 .07.021.068.068 0 0 1 .023.056.066.066 0 0 1-.018.048.097.097 0 0 1-.056.024l.077.088h-.061l-.072-.088h-.024v.088h-.051v-.233l.112-.004zm-2.983-1.033a.763.763 0 1 1-.001.061l.001-.061zm-18.664.001v-1.27h-.552v.307a.962.962 0 0 0-.797-.372 1.33 1.33 0 0 0 0 2.659.962.962 0 0 0 .797-.372v.308h.554l-.002-1.26zm-2.056 0a.71.71 0 1 1-.006.065l.001-.065h.005z">
-                  </path>
-                  <path fill="#F26122" d="M19.228 6.072H27.6v15.044h-8.372z"></path>
-                  <path fill="#EA1D25"
-                    d="M19.76 13.596a9.555 9.555 0 0 1 3.653-7.524C19.26 2.808 13.244 3.529 9.98 7.684a9.568 9.568 0 0 0 13.435 13.433 9.549 9.549 0 0 1-3.655-7.521z">
-                  </path>
-                  <path fill="#F69E1E"
-                    d="M38.895 13.596c0 5.284-4.283 9.568-9.567 9.568a9.571 9.571 0 0 1-5.913-2.045c4.154-3.266 4.874-9.28 1.609-13.435a9.588 9.588 0 0 0-1.61-1.61 9.567 9.567 0 0 1 15.48 7.52v.002z">
-                  </path>
-                </g>
-              </svg>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
-                <g fill="none">
-                  <rect width="45.333" height="29.333" x="1.333" y="1.333" fill="#FFF" rx="2"></rect>
-                  <path fill="#DDD"
-                    d="M44 1.333A2.67 2.67 0 0 1 46.667 4v24A2.67 2.67 0 0 1 44 30.667H4A2.67 2.67 0 0 1 1.333 28V4A2.67 2.67 0 0 1 4 1.333h40zM44 0H4a4.012 4.012 0 0 0-4 4v24a4.012 4.012 0 0 0 4 4h40a4.012 4.012 0 0 0 4-4V4a4.012 4.012 0 0 0-4-4z">
-                  </path>
-                  <path fill="#000"
-                    d="M17.531 28.384v-1.622a.962.962 0 0 0-1.016-1.026.998.998 0 0 0-.908.46.95.95 0 0 0-.853-.46.852.852 0 0 0-.756.384V25.8h-.563v2.584h.568v-1.432a.604.604 0 0 1 .632-.687c.374 0 .563.243.563.682v1.437h.568v-1.432a.61.61 0 0 1 .632-.685c.384 0 .568.242.568.681v1.437h.565v-.002zm3.167-1.292V25.8h-.563v.313a.981.981 0 0 0-.816-.379 1.357 1.357 0 0 0 0 2.712.981.981 0 0 0 .816-.378v.313h.563v-1.29zm-2.09 0a.783.783 0 1 1 .782.826.775.775 0 0 1-.783-.826zm14.118-1.36c.19-.002.379.033.555.104a1.318 1.318 0 0 1 .733.716c.14.345.14.733 0 1.078a1.318 1.318 0 0 1-.733.716 1.531 1.531 0 0 1-1.11 0 1.31 1.31 0 0 1-.73-.716 1.438 1.438 0 0 1 .001-1.078 1.31 1.31 0 0 1 .73-.716c.175-.071.363-.106.554-.104zm0 .532a.835.835 0 0 0-.321.061.753.753 0 0 0-.426.43.941.941 0 0 0 0 .673.746.746 0 0 0 .425.43.873.873 0 0 0 .642 0 .771.771 0 0 0 .43-.43.941.941 0 0 0 0-.672.775.775 0 0 0-.43-.431.8.8 0 0 0-.32-.061zm-8.97.828a1.239 1.239 0 0 0-1.226-1.356 1.357 1.357 0 0 0 .039 2.713 1.57 1.57 0 0 0 1.058-.363l-.276-.416c-.213.171-.477.267-.75.271a.719.719 0 0 1-.774-.632h1.919c.005-.072.01-.141.01-.217zm-1.923-.227a.664.664 0 0 1 .686-.627.641.641 0 0 1 .654.627h-1.34zm4.292-.405a1.66 1.66 0 0 0-.806-.222c-.308 0-.492.114-.492.303 0 .173.195.221.438.253l.265.038c.563.081.903.318.903.773 0 .492-.432.843-1.179.843-.399.01-.79-.107-1.119-.335l.266-.437c.248.184.55.278.86.27.384 0 .589-.113.589-.313 0-.145-.145-.227-.453-.27l-.266-.038c-.578-.081-.892-.34-.892-.763 0-.513.422-.826 1.076-.826.37-.014.736.081 1.054.27l-.244.454zm2.7-.147h-.919v1.168c0 .26.092.432.373.432.176-.005.347-.056.498-.145l.162.481a1.31 1.31 0 0 1-.702.2c-.666 0-.898-.357-.898-.956v-1.179h-.524v-.513h.524v-.784h.568v.784h.919l-.001.512zm1.945-.579c.136 0 .272.024.4.071l-.173.53a.93.93 0 0 0-.351-.066c-.368 0-.55.237-.55.665v1.448h-.563V25.8h.557v.313a.761.761 0 0 1 .68-.379zm3.89 2.272a.264.264 0 0 1 .185.075.249.249 0 0 1 0 .363.267.267 0 0 1-.083.056.241.241 0 0 1-.101.02.261.261 0 0 1-.243-.158.26.26 0 0 1 0-.2.246.246 0 0 1 .056-.081.27.27 0 0 1 .187-.075zm0 .458a.191.191 0 0 0 .078-.016.199.199 0 0 0-.001-.368.198.198 0 0 0-.22.043.2.2 0 0 0 0 .283.21.21 0 0 0 .144.058zm.017-.32a.11.11 0 0 1 .07.02.074.074 0 0 1 .026.056.068.068 0 0 1-.02.049.1.1 0 0 1-.056.024l.078.09h-.061l-.072-.089h-.023v.09h-.05v-.239h.108v-.001z">
-                  </path>
-                  <path fill="#7578B9" d="M19.501 6.084h8.524v15.319h-8.524z"></path>
-                  <path fill="#E51B24"
-                    d="M20.042 13.742a9.723 9.723 0 0 1 3.721-7.658c-4.23-3.326-10.354-2.592-13.68 1.638a9.743 9.743 0 0 0 13.68 13.68 9.727 9.727 0 0 1-3.721-7.66z">
-                  </path>
-                  <path fill="#231F20"
-                    d="M38.595 19.78v-.315h.127v-.064h-.323v.064h.127v.313h.07v.002zm.626 0V19.4h-.099l-.113.26-.114-.26h-.098v.379h.069v-.286l.107.246h.072l.106-.247v.285l.07.002z">
-                  </path>
-                  <path fill="#00ACE8"
-                    d="M39.526 13.742c0 5.38-4.361 9.742-9.741 9.743a9.738 9.738 0 0 1-6.02-2.083c4.23-3.326 4.962-9.452 1.636-13.681a9.74 9.74 0 0 0-1.636-1.636c4.228-3.327 10.353-2.593 13.677 1.637a9.732 9.732 0 0 1 2.084 6.02z">
-                  </path>
-                </g>
-              </svg>
+
+
+              <img class="rounded-2" src="./itemplates/iweb/media/shaparak.jpg" alt="">
+
             </li>
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
@@ -184,24 +143,6 @@ if (!empty(get_cart_info())) {
                     d="M7.467 13.733c0-.133.133-.266.133-.266h3.6c.133 0 .267.133.267.133.133-.667 0-1.2-.4-1.6-.267-.4-1.067-.533-2.134-.533h-2.8c-.266 0-.4.133-.4.4l-1.2 7.466c0 .134.134.267.267.267h1.733l.4-2.8.534-3.067z">
                   </path>
                 </g>
-              </svg>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
-                <rect width="46.6" height="30.6" x="0.7" y="0.7" fill="#fff" rx="3.301"></rect>
-                <path fill="#ddd"
-                  d="M43.999 1.4A2.604 2.604 0 0 1 46.6 4.001V28a2.604 2.604 0 0 1-2.601 2.601H4A2.604 2.604 0 0 1 1.4 27.999V4A2.604 2.604 0 0 1 4.001 1.4H44m0-1.4H4A4.001 4.001 0 0 0 0 4.001V28A4.001 4.001 0 0 0 4.001 32H44A4.001 4.001 0 0 0 48 27.999V4A4.001 4.001 0 0 0 43.999 0z">
-                </path>
-                <path fill="#2872b9" fill-rule="evenodd"
-                  d="M12 4v24h24V4zm23.987 14.024-1.77 1.89 1.77 1.909v1.327l-3.068-3.25 3.068-3.284zm0-1.475h-2.32l-1.928 2.127-1.924-2.127h-8.099v6.71h8.032l1.938-2.148 1.958 2.149h2.343v.989h-2.825l-1.501-1.657-1.49 1.663-9.49-.02v-7.633h-3.076l3.79-8.6h3.69l1.295 2.943V8.002h4.555l.785 2.205.788-2.205h3.479v.901h-2.75l-1.486 4.132-1.477-4.122-2.871-.01v6.643l-2.937-6.642h-2.36L19.13 15.61h2.042l.562-1.343h3.044l.561 1.343h2.093v-.001h1.777v-4.606l1.713 4.606h1.623l1.678-4.59v4.605l1.765-.015v.04zm-12.428 5.146v-1.03h3.755v-1.52H23.56v-1.05h3.847V16.58l3.12 3.32-3.12 3.33v-1.535zm.589-8.933h-1.786l.893-2.135z">
-                </path>
-                <path fill="#fff" fill-rule="evenodd" d="m24.148 12.762-.893-2.135-.893 2.135h1.786z"></path>
-                <path fill="#fff" fill-rule="evenodd"
-                  d="m33.644 23.26-1.958-2.149-1.938 2.149h-8.032v-6.711h8.099l1.924 2.127 1.929-2.127h2.319V15.608l-1.765.015v-4.605l-1.678 4.59h-1.623l-1.713-4.606v4.606H27.43l.001.001h-2.093l-.561-1.343h-3.044l-.562 1.343h-2.042l2.978-6.705h2.359l2.937 6.642V8.903l2.871.01 1.477 4.122 1.486-4.132h2.75v-.901h-3.479l-.788 2.205-.785-2.205H26.38v2.943l-1.296-2.943h-3.689l-3.79 8.6h3.076v7.633l9.49.02 1.49-1.663 1.501 1.657h2.825v-.989h-2.343z">
-                </path>
-                <path fill="#fff" fill-rule="evenodd"
-                  d="m35.987 16.616-3.068 3.285 3.068 3.249v-1.327l-1.77-1.908 1.77-1.891v-1.408zM30.526 19.901l-3.12-3.321v1.515h-3.847v1.049h3.755v1.521h-3.755v1.03h3.847v1.534l3.12-3.328z">
-                </path>
               </svg>
             </li>
           </ul>
@@ -241,7 +182,7 @@ if (!empty(get_cart_info())) {
               <div class="totals-value ms-auto" id="cart-total">42.28</div>
             </div>
                       -->
-            <button type="submit" name="SubmitM" value="A" 
+            <button type="submit" name="SubmitM" value="A"
               class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">رفتن به صفحه
               پرداخت</button>
           </div>
@@ -321,5 +262,5 @@ if (!empty(get_cart_info())) {
       </div>
     </div>
   </div>
-                    </form>
+  </form>
 <?php } ?>

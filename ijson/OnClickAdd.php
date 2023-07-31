@@ -1,10 +1,10 @@
 <?php
 
 $objWishlist = isset($_COOKIE["wishlist"]) ? $_COOKIE["wishlist"] : "[]";
-$objWishlist = (array)json_decode($objWishlist);
+$objWishlist = (array) json_decode($objWishlist);
 
 $objComparison = isset($_COOKIE["comparison"]) ? $_COOKIE["comparison"] : "[]";
-$objComparison = (array)json_decode($objComparison);
+$objComparison = (array) json_decode($objComparison);
 
 if (!in_array(@$_GET['wishlist'], $objWishlist)) {
     array_push($objWishlist, $_GET['wishlist']);
@@ -95,8 +95,8 @@ if (isset($_GET['basket'])) {
 
         $objTimeTools = new TimeTools();
         $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-        
-        
+
+
 
 
         $now_modify = date("Y-m-d H:i:s");
@@ -256,7 +256,7 @@ if (isset($_GET['w_product_type']) and isset($_GET['product_type_name'])) {
     $product_type_name = $objGlobalVar->getUrlEncode(@$_GET['product_type_name']);
     $iw_product_weight_id = $objORM->Fetch(" Weight = $Weight ", 'id', TableIWWebWeight)->id;
 
-    
+
 
     $obj_product_type = $objORM->Fetch(" Name = '$product_type_name' ", 'id', TableIWApiProductType)->id;
 
@@ -305,33 +305,46 @@ if (isset($_GET['barcode_number']) and isset($_GET['shipping_product_id'])) {
     $barcode_number = $_GET['barcode_number'];
     $shipping_product_id = $_GET['shipping_product_id'];
     $shop_cart_id = $_GET['shop_cart_id'];
+    $invoice_id = $_GET['invoice'];
 
-    $UCondition = " id = $shipping_product_id";
+    $UCondition = " id = $shipping_product_id and invoice_id = $invoice_id";
     $USet = " barcode_number = $barcode_number ";
     $objORM->DataUpdate($UCondition, $USet, TableIWShippingProduct);
 
-    $bought_status_id = $objORM->Fetch("status = 'preparation'", "id", TableIWUserOrderStatus)->id;
+    $preparation_status_id = $objORM->Fetch("status = 'preparation'", "id", TableIWUserOrderStatus)->id;
     $objORM->DataUpdate(
-        "id = $shop_cart_id ",
-        "iw_user_order_status_id = $bought_status_id  ",
-        TableIWUserShoppingCart
+        "id = $invoice_id ",
+        "user_order_status_id = $preparation_status_id  ",
+        TableIWAUserInvoice
     );
 
 }
 
 
 // add tracking number
-if (isset($_GET['tracking_nu']) and isset($_GET['tracking_id'])) {
+if (isset($_GET['tracking_nu']) and isset($_GET['packing_nu'])) {
 
-    $PackingNu = $_GET['tracking_id'];
-    $TrackingNu = $_GET['tracking_nu'];
-    $TrackingNu = str_replace(' ', '', $TrackingNu);
-    $TrackingNu = str_replace('-', '', $TrackingNu);
-    $TrackingNu = str_replace('_', '', $TrackingNu);
+    $tracking_number = $_GET['tracking_nu'];
+    $packing_number = $_GET['packing_nu'];
+    $shop_cart_id = $_GET['shop_cart_id'];
+    $invoice_id = $_GET['invoice'];
 
-    $UCondition = " PackingNu = '$PackingNu'";
-    $USet = " TrackingNu = '$TrackingNu', ChkState = 'booking' ";
-    $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
+    $tracking_number = str_replace(' ', '', $tracking_number);
+    $tracking_number = str_replace('-', '', $tracking_number);
+    $tracking_number = str_replace('_', '', $tracking_number);
+
+    $USet = " tracking_number = '$tracking_number' ";
+    $objORM->DataUpdate(" packing_number = $packing_number ", $USet, TableIWShippingProduct);
+
+    $booking_status_id = $objORM->Fetch("status = 'booking'", "id", TableIWUserOrderStatus)->id;
+
+    foreach ($objORM->FetchAll(" packing_number = $packing_number ", "invoice_id", TableIWShippingProduct) as $ListItem) {
+        $objORM->DataUpdate(
+            "id = $ListItem->invoice_id ",
+            "user_order_status_id = $booking_status_id  ",
+            TableIWAUserInvoice
+        );
+    }
 
 }
 
@@ -341,18 +354,15 @@ if (isset($_GET['currency_nu']) and isset($_GET['currency_id'])) {
     $Currencyid = $_GET['currency_id'];
     $CurrencyNu = $_GET['currency_nu'];
     $CurrencyNu = str_replace(' ', '', $CurrencyNu);
-    $CurrencyNu = explode(".",$CurrencyNu);
+    $CurrencyNu = explode(".", $CurrencyNu);
     $CurrencyNu = str_replace(',', '', $CurrencyNu[0]);
 
     $UCondition = " id = $Currencyid";
     $USet = " Rate = $CurrencyNu,";
     $USet .= " modify_ip = '$modify_ip' ,";
-    
-    
+
+
     $USet .= " last_modify = '$now_modify' ";
     $objORM->DataUpdate($UCondition, $USet, TableIWACurrenciesConversion);
 
 }
-
-
-

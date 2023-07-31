@@ -12,7 +12,7 @@ if (!empty($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
 
     $obj_all_shoping_cart = $objORM->FetchAll(
-        "user_id = $user_id",
+        "user_id = $user_id group by user_shopping_cart_id order by invoice_id asc",
         "*",
         ViewIWUserCart
     );
@@ -22,7 +22,7 @@ if (!empty($_POST['user_id'])) {
 
         $arr_shopping_cart[] = array(
 
-            'id' => $all_shoping_cart->id,
+            'id' => $all_shoping_cart->user_shopping_cart_id,
             'status_name' => $all_shoping_cart->status,
             'address' => $all_shoping_cart->address,
             'post_code' => $all_shoping_cart->post_code,

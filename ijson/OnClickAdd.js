@@ -164,9 +164,10 @@ $(document).ready(function(){
         var value = $(this).val(); // this.value
         var id = $(this).attr('id');
         var cart_id = $(this).data('cart');
+        var invoice_id = $(this).data('invoice');
         $.ajax({
             url: '../ijson/OnClickAdd.php',
-            data: { barcode_number: value , shipping_product_id : id , shop_cart_id : cart_id },
+            data: { barcode_number: value , shipping_product_id : id , shop_cart_id : cart_id , invoice : invoice_id },
             type: 'get'
         }).done(function(responseData) {
             console.log('Done: ', responseData);
@@ -178,11 +179,13 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $(".tracking_number").on('change', function postinput(){
-        var trackingnu = $(this).val(); // this.value
-        var trackingid = $(this).attr('id');
+        var tracking_number = $(this).val(); // this.value
+        var packing_number = $(this).attr('id');
+        var cart_id = $(this).data('cart');
+        var invoice_id = $(this).data('invoice');
         $.ajax({
             url: '../ijson/OnClickAdd.php',
-            data: { tracking_nu: trackingnu , tracking_id : trackingid },
+            data: { tracking_nu: tracking_number , packing_nu : packing_number, shop_cart_id : cart_id , invoice : invoice_id },
             type: 'get'
         }).done(function(responseData) {
             console.log('Done: ', responseData);

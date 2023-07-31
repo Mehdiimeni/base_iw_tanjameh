@@ -1,5 +1,43 @@
 <?php
 ///template/user/myaccount_details.php
+
+
+if (isset($_POST['edit_profile'])) {
+  $user_edit_profile_result = @user_edit_profile($_POST);
+  if ($user_edit_profile_result->stat) {
+
+
+      $_SESSION['user_id'] = $user_edit_profile_result->user_id;
+
+      setcookie(
+          'user_id',
+          base64_encode($user_edit_profile_result->user_id),
+          time() + (7 * 24 * 60 * 60),
+          '/'
+      );
+
+      switch ($user_edit_profile_result->stat_detials) {
+          case '20':
+              echo "<script>window.location.href = './?user=myaccount-details';</script>";
+              break;
+        
+      }
+
+  } else {
+
+      switch ($user_edit_profile_result->stat_detials) {
+          case '12':
+              echo "<script>alert('" . _LANG['user_edit_profile_form_null'] . "');</script>";
+              break;
+
+              case '11':
+                echo "<script>alert('" . _LANG['user_signup_error_exist'] . "');</script>";
+                break; 
+      }
+
+  }
+
+}
 ?>
 
     <!-- side right -->
@@ -20,13 +58,13 @@
                 <h5 class="fw-semibold mb-1">
                   نام
                 </h5>
-                <h6>Seyed Shirazi</h6>
+                <h6><?php  echo user_profile()[0]->Name; ?></h6>
               </div>
               <div>
                 <h5 class="mb-1">
                   پرفرنس مد
                 </h5>
-                <h6>بدون پرفرنس</h6>
+                <h6><?php  echo user_profile()[0]->pre_refrence; ?></h6>
               </div>
             </div>
             <div class="mt-5 mt-sm-0">
@@ -51,13 +89,13 @@
                     </div>
                   </div>
                 </div>
-                <h6>0911111</h6>
+                <h6><?php  echo user_profile()[0]->CellNumber; ?></h6>
               </div>
               <div>
                 <h5 class="mb-1">
-                  تاریخ تولد
+                   کد ملی
                 </h5>
-                <h6>23/08/1982</h6>
+                <h6><?php  echo user_profile()[0]->NationalCode; ?></h6>
               </div>
             </div>
           </div>
@@ -77,39 +115,33 @@
                   <div class="col-12 col-md-10 col-lg-7">
                     <h2 class="fw-bold mb-5">بروزرسانی مشخصات من</h2>
                     <div class="mb-4">
-                      <label for="personalName" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام</label>
+                      <label for="personalName"   class="form-label m-0 p-1 border border-bottom-0 border-dark">نام و نام خانوادگی</label>
                       <div class="input-group">
-                        <input type="text" class="form-control form-control-lg rounded-0 border-dark" id="personalName" required>
+                        <input type="text" name="Name" value="<?php  echo user_profile()[0]->Name; ?>" class="form-control form-control-lg rounded-0 border-dark" id="personalName" required>
                       </div>
                     </div>
                     <div class="mb-4">
-                      <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام خانوادگی</label>
+                      <label for="personalBirth" class="form-label m-0 p-1 border border-bottom-0 border-dark">شماره ملی</label>
                       <div class="input-group">
-                        <input type="text" class="form-control form-control-lg rounded-0 border-dark" id="personalFamily" required>
-                      </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="personalBirth" class="form-label m-0 p-1 border border-bottom-0 border-dark">تاریخ تولد</label>
-                      <div class="input-group">
-                        <input type="date" class="form-control form-control-lg rounded-0 border-dark" id="personalBirth">
+                        <input type="text" name="NationalCode" value="<?php  echo user_profile()[0]->NationalCode; ?>" class="form-control form-control-lg rounded-0 border-dark" id="personalBirth" required>
                       </div>
                     </div>
                     <div class="mb-4">
                       <h5 class="fw-bold">ترجیهات مد</h5>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Fashionpreference" id="FashionRadios1" value="option1">
+                        <input class="form-check-input" type="radio" name="Fashionpreference"  id="FashionRadios1" value="woman">
                         <label class="form-check-label fs-5" for="FashionRadios1">
                           مد زنانه
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Fashionpreference" id="FashionRadios2" value="option2">
+                        <input class="form-check-input" type="radio" name="Fashionpreference" id="FashionRadios2" value="men">
                         <label class="form-check-label fs-5" for="FashionRadios2">
                           مد مردانه
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Fashionpreference" id="FashionRadios3" value="option3" checked>
+                        <input class="form-check-input" type="radio" name="Fashionpreference" id="FashionRadios3" value="none" checked>
                         <label class="form-check-label fs-5" for="FashionRadios3">
                           بدون ترجیهات
                         </label>
@@ -121,11 +153,11 @@
                       <select class="form-select form-select-lg rounded-0 border-dark w-25">
                         <option value="1">ایران(98+)</option>
                       </select>
-                      <input type="tel" class="form-control form-control-lg rounded-0 border-dark w-75">
+                      <input type="tel" name="CellNumber" value="<?php  echo user_profile()[0]->CellNumber; ?>" class="form-control form-control-lg rounded-0 border-dark w-75">
                       </div>
                     </div>
                     </div>
-                    <button class="btn btn-lg rounded-0 btn-dark w-100 fs-6 fw-bold my-5">ذخیره</button>
+                    <button name="edit_profile" value="1" class="btn btn-lg rounded-0 btn-dark w-100 fs-6 fw-bold my-5">ذخیره</button>
                   </form>
                 </div>
               </div>
@@ -146,7 +178,7 @@
               <h5 class="fw-semibold mb-1">
                 ایمیل شما
               </h5>
-              <h6>amirh.moein@hotmail.com</h6>
+              <h6><?php  echo user_profile()[0]->Email; ?></h6>
             </div>
         </div>
         </div>

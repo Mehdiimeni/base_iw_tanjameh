@@ -33,11 +33,10 @@ if (isset($_POST['SubmitF'])) {
 
 }
 
-$strListHead = (new ListTools())->TableHead(array(FA_LC["name"]), FA_LC['code']);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["name"], FA_LC['cart_number']), FA_LC["tools"]);
 
 
 $ToolsIcons[] = $arrToolsIcon["view"];
-$ToolsIcons[] = $arrToolsIcon["edit"];
 
 
 if (@$_GET['CountShow'] != '') {
@@ -48,39 +47,15 @@ if (@$_GET['CountShow'] != '') {
 
 
 $strListBody = '';
-$SCondition = " status = 'bought' or status = 'preparation'  order by id DESC group by user_id";
-$item_list = " user_name, product_name, images, size_text,barcode_number, qty, last_modify,id,product_id,url,user_id,user_address,user_shopping_cart_id,Enabled ";
+$SCondition = " status = 'bought' or status = 'preparation' or packing_number is null   group by user_shopping_cart_id ";
+$item_list = " user_name, user_shopping_cart_id,invoice_id,Enabled ";
 
 foreach ($objORM->FetchAll($SCondition, $item_list, ViewIWUserCart) as $ListItem) {
 
 
-    $SCondition = "id = $ListItem->iw_user_id";
-    $ListItem->iw_user_id = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&IdKey=' . $ListItem->iw_user_id . '">' . @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name . '</a>';
+    $ListItem->user_name = '<a target="_blank" href="?ln=&part=UserBasket&page=Packing&cart_id=' . $ListItem->user_shopping_cart_id . '">' . $ListItem->user_name . '</a>';
 
-    if (@$ListItem->Enabled == false) {
-        $ToolsIcons[2] = $arrToolsIcon["inactive"];
-    } else {
-        $ToolsIcons[2] = $arrToolsIcon["active"];
-    }
-
-    if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act != 'move') {
-
-        $ToolsIcons[4] = $arrToolsIcon["move"];
-
-    } elseif ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->act == 'move' and @$objGlobalVar->RefFormGet()[0] == $ListItem->id) {
-        $ToolsIcons[4] = $arrToolsIcon["movein"];
-        $ToolsIcons[5] = $arrToolsIcon["closemove"];
-        $objGlobalVar->setGetVar('chin', $ListItem->id);
-
-
-    } else {
-
-        $ToolsIcons[4] = $arrToolsIcon["moveout"];
-        $urlAppend = $ToolsIcons[4][3] . '&chto=' . $ListItem->id . '&chin=' . @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->chin;
-        $ToolsIcons[4][3] = $urlAppend;
-
-    }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 8, $objGlobalVar->en2Base64(@$ListItem->id . '::==::' . TableIWAdmin, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64(@$ListItem->invoice_id . '::==::' . TableIWAUserInvoice, 0));
 }
 
 

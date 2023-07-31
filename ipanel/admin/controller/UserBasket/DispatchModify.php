@@ -6,13 +6,13 @@ $Enabled = true;
 
 
 switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
-    case 'add' :
+    case 'add':
         $strModifyTitle = FA_LC["add"];
         break;
-    case 'edit' :
+    case 'edit':
         $strModifyTitle = FA_LC["edit"];
         break;
-    case 'view' :
+    case 'view':
         $strModifyTitle = FA_LC["view"];
         break;
 }
@@ -20,15 +20,15 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 $strCopFile = '';
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
-    $PackingNu = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  PackingNu = '$PackingNu' ";
-    $fileCopFile = $objORM->Fetch($SCondition, 'CopFile', TableIWAUserMainCart)->CopFile;
+    $packing_number = $objGlobalVar->RefFormGet()[0];
+    $SCondition = "  packing_number = '$packing_number' ";
+    $fileCopFile = $objORM->Fetch($SCondition, 'cop_file', TableIWShippingProduct)->cop_file;
 
 
-//CopFile
+    //CopFile
 
     if ($fileCopFile != '')
-        $strCopFile = '<a target="_blank" href="' . IW_REPOSITORY_FROM_PANEL . 'attach/copfile/download/' . $fileCopFile . '">Cop File Click</a>';
+        $strCopFile = '<a target="_blank" href="' . IW_REPOSITORY_FROM_PANEL . 'attach/copfile/download/' . $fileCopFile . '">COP File Click</a>';
 
 
     if (isset($_POST['SubmitM'])) {
@@ -61,26 +61,29 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
             $objTimeTools = new TimeTools();
             $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
-            
-            
+
+
             $now_modify = date("Y-m-d H:i:s");
 
-            $UCondition = " PackingNu = '$PackingNu' ";
-            $USet = "";
-            $USet .= " ChkState = 'dispatch' ,";
-
-            $USet .= " modify_ip = '$modify_ip' ,";
-            
-            
-            $USet .= " last_modify = '$now_modify'";
 
             if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->CopFile->name != null) {
                 $objFileToolsInit->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'attach/copfile/');
                 $objFileToolsInit->FileCopyServer($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->CopFile->tmp_name, 'download', $FileNewName);
-                $USet .= ", CopFile = '$FileNewName'";
+                $USet = " cop_file = '$FileNewName'";
             }
 
-            $objORM->DataUpdate($UCondition, $USet, TableIWAUserMainCart);
+            $objORM->DataUpdate(" packing_number = '$packing_number' ", $USet, TableIWShippingProduct);
+
+
+            $booking_status_id = $objORM->Fetch("status = 'dispatch'", "id", TableIWUserOrderStatus)->id;
+
+            foreach ($objORM->FetchAll(" packing_number = $packing_number ", "invoice_id", TableIWShippingProduct) as $ListItem) {
+                $objORM->DataUpdate(
+                    "id = $ListItem->invoice_id ",
+                    "user_order_status_id = $booking_status_id  ",
+                    TableIWAUserInvoice
+                );
+            }
 
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
             JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify', 'ref')));
@@ -92,7 +95,3 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     }
 
 }
-
-
-
-

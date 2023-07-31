@@ -9,7 +9,7 @@ $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName'])
 $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["user"], FA_LC["product"], FA_LC["image"], FA_LC["size"], FA_LC["count_property"], FA_LC["date"], FA_LC["order_number"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["user"], FA_LC["product"], FA_LC["image"], FA_LC["size"], FA_LC["date"], FA_LC["cart_number"]), FA_LC["tools"]);
 
 
 $strListBody = '';
@@ -17,8 +17,8 @@ $strListBody = '';
 @$_GET['e'] != null ? $getEnd = @$_GET['e'] : $getEnd = 100;
 
 
-$item_list = " user_name, product_name, images, size_text, qty, last_modify,id,product_id,url,  Enabled ";
-foreach ($objORM->FetchAll("status = 'bought'", $item_list, ViewIWUserCart) as $ListItem) {
+$item_list = " user_name, product_name, images, size_text, last_modify,user_shopping_cart_id,invoice_id,product_id,url,  Enabled ";
+foreach ($objORM->FetchAll("status = 'bought' ", $item_list, ViewIWUserCart) as $ListItem) {
 
 
     $objArrayImage = explode('==::==', $ListItem->images);
@@ -29,8 +29,6 @@ foreach ($objORM->FetchAll("status = 'bought'", $item_list, ViewIWUserCart) as $
     $ListItem->product_name = '<a target="_blank" href="https://www.asos.com/' . $urlWSize . '">' . $ListItem->product_name . '</a>';
     $ListItem->images = @$objShowFile->ShowImage('', $objShowFile->FileLocation("attachedimage"), @$objArrayImage[0], @$ListItem->product_name, 120, 'class="main-image"');
 
-    $ListItem->qty = '<input type="text" class="order_number"  size="16" id="' . $ListItem->id . '" value="' . $ListItem->qty . '">';
-
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -38,5 +36,5 @@ foreach ($objORM->FetchAll("status = 'bought'", $item_list, ViewIWUserCart) as $
         $ToolsIcons[2] = $arrToolsIcon["active"];
     }
 
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 7, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAUserMainCart, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 6, $objGlobalVar->en2Base64($ListItem->invoice_id . '::==::' . TableIWAUserInvoice, 0));
 }

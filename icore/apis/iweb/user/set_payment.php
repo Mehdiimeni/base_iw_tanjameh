@@ -154,23 +154,9 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
 
     $objUserTempCart = $objORM->FetchAll(" iw_user_id = $user_id  ", '*', TableIWUserTempCart);
 
+    $bought_status_id = $objORM->Fetch("status = 'bought'", "id", TableIWUserOrderStatus)->id;
+
     foreach ($objUserTempCart as $UserTempCart) {
-
-        $str_change = "
-            Enabled= 1,
-            qty=$UserTempCart->qty,
-            price='$UserTempCart->price',
-            iw_user_id= $user_id,
-            currencies_conversion_id = $UserTempCart->currencies_conversion_id ,
-            promo_code = '$UserTempCart->promo_code',
-            product_id	 = $UserTempCart->product_id,
-            iw_user_shopping_cart_id = $shopping_cart->id,
-            iw_api_products_id = $UserTempCart->iw_api_products_id,
-            last_modify = '$now_modify',
-            modify_id = $user_id,
-            modify_ip = '$modify_ip'";
-
-        $objORM->DataAdd($str_change, TableIWAUserMainCart);
 
 
         // create invoice file
@@ -190,7 +176,7 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
         );
 
 
-        $str_change = " PView = PView + 1 , iw_api_products_id = $obj_product->id ";
+        $str_change = " PBuy = PBuy + 1 , iw_api_products_id = $obj_product->id ";
         $type_condition = "iw_api_products_id = $obj_product->id";
         if (!$objORM->DataExist($type_condition, TableIWApiProductStatus, 'iw_api_products_id')) {
 
@@ -200,27 +186,31 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
             $objORM->DataUpdate($type_condition, $str_change, TableIWApiProductStatus);
         }
 
+        for ($i = 0; $i < $UserTempCart->qty; $i++) {
 
-        //invoice
-        $InSet = " Enabled = 1 ,";
-        $InSet .= " product_id = '$UserTempCart->product_id' ,";
-        $InSet .= " payment_id = $payment_id  ,";
-        $InSet .= " user_id = $user_id ,";
-        $InSet .= " size = '$obj_product_variants->brandSize' ,";
-        $InSet .= " qty = $UserTempCart->qty ,";
-        $InSet .= " price = $UserTempCart->price ,";
-        $InSet .= " shopping_cart_id = $shopping_cart->id ,";
-        $InSet .= " currencies_conversion_id = $UserTempCart->currencies_conversion_id ,";
-        $InSet .= " iw_user_address = $UserAddressId ,";
-        $InSet .= " last_modify = '$now_modify' ,";
-        $InSet .= " modify_id = $user_id, ";
-        $InSet .= " modify_ip = '$modify_ip' ";
+            //invoice
+            $InSet = " Enabled = 1 ,";
+            $InSet .= " product_id = '$UserTempCart->product_id' ,";
+            $InSet .= " payment_id = $payment_id  ,";
+            $InSet .= " user_id = $user_id ,";
+            $InSet .= " size = '$obj_product_variants->brandSize' ,";
+            $InSet .= " price = $UserTempCart->price ,";
+            $InSet .= " shopping_cart_id = $shopping_cart->id ,";
+            $InSet .= " user_order_status_id = $bought_status_id ,";
+            $InSet .= " currencies_conversion_id = $UserTempCart->currencies_conversion_id ,";
+            $InSet .= " iw_user_address = $UserAddressId ,";
+            $InSet .= " promo_code = '$UserTempCart->promo_code',";
+            $InSet .= " api_products_id = $obj_product->id,";
+            $InSet .= " last_modify = '$now_modify' ,";
+            $InSet .= " modify_id = $user_id, ";
+            $InSet .= " modify_ip = '$modify_ip' ";
 
-        $objORM->DataAdd($InSet, TableIWAUserInvoice);
+            $objORM->DataAdd($InSet, TableIWAUserInvoice);
+        }
     }
 
 
-    $bought_status_id = $objORM->Fetch("status = 'bought'", "id", TableIWUserOrderStatus)->id;
+
 
     $objORM->DataUpdate(
         "id = $shopping_cart->id",

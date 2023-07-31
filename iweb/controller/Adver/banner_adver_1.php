@@ -21,6 +21,14 @@ function get_banner_adver_product($page_name_system, $adver_number)
     );
     return json_decode($objIAPI->GetPostApi('adver/adver_product', $filds));
 }
+
+
+
+
+
+
+
+
 /*
 function get_product_details($id)
 {

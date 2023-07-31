@@ -41,7 +41,7 @@ $arrIdAllProduct = array();
 $objAsos = new AsosConnections();
 
 //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-$SCondition = "last_modify < '$yesterday' order by rand() limit 1 ";
+$SCondition = "last_modify < '$yesterday' and Enabled = 1 order by rand() limit 1 ";
 
 
 
@@ -190,8 +190,6 @@ foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,i
                         $objORM->DataUpdate($brand_condition, $str_change, TableIWApiBrands);
                         $iw_api_brands_id = $objORM->Fetch($brand_condition, "id", TableIWApiBrands)->id;
                     }
-
-
 
 
 

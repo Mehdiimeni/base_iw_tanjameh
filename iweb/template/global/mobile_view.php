@@ -75,7 +75,7 @@
       } ?>
     </div>
     <div class="bg-body-secondary py-3">
-      <?php if (!get_user_acl()) { ?>
+      <?php if (get_user_acl()) { ?>
         <div class="card py-2 px-4 shadow-sm rounded-0">
           <a href="?user=myaccount" class="fs-5 text-decoration-none text-dark">
             <span class="">صفحه کاربری</span>
@@ -88,10 +88,23 @@
             <i class="fa-solid fa-arrow-left float-end"></i>
           </a>
         </div>
-      <?php } else { ?>
         <div class="card py-2 px-4 shadow-sm mt-3 rounded-0">
           <a href="?user=exit" class="fs-5 text-decoration-none text-dark">
             <span class="">خروج</span>
+          </a>
+        </div>
+      <?php } ?>
+      <?php if (!get_user_acl()) { ?>
+        <div class="card py-2 px-4 shadow-sm rounded-0">
+          <a href="?user=login" class="fs-5 text-decoration-none text-dark">
+            <span class="">ورود</span>
+            <i class="fa-solid fa-arrow-left float-end"></i>
+          </a>
+        </div>
+        <div class="card py-2 px-4 shadow-sm rounded-0">
+          <a href="?user=login" class="fs-5 text-decoration-none text-dark">
+            <span class="">عضویت</span>
+            <i class="fa-solid fa-arrow-left float-end"></i>
           </a>
         </div>
       <?php } ?>

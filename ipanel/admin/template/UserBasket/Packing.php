@@ -206,7 +206,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                                     </label>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                        <input name="PackWeight" value="<?php echo($ListItem->PackWeight); ?>" class="date-picker form-control col-md-7 col-xs-12"
+                                        <input name="packing_weight" value="<?php echo($all_weight_pack); ?>" class="date-picker form-control col-md-7 col-xs-12"
                                                 type="text">
                                     </div>
                                 </div>
@@ -215,8 +215,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["description"]; ?>
                                     </label>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <textarea name="Description" class="form-control" rows="3"
-                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo($ListItem->Description); ?></textarea>
+                                            <textarea name="packing_description" class="form-control" rows="3"
+                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo($ListItem->user_address_description); ?></textarea>
                                     </div>
                                 </div>
 

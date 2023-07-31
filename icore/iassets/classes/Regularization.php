@@ -97,7 +97,13 @@ class Regularization
 
     public function de2Base64($str)
     {
-        return base64_decode(base64_decode($str));
+
+        if (!empty($str)) {
+            return base64_decode(base64_decode($str));
+        } else {
+            return null;
+        }
+
     }
 
     public function mdShal($str, $trim): string

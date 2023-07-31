@@ -5,19 +5,16 @@ include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $objGlobalVar = new GlobalVarTools();
 $Enabled = true;
-$PackingNu = $_GET['PackingNu'];
+$packing_number = $_GET['packing_number'];
 
-$SCondition = "PackingNu = '$PackingNu'  ";
-$stdUserMainCart = $objORM->Fetch($SCondition, '*', TableIWAUserMainCart);
-
-$SCondition = "id = '$stdUserMainCart->UserId' and  Enabled = $Enabled ";
-$stdProfile = $objORM->Fetch($SCondition, '*', TableIWUser);
+$SCondition = "packing_number = '$packing_number'  ";
+$obj_user_cart = $objORM->Fetch($SCondition, '*', ViewIWUserCart);
 
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->setCreator('Tanjameh.com');
 $pdf->setAuthor('Tanjameh ltd.');
-$pdf->setTitle($stdProfile->Name);
+$pdf->setTitle($obj_user_cart->user_name);
 $pdf->setSubject('Tanjameh');
 $pdf->setKeywords('Tanjameh , shop');
 
@@ -55,17 +52,10 @@ $pdf->SetFont('dejavusans', '', 12);
 
 //Addresse
 
-$SCondition = " Enabled = $Enabled and  IdKey = '$stdUserMainCart->UserAddressId'  ";
-$stdUserAddress = $objORM->Fetch($SCondition, '*', TableIWUserAddress);
-
-$strAdresses = '';
-$SCondition = " IdKey = '$stdUserAddress->CountryIdKey'  ";
-$strCountryName = $objORM->Fetch($SCondition, 'Name', TableIWACountry)->Name;
-
-$strAdresses .= '
+$strAdresses = '
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span lang="FA-IR" style="font-size:16.0pt;line-height:
-107%;font-family:Vazir">' . $stdProfile->Name . '</span></b></p>
+107%;font-family:Vazir">' . $obj_user_cart->user_name . '</span></b></p>
 
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span lang="EN-GB" dir="LTR" style="font-size:16.0pt;
@@ -73,19 +63,23 @@ line-height:107%;font-family:Vazir">&nbsp;</span></b></p>
 
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span lang="FA-IR" style="font-size:16.0pt;line-height:
-107%;font-family:Vazir">' . $stdUserAddress->Address . '</span></b></p>
+107%;font-family:Vazir">' . $obj_user_cart->address . '</span></b></p>
 
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span lang="FA-IR" style="font-size:16.0pt;line-height:
-107%;font-family:Vazir">' . FA_LC['tel'] . ' : ' . $stdUserAddress->OtherTel . '</span></b></p>
+107%;font-family:Vazir">' . FA_LC['tel'] . ' : ' . $obj_user_cart->user_address_othertel . '</span></b></p>
 
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span lang="FA-IR" style="font-size:16.0pt;line-height:
-107%;font-family:Vazir">' . FA_LC['post_code'] . ' : ' . $stdUserAddress->PostCode . '</span></b></p>
+107%;font-family:Vazir">' . FA_LC['mobile'] . ' : ' . $obj_user_cart->mobile . '</span></b></p>
+
+<p  align="center" dir="RTL" style="text-align:center;direction:
+rtl;unicode-bidi:embed"><b><span lang="FA-IR" style="font-size:16.0pt;line-height:
+107%;font-family:Vazir">' . FA_LC['post_code'] . ' : ' . $obj_user_cart->product_code . '</span></b></p>
 
 <p  align="center" dir="RTL" style="text-align:center;direction:
 rtl;unicode-bidi:embed"><b><span dir="LTR" style="font-size:40.0pt;line-height:
-107%;font-family:Vazir">' . $strCountryName . '</span></b></p>
+107%;font-family:Vazir">' . $obj_user_cart->country_name . '</span></b></p>
 ';
 
 $pdf->AddPage('P', 'A6');
@@ -100,10 +94,8 @@ $pdf->WriteHTML($strAdresses, true, 0, true, 0);
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output($stdProfile->Name . '-Address.pdf', 'I');
+$pdf->Output($obj_user_cart->user_name . '-address.pdf', 'I');
 
 //============================================================+
 // END OF FILE
 //============================================================+
-
-

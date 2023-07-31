@@ -1,6 +1,6 @@
 <?php
 ///template/adver/banner_adver_1.php
-$position_order = 3;
+$position_order = Shuffle_Page[2];
 if (get_banner_adver_data($_SESSION['page_name_system'], $position_order)) {
   ?>
   <div class="text-dark"

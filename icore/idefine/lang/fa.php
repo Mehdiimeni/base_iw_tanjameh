@@ -516,6 +516,7 @@ const FA_LC = [
     "shop" => "فروشگاه",
     "sell_facilities" => "خرید اقساطی",
     "sell_basket" => "سبد کالا",
+    "cart_number" => "شماره سبد",
     "orders" => "سفارشات",
     "facilities2" => "امکانات",
     "colors" => "رنگبندی",

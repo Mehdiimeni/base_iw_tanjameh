@@ -147,6 +147,10 @@
                                         for="btn-payment-1">
                                         <img src="./itemplates/iweb/media/sep.jpg" alt="بانک سامان">
                                     </label>
+                                    <label class="btn btn-outline-dark border-dark-subtle rounded-0"
+                                        for="btn-payment-1">
+                                        <img src="./itemplates/iweb/media/shaparak.jpg" alt="کلیه کارت های متصل به شاپرک">
+                                    </label>
                                 </div>
 
                             </div>

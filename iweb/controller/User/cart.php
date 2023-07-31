@@ -4,10 +4,19 @@
 function get_cart_info()
 {
     $cart_items = array('products_id' => @json_decode(@$_COOKIE['cart_items'], true));
-    $user_id = array(
-        'user_id' => (int) base64_decode($_COOKIE['user_id']),
-        'currencies_conversion_id' => get_currency()
-    );
+
+    if (isset($_COOKIE['user_id'])) {
+        $user_id = array(
+            'user_id' => (int) base64_decode($_COOKIE['user_id']),
+            'currencies_conversion_id' => get_currency()
+        );
+
+    } else {
+        $user_id = array(
+            'user_id' => '',
+            'currencies_conversion_id' => get_currency()
+        );
+    }
 
     $filds = array_merge($cart_items, $user_id);
 
@@ -50,6 +59,10 @@ if (!empty($_GET['delitem'])) {
 if (@$_POST['SubmitM'] == 'A') {
     $arr_post = (array) $_POST;
     $promo_code = $arr_post['promo-code'];
+
+    if (!isset($_COOKIE['user_id'])) {
+        echo "<script>window.location.href = './?user=login';</script>"; 
+    }
 
     unset($arr_post["SubmitM"]);
     unset($arr_post['promo-code']);

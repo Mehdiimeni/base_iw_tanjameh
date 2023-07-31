@@ -53,7 +53,13 @@ function get_cart_count()
     $objIAPI = set_server();
 
     if (!isset($_COOKIE['user_id'])) {
-        return 0;
+        
+        if (!empty(@$_COOKIE['cart_items'])) {
+            $cart_items = json_decode(@$_COOKIE['cart_items'], true);
+            if (!empty($cart_items)) {
+                return count($cart_items);
+            }
+        }
 
     } else {
 
@@ -88,3 +94,9 @@ function get_favorite_count()
         return 0;
     }
 }
+
+
+$arr_adver_number = array("1", "2", "3");
+shuffle($arr_adver_number);
+
+define( 'Shuffle_Page' , $arr_adver_number);
