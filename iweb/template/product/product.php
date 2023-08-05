@@ -277,6 +277,10 @@ if (get_product_info($item)) {
                     <li><strong>
                         <?php echo (get_product_info($item)->aboutMe); ?>
                       </strong> </li>
+                      <li><strong><br>
+                      <?php echo ("کد محصول  : "); ?><?php echo ($item); ?>
+                      </strong> </li>
+
                   </ul>
                 </div>
               </div>

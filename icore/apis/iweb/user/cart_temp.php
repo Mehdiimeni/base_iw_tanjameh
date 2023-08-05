@@ -48,7 +48,7 @@ if (!empty($_POST['user_id'])) {
                 TableIWApiProductVariants
             );
 
-            if (!$objORM->DataExist(" product_id = $key  ", TableIWUserTempCart, 'id')) {
+            if (!$objORM->DataExist(" iw_user_shopping_cart_id = $shopping_cart_id and iw_user_id= $user_id and product_id= $key", TableIWUserTempCart, 'id')) {
 
                 $str_change = "
             Enabled= 1,

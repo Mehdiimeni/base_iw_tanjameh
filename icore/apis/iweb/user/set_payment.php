@@ -150,7 +150,7 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
 
 
 
-    //add to main basket
+
 
     $objUserTempCart = $objORM->FetchAll(" iw_user_id = $user_id  ", '*', TableIWUserTempCart);
 
@@ -206,6 +206,15 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
             $InSet .= " modify_ip = '$modify_ip' ";
 
             $objORM->DataAdd($InSet, TableIWAUserInvoice);
+
+            $invoice_id = $objORM->LastId();
+
+
+            $in_set = " user_id = $user_id , product_id = '$UserTempCart->product_id',
+                cart_id = $shopping_cart->id ,size = '$obj_product_variants->brandSize' ,
+                address_id = $UserAddressId , invoice_id = $invoice_id  ";
+            $objORM->DataAdd($in_set, TableIWShippingProduct);
+
         }
     }
 

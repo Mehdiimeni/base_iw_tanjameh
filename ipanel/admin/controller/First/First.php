@@ -10,50 +10,50 @@ $intCountPaymentState = $objORM->DataCount("1", TableIWAPaymentState);
 $intCartBought = $objORM->DataCount(
     " status = 'bought' ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartSorting = $objORM->DataCount(
     " status = 'bought' or status = 'preparation'  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartPack = $objORM->DataCount(
-    " status = 'packing'  ",
+    " status = 'bought' or status = 'preparation' or packing_number is null  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartBooking = $objORM->DataCount(
-    " status = 'booking'  ",
+    " status = 'packing' group by packing_number  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartDispatch = $objORM->DataCount(
-    " status = 'dispatch'  ",
+    " (status = 'booking' or status = 'dispatch' )   group by packing_number  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartDelivery = $objORM->DataCount(
-    " status = 'delivery'  ",
+    " status = 'dispatch'  group by packing_number  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 
 $intCartClaim = $objORM->DataCount(
-    " status = 'claim'  ",
+    " status = 'booking'  and (cop_file is null or cop_file= '')  group by packing_number   ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 $intCartComplete = $objORM->DataCount(
-    " status = 'complete'  ",
+    " (cop_file is not null or cop_file <> '')  ",
     ViewIWUserCart,
-    'id'
+    'invoice_id'
 );
 
 
