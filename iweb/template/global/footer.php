@@ -99,11 +99,11 @@
                 <i class="fa-solid fa-truck-fast"></i><span class="ms-3">شرکای ما</span>
               </h5>
 
-              
+
               <div class="hstack gap-1">
-              <a href="#">
-                <img class="rounded-2" src="./itemplates/iweb/media/royal.jpg" alt="">
-              </a>
+                <a href="#">
+                  <img class="rounded-2" src="./itemplates/iweb/media/royal.jpg" alt="">
+                </a>
                 <a href="#">
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" aria-hidden="true">
                     <path fill="#fc0" d="M44 0H4a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h40a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4z">
@@ -141,7 +141,7 @@
                   <img class="rounded-2" src="./itemplates/iweb/media/sep.jpg" alt="">
                 </a>
                 <a href="#">
-                  <img class="rounded-2" src="./itemplates/iweb/media/shaparak.jpg" alt="">
+                  <img class="rounded-2" src="./itemplates/iweb/media/paypal.png" alt="">
                 </a>
 
               </div>
@@ -149,6 +149,34 @@
           </div>
         </div>
       </div>
+      <div class="col mb-3">
+        <div class="navbar navbar-expand-md p-0">
+          <button class="navbar-toggler w-100 p-4" type="button" data-bs-toggle="collapse" data-bs-target="#Toggler07"
+            aria-controls="Toggler06" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-chevron-down float-start"></i>
+            <div class="float-end">
+              <span class="fs-6 me-3">تماس</span><i class="fa-solid fa-address-book"></i>
+            </div>
+          </button>
+          <div class="collapse navbar-collapse pt-2 pt-md-0" id="Toggler07">
+            <div class="d-grid lh-lg">
+              <h5 class="d-none d-md-block text-white">
+                <i class="fa-solid fa-address-book"></i><span class="ms-3">تماس</span>
+              </h5>
+              <div class="hstack gap-1">
+                <a href="https://wa.me/message/IDWZ25IAWJZCK1">
+                  <img class="rounded-2" src="./itemplates/iweb/media/watsapp.png" alt="">
+                </a>
+                <a href="https://t.me/Tanjameh">
+                  <img class="rounded-2" src="./itemplates/iweb/media/telegram.png" alt="">
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col mb-3">
         <div class="navbar navbar-expand-md p-0">
           <button class="navbar-toggler w-100 p-4" type="button" data-bs-toggle="collapse" data-bs-target="#Toggler07"
@@ -443,12 +471,14 @@
       <div class="col-12 col-md-2">
         <p>شبکه مجازی ما</p>
         <div>
-          <a href="#" class="btn btn-light rounded-0 btn-sm mb-1 d-inline-block">
+          <a href="https://instagram.com/tanjaameh?igshid=MjEwN2IyYWYwYw==" class="btn btn-light rounded-0 btn-sm mb-1 d-inline-block">
             <i class="fa-brands fa-square-instagram fs-3"></i>
           </a>
-          <a href="#" class="btn btn-light rounded-0 btn-sm mb-1 d-inline-block">
-            <i class="fa-brands fa-facebook fs-3"></i>
+          
+          <a href="https://www.linkedin.com/company/tanjameh/" class="btn btn-light rounded-0 btn-sm mb-1 d-inline-block">
+            <i class="fa-brands fa-linkedin fs-3"></i>
           </a>
+
         </div>
       </div>
     </div>

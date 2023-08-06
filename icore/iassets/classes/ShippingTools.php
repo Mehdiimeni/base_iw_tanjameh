@@ -73,13 +73,14 @@ class ShippingTools extends DBORM
     public function FindItemWeight($ProductItem)
     {
 
-        if (!$this->ProductHasWeight($ProductItem->iw_product_weight_id))
-            if (!$this->TypeHasWeight($ProductItem->iw_api_product_type_id))
-                if (!$this->CatHasWeight($ProductItem->CatIds))
-                    if (!$this->Group2HasWeight($ProductItem->url_group2))
-                        if (!$this->GroupHasWeight($ProductItem->url_group))
-                            if (!$this->CategoryHasWeight($ProductItem->url_category))
-                                $this->MainHasWeight($ProductItem->url_gender);
+        if (!empty($ProductItem->iw_product_weight_id) and !$this->ProductHasWeight($ProductItem->iw_product_weight_id))
+            if (!empty($ProductItem->iw_api_product_type_id) and !$this->TypeHasWeight($ProductItem->iw_api_product_type_id))
+                if (!empty($ProductItem->CatIds) and !$this->CatHasWeight($ProductItem->CatIds))
+                    if (!empty($ProductItem->url_group2) and !$this->Group2HasWeight($ProductItem->url_group2))
+                        if (!empty($ProductItem->url_group) and !$this->GroupHasWeight($ProductItem->url_group))
+                            if (!empty($ProductItem->url_category) and !$this->CategoryHasWeight($ProductItem->url_category))
+                                if (!empty($ProductItem->url_gender))
+                                    $this->MainHasWeight($ProductItem->url_gender);
 
         return $this->ProductWeight;
 

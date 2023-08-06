@@ -141,7 +141,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
 
 
     if (isset($_POST['SubmitM'])) {
-        $arrExcept = array();
+        $arrExcept = array('image');
         if ($objAclTools->CheckNullExcept($objAclTools->PostVarToJson(), $arrExcept)) {
             JavaTools::JsAlertWithRefresh(FA_LC['login_field_null_error'], 0, '');
             exit();

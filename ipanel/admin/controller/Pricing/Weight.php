@@ -13,8 +13,10 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Weight,NormalPrice,ExtraPrice,last_modify,created_time,ModifyId,Enabled,id', TableIWWebWeightPrice) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_product_weight_id,NormalPrice,ExtraPrice,last_modify,created_time,modify_id,Enabled,id', TableIWWebWeightPrice) as $ListItem) {
 
+    $ListItem->iw_product_weight_id = $objORM->Fetch("id = $ListItem->iw_product_weight_id " , "Weight", TableIWWebWeight)->Weight;      
+    
     $ListItem->last_modify = $ListItem->created_time . ' ' . $ListItem->last_modify;
 
     if ($ListItem->Enabled == false) {
@@ -40,7 +42,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Weight,NormalPrice,ExtraPrice,last_m
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebWeightPrice, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebWeightPrice, 0));
 }
 
 

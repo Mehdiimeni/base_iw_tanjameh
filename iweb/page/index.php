@@ -11,6 +11,7 @@ $_SESSION['page_name_system'] = 'index';
 (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_1', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_2', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_3', '0');
+(new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_4', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'brand_box', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'trend_categories', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'newsletter', '0');

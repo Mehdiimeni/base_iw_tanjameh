@@ -154,7 +154,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="image" class="date-picker form-control col-md-7 col-xs-12"
-                                            required="required"  type="file">
+                                              type="file">
                                         </div>
                                     </div>
                                     <div class="form-group">

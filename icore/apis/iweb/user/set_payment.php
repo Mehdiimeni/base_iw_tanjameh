@@ -245,6 +245,9 @@ if (!empty($_POST['user_id']) or !empty($_POST['secUID'])) {
     $objSms = new SmsConnections('3000505');
     $objSms->ResiveBasketSms($strProfile->CellNumber, $strProfile->Name, $shopping_cart->id);
 
+    $objSms = new SmsConnections('3000505');
+    $objSms->ResiveBasketSms("09121501993", $strProfile->Name, $shopping_cart->id);
+
 
     // count sms
     $expire_date = date("m-Y");

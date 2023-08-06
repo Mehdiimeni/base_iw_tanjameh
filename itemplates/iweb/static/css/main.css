@@ -694,11 +694,11 @@ background-repeat: no-repeat;
 
 .card-img
 {
-  min-height: 449px !important;
-  max-height: 449px !important;
+  min-height: 415px !important;
+  max-height: 415px !important;
 
-  min-width: 336px !important;
-  max-width: 336px !important;
+  min-width: 298px !important;
+  max-width: 298px !important;
 }
 
 @media only screen and (max-width:768px){
@@ -710,6 +710,20 @@ background-repeat: no-repeat;
   
     min-width: 150px !important;
     max-width: 150px !important;
+  }
+  
+
+}
+
+@media only screen and (max-width:1750px){
+
+  .card-img
+  {
+    min-height: 415px !important;
+    max-height: 415px !important;
+  
+    min-width: 298px !important;
+    max-width: 298px !important;
   }
   
 

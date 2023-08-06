@@ -96,7 +96,7 @@ function get_favorite_count()
 }
 
 
-$arr_adver_number = array("1", "2", "3");
+$arr_adver_number = array("1", "2", "3","4");
 shuffle($arr_adver_number);
 
 define( 'Shuffle_Page' , $arr_adver_number);
