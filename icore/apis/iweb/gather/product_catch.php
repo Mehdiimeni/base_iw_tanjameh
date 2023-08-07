@@ -7,6 +7,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 
 $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);

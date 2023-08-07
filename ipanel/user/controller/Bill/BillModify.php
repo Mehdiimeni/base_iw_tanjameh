@@ -2,6 +2,8 @@
 //BillModify.php
 include_once IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 
 $apiMainName = 'Bill';
 $blConfirm = 0;

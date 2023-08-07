@@ -6,6 +6,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 
 $arr_list_cart = array();
 $currencies_conversion_id = trim($_POST['currencies_conversion_id']);

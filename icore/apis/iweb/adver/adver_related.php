@@ -6,6 +6,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 $color_related = "رنگ ها";
 $color_related_note = "موارد مشابه بر اساس رنگ";
 $price_related = "قیمت";

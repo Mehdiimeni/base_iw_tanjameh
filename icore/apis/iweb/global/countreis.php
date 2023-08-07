@@ -6,6 +6,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 
 if ($objORM->DataExist(" Enabled = 1 ", TableIWACountry, 'id')) {
     echo @$objORM->FetchJson(TableIWACountry, " Enabled = 1 ", '*', 'id');

@@ -5,6 +5,8 @@
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 include_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 
 if ($strUserGroup->SuperUser or $strUserGroup->SuperTrade)
     $strSuper = 1;

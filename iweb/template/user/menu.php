@@ -33,6 +33,14 @@
           </ul>
         </li>
         <li>
+          <span class="d-none d-lg-block text-dark-900 fw-bold">تن جامه من</span>
+          <ul class="list-unstyled ms-0 ms-lg-2">
+            <li class="list-active d-inline-block d-lg-block">
+              <a href="?user=myaccount_look" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">لوک من</a>
+            </li>
+          </ul>
+        </li>
+        <li>
           <span class="d-none d-lg-block text-dark-900 fw-bold">اقلامی که مالک آن هستید</span>
           <ul class="list-unstyled ms-0 ms-lg-2">
             <li class="list-active d-inline-block d-lg-block">
@@ -40,6 +48,7 @@
             </li>
           </ul>
         </li>
+        
         <li>
           <span class="d-none d-lg-block text-dark-900 fw-bold">آن را مال خودت کن</span>
           <ul class="list-unstyled ms-0 ms-lg-2">

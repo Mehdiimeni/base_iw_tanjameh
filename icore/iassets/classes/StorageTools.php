@@ -11,7 +11,7 @@ class StorageTools
     public function __construct($MainName)
     {
         $this->MainName = $MainName;
-       
+
     }
 
     public function ClearMake($FileGrType)
@@ -107,74 +107,58 @@ class StorageTools
         switch (strtolower($FileGrType)) {
 
             case "adminprofile":
-
                 return FileSizeEnum::SizeAdminProfile();
+                break;
 
+
+            case "user_look":
+                return FileSizeEnum::SizeUserLook();
                 break;
 
 
             case "userprofile":
-
                 return FileSizeEnum::SizeUserProfile();
-
                 break;
 
 
             case "logo":
-
                 return FileSizeEnum::SizeLogo();
-
                 break;
 
 
             case "banner":
-
                 return FileSizeEnum::SizeBanner();
-
                 break;
 
             case "adver_banner":
-
                 return FileSizeEnum::SizeAdverBanner();
-
                 break;
 
             case "slider":
-
                 return FileSizeEnum::SizeSlider();
-
                 break;
 
             case "attachedimage":
-
                 return FileSizeEnum::SizeAttachedImage();
-
                 break;
 
             case "download":
-
                 return FileSizeEnum::SizeDownload();
-
                 break;
 
 
             case "movie":
-
                 return FileSizeEnum::SizeMovie();
                 break;
 
 
             case "virtualreality":
-
                 return FileSizeEnum::SizeVRFile();
-
                 break;
 
 
             case "icon":
-
                 return FileSizeEnum::SizeIcon();
-
                 break;
 
         }
@@ -441,7 +425,7 @@ class StorageTools
 
             }
 
-     
+
             $ImageRootP = imagecreatetruecolor($ImageRootW, $ImageRootH);
 
 

@@ -173,6 +173,18 @@ if (@$_GET['user'] != '') {
             exit();
             break;
 
+        case 'myaccount_look':
+            include_once("./iweb/page/myaccount_look.php");
+            exit();
+            break;
+
+        case 'look_user':
+            include_once("./iweb/page/look_user.php");
+            exit();
+            break;
+
+
+
         default:
             include_once("./iweb/page/index.php");
             exit();

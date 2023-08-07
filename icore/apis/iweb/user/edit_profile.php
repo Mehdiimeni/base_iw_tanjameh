@@ -6,6 +6,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include "../../../iassets/include/DBLoader.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 if (!empty($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
     if (!empty($_POST['Name']) and !empty($_POST['CellNumber'])) {

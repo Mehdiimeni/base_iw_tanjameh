@@ -93,3 +93,4 @@ const TableIWWebSiteSpAdver = "iw_website_sp_adver";
 // LooK Part
 
 const TableIWUserLook = "iw_user_look";
+const TableIWUserLookDocuments = "iw_user_look_documents";

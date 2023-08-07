@@ -2,6 +2,8 @@
 //First3.php
 include_once IW_ASSETS_FROM_PANEL . "include/DBLoader.php";
 include_once IW_ASSETS_FROM_PANEL . "include/UserInfo.php";
+$objFileToolsDBInfo = db_info();
+$objORM = db_orm($objFileToolsDBInfo);
 $strNewUser = 0;
 if ($stdProfile->ApiId != null) {
 
