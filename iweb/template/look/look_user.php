@@ -6,15 +6,6 @@ if (isset($_POST['look_reg'])) {
     if ($user_look_result->stat) {
 
 
-        $_SESSION['user_id'] = $user_look_result->user_id;
-
-        setcookie(
-            'user_id',
-            base64_encode($user_look_result->user_id),
-            time() + (7 * 24 * 60 * 60),
-            '/'
-        );
-
         switch ($user_look_result->stat_detials) {
             case '20':
                 JavaTools::JsAlertWithRefresh(_LANG['user_look_documents_add'], 0, './?user=myaccount_look');

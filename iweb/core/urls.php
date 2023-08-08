@@ -9,6 +9,7 @@ $search = @$_GET["search"];
 $item = @$_GET["item"];
 $page = @$_GET["page"];
 $category = @$_GET["category"];
+$look = @$_GET["look"];
 
 
 if ($category != '' and $group == '') {
@@ -16,6 +17,12 @@ if ($category != '' and $group == '') {
     include_once("./iweb/page/category.php");
     exit();
 
+}
+
+if($look != '')
+{
+    include_once("./iweb/page/look_creater.php");
+    exit();
 }
 
 
@@ -66,129 +73,140 @@ if (!empty($page)) {
 
 if (@$_GET['user'] != '') {
 
+    if (empty($_COOKIE['user_id'])) {
+        switch ($_GET['user']) {
 
-    switch ($_GET['user']) {
+            case 'login':
+                include_once("./iweb/page/login.php");
+                exit();
+                break;
 
-        case 'exit':
-            session_destroy();
-            unset($_COOKIE['user_id']);
-            setcookie('user_id', '', -1, '/');
-            include_once("./iweb/page/index.php");
-            exit();
-            break;
-
-        case 'login':
-            include_once("./iweb/page/login.php");
-            exit();
-            break;
-
-        case 'cart':
-            include_once("./iweb/page/cart.php");
-            exit();
-            break;
-
-        case 'myaccount':
-            include_once("./iweb/page/myaccount.php");
-            exit();
-            break;
-
-        case 'myaccount-orders':
-            include_once("./iweb/page/myaccount_orders.php");
-            exit();
-            break;
-
-        case 'myaccount-order-detail':
-            include_once("./iweb/page/myaccount_order_detail.php");
-            exit();
-            break;
-
-        case 'myaccount-details':
-            include_once("./iweb/page/myaccount_details.php");
-            exit();
-            break;
+            default:
+                include_once("./iweb/page/index.php");
+                exit();
+                break;
+        }
+    } else {
 
 
-        case 'myaccount-addresses':
-            include_once("./iweb/page/myaccount_addresses.php");
-            exit();
-            break;
+        switch ($_GET['user']) {
 
-        case 'myaccount-giftvouchers':
-            include_once("./iweb/page/myaccount_giftvouchers.php");
-            exit();
-            break;
+            case 'exit':
+                session_destroy();
+                unset($_COOKIE['user_id']);
+                setcookie('user_id', '', -1, '/');
+                include_once("./iweb/page/index.php");
+                exit();
+                break;
 
-        case 'myaccount-messages':
-            include_once("./iweb/page/myaccount_messages.php");
-            exit();
-            break;
+            case 'cart':
+                include_once("./iweb/page/cart.php");
+                exit();
+                break;
 
-        case 'myaccount-owned':
-            include_once("./iweb/page/myaccount_owned.php");
-            exit();
-            break;
+            case 'myaccount':
+                include_once("./iweb/page/myaccount.php");
+                exit();
+                break;
 
-        case 'myaccount-preferences':
-            include_once("./iweb/page/myaccount_preferences.php");
-            exit();
-            break;
+            case 'myaccount-orders':
+                include_once("./iweb/page/myaccount_orders.php");
+                exit();
+                break;
 
-        case 'faq':
-            include_once("./iweb/page/faq.php");
-            exit();
-            break;
+            case 'myaccount-order-detail':
+                include_once("./iweb/page/myaccount_order_detail.php");
+                exit();
+                break;
 
-        case 'myaccount-privacy':
-            include_once("./iweb/page/myaccount_privacy.php");
-            exit();
-            break;
-
-        case 'favorite':
-            include_once("./iweb/page/favorite.php");
-            exit();
-            break;
-
-        case 'last_view':
-            include_once("./iweb/page/last_view.php");
-            exit();
-            break;
-
-        case 'checkout_address':
-            include_once("./iweb/page/checkout_address.php");
-            exit();
-            break;
-
-        case 'checkout_confirm':
-            include_once("./iweb/page/checkout_confirm.php");
-            exit();
-            break;
-
-        case 'set_bank':
-            include_once("./iweb/page/set_bank.php");
-            exit();
-            break;
-
-        case 'ref_bank':
-            include_once("./iweb/page/ref_bank.php");
-            exit();
-            break;
-
-        case 'myaccount_look':
-            include_once("./iweb/page/myaccount_look.php");
-            exit();
-            break;
-
-        case 'look_user':
-            include_once("./iweb/page/look_user.php");
-            exit();
-            break;
+            case 'myaccount-details':
+                include_once("./iweb/page/myaccount_details.php");
+                exit();
+                break;
 
 
+            case 'myaccount-addresses':
+                include_once("./iweb/page/myaccount_addresses.php");
+                exit();
+                break;
 
-        default:
-            include_once("./iweb/page/index.php");
-            exit();
-            break;
+            case 'myaccount-giftvouchers':
+                include_once("./iweb/page/myaccount_giftvouchers.php");
+                exit();
+                break;
+
+            case 'myaccount-messages':
+                include_once("./iweb/page/myaccount_messages.php");
+                exit();
+                break;
+
+            case 'myaccount-owned':
+                include_once("./iweb/page/myaccount_owned.php");
+                exit();
+                break;
+
+            case 'myaccount-preferences':
+                include_once("./iweb/page/myaccount_preferences.php");
+                exit();
+                break;
+
+            case 'faq':
+                include_once("./iweb/page/faq.php");
+                exit();
+                break;
+
+            case 'myaccount-privacy':
+                include_once("./iweb/page/myaccount_privacy.php");
+                exit();
+                break;
+
+            case 'favorite':
+                include_once("./iweb/page/favorite.php");
+                exit();
+                break;
+
+            case 'last_view':
+                include_once("./iweb/page/last_view.php");
+                exit();
+                break;
+
+            case 'checkout_address':
+                include_once("./iweb/page/checkout_address.php");
+                exit();
+                break;
+
+            case 'checkout_confirm':
+                include_once("./iweb/page/checkout_confirm.php");
+                exit();
+                break;
+
+            case 'set_bank':
+                include_once("./iweb/page/set_bank.php");
+                exit();
+                break;
+
+            case 'ref_bank':
+                include_once("./iweb/page/ref_bank.php");
+                exit();
+                break;
+
+            case 'myaccount_look':
+                include_once("./iweb/page/myaccount_look.php");
+                exit();
+                break;
+
+            case 'look_user':
+                include_once("./iweb/page/look_user.php");
+                exit();
+                break;
+
+            case 'look_page':
+                include_once("./iweb/page/look_page.php");
+                exit();
+                break;
+
+
+        }
     }
 
 }

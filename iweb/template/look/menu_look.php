@@ -29,7 +29,7 @@
                   من</a>
               </li>
               <li class="list-active d-inline-block d-lg-block">
-                <a href="?user=look_page" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">پست
+                <a href="?user=look_post" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">پست
                   های من</a>
               </li>
             <?php } ?>

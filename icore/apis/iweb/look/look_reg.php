@@ -28,70 +28,70 @@ if (
     $Enabled = true;
     $SCondition = " user_id = $user_id and id_cart_front is not null and id_cart_back is not null and user_face is not null";
 
-    $allow_format = array('jpg', 'jpeg', 'png', 'gif', 'webp');
-
-    if ($_POST['id_cart_front']['name'] != null) {
-
-        $FileExt = $objStorageTools->FindFileExt('', $_POST['id_cart_front']['tmp_name']);
-
-        if (!in_array( $FileExt , $allow_format)) {
-
-            $stat = false;
-            $stat_detials = "14"; // file format error
-        }
-        if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
-
-            $stat = false;
-            $stat_detials = "15"; // file format size
-        }
-
-        $cart_front_name = $objStorageTools->FileSetNewName($FileExt);
-
-    }
-
-    if ($_POST['id_cart_back']['name'] != null) {
-
-        $FileExt = $objStorageTools->FindFileExt('', $_POST['id_cart_back']['tmp_name']);
-        if (!in_array( $FileExt , $allow_format)) {
-
-            $stat = false;
-            $stat_detials = "14"; // file format error
-        }
-        if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
-
-            $stat = false;
-            $stat_detials = "15"; // file format size
-        }
-
-        $cart_back_name = $objStorageTools->FileSetNewName($FileExt);
-
-    }
-
-
-    if ($_POST['user_face']['name'] != null) {
-
-        $FileExt = $objStorageTools->FindFileExt('', $_POST['user_face']['tmp_name']);
-        if (!in_array( $FileExt , $allow_format)) {
-
-            $stat = false;
-            $stat_detials = "14"; // file format error
-        }
-        if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
-
-            $stat = false;
-            $stat_detials = "15"; // file format size
-        }
-
-        $user_face_name = $objStorageTools->FileSetNewName($FileExt);
-
-    }
-
 
     if ($objORM->DataExist($SCondition, TableIWUserLookDocuments, 'id')) {
         $stat = false;
         $stat_detials = "13"; // data exist
 
     } else {
+
+        $allow_format = array('jpg', 'jpeg', 'png', 'gif', 'webp');
+
+        if ($_POST['id_cart_front']['name'] != null) {
+
+            $FileExt = $objStorageTools->FindFileExt('', $_POST['id_cart_front']['tmp_name']);
+
+            if (!in_array($FileExt, $allow_format)) {
+
+                $stat = false;
+                $stat_detials = "14"; // file format error
+            }
+            if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
+
+                $stat = false;
+                $stat_detials = "15"; // file format size
+            }
+
+            $cart_front_name = $objStorageTools->FileSetNewName($FileExt);
+
+        }
+
+        if ($_POST['id_cart_back']['name'] != null) {
+
+            $FileExt = $objStorageTools->FindFileExt('', $_POST['id_cart_back']['tmp_name']);
+            if (!in_array($FileExt, $allow_format)) {
+
+                $stat = false;
+                $stat_detials = "14"; // file format error
+            }
+            if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
+
+                $stat = false;
+                $stat_detials = "15"; // file format size
+            }
+
+            $cart_back_name = $objStorageTools->FileSetNewName($FileExt);
+
+        }
+
+
+        if ($_POST['user_face']['name'] != null) {
+
+            $FileExt = $objStorageTools->FindFileExt('', $_POST['user_face']['tmp_name']);
+            if (!in_array($FileExt, $allow_format)) {
+
+                $stat = false;
+                $stat_detials = "14"; // file format error
+            }
+            if (250 * 1024 * 1024 < filesize($_POST['user_face']['tmp_name'])) {
+
+                $stat = false;
+                $stat_detials = "15"; // file format size
+            }
+
+            $user_face_name = $objStorageTools->FileSetNewName($FileExt);
+
+        }
 
         $modify_ip = (new IPTools('../../../idefine/'))->getUserIP();
 
