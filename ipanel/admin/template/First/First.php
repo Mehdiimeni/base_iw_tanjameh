@@ -263,6 +263,57 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                             </div>
                         </a>
                     </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a href="?ln=&part=Users&page=Users">
+                            <div class="tile-stats">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                                <div class="count"><?php echo($intLookNewUser); ?></div>
+                                <h3> لوک</h3>
+                                <p> مدارک عضویت</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="row top_tiles">
+                    
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                            <div class="count"><?php echo($intLookNewPage); ?></div>
+                            <h3> صفحات </h3>
+                            <p>  صفحات جدید </p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a href="?ln=&part=UserAccounting&page=Payments">
+                            <div class="tile-stats">
+                                <div class="icon"><i class="fa fa-money"></i></div>
+                                <div class="count"><?php echo($intLookNewPost); ?></div>
+                                <h3> پست</h3>
+                                <p>  پست های جدید</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                            <div class="count"><?php echo($intLookEditPage); ?></div>
+                            <h3> صفحات </h3>
+                            <p>  صفحات ویرایش شده </p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a href="?ln=&part=UserAccounting&page=Payments">
+                            <div class="tile-stats">
+                                <div class="icon"><i class="fa fa-money"></i></div>
+                                <div class="count"><?php echo($intLookEditPost); ?></div>
+                                <h3> پست</h3>
+                                <p>  پست های ویرایش شده</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

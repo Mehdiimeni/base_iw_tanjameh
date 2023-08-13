@@ -57,6 +57,13 @@ $intCartComplete = $objORM->DataCount(
 );
 
 
+$intLookNewUser = 0;
+$intLookNewPage = 0;
+$intLookNewPost = 0;
+$intLookEditPage = 0;
+$intLookEditPost = 0;
+
+
 
 //conversation
 $strCurrency = '';

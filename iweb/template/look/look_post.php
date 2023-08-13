@@ -213,8 +213,8 @@ if (isset($_POST['look_post'])) {
                 <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark"> دسته بندی
                 </label>
                 <div class="input-group">
-                    <select name="look_group[]" multiple="multiple"
-                        class="js-multiple-select form-select form-select-lg rounded-0 border-dark">
+                    <select name="look_group" 
+                        class=" form-select form-select-lg rounded-0 border-dark">
                         <?php foreach (get_look_group() as $group) { ?>
                             <option value="<?php echo ($group->id); ?>"><?php echo ($group->name); ?></option>
                         <?php } ?>

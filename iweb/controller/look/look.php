@@ -4,7 +4,8 @@ function get_look_info($gender, $category, $group)
 {
     $filds = array('gender' => $gender, 'category' => $category, 'group' => $group);
     $objIAPI = set_server();
-    return json_decode($objIAPI->GetPostApi('look/look', $filds));
+
+    return json_decode($objIAPI->GetPostApi('look/look_main', $filds));
 
 }
 

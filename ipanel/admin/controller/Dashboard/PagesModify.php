@@ -87,11 +87,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " PageName = '$PageName' ,";
             $InSet .= " iw_panel_admin_part_id = '$iw_panel_admin_part_id' ,";
             $InSet .= " TableName = '$TableName' ,";
-            $InSet .= " TopModify = '$TopModify' ,";
-            $InSet .= " Description = '$Description' ,";
-            $InSet .= " modify_ip = '$modify_ip' ,";
-            $InSet .= " last_modify = '$now_modify' ,";
-            $InSet .= " modify_id = $ModifyId ";
+            $InSet .= " TopModify = '$TopModify' ";
 
             $objORM->DataAdd($InSet, TableIWPanelAdminPage);
 
@@ -163,11 +159,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " PageName = '$PageName' ,";
                 $USet .= " iw_panel_admin_part_id = '$iw_panel_admin_part_id' ,";
                 $USet .= " TableName = '$TableName' ,";
-                $USet .= " TopModify = '$TopModify' ,";
-                $USet .= " Description = '$Description' ,";
-                $USet .= " modify_ip = '$modify_ip' ,";
-                $USet .= " last_modify = '$now_modify' ,";
-                $USet .= " modify_id = $ModifyId ";
+                $USet .= " TopModify = '$TopModify' ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWPanelAdminPage);
 
