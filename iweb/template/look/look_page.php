@@ -41,13 +41,15 @@ if (isset($_POST['look_page'])) {
     <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
         <div class="my-5 col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
             <div class="mb-4 b-animate b-purple">
-                <a href="./?look=<?php echo(user_look_page_info()->id); ?>&name=<?php echo(user_look_page_info()->look_page_name); ?>" class="btn" ><h2 class="fw-bold">صفحه من</h2></a>
+                <?php if(!empty(user_look_page_info()->look_page_name)) { ?>
+                <a href="./?look=<?php echo(user_look_page_info()->id); ?>&name=<?php  echo(user_look_page_info()->look_page_name); ?>" class="btn" ><h2 class="fw-bold">صفحه من</h2></a>
+            <?php } ?>
             </div>
             <div class="mb-4">
                 <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام صفحه  
                     </label>
                 <div class="input-group">
-                    <input type="text" name="look_page_name" value="<?php echo(user_look_page_info()->look_page_name); ?>"
+                    <input type="text" name="look_page_name" value="<?php if(!empty(user_look_page_info()->look_page_name)) echo(user_look_page_info()->look_page_name); ?>"
                         class="form-control form-control-lg fs-6 rounded-0 border-dark" id="personalFamily" required>
                     <div class="invalid-feedback">
                            نام صفحه
@@ -59,7 +61,7 @@ if (isset($_POST['look_page'])) {
                     </label>
                 <div class="input-group">
                     <textarea type="text" name="look_page_discription"
-                        class="form-control form-control-lg fs-6 rounded-0 border-dark" id="personalFamily" required><?php echo(user_look_page_info()->look_page_discription); ?></textarea>
+                        class="form-control form-control-lg fs-6 rounded-0 border-dark" id="personalFamily" required><?php if(!empty(user_look_page_info()->look_page_discription)) echo(user_look_page_info()->look_page_discription); ?></textarea>
                     <div class="invalid-feedback">
                            متن صفحه
                     </div>
@@ -93,7 +95,7 @@ if (isset($_POST['look_page'])) {
                     class="form-label m-0 p-1 border border-bottom-0 border-dark"> رنگ بنر 
                     </label>
                 <div class="input-group">
-                    <input type="color" value="<?php echo(user_look_page_info()->look_page_color); ?>" name="look_page_color" class="form-control form-control-lg fs-6 rounded-0 border-dark"
+                    <input type="color" value="<?php if(!empty(user_look_page_info()->look_page_color)) echo(user_look_page_info()->look_page_color); ?>" name="look_page_color" class="form-control form-control-lg fs-6 rounded-0 border-dark"
                         id="personalEmail" required>
                     <div class="invalid-feedback">
                           رنگ بنر 
@@ -105,7 +107,7 @@ if (isset($_POST['look_page'])) {
                     class="form-label m-0 p-1 border border-bottom-0 border-dark">  کمد من 
                     </label>
                 <div class="input-group">
-                    <?php $checked = ''; if(user_look_page_info()->closet == 1){ $checked = 'checked' ;} ?>
+                    <?php $checked = ''; if(!empty(user_look_page_info()->closet)) if(user_look_page_info()->closet == 1){ $checked = 'checked' ;} ?>
                 <input class="form-check-input" name="closet" value="1"  <?php echo($checked); ?> required type="checkbox"
                                     id="reciveCheckbox">
                     <div class="invalid-feedback">

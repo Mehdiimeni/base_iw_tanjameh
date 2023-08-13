@@ -10,6 +10,7 @@ $item = @$_GET["item"];
 $page = @$_GET["page"];
 $category = @$_GET["category"];
 $look = @$_GET["look"];
+$post = @$_GET["post"];
 
 
 if ($category != '' and $group == '') {
@@ -19,10 +20,16 @@ if ($category != '' and $group == '') {
 
 }
 
-if($look != '')
-{
-    include_once("./iweb/page/look_creater.php");
-    exit();
+if ($look != '') {
+
+    if ($post == '') {
+        include_once("./iweb/page/look_creater.php");
+        exit();
+    } else {
+
+        include_once("./iweb/page/look_post_details.php");
+        exit();
+    }
 }
 
 
@@ -205,6 +212,11 @@ if (@$_GET['user'] != '') {
                 exit();
                 break;
 
+            case 'look_post':
+                include_once("./iweb/page/look_post.php");
+                exit();
+                break;
+
 
         }
     }
@@ -254,8 +266,16 @@ if ($gender == '' and $group == '') {
         exit();
     } else {
 
-        include_once("./iweb/page/group.php");
-        exit();
+        if ($category == 'look') {
+            include_once("./iweb/page/look.php");
+            exit();
+        } else {
+            include_once("./iweb/page/group.php");
+            exit();
+
+        }
+
+
 
     }
 

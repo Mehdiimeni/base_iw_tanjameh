@@ -61,6 +61,61 @@ class ShowFile extends StorageTools
         }
     }
 
+    public function image_address_edit($strRootStart, $FileGrAddress, $FileName, $FileTitle, $ChSize = 0, $ImgClass = '', $ImageSrc = 'src', $WaterMark = 0, $Margin = 5, $hadjust = 0)
+    {
+
+
+        $repository_address = $strRootStart . $FileGrAddress;
+        $repository_thumbnail_address = $repository_address . 'thumbnail/';
+
+        
+
+        //main file
+        $FileInfoSize = parent::FindFileInfoSize($repository_address . $FileName);
+
+
+        if ($FileInfoSize != null) {
+
+
+
+            if ($ChSize == 0) {
+                return ($repository_address . $FileName );
+            } else {
+
+                $FileNameChSize = $this->NameChSize($repository_address, $FileName, $ChSize, 1);
+                
+                $FileAddressChSize = $repository_thumbnail_address . $FileNameChSize;
+
+                
+                
+                if ($this->FileExist($repository_thumbnail_address, $FileNameChSize)) {
+                    $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
+
+                    return ($FileAddressChSize);
+                } else {
+                    
+
+                    parent::ImageOptAndStorage($repository_address . $FileName, $repository_thumbnail_address, $FileNameChSize, $ChSize, $hadjust);
+                    
+
+                    if ($WaterMark) {
+                        parent::SetWaterMark($FileAddressChSize, $repository_thumbnail_address, $strRootStart . './itemplates/ipanel/build/icon/watermark.png', $Margin);
+                    }
+
+                    $FileInfoSizeChSize = parent::FindFileInfoSize($FileAddressChSize);
+
+                    return ($FileAddressChSize);
+
+
+                }
+            }
+
+        } else {
+            return ("./itemplates/ipanel/build/icon/no-image.jpg");
+        }
+    }
+
+
     public function FileExist($repository_address, $FileName)
     {
         return (file_exists($repository_address . $FileName));

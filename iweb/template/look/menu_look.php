@@ -30,7 +30,11 @@
               </li>
               <li class="list-active d-inline-block d-lg-block">
                 <a href="?user=look_post" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">پست
-                  های من</a>
+                 جدید</a>
+              </li>
+              <li class="list-active d-inline-block d-lg-block">
+                <a href="?user=look_post_all" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">پست
+                 های من</a>
               </li>
             <?php } ?>
           </ul>

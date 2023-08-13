@@ -53,7 +53,8 @@ if (!empty($_POST['user_id'])) {
             'address' => $all_shoping_cart->address,
             'post_code' => $all_shoping_cart->post_code,
             'country_name' => $all_shoping_cart->country_name,
-            'currency_name' => $all_shoping_cart->currency_name
+            'currency_name' => $all_shoping_cart->currency_name,
+            'product_id' => $all_shoping_cart->api_products_id
         );
     }
 

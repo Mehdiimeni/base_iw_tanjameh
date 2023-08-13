@@ -47,13 +47,13 @@ if(user_order($cart_id)){
             <hr>
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" class="text-decoration-none text-dark mb-3">
+                    <a href="./?item=<?php echo ($order->product_id); ?>" class="text-decoration-none text-dark mb-3">
                         <div class="hstack gap-4 align-items-start placeholder-glow">
                             <div class="bg-secondary-subtle placeholder">
                                 <img class="lazy-image" data-src="<?php echo $order->images_address; ?>" width="70" alt="">
                             </div>
                             <div class="w-100">
-                                <h6 class="m-0 mb-1">Jordan</h6>
+                             <!--   <h6 class="m-0 mb-1">Jordan</h6> -->
                                 <div class="d-block d-sm-flex justify-content-sm-between">
                                     <div class="text-secondary-emphasis">
                                         <p class="text-dark"><?php echo $order->product_name; ?></p>

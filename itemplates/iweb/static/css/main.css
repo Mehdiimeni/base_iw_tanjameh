@@ -701,6 +701,26 @@ background-repeat: no-repeat;
   max-width: 298px !important;
 }
 
+.img-look
+{
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+  min-width: 110px !important;
+  max-width: 110px !important;
+}
+
+@media only screen and (max-width:768px){
+.img-look
+{
+  min-height: 117px !important;
+  max-height: 117px !important;
+
+  min-width: 81px !important;
+  max-width: 81px !important;
+}
+}
+
 @media only screen and (max-width:768px){
 
   .card-img

@@ -7,9 +7,27 @@
 <script src="./itemplates/iweb/static/js/bootstrap.bundle.min.js"></script>
 <script src="./itemplates/iweb/static/owl/owl.carousel.js"></script>
 <script src="./itemplates/iweb/static/js/main.js"></script>
+<script src="./itemplates/iweb/static/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="./itemplates/iweb/static/js/bootstrap-select.min.js">
 
 
 <script>
+
+$(function() {
+  $('.selectpicker').selectpicker();
+});
+
+$(function() {
+
+$('.js-multiple-select').select2({
+  tags: true,
+  tokenSeparators: [',', ' '],
+  placeholder: ''
+});
+
+});
+
+
   $(document).ready(function () {
 
     $('button.btn-heart').click(function () {

@@ -58,11 +58,12 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
     $objAsos = new AsosConnections();
 
     //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-    $SCondition = "last_modify < '$yesterday' and Enabled = 1 order by rand() limit 1 ";
+    $SCondition = "last_modify < '$yesterday' and Enabled = 1 and Name <> 'sale' and CatId > 0 order by rand() limit 1 ";
 
 
 
     foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_2_id,iw_product_weight_id,Enabled,id', TableIWNewMenu3) as $ListItem) {
+
 
 
 

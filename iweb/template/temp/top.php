@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="./itemplates/iweb/static/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="./itemplates/iweb/static/owl/owl.carousel.css">
   <link rel="stylesheet" href="./itemplates/iweb/static/css/main.css">
-
+  <link rel="stylesheet" href="./itemplates/iweb/static/css/select2.min.css">
   <link rel="apple-touch-icon" sizes="57x57" href="./itemplates/iweb/icons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="./itemplates/iweb/icons/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="./itemplates/iweb/icons/apple-icon-72x72.png">

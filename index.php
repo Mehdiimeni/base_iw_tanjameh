@@ -11,7 +11,7 @@ $objIAPI->SetLocalProjectName("tanjameh");
 $jsonHost = json_decode($objIAPI->GetGeneralApi("global/host_name"));
 
 
-if (str_contains($jsonHost->host, "localhost")) {
+if (str_contains(@$jsonHost->host, "localhost")) {
     error_reporting(E_ALL);
 } else {
     error_reporting(0);
