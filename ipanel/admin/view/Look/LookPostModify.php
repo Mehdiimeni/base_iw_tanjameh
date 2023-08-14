@@ -1,4 +1,4 @@
 <?php
-///view/look/LookPostModify.php
-require_once '../ipanel/admin/controller/look/LookPostModify.php';
-require_once '../ipanel/admin/template/look/LookPostModify.php';
+///view/Look/LookPostModify.php
+require_once '../ipanel/admin/controller/Look/LookPostModify.php';
+require_once '../ipanel/admin/template/Look/LookPostModify.php';

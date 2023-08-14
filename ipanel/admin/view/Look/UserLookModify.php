@@ -1,4 +1,4 @@
 <?php
-///view/look/UserLookModify.php
-require_once '../ipanel/admin/controller/look/UserLookModify.php';
-require_once '../ipanel/admin/template/look/UserLookModify.php';
+///view/Look/UserLookModify.php
+require_once '../ipanel/admin/controller/Look/UserLookModify.php';
+require_once '../ipanel/admin/template/Look/UserLookModify.php';

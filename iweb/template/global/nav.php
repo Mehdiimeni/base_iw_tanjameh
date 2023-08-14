@@ -25,6 +25,7 @@ if (get_nav()) {
         <a class="navbar-brand" href="./">
           <img src="./itemplates/iweb/media/logo.png" alt="Logo" class="d-inline-block align-text-top">
         </a>
+        
       </div>
       <div class="flex-fill dropdhover">
         <ul class="navbar-nav float-end flex-row">

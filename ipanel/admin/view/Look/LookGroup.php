@@ -1,4 +1,4 @@
 <?php
-///view/look/LookGroup.php
-require_once '../ipanel/admin/controller/look/LookGroup.php';
-require_once '../ipanel/admin/template/look/LookGroup.php';
+///view/Look/LookGroup.php
+require_once '../ipanel/admin/controller/Look/LookGroup.php';
+require_once '../ipanel/admin/template/Look/LookGroup.php';

@@ -40,6 +40,7 @@ if (!empty($_POST['item'])) {
         url_gender,
         url_category,
         url_group,
+        url_group2,
         Content,
         ImageSet,
         MainPrice,
