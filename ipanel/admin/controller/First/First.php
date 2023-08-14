@@ -57,11 +57,31 @@ $intCartComplete = $objORM->DataCount(
 );
 
 
-$intLookNewUser = 0;
-$intLookNewPage = 0;
-$intLookNewPost = 0;
-$intLookEditPage = 0;
-$intLookEditPost = 0;
+$intLookNewUser = $objORM->DataCount(
+    " stat = 0 and enabled = 0  ",
+    TableIWUserLookDocuments,
+    'id'
+);
+$intLookNewPage = $objORM->DataCount(
+    " stat = 0 and enabled = 0  ",
+    TableIWUserLookPage,
+    'id'
+);
+$intLookNewPost = $objORM->DataCount(
+    " stat = 0 and enabled = 0  ",
+    TableIWUserLookPost,
+    'id'
+);
+$intLookEditPage = $objORM->DataCount(
+    " stat = 0 and enabled = 1  ",
+    TableIWUserLookPage,
+    'id'
+);
+$intLookEditPost =$objORM->DataCount(
+    " stat = 0 and enabled = 1  ",
+    TableIWUserLookPost,
+    'id'
+);
 
 
 
