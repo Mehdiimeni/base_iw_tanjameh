@@ -102,16 +102,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                             <div class="x_content">
                                 <br/>
                                 <form class="form-horizontal form-label-left input_mask" method="post" action="">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["currency"]; ?>
-                                            <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="CurrencyId" class="form-control" required="required">
-                                                <?php echo $strCurrencyId; ?>
-                                            </select>
-                                        </div>
-                                    </div>
+
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["name"]; ?>
@@ -125,9 +116,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                                    value="<?php echo @$objEditView->Name; ?>">
                                         </div>
                                     </div>
-
-
-
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["description"]; ?>

@@ -71,7 +71,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         $Enabled = true;
         $SCondition = "  Name = '$Name' AND GroupIdKey = '$GroupIdKey' ";
 
-        if ($objORM->DataExist($SCondition, TableIWWebLogo)) {
+        if ($objORM->DataExist($SCondition, TableIWCompany)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
             exit();
 
@@ -103,7 +103,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " last_modify = '$now_modify' ,";
             $InSet .= " modify_id = $ModifyId ";
 
-            $objORM->DataAdd($InSet, TableIWWebLogo);
+            $objORM->DataAdd($InSet, TableIWCompany);
             if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null) {
                 $objStorageTools->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
                 $objStorageTools->ImageOptAndStorage($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'logo', $FileNewName);
@@ -123,7 +123,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
     $SCondition = "  id = $IdKey ";
-    $objEditView = $objORM->Fetch($SCondition, '*', TableIWWebLogo);
+    $objEditView = $objORM->Fetch($SCondition, '*', TableIWCompany);
 
     //image
     $objFileToolsInit = new FileTools(IW_DEFINE_FROM_PANEL . "conf/init.iw");
@@ -164,7 +164,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $Enabled = true;
             $SCondition = "  Name = '$Name' AND GroupIdKey = '$GroupIdKey' and id!= $IdKey  ";
 
-            if ($objORM->DataExist($SCondition, TableIWWebLogo)) {
+            if ($objORM->DataExist($SCondition, TableIWCompany)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
                 exit();
 
@@ -217,7 +217,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                     $USet .= ", Image = '$FileNewName'";
                 }
 
-                $objORM->DataUpdate($UCondition, $USet, TableIWWebLogo);
+                $objORM->DataUpdate($UCondition, $USet, TableIWCompany);
 
                 $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
                 JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify', 'ref')));

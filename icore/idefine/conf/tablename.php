@@ -10,7 +10,7 @@ const TableIWPanelAdminPage = "iw_panel_admin_page";
 const TableIWPanelAdminPart = "iw_panel_admin_part";
 const TableIWAdminAccess = "iw_admin_access";
 const TableIWAdminNotification = "iw_admin_notification";
-const TableIWTicket = "iw_ticket";
+const TableIWTicket = "iw_tickets";
 const TableIWAdver = "iw_adver";
 const TableIWAdminStatus = "iw_admin_status";
 const TableIWAdminProfile = "iw_admin_profile";
@@ -33,7 +33,6 @@ const TableIWNoTable = "iw_";
 //web
 const TableIWWebBanner = "iw_web_banner";
 const TableIWWebGroupPart = "iw_web_group_part";
-const TableIWWebLogo = "iw_web_logo";
 const TableIWWebMainMenu = "iw_web_main_menu";
 const TableIWWebSubMenu = "iw_web_sub_menu";
 const TableIWWebSub2Menu = "iw_web_sub_2_menu";

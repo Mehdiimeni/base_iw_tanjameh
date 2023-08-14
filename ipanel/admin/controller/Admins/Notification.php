@@ -13,12 +13,12 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('AdminId,Email,Sms,Enabled,id', TableIWAdminNotification) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_admin_id,Email,Sms,Enabled,id', TableIWAdminNotification) as $ListItem) {
 
 
 
-    $SCondition = "id = '$ListItem->AdminId'";
-    $ListItem->AdminId = @$objORM->Fetch($SCondition, 'Name', TableIWAdmin)->Name;
+    $SCondition = "id = '$ListItem->iw_admin_id'";
+    $ListItem->iw_admin_id = @$objORM->Fetch($SCondition, 'Name', TableIWAdmin)->Name;
 
     // set caption
 

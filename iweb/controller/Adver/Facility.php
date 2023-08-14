@@ -11,8 +11,8 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 //
 $SCondition = " Enabled = $Enabled and GroupIdKey = '7206eee7'";
 $strFacilityIcon = '';
-if ($objORM->DataExist($SCondition, TableIWWebLogo)) {
-    foreach ($objORM->FetchAll($SCondition, 'Name,Image,LinkTo,Icon,Line1', TableIWWebLogo) as $ListItem) {
+if ($objORM->DataExist($SCondition, TableIWCompany)) {
+    foreach ($objORM->FetchAll($SCondition, 'Name,Image,LinkTo,Icon,Line1', TableIWCompany) as $ListItem) {
 
         if ($ListItem->Image != null)
             $strImageBanner = $objShowFile->ShowImage('', $objShowFile->FileLocation("logo"), $ListItem->Image, $ListItem->Name, 180, '');

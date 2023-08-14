@@ -104,8 +104,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="GroupIdKey" class="form-control" required="required">
-                                                <?php echo $strGroupIdKey; ?>
+                                            <select name="iw_admin_group_id" class="form-control" required="required">
+                                                <?php echo $str_select_group; ?>
                                             </select>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="Name" class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="text"
-                                                   value="<?php echo @$objEditView->Name; ?>">
+                                                   value="<?php echo @$obj_user_profile->Name; ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -128,7 +128,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="Email" class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="email"
-                                                   value="<?php echo @$objEditView->Email; ?>">
+                                                   value="<?php echo @$obj_user_profile->Email; ?>">
                                         </div>
                                     </div>
 
@@ -140,7 +140,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="CellNumber" class="date-picker form-control col-md-7 col-xs-12"
                                                    required="required" type="tel"
-                                                   value="<?php echo @$objEditView->CellNumber; ?>">
+                                                   value="<?php echo @$obj_user_profile->CellNumber; ?>">
                                         </div>
                                     </div>
 
@@ -150,7 +150,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <input name="Image" class="date-picker form-control col-md-7 col-xs-12"
                                                    type="file"
-                                                   value="<?php echo @$objEditView->Image; ?>">
+                                                   value="<?php echo @$obj_user_profile->Image; ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -180,7 +180,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <textarea name="Description" class="form-control" rows="3"
-                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo @$objEditView->Description; ?></textarea>
+                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo @$obj_user_profile->Description; ?></textarea>
                                         </div>
                                     </div>
 

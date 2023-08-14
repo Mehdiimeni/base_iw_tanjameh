@@ -17,7 +17,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,iw_company_id,ChangeR
 
 
     $SCondition = "id = '$ListItem->iw_company_id'";
-    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
+    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWCompany)->Name;
 
 
     $ListItem->last_modify = $ListItem->created_time . ' ' . $ListItem->last_modify;
@@ -45,7 +45,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,iw_company_id,ChangeR
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 6, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAProductDeliveryPrice, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWAProductDeliveryPrice, 0));
 }
 
 

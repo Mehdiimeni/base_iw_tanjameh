@@ -13,12 +13,12 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-$SCondition = " SetPart = 'user'";
-foreach ($objORM->FetchAll($SCondition,'IdKey,SenderIdKey,TicketSubject,SetView,created_time,last_modify,Enabled,id', TableIWTicket) as $ListItem) {
+$SCondition = " id  > 0 order by id ";
+foreach ($objORM->FetchAll($SCondition,'iw_tickets_sender_id,subject,iw_tickets_status_id,created_time,last_modify,Enabled,id', TableIWTicket) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->SenderIdKey'";
-    $ListItem->SenderIdKey = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
+    $SCondition = "id = $ListItem->iw_tickets_sender_id";
+    $ListItem->Senderid = @$objORM->Fetch($SCondition, 'Name', TableIWUser)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

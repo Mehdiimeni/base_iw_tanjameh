@@ -19,17 +19,17 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 
 //Currencies 1
-$strCurrencyIdKey1 = '';
+$list_currencies_id1 = '';
 $SCondition = " Enabled = $Enabled ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
-    $strCurrencyIdKey1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+    $list_currencies_id1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 //Currencies 2
-$strCurrencyIdKey2 = '';
+$list_currencies_id2 = '';
 $SCondition = " Enabled = $Enabled ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
-    $strCurrencyIdKey2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+    $list_currencies_id2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -44,13 +44,13 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 
 
         $Rate = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Rate);
-        $CurrencyIdKey1 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CurrencyIdKey1);
-        $CurrencyIdKey2 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CurrencyIdKey2);
+        $iw_currencies_id1 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_currencies_id1);
+        $iw_currencies_id2 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_currencies_id2);
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
 
         $Enabled = true;
-        $SCondition = " CurrencyIdKey1 = '$CurrencyIdKey1' AND CurrencyIdKey2 = '$CurrencyIdKey1' ";
+        $SCondition = " iw_currencies_id1 = '$iw_currencies_id1' AND iw_currencies_id2 = '$iw_currencies_id1' ";
 
         if ($objORM->DataExist($SCondition, TableIWACurrenciesConversion)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -66,20 +66,20 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             
 
             $now_modify = date("Y-m-d H:i:s");
-            $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
+            $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
             $InSet = "";
             
             $InSet .= " Enabled = $Enabled ,";
             $InSet .= " Rate = $Rate ,";
-            $InSet .= " CurrencyIdKey1 = '$CurrencyIdKey1' ,";
-            $InSet .= " CurrencyIdKey2 = '$CurrencyIdKey2' ,";
+            $InSet .= " iw_currencies_id1 = '$iw_currencies_id1' ,";
+            $InSet .= " iw_currencies_id2 = '$iw_currencies_id2' ,";
             $InSet .= " Description = '$Description' ,";
             $InSet .= " modify_ip = '$modify_ip' ,";
             
             
             $InSet .= " last_modify = '$now_modify' ,";
-            $InSet .= " modify_id = $ModifyId ";
+            $InSet .= " modify_id = $modify_id ";
 
             $objORM->DataAdd($InSet, TableIWACurrenciesConversion);
 
@@ -96,27 +96,27 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 }
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
-    $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  id = $IdKey ";
-    $objEditView = $objORM->Fetch($SCondition, 'CurrencyIdKey1,CurrencyIdKey2,Rate,Description', TableIWACurrenciesConversion);
+    $id = $objGlobalVar->RefFormGet()[0];
+    $SCondition = "  id = $id ";
+    $objEditView = $objORM->Fetch($SCondition, 'iw_currencies_id1,iw_currencies_id2,Rate,Description', TableIWACurrenciesConversion);
 
 
     //Currencies 1
-    $SCondition = "  IdKey = '$objEditView->CurrencyIdKey1' ";
+    $SCondition = "  id = '$objEditView->iw_currencies_id1' ";
     $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWACurrencies);
-    $strCurrencyIdKey1 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $list_currencies_id1 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     $SCondition = " Enabled = $Enabled ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
-        $strCurrencyIdKey1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+        $list_currencies_id1 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     //Currencies 2
-    $SCondition = "  IdKey = '$objEditView->CurrencyIdKey2' ";
+    $SCondition = "  id = '$objEditView->iw_currencies_id2' ";
     $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWACurrencies);
-    $strCurrencyIdKey2 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $list_currencies_id2 = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     $SCondition = " Enabled = $Enabled ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWACurrencies) as $ListItem) {
-        $strCurrencyIdKey2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+        $list_currencies_id2 .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
 
@@ -131,11 +131,11 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
         } else {
 
             $Rate = (float)$objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Rate);
-            $CurrencyIdKey1 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CurrencyIdKey1);
-            $CurrencyIdKey2 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->CurrencyIdKey2);
+            $iw_currencies_id1 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_currencies_id1);
+            $iw_currencies_id2 = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_currencies_id2);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "CurrencyIdKey1 = '$CurrencyIdKey1' AND CurrencyIdKey2 = '$CurrencyIdKey1' and id!= $IdKey  ";
+            $SCondition = "iw_currencies_id1 = '$iw_currencies_id1' AND iw_currencies_id2 = '$iw_currencies_id1' and id!= $id  ";
 
             if ($objORM->DataExist($SCondition, TableIWACurrenciesConversion)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -150,19 +150,19 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 
                 
                 $now_modify = date("Y-m-d H:i:s");
-                $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
+                $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " id = $IdKey ";
+                $UCondition = " id = $id ";
                 $USet = "";
                 $USet .= " Rate = $Rate ,";
-                $USet .= " CurrencyIdKey1 = '$CurrencyIdKey1' ,";
-                $USet .= " CurrencyIdKey2 = '$CurrencyIdKey2' ,";
+                $USet .= " iw_currencies_id1 = '$iw_currencies_id1' ,";
+                $USet .= " iw_currencies_id2 = '$iw_currencies_id2' ,";
                 $USet .= " Description = '$Description' ,";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 
                 
                 $USet .= " last_modify = '$now_modify' ,";
-                $USet .= " modify_id = $ModifyId ";
+                $USet .= " modify_id = $modify_id ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWACurrenciesConversion);
 

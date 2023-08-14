@@ -27,16 +27,17 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 }
 
 //Group Name
-$striw_admin_group_id = '';
-$SCondition = " Enabled = $Enabled ORDER BY id ";
+$str_select_group = '';
+$SCondition = " Enabled = 1 ORDER BY id DESC";
 foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdminGroup) as $ListItem) {
-    $striw_admin_group_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+    $str_select_group .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
     $objAclTools = new ACLTools();
 
-    if ($objAclTools->CheckNull($objAclTools->PostVarToJson())) {
+    $arr_expect = array('Description' => '', 'Image' => '');
+    if ($objAclTools->CheckNullExcept($objAclTools->PostVarToJson(), $arr_expect)) {
         JavaTools::JsAlertWithRefresh(FA_LC['login_field_null_error'], 0, '');
         exit();
     } else {
@@ -90,7 +91,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet = " Enabled = $Enabled ,";
             $InSet .= " UserName = '$UsernameL' ,";
             $InSet .= " Password = '$PasswordL' ,";
-            $InSet .= " iw_admin_group_id = $iw_admin_group_id ,";
+            $InSet .= " iw_admin_group_id = $iw_admin_group_id ";
 
             $objORM->DataAdd($InSet, TableIWAdmin);
             if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null) {
@@ -98,14 +99,19 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
                 $objStorageTools->FileCopyServer($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName);
             }
 
+            $iw_admin_id = $objORM->LastId();
 
-            $InSet .= " Name = '$Name' ,";
+
+            $InSet  = " Name = '$Name' ,";
+            $InSet  .= " iw_admin_id = $iw_admin_id ,";
             $InSet .= " Email = '$Email' ,";
-            $InSet .= " CellNumber = $CellNumber ,";
-            $InSet .= " Description = $Description ,";
+            $InSet .= " CellNumber = '$CellNumber' ,";
+            $InSet .= " Description = '$Description' ,";
             $InSet .= " modify_ip = '$modify_ip' ,";
-            $InSet .= " modify_id = $ModifyId ";
-            $objORM->DataUpdate( $InSet, TableIWAdminProfile);
+            $InSet .= " modify_id = '$ModifyId', ";
+            $InSet .= " Image = '$FileNewName' ";
+
+            $objORM->DataAdd($InSet, TableIWAdminProfile);
 
             $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
             JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify')));
@@ -134,7 +140,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
     $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
-    $strUserImage = $objShowFile->ShowImage('', $objShowFile->FileLocation("adminprofile"), $obj_user_profile->Image, $obj_user_profile->Name, 450, '');
+    $strUserImage = $objShowFile->ShowImage('', $objShowFile->FileLocation("adminprofile"), @$obj_user_profile->Image, @$obj_user_profile->Name, 450, '');
 
 
     //Group Name
@@ -149,7 +155,8 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     if (isset($_POST['SubmitM'])) {
         $objAclTools = new ACLTools();
 
-        if ($objAclTools->CheckNull($objAclTools->PostVarToJson())) {
+        $arr_expect = array('Description' => '', 'Image' => '');
+        if ($objAclTools->CheckNullExcept($objAclTools->PostVarToJson(), $arr_expect)) {
             JavaTools::JsAlertWithRefresh(FA_LC['login_field_null_error'], 0, '');
             exit();
         } else {
@@ -202,22 +209,23 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " Password = '$PasswordL' ,";
                 $USet .= " iw_admin_group_id = $iw_admin_group_id ";
 
+                $objORM->DataUpdate(" id = $id ", $USet, TableIWAdmin);
+
+
+                $USet = " Name = '$Name' ,";
+                $USet .= " Email = '$Email' ,";
+                $USet .= " CellNumber = '$CellNumber' ,";
+                $USet .= " Description = '$Description' ,";
+                $USet .= " modify_ip = '$modify_ip' ,";
+                $USet .= " last_modify = '$now_modify' ,";
+                $USet .= " modify_id = '$ModifyId' ";
+
                 if ($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->name != null) {
                     $objStorageTools->SetRootStoryFile('../irepository/img/');
                     $objStorageTools->FileCopyServer($objAclTools->JsonDecode($objGlobalVar->FileVarToJson())->Image->tmp_name, 'adminprofile', $FileNewName);
                     $USet .= ", Image = '$FileNewName'";
                 }
 
-                $objORM->DataUpdate(" id = $id ", $USet, TableIWAdmin);
-
-
-                $USet .= " Name = '$Name' ,";
-                $USet .= " Email = '$Email' ,";
-                $USet .= " CellNumber = $CellNumber ,";
-                $USet .= " Description = $Description ,";
-                $USet .= " modify_ip = '$modify_ip' ,";
-                $USet .= " last_modify = '$now_modify' ,";
-                $USet .= " modify_id = $ModifyId ";
                 $objORM->DataUpdate(" iw_admin_id = $id ", $USet, TableIWAdminProfile);
 
                 $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;

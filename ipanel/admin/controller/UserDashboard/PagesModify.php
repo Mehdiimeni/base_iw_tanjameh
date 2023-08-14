@@ -45,10 +45,10 @@ foreach ((new ACLTools())->TableNames() as $TableNameList) {
 }
 
 //Part Name
-$strPartIdKey = '';
-$SCondition = " Enabled = $Enabled ORDER BY id ";
+$strPartid = '';
+$SCondition = " Enabled = 1 ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelUserPart) as $ListItem) {
-    $strPartIdKey .= '<option value="'.$ListItem->id.'">' . $ListItem->PartName . '</option>';
+    $strPartid .= '<option value="'.$ListItem->id.'">' . $ListItem->PartName . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -95,8 +95,6 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " TopModify = '$TopModify' ,";
             $InSet .= " Description = '$Description' ,";
             $InSet .= " modify_ip = '$modify_ip' ,";
-            
-            
             $InSet .= " last_modify = '$now_modify' ,";
             $InSet .= " modify_id = $ModifyId ";
 
@@ -114,8 +112,8 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 }
 
 if (@$objGlobalVar->RefFormGet()[0] != null) {
-    $IdKey = $objGlobalVar->RefFormGet()[0];
-    $SCondition = "  id = $IdKey ";
+    $id = $objGlobalVar->RefFormGet()[0];
+    $SCondition = "  id = $id ";
     $objEditView = $objORM->Fetch($SCondition, 'Name,PageName,iw_panel_user_part_id,Description,TableName,TopModify', TableIWPanelUserPage);
 
     //table name
@@ -125,12 +123,12 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     }
 
     //Part Name
-    $SCondition = "  IdKey = '$objEditView->iw_panel_user_part_id' ";
+    $SCondition = "  id = '$objEditView->iw_panel_user_part_id' ";
     $Item = $objORM->Fetch($SCondition, 'PartName,id', TableIWPanelUserPart);
-    $strPartIdKey = '<option selected value="'.$Item->id.'">' . $Item->PartName . '</option>';
-    $SCondition = " Enabled = $Enabled ORDER BY id ";
+    $strPartid = '<option selected value="'.$Item->id.'">' . $Item->PartName . '</option>';
+    $SCondition = " Enabled = 1 ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'PartName,id', TableIWPanelUserPart) as $ListItem) {
-        $strPartIdKey .= '<option value="'.$ListItem->id.'">' . $ListItem->PartName . '</option>';
+        $strPartid .= '<option value="'.$ListItem->id.'">' . $ListItem->PartName . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {
@@ -150,7 +148,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             $TableName = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->TableName);
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "( Name = '$Name' OR PageName = '$PageName' ) and iw_panel_user_part_id = '$iw_panel_user_part_id' and id!= $IdKey  ";
+            $SCondition = "( Name = '$Name' OR PageName = '$PageName' ) and iw_panel_user_part_id = '$iw_panel_user_part_id' and id!= $id  ";
 
             if ($objORM->DataExist($SCondition, TableIWPanelUserPage)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -165,7 +163,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
                 $now_modify = date("Y-m-d H:i:s");
                 $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
-                $UCondition = " id = $IdKey ";
+                $UCondition = " id = $id ";
                 $USet = "";
                 $USet .= " Name = '$Name' ,";
                 $USet .= " PageName = '$PageName' ,";

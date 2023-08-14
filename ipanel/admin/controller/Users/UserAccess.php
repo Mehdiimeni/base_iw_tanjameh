@@ -13,10 +13,10 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,Enabled,id', TableIWUserAccess) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_user_group_id,Enabled,id', TableIWUserAccess) as $ListItem) {
 
-    $SCondition = "id = '$ListItem->GroupIdKey'";
-    $ListItem->GroupIdKey = $objORM->Fetch($SCondition, 'Name', TableIWUserGroup)->Name;
+    $SCondition = "id = $ListItem->iw_user_group_id ";
+    $ListItem->iw_user_group_id = $objORM->Fetch($SCondition, 'Name', TableIWUserGroup)->Name;
 
 
     if ($ListItem->Enabled == false) {
@@ -42,7 +42,7 @@ foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,Enabled,id', TableIWUserA
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWUserGroup, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 1, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWUserGroup, 0));
 }
 
 

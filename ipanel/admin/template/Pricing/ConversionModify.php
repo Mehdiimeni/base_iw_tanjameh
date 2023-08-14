@@ -107,8 +107,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="CurrencyIdKey1" class="form-control" required="required">
-                                                <?php echo $strCurrencyIdKey1; ?>
+                                            <select name="iw_currencies_id1" class="form-control" required="required">
+                                                <?php echo $list_currencies_id1; ?>
                                             </select>
                                         </div>
                                     </div>
@@ -128,8 +128,8 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <select name="CurrencyIdKey2" class="form-control" required="required">
-                                                <?php echo $strCurrencyIdKey2; ?>
+                                            <select name="iw_currencies_id2" class="form-control" required="required">
+                                                <?php echo $list_currencies_id2; ?>
                                             </select>
                                         </div>
                                     </div>

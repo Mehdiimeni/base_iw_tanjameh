@@ -14,11 +14,11 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('iw_company_id,Count,expire_date,Enabled,id', TableIWSMSAllConnect) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_company_id,all_count,expire_date,Enabled,id', TableIWSMSAllConnect) as $ListItem) {
 
 
     $SCondition = "id = '$ListItem->iw_company_id'";
-    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
+    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWCompany)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -45,7 +45,3 @@ foreach ($objORM->FetchAllWhitoutCondition('iw_company_id,Count,expire_date,Enab
     }
     $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64(TableIWSMSAllConnect, 0));
 }
-
-
-
-

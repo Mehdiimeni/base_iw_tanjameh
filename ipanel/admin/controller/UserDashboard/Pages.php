@@ -41,7 +41,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Name,PageName,iw_panel_user_part_id,
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWPanelUserPage, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWPanelUserPage, 0));
 }
 
 

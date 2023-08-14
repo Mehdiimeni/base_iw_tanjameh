@@ -5,7 +5,7 @@ require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array( FA_LC["name"], FA_LC["currency"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array( FA_LC["name"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -13,11 +13,7 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Name,CurrencyId,Enabled,id', TableIWACountry) as $ListItem) {
-
-    $SCondition = "id = '$ListItem->CurrencyId'";
-    $ListItem->CurrencyId = $objORM->Fetch($SCondition, 'Name', TableIWACurrencies)->Name;
-
+foreach ($objORM->FetchAllWhitoutCondition('Name,Enabled,id', TableIWACountry) as $ListItem) {
 
 
     if ($ListItem->Enabled == false) {
@@ -43,7 +39,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Name,CurrencyId,Enabled,id', TableIW
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSubMenu, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 1, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebSubMenu, 0));
 }
 
 

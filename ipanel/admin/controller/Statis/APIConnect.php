@@ -14,11 +14,11 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('iw_company_id,Count,expire_date,Enabled,id', TableIWAPIAllConnect) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_company_id,all_count,expire_date,Enabled,id', TableIWAPIAllConnect) as $ListItem) {
 
 
     $SCondition = "id = '$ListItem->iw_company_id'";
-    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWWebLogo)->Name;
+    $ListItem->iw_company_id = @$objORM->Fetch($SCondition, 'Name', TableIWCompany)->Name;
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];

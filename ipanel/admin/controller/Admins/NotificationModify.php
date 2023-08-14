@@ -19,10 +19,10 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 
 
 //Admin Name
-$strAdminIdKey = '';
-$SCondition = " Enabled = $Enabled and CellNumber IS NOT NULL ORDER BY Name ";
-foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdmin) as $ListItem) {
-    $strAdminIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+$stradmin_id = '';
+$SCondition = "  CellNumber IS NOT NULL ORDER BY Name ";
+foreach ($objORM->FetchAll($SCondition, 'Name,iw_admin_id', TableIWAdminProfile) as $ListItem) {
+    $stradmin_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
 if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
@@ -97,10 +97,10 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     //Admin Name
     $SCondition = "  IdKey = '$objEditView->AdminId' ";
     $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWAdmin);
-    $strAdminIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $stradmin_id = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     $SCondition = " Enabled = $Enabled and CellNumber IS NOT NULL ORDER BY id ";
     foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWAdmin) as $ListItem) {
-        $strAdminIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+        $stradmin_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 
     if (isset($_POST['SubmitM'])) {

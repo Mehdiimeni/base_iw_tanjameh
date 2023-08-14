@@ -13,15 +13,15 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,last_modify,created_time,ModifyId,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('iw_currencies_id1,iw_currencies_id2,Rate,last_modify,created_time,modify_id,Enabled,id', TableIWACurrenciesConversion) as $ListItem) {
 
-    $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
+    $ListItem->modify_id == null ? $ListItem->modify_id = FA_LC["no_viewed"] : FA_LC["viewed"];
 
-    $SCondition = "id = '$ListItem->CurrencyIdKey1'";
-    $ListItem->CurrencyIdKey1 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
+    $SCondition = "id = '$ListItem->iw_currencies_id1'";
+    $ListItem->iw_currencies_id1 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
-    $SCondition = "id = '$ListItem->CurrencyIdKey2'";
-    $ListItem->CurrencyIdKey2 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
+    $SCondition = "id = '$ListItem->iw_currencies_id2'";
+    $ListItem->iw_currencies_id2 = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
     $ListItem->Rate = $objGlobalVar->NumberFormat($ListItem->Rate);
     $ListItem->last_modify = $ListItem->created_time.' '.$ListItem->last_modify;
@@ -49,7 +49,7 @@ foreach ($objORM->FetchAllWhitoutCondition('CurrencyIdKey1,CurrencyIdKey2,Rate,l
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 5, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWACurrenciesConversion, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 4, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWACurrenciesConversion, 0));
 }
 
 

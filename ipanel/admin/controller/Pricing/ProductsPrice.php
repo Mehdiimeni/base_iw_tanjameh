@@ -13,11 +13,11 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,CurrencyIdKey,ChangeRate,last_modify,created_time,ModifyId,Enabled,id', TableIWAProductPrice) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Bigger,Smaller,iw_currencies_conversion_id,ChangeRate,last_modify,created_time,modify_id,Enabled,id', TableIWAProductPrice) as $ListItem) {
 
 
-    $SCondition = "id = '$ListItem->CurrencyIdKey'";
-    $ListItem->CurrencyIdKey = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
+    $SCondition = "id = '$ListItem->iw_currencies_conversion_id'";
+    $ListItem->iw_currencies_conversion_id = @$objORM->Fetch($SCondition,'Name',TableIWACurrencies)->Name;
 
 
 

@@ -19,7 +19,7 @@ $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,Name,Enabled,id', TableIWWebLogo) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,Name,Enabled,id', TableIWCompany) as $ListItem) {
 
 
     $SCondition = "id = '$ListItem->GroupIdKey'";
@@ -50,7 +50,7 @@ foreach ($objORM->FetchAllWhitoutCondition('GroupIdKey,Name,Enabled,id', TableIW
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWWebLogo, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 3, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWCompany, 0));
 }
 
 

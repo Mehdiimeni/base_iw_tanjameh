@@ -22,7 +22,7 @@ switch ($_GET['modify']) {
 //Currencies 
 $strCompanyId = '';
 $SCondition = " Enabled = $Enabled ORDER BY id ";
-foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebLogo) as $ListItem) {
+foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWCompany) as $ListItem) {
     $strCompanyId .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 
@@ -97,10 +97,10 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
 
     //Currencies
     $SCondition = "  id = '$objEditView->iw_company_id' ";
-    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWWebLogo);
+    $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWCompany);
     $strCompanyId = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
     $SCondition = " Enabled = $Enabled ORDER BY id ";
-    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWWebLogo) as $ListItem) {
+    foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWCompany) as $ListItem) {
         $strCompanyId .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
     }
 

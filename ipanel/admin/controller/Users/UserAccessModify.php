@@ -18,10 +18,10 @@ switch ($objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify) {
 }
 
 //Group Name
-$strGroupIdKey = '';
+$striw_user_group_id = '';
 $SCondition = " Enabled = $Enabled ORDER BY id ";
 foreach ($objORM->FetchAll($SCondition, 'Name,id', TableIWUserGroup) as $ListItem) {
-    $strGroupIdKey .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
+    $striw_user_group_id .= '<option value="' . $ListItem->id . '">' . $ListItem->Name . '</option>';
 }
 //All Access
 $SCondition = " Enabled = $Enabled ORDER BY id ";
@@ -57,12 +57,12 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
         exit();
     } else {
 
-        $GroupIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->GroupIdKey);
+        $iw_user_group_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_user_group_id);
         $AllAccess = $objAclTools->JsonDecode($objAclTools->PostVarToJson())->AllAccess;
         $AllTools = $objAclTools->JsonDecode($objAclTools->PostVarToJson())->AllTools;
         $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
         $Enabled = true;
-        $SCondition = "  GroupIdKey = '$GroupIdKey'  ";
+        $SCondition = "  iw_user_group_id = '$iw_user_group_id'  ";
 
         if ($objORM->DataExist($SCondition, TableIWUserAccess)) {
             JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');
@@ -91,7 +91,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet = "";
             
             $InSet .= " Enabled = $Enabled ,";
-            $InSet .= " GroupIdKey = '$GroupIdKey' ,";
+            $InSet .= " iw_user_group_id = '$iw_user_group_id' ,";
             $InSet .= " AllAccess = '$jsonAllAccess' ,";
             $InSet .= " AllTools = '$jsonAllTools' ,";
             $InSet .= " Description = '$Description' ,";
@@ -117,12 +117,12 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
 if (@$objGlobalVar->RefFormGet()[0] != null) {
     $IdKey = $objGlobalVar->RefFormGet()[0];
     $SCondition = "  id = $IdKey ";
-    $objEditView = $objORM->Fetch($SCondition, 'AllAccess,AllTools,GroupIdKey,Description', TableIWUserAccess);
+    $objEditView = $objORM->Fetch($SCondition, 'AllAccess,AllTools,iw_user_group_id,Description', TableIWUserAccess);
 
     //Part Name
-    $SCondition = "  IdKey = '$objEditView->GroupIdKey' ";
+    $SCondition = "  IdKey = '$objEditView->iw_user_group_id' ";
     $Item = $objORM->Fetch($SCondition, 'Name,id', TableIWUserGroup);
-    $strGroupIdKey = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
+    $striw_user_group_id = '<option selected value="' . $Item->id . '">' . $Item->Name . '</option>';
 
     //All Access
     $SCondition = " Enabled = $Enabled ORDER BY id ";
@@ -172,12 +172,12 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
             exit();
         } else {
 
-            $GroupIdKey = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->GroupIdKey);
+            $iw_user_group_id = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->iw_user_group_id);
             $AllAccess = $objAclTools->JsonDecode($objAclTools->PostVarToJson())->AllAccess;
             $AllTools = $objAclTools->JsonDecode($objAclTools->PostVarToJson())->AllTools;
             $Description = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->Description);
 
-            $SCondition = "GroupIdKey = '$GroupIdKey' and id!= $IdKey  ";
+            $SCondition = "iw_user_group_id = '$iw_user_group_id' and id!= $IdKey  ";
 
             if ($objORM->DataExist($SCondition, TableIWUserAccess)) {
                 JavaTools::JsAlertWithRefresh(FA_LC['enter_data_exist'], 0, '');

@@ -14,9 +14,9 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('Name,ModifyId,Enabled,id', TableIWACurrencies) as $ListItem) {
+foreach ($objORM->FetchAllWhitoutCondition('Name,modify_id,Enabled,id', TableIWACurrencies) as $ListItem) {
 
-    $ListItem->ModifyId == null ? $ListItem->ModifyId = FA_LC["no_viewed"] : FA_LC["viewed"];
+    $ListItem->modify_id == null ? $ListItem->modify_id = FA_LC["no_viewed"] : FA_LC["viewed"];
 
     if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
@@ -41,7 +41,7 @@ foreach ($objORM->FetchAllWhitoutCondition('Name,ModifyId,Enabled,id', TableIWAC
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWACurrencies, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 1, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWACurrencies, 0));
 }
 
 
