@@ -11,14 +11,14 @@ $objORM = db_orm($objFileToolsDBInfo);
 
 if (
     !empty($_POST['look_page_name']) and
-    !empty($_POST['look_page_discription']) and
+    !empty($_POST['look_page_description']) and
     !empty($_POST['look_page_color']) and
     !empty($_POST['user_id'])
 ) {
 
 
     $look_page_name = $_POST['look_page_name'];
-    $look_page_discription = $_POST['look_page_discription'];
+    $look_page_description = $_POST['look_page_description'];
     $look_page_color = $_POST['look_page_color'];
 
     !isset($_POST['closet']) ? $closet = 0 : $closet = $_POST['closet'];
@@ -81,7 +81,7 @@ if (
 
 
         $UpSet = " look_page_name = '$look_page_name' ,";
-        $UpSet .= " look_page_discription = '$look_page_discription' ,";
+        $UpSet .= " look_page_description = '$look_page_description' ,";
         $UpSet .= " look_page_color = '$look_page_color', ";
         $UpSet .= " stat = 0, ";
         $UpSet .= " closet = $closet , ";
@@ -108,7 +108,7 @@ if (
 
         $InSet = " user_id = $user_id ,";
         $InSet .= " look_page_name = '$look_page_name' ,";
-        $InSet .= " look_page_discription = '$look_page_discription' ,";
+        $InSet .= " look_page_description = '$look_page_description' ,";
         $InSet .= " look_page_color = '$look_page_color', ";
         $InSet .= " look_page_profile = '$look_page_profile_name', ";
         $InSet .= " look_page_banner = '$look_page_banner_name', ";

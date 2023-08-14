@@ -1,5 +1,6 @@
 <?php
-///template/Look/LookPageModify.php
+///template/look/UserLookModify.php
+
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>
 <!DOCTYPE html>
@@ -110,16 +111,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["context"]; ?>
-                                         
-                                        </label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <textarea  class="date-picker form-control col-md-7 col-xs-12"
-                                                   readonly type="text" ><?php echo @$objEditView->look_page_description; ?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["accept"]; ?>
                                             <span class="required">*</span>
                                         </label>
@@ -163,10 +154,11 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                             </div>
                             <div class="x_content">
                                 <br/>
-                                <?php echo $str_look_page_profile; ?>
+                                <?php echo $str_cart_front; ?>
                                 <br/>
-                                <?php echo $str_look_page_banner; ?>
-    
+                                <?php echo $str_cart_back; ?>
+                                <br/>
+                                <?php echo $str_user_face; ?>
                             </div>
                         </div>
 

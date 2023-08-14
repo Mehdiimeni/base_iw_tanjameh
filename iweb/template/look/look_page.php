@@ -60,8 +60,8 @@ if (isset($_POST['look_page'])) {
                 <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">متن صفحه  
                     </label>
                 <div class="input-group">
-                    <textarea type="text" name="look_page_discription"
-                        class="form-control form-control-lg fs-6 rounded-0 border-dark" id="personalFamily" required><?php if(!empty(user_look_page_info()->look_page_discription)) echo(user_look_page_info()->look_page_discription); ?></textarea>
+                    <textarea type="text" name="look_page_description"
+                        class="form-control form-control-lg fs-6 rounded-0 border-dark" id="personalFamily" required><?php if(!empty(user_look_page_info()->look_page_description)) echo(user_look_page_info()->look_page_description); ?></textarea>
                     <div class="invalid-feedback">
                            متن صفحه
                     </div>

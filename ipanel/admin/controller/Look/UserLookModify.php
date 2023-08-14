@@ -1,5 +1,5 @@
 <?php
-///controller/Look/LookPageModify.php
+///controller/look/UserLookModify.php
 
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 $Enabled = true;
@@ -22,7 +22,7 @@ $arrAcceptStat = array('عدم تایید', 'تایید');
 if (@$objGlobalVar->RefFormGet()[0] != null) {
 
     $id = $objGlobalVar->RefFormGet()[0];
-    $objEditView = $objORM->Fetch(" id = $id ", "*", TableIWUserLookPage);
+    $objEditView = $objORM->Fetch(" id = $id ", "*", TableIWUserLookDocuments);
 
     $objEditView->user_id = @$objORM->Fetch(
         "id = $objEditView->user_id",
@@ -35,8 +35,9 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
     $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
     $objShowFile->SetRootStoryFile(IW_REPOSITORY_FROM_PANEL . 'img/');
 
-    $str_look_page_profile = $objShowFile->ShowImage('', $objShowFile->FileLocation("look_page"), $objEditView->look_page_profile, $objEditView->user_id, 450, '');
-    $str_look_page_banner = $objShowFile->ShowImage('', $objShowFile->FileLocation("look_page"), $objEditView->look_page_banner, $objEditView->user_id, 750, '');
+    $str_cart_front = $objShowFile->ShowImage('', $objShowFile->FileLocation("user_look"), $objEditView->id_cart_front, $objEditView->user_id, 750, '');
+    $str_cart_back = $objShowFile->ShowImage('', $objShowFile->FileLocation("user_look"), $objEditView->id_cart_back, $objEditView->user_id, 750, '');
+    $str_user_face = $objShowFile->ShowImage('', $objShowFile->FileLocation("user_look"), $objEditView->user_face, $objEditView->user_id, 750, '');
 
 
     if (isset($_POST['SubmitM'])) {
@@ -53,7 +54,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
         $USet .= " modify_ip = '$modify_ip' ,";
         $USet .= " last_modify = '$now_modify' ,";
         $USet .= " modify_id = $ModifyId ";
-        $objORM->DataUpdate(" id = $id ", $USet, TableIWUserLookPage);
+        $objORM->DataUpdate(" id = $id ", $USet, TableIWUserLookDocuments);
 
         $strGlobalVarLanguage = @$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJson())->ln;
         JavaTools::JsTimeRefresh(0, $objGlobalVar->setGetVar('ln', @$strGlobalVarLanguage, array('modify', 'ref')));

@@ -806,7 +806,6 @@ const FA_LC = [
     "page_view" => "مشاهده صفحه اختصاصی",
     "list_user_leader" => "لیست راهنماهای گردشگری",
     "unknown" => "نامشخص",
-    "accept" => "پذیرش",
     "leader_new_user" => "درخواست کاربری راهنمای گردشگری",
     "lack_of_expertise" => "عدم تخصص لازم",
     "non_commitment" => "عدم تعهد",
@@ -1127,13 +1126,11 @@ const FA_LC = [
     "post_price_unique" => "هزینه ارسال تک",
     "post_price_note" => "در صورت خرید چندین کالا هزینه ارسال کاهش پیدا می کند",
     "user_data_error" => "اطلاعات هویتی شما دچار اشکال است لطفا دوباره وارد شوید",
-    "color_related"=>"رنگ ها",
-    "color_related_note"=>"موارد مشابه بر اساس رنگ",
-    "cat_related"=>"دسته بندی",
-    "cat_related_note"=>" موارد مشابه بر اساس دسته بندی ",
-    "group_related"=>"انواع",
-    "group_related_note"=>"موارد مشابه بر اساس نوع",
-
-
-
+    "color_related" => "رنگ ها",
+    "color_related_note" => "موارد مشابه بر اساس رنگ",
+    "cat_related" => "دسته بندی",
+    "cat_related_note" => " موارد مشابه بر اساس دسته بندی ",
+    "group_related" => "انواع",
+    "group_related_note" => "موارد مشابه بر اساس نوع",
+    "accept" => "تایید",
 ];

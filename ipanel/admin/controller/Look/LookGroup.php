@@ -1,11 +1,11 @@
 <?php
-///controller/look/UserLook.php
+///controller/look/LookGroup.php
 
 require IW_ASSETS_FROM_PANEL . "include/DBLoaderPanel.php";
 include IW_ASSETS_FROM_PANEL . "include/IconTools.php";
 
 $Enabled = true;
-$strListHead = (new ListTools())->TableHead(array(FA_LC["username"],FA_LC["accept"]), FA_LC["tools"]);
+$strListHead = (new ListTools())->TableHead(array(FA_LC["name"], FA_LC["branch"]), FA_LC["tools"]);
 
 $ToolsIcons[] = $arrToolsIcon["view"];
 $ToolsIcons[] = $arrToolsIcon["edit"];
@@ -13,18 +13,10 @@ $ToolsIcons[] = $arrToolsIcon["active"];
 $ToolsIcons[] = $arrToolsIcon["delete"];
 
 $strListBody = '';
-foreach ($objORM->FetchAllWhitoutCondition('user_id,stat,enabled,id', TableIWUserLookDocuments) as $ListItem) {
-
-    $ListItem->user_id = @$objORM->Fetch(
-        "id = $ListItem->user_id",
-        'Name',
-        TableIWUser
-    )->Name;
-
-    $ListItem->stat == 1 ? $ListItem->stat= "تایید" : $ListItem->stat = "عدم تایید";
+foreach ($objORM->FetchAllWhitoutCondition('name,root,Enabled,id', TableIWUserLookGroup) as $ListItem) {
 
 
-    if ($ListItem->enabled == false) {
+    if ($ListItem->Enabled == false) {
         $ToolsIcons[2] = $arrToolsIcon["inactive"];
     } else {
         $ToolsIcons[2] = $arrToolsIcon["active"];
@@ -47,5 +39,11 @@ foreach ($objORM->FetchAllWhitoutCondition('user_id,stat,enabled,id', TableIWUse
         $ToolsIcons[4][3] = $urlAppend;
 
     }
-    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWUserLookDocuments, 0));
+    $strListBody .= (new ListTools())->TableBody($ListItem, $ToolsIcons, 2, $objGlobalVar->en2Base64($ListItem->id . '::==::' . TableIWUserLookGroup, 0));
 }
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 <?php
-///template/look/UserLook.php
+///template/look/LookGroupModify.php
 
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>
@@ -35,19 +35,15 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
     <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/bootstrap-daterangepicker/daterangepicker.css"
           rel="stylesheet">
 
-    <!-- iCheck -->
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
+    <!-- bootstrap-wysiwyg -->
+    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/google-code-prettify/bin/prettify.min.css"
           rel="stylesheet">
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
-          rel="stylesheet">
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
-          rel="stylesheet">
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
-          rel="stylesheet">
-    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
-          rel="stylesheet">
+    <!-- Select2 -->
+    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/starrr/dist/starrr.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>build/css/custom.min.css" rel="stylesheet">
@@ -75,6 +71,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
                 <!-- /menu footer buttons -->
                 <?php (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'GlobalPage', 'MenuFooterButtons'); ?>
+
                 <!-- /menu footer buttons -->
             </div>
         </div>
@@ -87,53 +84,64 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
-
                 <?php (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'GlobalPage', 'PageTitleTop'); ?>
                 <div class="clearfix"></div>
 
                 <div class="row">
-
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-
-                                <small><?php echo @$strPageDescription ?></small>
-
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="<?php echo $objGlobalVar->setGetVar('list', 'export', array('act')); ?>"><?php echo FA_LC["list_export_mode"]; ?></a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo $objGlobalVar->setGetVar('list', 'extend', array('act')); ?>"><?php echo FA_LC["list_extend_mode"]; ?></a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo $objGlobalVar->setGetVar('list', 'normal', array('act')); ?>"><?php echo FA_LC["list_normal_mode"]; ?></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                </ul>
+                                <h2><?php echo $strModifyTitle; ?>
+                                </h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <?php (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'GlobalPage', 'ListTableType'); ?>
-                                <thead>
-                                <?php echo $strListHead; ?>
-                                </thead>
-                                <tbody>
-                                <?php echo $strListBody; ?>
-                                </tbody>
-                                </table>
+                                <br/>
+                                <form class="form-horizontal form-label-left input_mask" method="post" action="">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["name"]; ?>
+                                            <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="name" class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required" type="text"
+                                                   value="<?php echo @$objEditView->name; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["root"]; ?>
+                                            <span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input name="root" class="date-picker form-control col-md-7 col-xs-12"
+                                                   required="required" type="text"
+                                                   value="<?php echo @$objEditView->root; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    <?php if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify != 'view') { ?>
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                                <button type="submit" name="SubmitM" value="A"
+                                                        class="btn btn-success"><?php echo FA_LC["send"]; ?></button>
+                                                <button type="reset"
+                                                        class="btn btn-primary"><?php echo FA_LC["cancel"]; ?></button>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                </form>
                             </div>
                         </div>
+
+
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -145,7 +153,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
     </div>
 </div>
 <?php (new FileCaller)->FileIncluderWithControler(IW_PANEL_FROM_PANEL . 'admin/', 'GlobalPage', 'LockScreen'); ?>
-
 <!-- jQuery -->
 <script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
@@ -164,24 +171,25 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
 <script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-<!-- iCheck -->
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/iCheck/icheck.min.js"></script>
-<!-- Datatables -->
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/jszip/dist/jszip.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/pdfmake/build/vfs_fonts.js"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>vendors/starrr/dist/starrr.js"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="<?php echo(IW_PANEL_THEME_FROM_PANEL); ?>build/js/custom.min.js"></script>
@@ -189,3 +197,7 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 
 </body>
 </html>
+
+
+
+

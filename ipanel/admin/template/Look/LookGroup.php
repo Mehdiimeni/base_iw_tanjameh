@@ -1,5 +1,5 @@
 <?php
-///template/look/UserLook.php
+///template/look/LookGroup.php
 
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>

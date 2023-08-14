@@ -1,5 +1,5 @@
 <?php
-///template/Look/LookPageModify.php
+///template/look/LookPostModify.php
 include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
 ?>
 <!DOCTYPE html>
@@ -109,15 +109,6 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["context"]; ?>
-                                         
-                                        </label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <textarea  class="date-picker form-control col-md-7 col-xs-12"
-                                                   readonly type="text" ><?php echo @$objEditView->look_page_description; ?></textarea>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["accept"]; ?>
@@ -163,9 +154,13 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                             </div>
                             <div class="x_content">
                                 <br/>
-                                <?php echo $str_look_page_profile; ?>
+                                <?php echo $str_look_post_image1; ?>
                                 <br/>
-                                <?php echo $str_look_page_banner; ?>
+                                <?php echo $str_look_post_image2; ?>
+                                <br/>
+                                <?php echo $str_look_post_image3; ?>
+                                <br/>
+                                <?php echo $str_look_post_image4; ?>
     
                             </div>
                         </div>
