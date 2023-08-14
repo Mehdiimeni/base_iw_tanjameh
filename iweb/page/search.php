@@ -3,6 +3,7 @@
 
 $_SESSION['search'] = $_GET['search'];
 $_SESSION['page_name_system'] = 'search';
+$_SESSION['actual_link'] =  "?search=".$_GET['search'];
 
 
 (new FileCaller)->FileIncluderWithControler('./iweb', 'temp', 'top');

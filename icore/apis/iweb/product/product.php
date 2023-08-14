@@ -62,14 +62,14 @@ if (!empty($_POST['item'])) {
         $now_modify = date("Y-m-d H:i:s");
 
 
-        $iw_company_id =$obj_product->iw_company_id;
+        $iw_company_id = $obj_product->iw_company_id;
 
         // API Count and Connect
         // check api count
         $expire_date = date("m-Y");
         $obj_api_connect = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
-        if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (strtotime($now_modify)-$last_modify) > 100000 ) {
+        if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (strtotime($now_modify) - $last_modify) > 100000) {
 
 
             $whitelist = array(
@@ -83,6 +83,8 @@ if (!empty($_POST['item'])) {
                 $objAsos = new AsosConnections();
                 $ApiContent = $objAsos->ProductsDetail($obj_product->ProductId);
 
+
+
                 $expire_date = date("m-Y");
                 $UCondition = " iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ";
                 $USet = " all_count = all_count + 1 ";
@@ -90,102 +92,101 @@ if (!empty($_POST['item'])) {
 
                 $objProductData = json_decode($ApiContent, true);
 
-                $Name = $objProductData['name'];
-                $Name = str_replace("'", "\'", $Name);
-                $Name = str_replace('"', '\"', $Name);
-                $gender = $objProductData['gender'];
-                $ProductCode = $objProductData['productCode'];
-                $isNoSize = $objProductData['isNoSize'] == true ? 1 : 0;
-                $isOneSize = $objProductData['isOneSize'] == true ? 1 : 0;
-                $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
-                $prop65Risk = $objProductData['hasVariantsWithProp65Risk'] == true ? 1 : 0;
+                if (empty($objProductData['errorCode'])) {
 
 
-                $info = json_encode($objProductData['info']);
-                $info = str_replace("'", "\'", $info);
-                $info = str_replace('"', '\"', $info);
-                $rating = json_encode($objProductData['rating']);
-                $rating = str_replace("'", "\'", $rating);
-                $rating = str_replace('"', '\"', $rating);
-                $isDeadProduct = $objProductData['isDeadProduct'];
-                $MainPrice = $objProductData['price']['current']['value'];
-                $LastPrice = $objProductData['price']['previous']['value'];
-                $Url = $objProductData['localisedData'][0]['pdpUrl'];
-                $brandId = $objProductData['brand']['brandId'];
-                $product_type_id = $objProductData['productType']['id'];
+                    $Name = $objProductData['name'];
+                    $Name = str_replace("'", "\'", $Name);
+                    $Name = str_replace('"', '\"', $Name);
+                    $gender = $objProductData['gender'];
+                    $ProductCode = $objProductData['productCode'];
+                    $isNoSize = $objProductData['isNoSize'] == true ? 1 : 0;
+                    $isOneSize = $objProductData['isOneSize'] == true ? 1 : 0;
+                    $isInStock = $objProductData['isInStock'] == true ? 1 : 0;
+                    $prop65Risk = $objProductData['hasVariantsWithProp65Risk'] == true ? 1 : 0;
+
+
+                    $info = json_encode($objProductData['info']);
+                    $info = str_replace("'", "\'", $info);
+                    $info = str_replace('"', '\"', $info);
+                    $rating = json_encode($objProductData['rating']);
+                    $rating = str_replace("'", "\'", $rating);
+                    $rating = str_replace('"', '\"', $rating);
+                    $isDeadProduct = $objProductData['isDeadProduct'];
+                    $MainPrice = $objProductData['price']['current']['value'];
+                    $LastPrice = $objProductData['price']['previous']['value'];
+                    $Url = $objProductData['localisedData'][0]['pdpUrl'];
+                    $brandId = $objProductData['brand']['brandId'];
+                    $product_type_id = $objProductData['productType']['id'];
 
 
 
-                $brandId = $objProductData['brand']['brandId'];
-                $brand_name = $objProductData['brand']['name'];
-                $brand_name = str_replace("'", "\'", $brand_name);
-                $brand_name = str_replace('"', '\"', $brand_name);
-                $brand_description = $objProductData['brand']['description'];
-                $brand_description = str_replace("'", "\'", $brand_description);
-                $brand_description = str_replace('"', '\"', $brand_description);
+                    $brandId = $objProductData['brand']['brandId'];
+                    $brand_name = $objProductData['brand']['name'];
+                    $brand_name = str_replace("'", "\'", $brand_name);
+                    $brand_name = str_replace('"', '\"', $brand_name);
+                    $brand_description = $objProductData['brand']['description'];
+                    $brand_description = str_replace("'", "\'", $brand_description);
+                    $brand_description = str_replace('"', '\"', $brand_description);
 
-                $str_change = "  brand_id = $brandId ,
+                    $str_change = "  brand_id = $brandId ,
                      name = '$brand_name' ,
                      description = '$brand_description',
                      last_modify = '$now_modify' ";
 
-                $brand_condition = "brand_id = $brandId";
-                if (!$objORM->DataExist($brand_condition, TableIWApiBrands, 'id')) {
+                    $brand_condition = "brand_id = $brandId";
+                    if (!$objORM->DataExist($brand_condition, TableIWApiBrands, 'id')) {
 
-                    $objORM->DataAdd($str_change, TableIWApiBrands);
-                    $iw_api_brands_id = $objORM->LastId();
-                } else {
+                        $objORM->DataAdd($str_change, TableIWApiBrands);
+                        $iw_api_brands_id = $objORM->LastId();
+                    } else {
 
-                    $objORM->DataUpdate($brand_condition, $str_change, TableIWApiBrands);
-                    $iw_api_brands_id = $obj_product->iw_api_brands_id;
-                }
+                        $objORM->DataUpdate($brand_condition, $str_change, TableIWApiBrands);
+                        $iw_api_brands_id = $obj_product->iw_api_brands_id;
+                    }
 
+                    $product_type_id = $objProductData['productType']['id'];
+                    $product_type_name = $objProductData['productType']['name'];
+                    $product_type_name = str_replace("'", "\'", $product_type_name);
+                    $product_type_name = str_replace('"', '\"', $product_type_name);
 
-
-
-
-                $product_type_id = $objProductData['productType']['id'];
-                $product_type_name = $objProductData['productType']['name'];
-                $product_type_name = str_replace("'", "\'", $product_type_name);
-                $product_type_name = str_replace('"', '\"', $product_type_name);
-
-                $str_change = " product_type_id = $product_type_id ,
+                    $str_change = " product_type_id = $product_type_id ,
                      name = '$product_type_name',
                      last_modify = '$now_modify' ";
 
-                $type_condition = "product_type_id = $product_type_id";
-                if (!$objORM->DataExist($type_condition, TableIWApiProductType, 'id')) {
+                    $type_condition = "product_type_id = $product_type_id";
+                    if (!$objORM->DataExist($type_condition, TableIWApiProductType, 'id')) {
 
-                    $objORM->DataAdd($str_change, TableIWApiProductType);
-                    $iw_api_product_type_id = $objORM->LastId();
-                } else {
+                        $objORM->DataAdd($str_change, TableIWApiProductType);
+                        $iw_api_product_type_id = $objORM->LastId();
+                    } else {
 
-                    $objORM->DataUpdate($type_condition, $str_change, TableIWApiProductType);
-                    $iw_api_product_type_id = $obj_product->iw_api_product_type_id;
-                }
-
-
-
-                $arr_cat_id = array();
-
-                foreach ($objProductData['plpIds'] as $cat_id) {
-                    $arr_cat_id[] = $cat_id['id'];
-                }
-
-                $CatIds = implode(',', $arr_cat_id);
-
-
-                if (is_array(@$objProductData['variants'])) {
-                    foreach ($objProductData['variants'] as $Color) {
-                        $arrColor[] = $Color['colour'];
+                        $objORM->DataUpdate($type_condition, $str_change, TableIWApiProductType);
+                        $iw_api_product_type_id = $obj_product->iw_api_product_type_id;
                     }
-                    $arrColor = array_unique($arrColor);
-                    $Color = strtolower($arrColor[0]);
-                }
 
 
-                $product_condition = "id = $obj_product->id";
-                $str_change = " ProductCode='$ProductCode',
+
+                    $arr_cat_id = array();
+
+                    foreach ($objProductData['plpIds'] as $cat_id) {
+                        $arr_cat_id[] = $cat_id['id'];
+                    }
+
+                    $CatIds = implode(',', $arr_cat_id);
+
+
+                    if (is_array(@$objProductData['variants'])) {
+                        foreach ($objProductData['variants'] as $Color) {
+                            $arrColor[] = $Color['colour'];
+                        }
+                        $arrColor = array_unique($arrColor);
+                        $Color = strtolower($arrColor[0]);
+                    }
+
+
+                    $product_condition = "id = $obj_product->id";
+                    $str_change = " ProductCode='$ProductCode',
                                 Name='$Name',
                                 Url='$Url',
                                 MainPrice=$MainPrice,
@@ -204,30 +205,30 @@ if (!empty($_POST['item'])) {
                                 iw_api_brands_id=$iw_api_brands_id,
                                 iw_api_product_type_id=$iw_api_product_type_id ";
 
-                $objORM->DataUpdate($product_condition, $str_change, TableIWAPIProducts);
-                
-                $objORM->DeleteRow("iw_api_products_id=$obj_product->id", TableIWApiProductVariants);
+                    $objORM->DataUpdate($product_condition, $str_change, TableIWAPIProducts);
+
+                    $objORM->DeleteRow("iw_api_products_id=$obj_product->id", TableIWApiProductVariants);
 
 
-                foreach ($objProductData['variants'] as $variant) {
+                    foreach ($objProductData['variants'] as $variant) {
 
-                    $price_current = $variant['price']['current']['value'];
-                    $price_previous = $variant['price']['previous']['value'];
+                        $price_current = $variant['price']['current']['value'];
+                        $price_previous = $variant['price']['previous']['value'];
 
 
-                    $product_id = $variant['id'];
-                    $name = $variant['name'];
-                    $sizeId = $variant['sizeId'];
-                    $brandSize = $variant['brandSize'];
-                    $sizeDescription = $variant['sizeDescription'];
-                    $displaySizeText = $variant['displaySizeText'];
-                    $sizeOrder = $variant['sizeOrder'];
-                    $isInStock = $variant['isInStock'] == true ? 1 : 0;
-                    $isAvailable = $variant['isAvailable'] == true ? 1 : 0;
-                    $colour = $variant['colour'];
-                    $isProp65Risk = $variant['isProp65Risk'] == true ? 1 : 0;
+                        $product_id = $variant['id'];
+                        $name = $variant['name'];
+                        $sizeId = $variant['sizeId'];
+                        $brandSize = $variant['brandSize'];
+                        $sizeDescription = $variant['sizeDescription'];
+                        $displaySizeText = $variant['displaySizeText'];
+                        $sizeOrder = $variant['sizeOrder'];
+                        $isInStock = $variant['isInStock'] == true ? 1 : 0;
+                        $isAvailable = $variant['isAvailable'] == true ? 1 : 0;
+                        $colour = $variant['colour'];
+                        $isProp65Risk = $variant['isProp65Risk'] == true ? 1 : 0;
 
-                    $str_change = "product_id= $product_id,
+                        $str_change = "product_id= $product_id,
                                    name='$name',
                                    sizeId=$sizeId,
                                    brandSize='$brandSize',
@@ -244,10 +245,18 @@ if (!empty($_POST['item'])) {
                                    iw_company_id = $iw_company_id,
                                    iw_api_products_id = $obj_product->id ";
 
-                    $variant_condition = "product_id= $product_id";
+                        $variant_condition = "product_id= $product_id";
 
-                    $objORM->DataAdd($str_change, TableIWApiProductVariants);
+                        $objORM->DataAdd($str_change, TableIWApiProductVariants);
 
+
+                    }
+                } else {
+
+
+
+                    $objORM->DataUpdate("id = $obj_product->id", "Enabled = 0", TableIWAPIProducts);
+                    exit();
 
                 }
 

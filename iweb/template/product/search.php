@@ -196,7 +196,7 @@ $page_condition = "order by id DESC LIMIT " . $str_limit;
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-5">
           <?php if (search_product_details($search, $page_condition)) {
-            echo search_product_paging($page_offcet_nu, get_search_info($search)->total_en);
+            echo search_product_paging($page_offcet_nu, get_search_info($search)->total_en,$_SESSION['actual_link']);
           } ?>
         </ul>
       </nav>
