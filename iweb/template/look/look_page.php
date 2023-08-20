@@ -37,14 +37,29 @@ if (isset($_POST['look_page'])) {
 
 }
 ?>
+
 <div class="col-12 col-lg-9">
     <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
         <div class="my-5 col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+        <?php if(!empty(user_look_page_info()->look_page_name)) { ?>
             <div class="mb-4 b-animate b-purple">
-                <?php if(!empty(user_look_page_info()->look_page_name)) { ?>
-                <a href="./?look=<?php echo(user_look_page_info()->id); ?>&name=<?php  echo(user_look_page_info()->look_page_name); ?>" class="btn" ><h2 class="fw-bold">صفحه من</h2></a>
-            <?php } ?>
+                
+                <a href="./?look=<?php echo(user_look_page_info()->id); ?>&name=<?php  echo(user_look_page_info()->look_page_name); ?>" class="btn btn-dark w-100 rounded-0 py-2 fw-bold" ><h4 >مشاهده صفحه</h4></a>
+            
             </div>
+            <?php } ?>
+            <?php if(!empty(is_look_reg_page()->admin_comment)){?>
+            <div class="mb-4 w-100">
+                <label for="personalNumber" class="form-label m-0 p-1 border border-bottom-0 border-dark">
+                    <span>  توضیحات مدیر لطفا به موارد دقت کامل داشته باشید </span>
+                </label>
+                <div class="input-group position-relative">
+                <textarea readonly  class="form-control" rows="3"><?php echo is_look_reg_page()->admin_comment; ?></textarea>
+      
+                    
+                </div>
+            </div>
+            <?php } ?>
             <div class="mb-4">
                 <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">نام صفحه  
                     </label>

@@ -9,3 +9,12 @@ function is_look_reg_doc(){
     return json_decode($objIAPI->GetPostApi('look/is_doc', $filds));
    
 }
+
+function is_look_reg_page()
+{
+    $filds = array(
+        'user_id' => (int) base64_decode($_COOKIE['user_id']),
+    );
+    $objIAPI = set_server();
+    return json_decode($objIAPI->GetPostApi('look/is_page', $filds));
+}

@@ -44,6 +44,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
         $objAclTools = new ACLTools();
 
         $stat = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->stat);
+        $admin_comment = $objAclTools->CleanStr($objAclTools->JsonDecode($objAclTools->PostVarToJson())->admin_comment);
 
         $objTimeTools = new TimeTools();
         $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
@@ -51,6 +52,7 @@ if (@$objGlobalVar->RefFormGet()[0] != null) {
         $ModifyId = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
 
         $USet = " stat = $stat ,";
+        $USet .= " admin_comment = '$admin_comment' ,";
         $USet .= " modify_ip = '$modify_ip' ,";
         $USet .= " last_modify = '$now_modify' ,";
         $USet .= " modify_id = $ModifyId ";

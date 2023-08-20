@@ -21,9 +21,9 @@ if (!empty($_POST['user_id'])) {
     $objStorageTools->SetRootStoryFile('../../../../irepository/img/');
 
 
-    $SCondition = " user_id = $user_id and id_cart_front is not null and id_cart_back is not null and user_face is not null and enabled = 1 and stat = 1";
+    $SCondition = " user_id = $user_id  and enabled = 1 and stat = 1";
 
-    if ($objORM->DataExist($SCondition, TableIWUserLookDocuments, 'id')) {
+    if ($objORM->DataExist($SCondition, TableIWUserLookPage, 'id')) {
         $stat = true;
         $stat_detials = "20"; // data exist
         $admin_comment = null;
@@ -35,7 +35,7 @@ if (!empty($_POST['user_id'])) {
         $admin_comment = $objORM->Fetch(
             "user_id = $user_id and enabled = 1 and stat = 0 and admin_comment is not null",
             "admin_comment",
-            TableIWUserLookDocuments
+            TableIWUserLookPage
         )->admin_comment;
 
     }

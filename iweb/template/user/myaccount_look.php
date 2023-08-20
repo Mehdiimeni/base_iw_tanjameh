@@ -9,7 +9,15 @@
         <h3 class="fw-bold mb-4">لوک من</h3>
         <h4 class="fw-bold mb-4">در اینجا شما می توانید با نمایش استایل خود کسب درآمد کنید !</h4>
         <h6 class="mb-4">
-            برای شروع باید اکانت خود را بسازید
+            <?php if (empty(user_look_page_info()->look_page_name)) { ?>
+                <a href="./?user=look_user" class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-3 text-decoration-none
+                    "> اکانت خود را بسازید
+                </a>
+            <?php } else { ?>
+                <a href="./?user=look_page" class="btn btn-dark w-100 rounded-0 py-2 fw-bold mb-3 text-decoration-none
+                    "> صفحه من
+                </a>
+            <?php } ?>
         </h6>
         <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
             <div class="col">

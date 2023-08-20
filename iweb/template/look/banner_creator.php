@@ -17,7 +17,7 @@ if(banner_creator_info($_GET['look'])){
                     </div>
                 </div>
                 <h6 class="mt-4">
-                <?php echo banner_creator_info($look_id)->look_page_discription; ?>
+                <?php echo banner_creator_info($look_id)->look_page_description; ?>
                 </h6>
             </div>
             <div class="col-12 offset-md-1 col-md-7">

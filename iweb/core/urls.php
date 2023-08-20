@@ -217,6 +217,11 @@ if (@$_GET['user'] != '') {
                 exit();
                 break;
 
+            case 'look_post_all':
+                include_once("./iweb/page/look_post_all.php");
+                exit();
+                break;
+
 
         }
     }

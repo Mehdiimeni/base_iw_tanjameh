@@ -42,8 +42,20 @@ if (isset($_POST['look_reg'])) {
     <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
         <div class="my-5 col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
             <div class="mb-4 b-animate b-purple">
-                <h2 class="fw-bold">ورود اطلاعات برای ثبت نام در بخش لوک</h2>
+                <h3 class="fw-bold">ورود اطلاعات برای ثبت نام در بخش لوک</h3>
             </div>
+            <?php if(!empty(is_look_reg_doc()->admin_comment)){?>
+            <div class="mb-4 w-100">
+                <label for="personalNumber" class="form-label m-0 p-1 border border-bottom-0 border-dark">
+                    <span>  توضیحات مدیر لطفا به موارد دقت کامل داشته باشید </span>
+                </label>
+                <div class="input-group position-relative">
+                <textarea readonly  class="form-control" rows="3"><?php echo is_look_reg_doc()->admin_comment; ?></textarea>
+      
+                    
+                </div>
+            </div>
+            <?php } ?>
             <div class="mb-4">
                 <label for="personalFamily" class="form-label m-0 p-1 border border-bottom-0 border-dark">تصویر روی کارت
                     ملی</label>
@@ -84,6 +96,10 @@ if (isset($_POST['look_reg'])) {
                     </button>
                 </div>
             </div>
+            
+
+
+            
             <div class="modal fade" id="MobileNumberModal" tabindex="-1" aria-labelledby="MobileNumberModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -98,11 +114,13 @@ if (isset($_POST['look_reg'])) {
                     </div>
                 </div>
             </div>
+            <?php if (!is_look_reg_doc()->stat) { ?>
             <button type="submit" name="look_reg" value="1"
                 class="btn btn-dark btn-lg fw-bold fs-6 py-3 rounded-0 d-flex align-items-center">
                 <i class="fa-regular fa-envelope me-2 fs-4"></i>
                 <span>من را ثبت نام کن</span>
             </button>
+            <?php } ?>
 
         </div>
     </form>

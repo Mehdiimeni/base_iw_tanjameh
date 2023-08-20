@@ -135,6 +135,14 @@ include IW_ASSETS_FROM_PANEL . "include/PageUnity.php";
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo FA_LC["description"]; ?>
+                                        </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <textarea name="admin_comment" class="form-control" rows="3"
+                                                      placeholder="<?php echo FA_LC["description"]; ?>"><?php echo @$objEditView->admin_comment; ?></textarea>
+                                        </div>
+                                    </div>
                                     <div class="ln_solid"></div>
                                     <?php if (@$objGlobalVar->JsonDecode($objGlobalVar->GetVarToJsonNoSet())->modify != 'view') { ?>
                                         <div class="form-group">

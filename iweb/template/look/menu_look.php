@@ -21,12 +21,12 @@
             <?php if (!is_look_reg_doc()->stat) { ?>
               <li class="list-active d-inline-block d-lg-block">
                 <a href="?user=look_user"
-                  class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">اطلاعات من</a>
+                  class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">اطلاعات من <?php if(!empty(is_look_reg_doc()->admin_comment)){echo("(پیام مدیر)");} ?></a>
               </li>
             <?php } else { ?>
               <li class="list-active d-inline-block d-lg-block">
                 <a href="?user=look_page" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">صفحه
-                  من</a>
+                  من  <?php if(!empty(is_look_reg_page()->admin_comment)){echo("(پیام مدیر)");} ?></a>
               </li>
               <li class="list-active d-inline-block d-lg-block">
                 <a href="?user=look_post" class="text-decoration-none text-dark-emphasis d-inline-block d-lg-block">پست

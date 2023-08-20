@@ -255,7 +255,6 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
                                 isOneSize='$isOneSize',
                                 isInStock='$isInStock',
                                 prop65Risk='$prop65Risk',
-                                iw_product_weight_id = $iw_product_weight_id,
                                 iw_company_id = $iw_company_id ,
                                 Enabled = 1 ,
                                 url_gender = '$PGender' ,
