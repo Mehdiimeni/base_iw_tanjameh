@@ -1,19 +1,12 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-include "../../../iassets/include/DBLoader.php";
-$objFileToolsDBInfo = db_info();
-$objORM = db_orm($objFileToolsDBInfo);
+require_once "../global/CommonInclude.php";
 
 $arr_list_cart = array();
 $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
 if (!empty($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
 
+    $all_total_MainPrice = 0;
 
     if (@$objORM->DataExist("iw_user_id = $user_id", TableIWUserTempCart)) {
 
@@ -29,11 +22,17 @@ if (!empty($_POST['user_id'])) {
                 TableIWApiProductVariants
             );
 
+            if (empty($obj_product_variants->id))
+                continue;
+
             $obj_product = $objORM->Fetch(
                 "id = $obj_product_variants->iw_api_products_id",
-                "id,Name,Content,ImageSet,url_gender,url_category,url_group,id,iw_product_weight_id,iw_api_brands_id,iw_api_product_type_id",
+                "id,Name,Content,ImageSet,iw_company_id,MainPrice,url_gender,url_category,url_group,id,iw_product_weight_id,iw_api_brands_id,iw_api_product_type_id",
                 TableIWAPIProducts
             );
+
+            if (empty($obj_product->id))
+                continue;
 
 
             $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
@@ -73,6 +72,12 @@ if (!empty($_POST['user_id'])) {
                 "Name",
                 TableIWACurrencies
             )->Name;
+
+            $rate_currency = $objORM->Fetch(
+                "id = $currencies_conversion_id",
+                "Rate",
+                TableIWACurrenciesConversion
+            )->Rate;
 
             //persent
             if ($PreviousCurrencyPrice > $CarentCurrencyPrice) {
@@ -130,9 +135,31 @@ if (!empty($_POST['user_id'])) {
                 $int_product_weight = $objShippingTools->FindItemWeight($obj_product);
             }
 
+            $total_weight = $int_product_weight * $temp_cart->qty;
 
-            $intTotalShipping = $objShippingTools->FindBasketWeightPrice($int_product_weight, $obj_product_variants->price_current, $currencies_conversion_id);
-            $int_TotalShipping = $intTotalShipping;
+            $int_TotalShipping = 0;
+
+            if ($total_weight > 2) {
+                $top_total_weight = $total_weight / 2;
+                for ($i = 1; $i > $top_total_weight; $i++) {
+
+                    $intTotalShipping = $objShippingTools->FindBasketWeightPrice(2, $obj_product_variants->price_current, $currencies_conversion_id);
+                    $int_TotalShipping += $intTotalShipping;
+
+                }
+                $low_total_weight = fmod($total_weight, 2);
+                $intTotalShipping = $objShippingTools->FindBasketWeightPrice($low_total_weight, $obj_product_variants->price_current, $currencies_conversion_id);
+                $int_TotalShipping += $intTotalShipping;
+
+            } else {
+
+                $intTotalShipping = $objShippingTools->FindBasketWeightPrice($int_product_weight, $obj_product_variants->price_current, $currencies_conversion_id);
+                $int_TotalShipping = $intTotalShipping;
+
+            }
+
+
+
 
             if ($intTotalShipping != 0) {
                 $intTotalShipping = $objGlobalVar->NumberFormat($intTotalShipping, 0, ".", ",");
@@ -157,6 +184,30 @@ if (!empty($_POST['user_id'])) {
             $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_product->Name, 336, '');
             $image_one_address = $objShowFile->FileLocation("attachedimage") . 'thumbnail/' . $objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"), $objArrayImage[0], 336);
 
+            // delivery price
+
+            $all_total_MainPrice += $obj_product->MainPrice * $temp_cart->qty;
+
+            if ($objORM->DataExist("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", TableIWAProductDeliveryPrice, 'id')) {
+
+                $obj_delivery = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", "ChangeRate,Smaller", TableIWAProductDeliveryPrice);
+                $strDelvieryPrice = $obj_delivery->ChangeRate * $rate_currency * 1.1;
+
+                $strDelvieryPriceLimit = $obj_delivery->Smaller * $rate_currency * 1.1;
+
+            } else {
+                $strDelvieryPrice = 0;
+                $strDelvieryPriceLimit = 0;
+
+            }
+
+            if ($all_total_MainPrice > 34) {
+
+                $strDelvieryPrice = 0;
+                $strDelvieryPriceLimit = 0;
+
+            }
+
             $arr_product_detail[] = array(
                 'name' => $obj_product->Name,
                 'id' => $obj_product->id,
@@ -176,6 +227,8 @@ if (!empty($_POST['user_id'])) {
                 'product_type' => $obj_product_type->name,
                 'qty' => $temp_cart->qty,
                 'brand_name' => $obj_brand_name->name,
+                'delviery_price' => $strDelvieryPrice,
+                'delviery_price_limit' => $strDelvieryPriceLimit,
                 'shipping_price' => $strShippingPrice,
                 'int_shipping_price' => $int_TotalShipping,
                 'shipping_weight' => $strShippingWeight,
@@ -207,11 +260,18 @@ if (!empty($_POST['products_id'])) {
             TableIWApiProductVariants
         );
 
+        if (empty($obj_product_variants->id))
+                continue;
+
         $obj_product = $objORM->Fetch(
             "id = $obj_product_variants->iw_api_products_id",
-            "id,Name,Content,ImageSet,url_gender,url_category,url_group,id,iw_product_weight_id,iw_api_brands_id,iw_api_product_type_id",
+            "id,Name,Content,ImageSet,url_gender,url_category,url_group,id,iw_product_weight_id,iw_api_brands_id,iw_api_product_type_id,MainPrice,iw_company_id",
             TableIWAPIProducts
         );
+
+
+        if (empty($obj_product->id))
+                continue;
 
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
@@ -336,6 +396,32 @@ if (!empty($_POST['products_id'])) {
         $objShowFile->ShowImage('../../../../', $objShowFile->FileLocation("attachedimage"), $objArrayImage[0], $obj_product->Name, 336, '');
         $image_one_address = $objShowFile->FileLocation("attachedimage") . 'thumbnail/' . $objShowFile->NameChSize($objShowFile->FileLocation("attachedimage"), $objArrayImage[0], 336);
 
+
+        // delivery price
+
+        $all_total_MainPrice += $obj_product->MainPrice;
+
+        if ($objORM->DataExist("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", TableIWAProductDeliveryPrice, 'id')) {
+
+            $obj_delivery = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", "ChangeRate,Smaller", TableIWAProductDeliveryPrice);
+            $strDelvieryPrice = $obj_delivery->ChangeRate * $rate_currency * 1.1;
+
+
+            $strDelvieryPriceLimit = $obj_delivery->Smaller * $rate_currency * 1.1;
+
+        } else {
+            $strDelvieryPrice = 0;
+            $strDelvieryPriceLimit = 0;
+
+        }
+
+        if ($all_total_MainPrice > 34) {
+
+            $strDelvieryPrice = 0;
+            $strDelvieryPriceLimit = 0;
+
+        }
+
         $arr_product_detail[] = array(
             'name' => $obj_product->Name,
             'id' => $obj_product->id,
@@ -355,6 +441,8 @@ if (!empty($_POST['products_id'])) {
             'product_type' => $obj_product_type->name,
             'qty' => 1,
             'brand_name' => $obj_brand_name->name,
+            'delviery_price' => $strDelvieryPrice,
+            'delviery_price_limit' => $strDelvieryPriceLimit,
             'shipping_price' => $strShippingPrice,
             'int_shipping_price' => $int_TotalShipping,
             'shipping_weight' => $strShippingWeight,
@@ -370,5 +458,5 @@ if (!empty($_POST['products_id'])) {
     echo false;
 }
 
-
-echo json_encode($arr_product_detail);
+if (!empty($arr_product_detail))
+    echo json_encode($arr_product_detail);

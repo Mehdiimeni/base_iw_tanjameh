@@ -95,7 +95,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " main_color = '$main_color' ,";
             $InSet .= " second_color = '$second_color' ,";
             $InSet .= " image = '$FileNewName' ,";
-            $InSet .= " modify_id = '$modify_id', ";
+            $InSet .= " modify_id = $modify_id, ";
             $InSet .= " modify_ip = '$modify_ip' ,";
             $InSet .= " iw_website_pages_part_id = '$iw_website_pages_part_id' ";
 
@@ -197,7 +197,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " bottom_link = '$bottom_link' ,";
                 $USet .= " main_color = '$main_color' ,";
                 $USet .= " second_color = '$second_color' ,";
-                $USet .= " modify_id = '$modify_id', ";
+                $USet .= " modify_id = $modify_id, ";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 $USet .= " iw_website_pages_part_id = '$iw_website_pages_part_id' ";
 

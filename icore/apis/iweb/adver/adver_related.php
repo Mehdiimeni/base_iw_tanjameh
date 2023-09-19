@@ -1,13 +1,6 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+require_once "../global/CommonInclude.php";
 
-include "../../../iassets/include/DBLoader.php";
-$objFileToolsDBInfo = db_info();
-$objORM = db_orm($objFileToolsDBInfo);
 $color_related = "رنگ ها";
 $color_related_note = "موارد مشابه بر اساس رنگ";
 $price_related = "قیمت";

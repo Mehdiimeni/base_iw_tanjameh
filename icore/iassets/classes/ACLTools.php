@@ -1,8 +1,6 @@
 <?php
-
 class ACLTools extends GlobalVarTools
 {
-
     private $jsonSessionVars;
     private $jsonCookieVars;
 
@@ -11,33 +9,26 @@ class ACLTools extends GlobalVarTools
         parent::__construct();
         $this->jsonSessionVars = parent::JsonDecode(parent::SessionVarToJson());
         $this->jsonCookieVars = parent::JsonDecode(parent::CookieVarToJson());
-
     }
 
     public function CookieCheck($UserType)
     {
         if ($UserType == 'admin') {
-
             if (@$this->jsonCookieVars->_IWAdminId != null) {
                 parent::setSessionVar('_IWAdminId', parent::de2Base64($this->jsonCookieVars->_IWAdminId));
                 return true;
-
             } else {
                 return false;
             }
-
         }
 
         if ($UserType == 'user') {
-
             if (@$this->jsonCookieVars->user_id != null) {
                 parent::setSessionVar('user_id', parent::deBase64($this->jsonCookieVars->user_id));
                 return true;
-
             } else {
                 return false;
             }
-
         }
     }
 
@@ -49,7 +40,6 @@ class ACLTools extends GlobalVarTools
             return false;
         }
     }
-
 
     public function TableNames()
     {
@@ -64,29 +54,13 @@ class ACLTools extends GlobalVarTools
     public function CheckNull($StdClassArray): bool
     {
         $array = parent::JsonDecodeArray($StdClassArray);
-        if (count(array_filter($array)) == count($array)) {
-            return false;
-        } else {
-            return true;
-        }
-
-
+        return count(array_filter($array)) !== count($array);
     }
 
     public function CheckNullExcept($StdClassArray, array $arrExcept): bool
     {
         $arrayAll = parent::JsonDecodeArray($StdClassArray);
-
-
         $arrayAll = array_diff($arrayAll, $arrExcept);
-        if (count(array_filter($arrayAll)) == count($arrayAll)) {
-            return false;
-        } else {
-            return true;
-        }
-
-
+        return count(array_filter($arrayAll)) !== count($arrayAll);
     }
-
-
 }

@@ -1,5 +1,6 @@
 <?php
 //web gender 
+require("./iweb/core/code_cacher.php");
 $_SESSION['gender'] = @$_GET['gender'];
 
 if ($_GET['gender'] == strtolower('men'))
@@ -14,6 +15,13 @@ if ($_GET['gender'] == strtolower('sale'))
 
 if ($_GET['gender'] == strtolower('child'))
      $_SESSION['page_name_system'] = 'ChildFirstPage';
+
+     $codeCacher = new CodeCacher();
+$codeKey = $_SESSION['page_name_system'];
+$cachedCode = $codeCacher->getCachedCode($codeKey);
+
+if ($cachedCode === false) {
+    ob_start();
 
 
 
@@ -32,3 +40,12 @@ if ($_GET['gender'] == strtolower('child'))
 (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'newsletter', '0');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'footer');
 (new FileCaller)->FileIncluderWithControler('./iweb', 'temp', 'down');
+
+$codeContent = ob_get_clean();
+$codeCacher->cacheCode($codeKey, $codeContent);
+$cachedCode = $codeCacher->getCachedCode($codeKey);
+
+echo $cachedCode;
+} else {
+echo $cachedCode;
+}

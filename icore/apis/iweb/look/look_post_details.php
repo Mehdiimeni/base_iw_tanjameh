@@ -1,13 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-include "../../../iassets/include/DBLoader.php";
-$objFileToolsDBInfo = db_info();
-$objORM = db_orm($objFileToolsDBInfo);
+require_once "../global/CommonInclude.php";
 
 if (!empty($_POST['post_id'])) {
 
@@ -394,6 +386,10 @@ if (!empty($_POST['post_id'])) {
             'user_id' => $obj_look_page->user_id,
             'look_page_name' => $obj_look_page->look_page_name,
             'post_id' => $obj_user_post->id,
+            'company_id1' => $obj_product1->iw_company_id,
+            'company_id2' => $obj_product2->iw_company_id,
+            'company_id3' => $obj_product3->iw_company_id,
+            'company_id4' => $obj_product4->iw_company_id,
         );
 
 

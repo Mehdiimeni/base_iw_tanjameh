@@ -1,38 +1,58 @@
 <?php
+
+require_once "../iweb/core/api.php";
+function set_server()
+{
+  $_SERVER['HTTP_HOST'] != 'localhost' ? $server_address = 'https://' . $_SERVER['HTTP_HOST'] : $server_address = $_SERVER['HTTP_HOST'];
+
+  $objIAPI = new IAPI($server_address, 'iweb');
+  $objIAPI->SetLocalProjectName('tanjameh');
+  return $objIAPI;
+}
+
 if (isset($_POST['add_to_favorites'])) {
-  $product_id = $_POST['product_id'];
-  // 1. چک کردن وجود کوکی
-  if (isset($_COOKIE['favorite_items'])) {
-    $favorite_items = json_decode($_COOKIE['favorite_items'], true);
-  } else {
-    $favorite_items = array();
-  }
 
-  if (!in_array($product_id, $favorite_items)) {
-    array_push($favorite_items, $product_id);
-    $favorite_items = array_unique($favorite_items);
-    if (count($favorite_items) > 15) {
-      array_shift($favorite_items);
-    }
-  }
+  $item_id = $_POST['product_id'];
+  $look_id = @$_POST['look_id'];
+  $company_id = $_POST['company_id'];
+  $user_id = @$_POST['user_id'];
+  $lounge_id = @$_POST['lounge_id'];
+  $session_id = @$_POST['session_id'];
 
+  $filds = array(
+    'user_id' => $user_id,
+    'item_id' => $item_id,
+    'look_id' => $look_id,
+    'company_id' => $company_id,
+    'lounge_id' => $lounge_id,
+    'session_id' => $session_id,
+  );
+  $objIAPI = set_server();
 
-  // 3. ذخیره کردن آرایه favorite_items در کوکی با نام favorite_items
-  setcookie('favorite_items', json_encode($favorite_items), time() + 36000, '/');
+  echo (($objIAPI->GetPostApi('user/favorite', $filds)));
 }
 
 
 if (isset($_POST['remove_from_favorites'])) {
-  $id_to_remove = $_POST['product_id'];
-  // 1. چک کردن وجود کوکی
-  if (isset($_COOKIE['favorite_items'])) {
-    $favorite_items = json_decode($_COOKIE['favorite_items'], true);
-    $index = array_search($id_to_remove, $favorite_items);
-    if ($index !== false) {
-      unset($favorite_items[$index]);
-      $favorite_items = array_values($favorite_items);
-      setcookie('favorite_items', json_encode($favorite_items), time() + 36000, '/');
-    }
-  }
+
+
+  $item_id = $_POST['product_id'];
+  $look_id = @$_POST['look_id'];
+  $company_id = $_POST['company_id'];
+  $user_id = @$_POST['user_id'];
+  $lounge_id = @$_POST['lounge_id'];
+  $session_id = @$_POST['session_id'];
+
+  $filds = array(
+    'user_id' => $user_id,
+    'item_id' => $item_id,
+    'look_id' => $look_id,
+    'company_id' => $company_id,
+    'lounge_id' => $lounge_id,
+    'session_id' => $session_id,
+  );
+  $objIAPI = set_server();
+
+  echo (($objIAPI->GetPostApi('user/favorite', $filds)));
 }
 ?>

@@ -1,15 +1,16 @@
 <?php
-//DBLoader.php
-
 require "../../../vendor/autoload.php";
 SessionTools::init();
 
+$includePaths = [
+    "../../../idefine/conf/",
+];
 
-require_once "../../../idefine/conf/tablename.php";
-require_once "../../../idefine/conf/viewname.php";
-require_once "../../../idefine/conf/functionname.php";
-require_once "../../../idefine/conf/procedurename.php";
-
+foreach ($includePaths as $path) {
+    foreach (glob($path . "*.php") as $filename) {
+        require_once $filename;
+    }
+}
 
 $objGlobalVar = new GlobalVarTools();
 $objACLTools = new ACLTools();
@@ -29,6 +30,5 @@ function db_info($db_name = '')
 
 function db_orm($objFileToolsDBInfo)
 {
-
     return new DBORM((new MySQLConnection($objFileToolsDBInfo))->getConn());
 }

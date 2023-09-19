@@ -56,7 +56,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " Enabled = $Enabled ,";
             $InSet .= " title = '$title' ,";
             $InSet .= " name = '$name' ,";
-            $InSet .= " modify_id = '$modify_id', ";
+            $InSet .= " modify_id = $modify_id, ";
             $InSet .= " modify_ip = '$modify_ip' ,";
             $InSet .= " iw_website_info_id = '$iw_website_info_id' ";
 
@@ -116,7 +116,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet = "";
                 $USet .= " title = '$title' ,";
                 $USet .= " name = '$name' ,";
-                $USet .= " modify_id = '$modify_id', ";
+                $USet .= " modify_id = $modify_id, ";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 $USet .= " iw_website_info_id = '$iw_website_info_id' ";
 

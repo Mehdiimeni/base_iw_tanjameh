@@ -59,7 +59,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " alert_name = '$alert_name' ,";
             $InSet .= " alert_type = '$alert_type' ,";
             $InSet .= " alert_content = '$alert_content' ,";
-            $InSet .= " modify_id = '$modify_id' ,";
+            $InSet .= " modify_id = $modify_id ,";
             $InSet .= " modify_ip = '$modify_ip' ,";
             $InSet .= " iw_website_info_id = '$iw_website_info_id' ";
 
@@ -120,7 +120,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " alert_name = '$alert_name' ,";
                 $USet .= " alert_type = '$alert_type' ,";
                 $USet .= " alert_content = '$alert_content' ,";
-                $USet .= " modify_id = '$modify_id', ";
+                $USet .= " modify_id = $modify_id, ";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 $USet .= " iw_website_info_id = '$iw_website_info_id' ";
 

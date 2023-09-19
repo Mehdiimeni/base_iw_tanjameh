@@ -154,7 +154,8 @@ if (isset($_POST['SubmitM'])) {
 
     $modify_ip = (new IPTools(IW_DEFINE_FROM_PANEL))->getUserIP();
     $now_modify = date("Y-m-d H:i:s");
-    $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminIdRow'));
+    $modify_id = $objGlobalVar->JsonDecode($objGlobalVar->getIWVarToJson('_IWAdminId'));
+
 
     $arrAllImageSelected = $_POST['ImageSelected'];
 
@@ -164,11 +165,10 @@ if (isset($_POST['SubmitM'])) {
 
         $USet = "";
         $USet .= " modify_ip = '$modify_ip' ,";
-        $USet .= " modify_id = '$modify_id' ,";
+        $USet .= " modify_id = $modify_id ,";
         $USet .= " AdminOk = 2 ,";
         $USet .= " ImageSet = '' ";
-
-
+        
         $UCondition = " id = '$id' ";
         $objORM->DataUpdate($UCondition, $USet, TableIWAPIProducts);
 
@@ -184,7 +184,7 @@ if (isset($_POST['SubmitM'])) {
 
             $USet = "";
             $USet .= " modify_ip = '$modify_ip' ,";
-            $USet .= " modify_id = '$modify_id' ,";
+            $USet .= " modify_id = $modify_id ,";
             $USet .= " AdminOk = 1 ,";
             $USet .= " ImageSet = concat_ws(',',ImageSet,'" . $ImageSet . "') ";
 

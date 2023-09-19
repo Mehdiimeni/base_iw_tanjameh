@@ -98,3 +98,13 @@ const TableIWUserLookPost = "iw_user_look_post";
 const TableIWUserLookGroup = "iw_user_look_group";
 
 
+const TableIWUserFavorite = "iw_user_favorite";
+const TableIWUserCartSet = "iw_user_cart_set";
+
+
+// api jwt
+const TableIWApiUsers = "iw_api_users";
+const TableIWCatchRoot = "iw_catch_root";
+
+
+

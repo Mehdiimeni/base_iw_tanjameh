@@ -22,8 +22,16 @@ $Enabled = true;
 
 $obj_brand = @$objORM->FetchAll("id > 0", 'name', TableIWApiBrands);
 $obj_type =  @$objORM->FetchAll("id > 0", 'name', TableIWApiProductType);
+$obj_product =  @$objORM->FetchAll("Enabled = 1 AND Content IS NOT NULL
+AND AdminOk = 1", 'Name', TableIWAPIProducts);
 
 $arr_search = array();
+foreach($obj_product as $product){
+
+    $arr_search[] = $product->Name;
+
+}
+
 foreach($obj_brand as $brand){
 
     $arr_search[] = $brand->name;

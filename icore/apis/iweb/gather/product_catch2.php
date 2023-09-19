@@ -1,20 +1,18 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-include "../../../iassets/include/DBLoader.php";
-$objFileToolsDBInfo = db_info();
-$objORM = db_orm($objFileToolsDBInfo);
+require_once "../global/CommonInclude.php";
 
 $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
 $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);
 $objShowFile->SetRootStoryFile('../../../../irepository/img/');
 
 
+$todayDate = date("Y-m-d");
+$t_count = $objORM->Fetch("last_updated_date = '$todayDate' ", " SUM(total_product) as tcount ", TableIWCatchRoot)->tcount ;
+/*
+if ($t_count > 1300)
+    exit();
+*/
 // filter setter
 require_once "../../../idefine/queryset/ProductFilter.php";
 
@@ -42,35 +40,64 @@ if (!$objORM->DataExist($SCondition, TableIWAPIAllConnect)) {
 
 }
 
-if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "all_count", TableIWAPIAllConnect)->all_count) > 39000) {
-    echo json_encode('--product  over count--');
+if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_date' ", "all_count", TableIWAPIAllConnect)->all_count) > 50000) {
+    echo json_encode('--product 2 over count--');
     exit();
 } else {
 
 
-
-    $now_modify = date("Y-m-d H:i:s");
-    $yesterday = date('Y-m-d H:i:s', strtotime("-1 day"));
-
+    $step_number = 6;
+    $step = 5;
+    $offset = 0;
 
     $arrIdAllProduct = array();
     // API Count and Connect
     $objAsos = new AsosConnections();
-
-    //$SCondition = " CreateCad = 0 OR ModifyStrTime < '$TimePriod' ";
-    $SCondition = "last_modify < '$yesterday' and Enabled = 1 and Name <> 'sale' and CatId > 0  order by rand() limit 1 ";
+    $SCondition = " Enabled = 1 and Name <> 'sale' and CatId > 0 order by id  ";
     foreach ($objORM->FetchAll($SCondition, 'CatId,Name,LocalName,iw_new_menu_3_id,iw_product_weight_id,Enabled,id', TableIWNewMenu4) as $ListItem) {
 
-        if (!($objORM->Fetch("id = $ListItem->iw_new_menu_3_id ", "Enabled", TableIWNewMenu3)->Enabled)) {
+        $todayDate = date("Y-m-d");
 
-            $UCondition = " id = $ListItem->id ";
-            $USet = " CreateCad = 1 ,";
-            $USet .= " last_modify = '$now_modify' ";
-            $objORM->DataUpdate($UCondition, $USet, TableIWNewMenu4);
 
-            continue;
+        if ($objORM->DataExist("root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ", TableIWCatchRoot, 'id')) {
+
+            $obj_catch_root = $objORM->Fetch("root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ", "last_updated_date,counter", TableIWCatchRoot);
+
+            if ($obj_catch_root->last_updated_date === $todayDate) {
+                if (($obj_catch_root->counter < $step_number) or (/*$t_count < 1300*/ 1 )) {
+                    $UCondition = " root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ";
+                    $USet = " counter = counter + 1 ,  name = '$ListItem->Name' , root = 2 ";
+                    $objORM->DataUpdate($UCondition, $USet, TableIWCatchRoot);
+
+                    $offset = $obj_catch_root->counter * $step;
+                } else {
+                    continue;
+                }
+            } else {
+
+                $UCondition = " root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ";
+                $USet = " counter = 0 , last_updated_date = '$todayDate' ,  name = '$ListItem->Name' , root = 2 , total_product = 0";
+                $objORM->DataUpdate($UCondition, $USet, TableIWCatchRoot);
+
+                $offset = 0;
+
+            }
+
+
+        } else {
+
+
+            $InSet = " root_id = $ListItem->CatId ,";
+            $InSet .= " counter = 0,";
+            $InSet .= " name = '$ListItem->Name',";
+            $InSet .= " root = 2,";
+            $InSet .= " total_product = 0,";
+            $InSet .= " last_updated_date = '$todayDate' ";
+            $objORM->DataAdd($InSet, TableIWCatchRoot);
+
+            $offset = 0;
+
         }
-
 
 
         $objPGroup = $objORM->Fetch("id = $ListItem->iw_new_menu_3_id ", 'Name,iw_new_menu_2_id', TableIWNewMenu3);
@@ -83,7 +110,7 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
         $CatId = $ListItem->CatId;
 
         $iw_product_weight_id = $ListItem->iw_product_weight_id;
-        $ProductContentAt = $objAsos->ProductsListAt($CatId, "", 15);
+        $ProductContentAt = $objAsos->ProductsListAt($CatId, "", $offset, $step);
 
         $ListProductsContentAt = $objAclTools->JsonDecodeArray($ProductContentAt);
 
@@ -108,7 +135,9 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
             if (in_array(strtolower($ProductName), ARR_PRODUCT_FILTER))
                 continue;
 
-            $ProductId = $product['id'];
+
+
+            $ProductId = (int) $product['id'];
 
             $product['price']['previous']['value'] != null ? $ApiLastPrice = $product['price']['previous']['value'] : $ApiLastPrice = 0;
             $ProductCode = $product['productCode'];
@@ -116,6 +145,11 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
             $SCondition = "ProductId = $ProductId";
 
             if (!$objORM->DataExist($SCondition, TableIWAPIProducts, 'id')) {
+
+
+                $UCondition = " root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ";
+                $USet = " total_product = total_product + 1 ";
+                $objORM->DataUpdate($UCondition, $USet, TableIWCatchRoot);
 
                 // API Count and Connect
                 // check api count

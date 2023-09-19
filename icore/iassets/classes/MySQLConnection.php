@@ -8,7 +8,7 @@ final class MySQLConnection implements DBConnectionInterface
     private $Password;
     private $IP;
     private $Port;
-    private $PConn;
+    private $pdoConnection;
 
 
     public function __construct(array $array)
@@ -17,9 +17,7 @@ final class MySQLConnection implements DBConnectionInterface
         $this->Database = base64_decode(base64_decode($array['Database']));
         $this->User = base64_decode(base64_decode($array['User']));
         $this->Password = base64_decode(base64_decode($array['Password']));
-        $this->IP = base64_decode(base64_decode($array['IP']));
-        $this->Port = base64_decode(base64_decode($array['Port']));
-        $this->PConn = '';
+        $this->pdoConnection = null;
 
     }
 
@@ -28,21 +26,21 @@ final class MySQLConnection implements DBConnectionInterface
 
         try {
             strtolower($this->Password) == 'null' ? $this->Password = '' : $this->Password;
-            $this->PConn = new PDO('mysql:host='.$this->Host.';dbname='.$this->Database.';charset=utf8', $this->User, $this->Password);
-            $this->PConn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
+            $dsn = "mysql:host={$this->Host};dbname={$this->Database};charset=utf8";
+            $options = [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            ];
+            $this->pdoConnection = new \PDO($dsn, $this->User, $this->Password, $options);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
-
         }
     }
 
     public function getConn()
     {
-        if ($this->PConn == null)
+        if ($this->pdoConnection === null) {
             $this->connect();
-        return $this->PConn;
+        }
+        return $this->pdoConnection;
     }
-
-
 }

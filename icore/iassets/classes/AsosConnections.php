@@ -1,6 +1,6 @@
 <?php
 
-class AsosConnections 
+class AsosConnections
 {
     private $MainUrl;
     private $RapidapiHost;
@@ -11,7 +11,7 @@ class AsosConnections
         $this->MainUrl = "https://asos2.p.rapidapi.com/";
         $this->RapidapiHost = "asos2.p.rapidapi.com";
         $this->RapidapiKey = "ae43f4cf44msh350bf21c1629509p17e169jsn8abc1ef842b0";
-       // $this->RapidapiKey = "9ba7d924b1msh2e2b094b0b3f128p177015jsne09c3f6b7950";
+        // $this->RapidapiKey = "9ba7d924b1msh2e2b094b0b3f128p177015jsne09c3f6b7950";
     }
 
     public function StartCurl()
@@ -55,7 +55,7 @@ class AsosConnections
             ],
         ]);
 
-        return  $this->ExecCurl($Curl);
+        return $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
@@ -65,7 +65,7 @@ class AsosConnections
 
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
-            CURLOPT_URL => $this->MainUrl . "products/v2/list?country=GB&lang=en-GB&store=COM&currency=GBP&offset=0&categoryId=".$CatId,
+            CURLOPT_URL => $this->MainUrl . "products/v2/list?country=GB&lang=en-GB&store=COM&currency=GBP&offset=0&categoryId=" . $CatId,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_ENCODING => "",
@@ -81,7 +81,7 @@ class AsosConnections
             ],
         ]);
 
-        return  $this->ExecCurl($Curl);
+        return $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
@@ -93,7 +93,7 @@ class AsosConnections
 
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
-            CURLOPT_URL => $this->MainUrl . "products/v3/detail?id=".$ProductId."&country=GB&lang=en-GB&currency=GBP&store=COM&sizeSchema=UK",
+            CURLOPT_URL => $this->MainUrl . "products/v3/detail?id=" . $ProductId . "&country=GB&lang=en-GB&currency=GBP&store=COM&sizeSchema=UK",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_ENCODING => "",
@@ -109,17 +109,17 @@ class AsosConnections
             ],
         ]);
 
-        return  $this->ExecCurl($Curl);
+        return $this->ExecCurl($Curl);
         $this->CloseCurl($Curl);
 
     }
 
-    public function ProductsListAt($CatId,  $Attribute = '',$Limit = 12)
+    public function ProductsListAt($CatId, $Attribute = '', $offset = 0, $Limit = 10)
     {
 
         $Curl = $this->StartCurl();
         curl_setopt_array($Curl, [
-            CURLOPT_URL => $this->MainUrl . "products/v2/list?store=COM&offset=0&limit=" . $Limit . $Attribute."&country=GB&sort=freshness&currency=GBP&sizeSchema=UK&lang=en-GB&offset=0&categoryId=" . $CatId,
+            CURLOPT_URL => $this->MainUrl . "products/v2/list?store=COM&offset=" . $offset . "&limit=" . $Limit . $Attribute . "&country=GB&sort=freshness&currency=GBP&sizeSchema=UK&lang=en-GB&offset=0&categoryId=" . $CatId,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_ENCODING => "",

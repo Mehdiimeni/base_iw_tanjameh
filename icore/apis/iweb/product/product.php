@@ -1,13 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-include "../../../iassets/include/DBLoader.php";
-$objFileToolsDBInfo = db_info();
-$objORM = db_orm($objFileToolsDBInfo);
+require_once "../global/CommonInclude.php";
 
 
 if (!empty($_POST['item'])) {
@@ -301,6 +293,13 @@ if (!empty($_POST['item'])) {
             TableIWACurrencies
         )->Name;
 
+        $rate_currency =  $objORM->Fetch(
+                "id = $currencies_conversion_id",
+                "Rate",
+                TableIWACurrenciesConversion
+            )->Rate;
+ 
+
         //persent
         if ($PreviousCurrencyPrice > $CarentCurrencyPrice) {
             $discount_persent = floor((($PreviousCurrencyPrice - $CarentCurrencyPrice) / $PreviousCurrencyPrice) * 100);
@@ -359,7 +358,7 @@ if (!empty($_POST['item'])) {
 
         if ($intTotalShipping != 0) {
             $intTotalShipping = $objGlobalVar->NumberFormat($intTotalShipping, 0, ".", ",");
-            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping) . $name_currency;
+            $strShippingPrice = $objGlobalVar->Nu2FA($intTotalShipping) .' '.$name_currency;
         }
 
         // wieght
@@ -401,6 +400,25 @@ if (!empty($_POST['item'])) {
 
 
         $arr_info = json_decode($obj_product->info, 1);
+
+
+        // delivery price
+
+        if($objORM->DataExist("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", TableIWAProductDeliveryPrice, 'id')){
+   
+        $obj_delivery = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and Enabled = 1 and ( Smaller >= $obj_product->MainPrice and Bigger <= $obj_product->MainPrice ) ", "ChangeRate,Smaller", TableIWAProductDeliveryPrice);
+        $strDelvieryPrice = $obj_delivery->ChangeRate*$rate_currency*1.1;
+        $strDelvieryPrice = $objGlobalVar->NumberFormat($strDelvieryPrice, 0, ".", ",");
+        $strDelvieryPrice = $objGlobalVar->Nu2FA($strDelvieryPrice).' '.$name_currency;
+
+        $strDelvieryPriceLimit = $obj_delivery->Smaller*$rate_currency*1.1;
+        $strDelvieryPriceLimit = $objGlobalVar->NumberFormat($strDelvieryPriceLimit, 0, ".", ",");
+        $strDelvieryPriceLimit = $objGlobalVar->Nu2FA($strDelvieryPriceLimit).' '.$name_currency;
+        }else{
+            $strDelvieryPrice = '0 '.$name_currency;;
+            $strDelvieryPriceLimit = 0;
+
+        }
 
 
         //score
@@ -460,6 +478,7 @@ if (!empty($_POST['item'])) {
         $arr_product_detail = array(
             'name' => $obj_product->Name,
             'id' => $obj_product->id,
+            'company_id' => $obj_product->iw_company_id,
             'product_content' => $obj_product_content,
             'images_address' => $images_address,
             'str_price' => $strPricingPart,
@@ -477,6 +496,8 @@ if (!empty($_POST['item'])) {
             'brand_id' => $obj_brand_name->id,
             'shipping_price' => $strShippingPrice,
             'shipping_weight' => $strShippingWeight,
+            'delviery_price' => $strDelvieryPrice,
+            'delviery_price_limit' => $strDelvieryPriceLimit,
             'aboutMe' => $arr_info['aboutMe'],
             'sizeAndFit' => $arr_info['sizeAndFit'],
             'careInfo' => $arr_info['careInfo']

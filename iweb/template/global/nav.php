@@ -107,10 +107,11 @@ if (get_nav()) {
           <?php } ?>
           <!-- cart -->
           <li class="cart nav-item b-drop position-relative">
+            <?php if (get_cart_count() > 0){ ?>
             <span class="items-basket position-absolute top-0 end-0 badge rounded-circle bg-orange p-1 font-x-s">
               <?php echo get_cart_count(); ?>
             </span>
-            <?php if (get_cart_count() > 0){ ?>
+            <?php } if (get_cart_count() > 0){ ?>
             <a class="nav-link" href="./?user=cart">
               <?php }else{ ?>
                 <a class="nav-link" href="#">

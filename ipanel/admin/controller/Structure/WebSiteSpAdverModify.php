@@ -66,7 +66,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " condition_statement = '$condition_statement' ,";
             $InSet .= " bottom_caption = '$bottom_caption' ,";
             $InSet .= " bottom_link = '$bottom_link' ,";
-            $InSet .= " modify_id = '$modify_id', ";
+            $InSet .= " modify_id = $modify_id, ";
             $InSet .= " modify_ip = '$modify_ip' ,";
             $InSet .= " iw_website_pages_part_id = '$iw_website_pages_part_id' ";
 
@@ -133,7 +133,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " condition_statement = '$condition_statement' ,";
                 $USet .= " bottom_caption = '$bottom_caption' ,";
                 $USet .= " bottom_link = '$bottom_link' ,";
-                $USet .= " modify_id = '$modify_id', ";
+                $USet .= " modify_id = $modify_id, ";
                 $USet .= " modify_ip = '$modify_ip' ,";
                 $USet .= " iw_website_pages_part_id = '$iw_website_pages_part_id' ";
 

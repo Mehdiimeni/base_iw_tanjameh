@@ -45,7 +45,7 @@ if (look_post_details($_GET['post'])) {
         <article class="border-bottom">
           <div class="row">
             <div class="col-3">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id1); ?>">
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id1); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>">
                 <figure class="position-relative m-0 pt-144 bg-dark-subtle w-100 placeholder">
                   <img class="img-look position-absolute top-0 lazy-image"
                     data-src="<?php echo (look_post_details($post_id)->image_product_address1); ?>"
@@ -54,7 +54,7 @@ if (look_post_details($_GET['post'])) {
               </a>
             </div>
             <div class="col-7 pt-2">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id1); ?>"
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id1); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>"
                 class="text-decoration-none text-dark">
                 <header>
                   <small>
@@ -81,7 +81,7 @@ if (look_post_details($_GET['post'])) {
             </div>
             <div class="col-2">
               <!-- add class like or dislike -->
-              <button type="button" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
+              <button type="button" value="<?php echo (look_post_details($post_id)->product_id1); ?>" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
                   class="fa-regular fa-heart" aria-hidden="true"></i></button>
             </div>
           </div>
@@ -89,7 +89,7 @@ if (look_post_details($_GET['post'])) {
         <article class="border-bottom">
           <div class="row">
             <div class="col-3">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id2); ?>">
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id2); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>">
                 <figure class="position-relative m-0 pt-144 bg-dark-subtle w-100 placeholder">
                   <img class="img-look position-absolute top-0 lazy-image"
                     data-src="<?php echo (look_post_details($post_id)->image_product_address2); ?>"
@@ -98,7 +98,7 @@ if (look_post_details($_GET['post'])) {
               </a>
             </div>
             <div class="col-7 pt-2">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id2); ?>"
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id2); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>"
                 class="text-decoration-none text-dark">
                 <header>
                   <small>
@@ -125,7 +125,7 @@ if (look_post_details($_GET['post'])) {
             </div>
             <div class="col-2">
               <!-- add class like or dislike -->
-              <button type="button" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
+              <button type="button" value="<?php echo (look_post_details($post_id)->product_id2); ?>" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
                   class="fa-regular fa-heart" aria-hidden="true"></i></button>
             </div>
           </div>
@@ -133,7 +133,7 @@ if (look_post_details($_GET['post'])) {
         <article class="border-bottom">
           <div class="row">
             <div class="col-3">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id3); ?>">
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id3); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>">
                 <figure class="position-relative m-0 pt-144 bg-dark-subtle w-100 placeholder">
                   <img class="img-look position-absolute top-0 lazy-image"
                     data-src="<?php echo (look_post_details($post_id)->image_product_address3); ?>"
@@ -142,7 +142,7 @@ if (look_post_details($_GET['post'])) {
               </a>
             </div>
             <div class="col-7 pt-2">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id3); ?>"
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id3); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>"
                 class="text-decoration-none text-dark">
                 <header>
                   <small>
@@ -169,7 +169,7 @@ if (look_post_details($_GET['post'])) {
             </div>
             <div class="col-2">
               <!-- add class like or dislike -->
-              <button type="button" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
+              <button type="button" value="<?php echo (look_post_details($post_id)->product_id3); ?>" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
                   class="fa-regular fa-heart" aria-hidden="true"></i></button>
             </div>
           </div>
@@ -177,7 +177,7 @@ if (look_post_details($_GET['post'])) {
         <article class="border-bottom">
           <div class="row">
             <div class="col-3">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id4); ?>">
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id4); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>">
                 <figure class="position-relative m-0 pt-144 bg-dark-subtle w-100 placeholder">
                   <img class="img-look position-absolute top-0 lazy-image"
                     data-src="<?php echo (look_post_details($post_id)->image_product_address4); ?>"
@@ -186,7 +186,7 @@ if (look_post_details($_GET['post'])) {
               </a>
             </div>
             <div class="col-7 pt-2">
-              <a href="./?item=<?php echo (look_post_details($post_id)->product_id4); ?>"
+              <a href="./?item=<?php echo (look_post_details($post_id)->product_id4); ?>&luid=<?php echo(look_post_details($post_id)->user_id); ?>"
                 class="text-decoration-none text-dark">
                 <header>
                   <small>
@@ -213,7 +213,7 @@ if (look_post_details($_GET['post'])) {
             </div>
             <div class="col-2">
               <!-- add class like or dislike -->
-              <button type="button" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
+              <button type="button" value="<?php echo (look_post_details($post_id)->product_id4); ?>" class="btn btn-white rounded-0 btn-heart dislike lh-1 p-2 fs-4"><i
                   class="fa-regular fa-heart" aria-hidden="true"></i></button>
             </div>
           </div>

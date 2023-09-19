@@ -1,7 +1,12 @@
 <?php
 ///template/product/product.php
 $item = $_SESSION['item'];
+$session_id = session_id();
+isset($_COOKIE['user_id']) ? $user_id = (int) base64_decode($_COOKIE['user_id']) : $user_id = null;
+isset($_COOKIE['look_id']) ? $look_id = (int) base64_decode($_COOKIE['look_id']) : $look_id = null;
+
 if (get_product_info($item)) {
+  $company_id = get_product_info($item)->company_id;
   ?>
   <!-- start section -->
   <div class="container-md">
@@ -48,7 +53,9 @@ if (get_product_info($item)) {
                 <?php echo _LANG['discount']; ?>
               </p>
             <?php } ?>
-            <h3 class="fw-semibold product-price"> <?php echo get_product_info($item)->str_price; ?></h3>
+            <h3 class="fw-semibold product-price">
+              <?php echo get_product_info($item)->str_price; ?>
+            </h3>
             <?php if (get_product_info($item)->discount_persent) { ?>
               <?php echo get_product_info($item)->str_old_price; ?>
             <?php } ?>
@@ -84,10 +91,13 @@ if (get_product_info($item)) {
                   tabindex="0">
                   <!-- list size -->
                   <div class="list-group list-group-flush list-size">
-                    <?php  foreach ((array)get_product_info($item)->all_size as $id=>$size) {
+                    <?php foreach ((array) get_product_info($item)->all_size as $id => $size) {
                       if ($size == '')
                         continue; ?>
-                      <button type="button" value="<?php echo $id; ?>"  class="list-group-item list-group-item-action">
+                      <button type="button" value="<?php echo $id; ?>" data-lookid="<?php echo ($look_id); ?>"
+                        data-sessionid="<?php echo ($session_id); ?>"
+                        data-companyid="<?php echo ($company_id) ?>"
+                        data-userid="<?php echo ($user_id); ?>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1 available">
                             <?php echo $size; ?>
@@ -97,7 +107,7 @@ if (get_product_info($item)) {
                       </button>
                     <?php } ?>
                     <!-- not available size's product -->
-                    <?php foreach ((array)get_product_info($item)->all_disabled_size as $id=>$disabled_size) {
+                    <?php foreach ((array) get_product_info($item)->all_disabled_size as $id => $disabled_size) {
                       if ($disabled_size == '')
                         continue; ?>
                       <button type="button" class="list-group-item list-group-item-action" aria-current="true"
@@ -195,8 +205,9 @@ if (get_product_info($item)) {
             <button id="addToCart" class="btn btn-lg btn-dark w-100 my-2 rounded-0 me-2">
               <?php echo _LANG['add_to_basket']; ?>
             </button>
-            <button id="btnWishlist" value="<?php echo get_product_info($item)->id; ?>" type="button" class="btn btn-outline-dark my-2 rounded-0 btn-heart dislike fs-4"><i
-                class="fa-regular fa-heart" aria-hidden="true"></i></button>
+            <button id="btnWishlist" value="<?php echo get_product_info($item)->id; ?>" type="button"
+              class="btn btn-outline-dark my-2 rounded-0 btn-heart dislike fs-4"><i class="fa-regular fa-heart"
+                aria-hidden="true"></i></button>
           </div>
           <!-- delivery -->
           <ul class="border border-1 rounded-0 p-0 my-4">
@@ -206,6 +217,19 @@ if (get_product_info($item)) {
                   <?php echo _LANG['tanjameh_shipping_note1']; ?>
                 </h6>
               </div>
+            </li>
+            <li class="border-bottom d-flex justify-content-between align-items-start py-3">
+              <div class="ms-2 me-auto">
+                <i class="fa-solid fa-truck"></i>
+                <div class="fw-bold">
+                  <?php echo ('هزینه ارسال به دفتر لندن'); ?>
+                </div>
+                <?php if(get_product_info($item)->delviery_price_limit != 0){ echo ('در صورت خرید حداقل مبلغ '.get_product_info($item)->delviery_price_limit.' این هزینه صفر خواهد شد');}
+ ?>
+              </div>
+              <span class="me-2">
+                <?php echo (get_product_info($item)->delviery_price); ?>
+              </span>
             </li>
             <li class="border-bottom d-flex justify-content-between align-items-start py-3">
               <div class="ms-2 me-auto">
@@ -277,8 +301,9 @@ if (get_product_info($item)) {
                     <li><strong>
                         <?php echo (get_product_info($item)->aboutMe); ?>
                       </strong> </li>
-                      <li><strong><br>
-                      <?php echo ("کد محصول  : "); ?><?php echo ($item); ?>
+                    <li><strong><br>
+                        <?php echo ("کد محصول  : "); ?>
+                        <?php echo ($item); ?>
                       </strong> </li>
 
                   </ul>

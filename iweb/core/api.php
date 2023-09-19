@@ -51,7 +51,8 @@ class IAPI
     public function GetGeneralApi($api_url)
     {
 
-        $filds = array('url' => $this->MainUrl . $this->LocalName,'protecol' => 'https://');
+
+        $filds = array('url' => $this->MainUrl . $this->LocalName, 'protecol' => 'https://');
         $Curl = $this->StartCurl();
 
         curl_setopt_array($Curl, [
@@ -60,14 +61,16 @@ class IAPI
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($filds),
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_ENCODING => "gzip",
+            // استفاده از فشرده‌سازی
+            CURLOPT_MAXREDIRS => -1,
+            CURLOPT_TIMEOUT => 60,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
         ]);
+
 
         $this->CloseCurl($Curl);
         return $this->ExecCurl($Curl);
@@ -82,14 +85,15 @@ class IAPI
         curl_setopt_array($Curl, [
             CURLOPT_URL => $this->MainUrl . $this->LocalName . $this->GeneralRoute . $this->Type . '/' . $api_url . '.php',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($filds),
+            CURLOPT_ENCODING => "gzip",
+            // استفاده از فشرده‌سازی
+            CURLOPT_MAXREDIRS => -1,
+            CURLOPT_TIMEOUT => 60,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
 

@@ -38,7 +38,7 @@ if (isset($_POST['addressL'])) {
         <div class="container-md">
             <div class="m-2 m-sm-4">
                 <ol id="progress-bar">
-                    <li class="step-done">ورود</li>
+                <li class="step-done"><a href="./?user=cart" class="text-decoration-none text-orange">ورود</a></li>
                     <li class="step-active">آدرس</li>
                     <li class="step-todo">تایید</li>
                     <li class="step-todo">پایان!</li>

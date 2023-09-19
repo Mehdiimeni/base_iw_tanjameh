@@ -232,7 +232,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
   */
         $AttributeStringQuerySet = '&attribute_' . $Attribute . '=' . $AtValue;
 
-        $ProductContentAt = $objAsos->ProductsListAt($CatId, $AttributeStringQuerySet, 1);
+        $ProductContentAt = $objAsos->ProductsListAt($CatId, $AttributeStringQuerySet,0, 1);
 
 
         $ListProductsContentAt = $objAclTools->JsonDecodeArray($objAclTools->deBase64($ProductContentAt));

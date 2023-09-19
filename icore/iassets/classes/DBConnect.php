@@ -1,5 +1,4 @@
 <?php
-
 class DBConnect extends Regularization
 {
     private $dbConnection;
@@ -12,35 +11,22 @@ class DBConnect extends Regularization
 
     public function SelectRow($Fields, $Table, $Condition, $IndexSet)
     {
-        $Query = "SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet   ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetch(PDO::FETCH_OBJ);
+        return $this->executeQuery("SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet")->fetch(PDO::FETCH_OBJ);
     }
 
     public function SelectRowL($Fields, $Table, $Condition)
     {
-        $Query = "SELECT $Fields FROM $Table WHERE $Condition  ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        $result = $sql->fetch(PDO::FETCH_OBJ);
-        return $result ? $result : null;
+        return $this->executeQuery("SELECT $Fields FROM $Table WHERE $Condition")->fetch(PDO::FETCH_OBJ);
     }
 
     public function SelectColumn($Fields, $Table, $Condition, $IndexSet, $Limit)
     {
-        $Query = "SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet LIMIT $Limit ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery("SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet LIMIT $Limit")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function SelectColumnL($Fields, $Table, $Condition)
     {
-        $Query = "SELECT $Fields FROM $Table WHERE $Condition  ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery("SELECT $Fields FROM $Table WHERE $Condition")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function Insert($Table, $Set): bool
@@ -50,11 +36,7 @@ class DBConnect extends Regularization
 
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return $this->LastId();
-        } else {
-            return false;
-        }
+        return $stmt->rowCount() > 0 ? $this->LastId() : false;
     }
 
     public function Update($Table, $Set, $Condition): bool
@@ -64,11 +46,7 @@ class DBConnect extends Regularization
 
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->rowCount() > 0;
     }
 
     public function Delete($Table, $Condition): bool
@@ -76,21 +54,13 @@ class DBConnect extends Regularization
         $Query = "DELETE FROM $Table WHERE $Condition ";
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return $stmt->rowCount() > 0;
     }
 
-    public function CountRow($Table, $Condition, $Row ): int
+    public function CountRow($Table, $Condition, $Row): int
     {
-
         $Query = "SELECT $Row FROM $Table WHERE $Condition ";
-
-        $stmt = $this->dbConnection->prepare($Query);
-        $stmt->execute();
+        $stmt = $this->executeQuery($Query);
         return $stmt->rowCount();
     }
 
@@ -107,7 +77,7 @@ class DBConnect extends Regularization
         $USet = " id='$FirstItem' ";
         $UCondition = " id='0' ";
         $this->Update($UTable, $USet, $UCondition);
-        return (true);
+        return true;
     }
 
     public function LastId()
@@ -115,38 +85,30 @@ class DBConnect extends Regularization
         return ($this->dbConnection->lastInsertId());
     }
 
-
     public function SelectSp($Value, $SPName)
     {
         $Query = "CALL $SPName($Value) ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery($Query)->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function CallProcedure($ProName)
     {
         $Query = "CALL $ProName() ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
+        $stmt = $this->dbConnection->prepare($Query);
+        $stmt->execute();
     }
 
-    public function CallProcedureValue($ProName,$Value)
+    public function CallProcedureValue($ProName, $Value)
     {
         $Query = "CALL $ProName($Value) ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery($Query)->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function SelectFunc($Value, $FuncName)
     {
         $Query = "SELECT $FuncName($Value) AS Result ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery($Query)->fetchAll(PDO::FETCH_OBJ);
     }
-
 
     public function TableDrop($Table)
     {
@@ -168,12 +130,10 @@ class DBConnect extends Regularization
         foreach ($TableColumn as $Column) {
             $this->AlterTableAdd($TableName, $Column);
         }
-
     }
 
     public function CreateTableBase($Table)
     {
-
         $Query = "CREATE TABLE IF NOT EXISTS $Table (
                       `id` int(11) NOT NULL AUTO_INCREMENT,
                       `IdKey` varchar(11) NOT NULL,
@@ -189,8 +149,6 @@ class DBConnect extends Regularization
 
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
-
-
     }
 
     public function AlterTableAdd($Table, $ColumnString)
@@ -209,43 +167,37 @@ class DBConnect extends Regularization
 
     public function CreateTriggerDelete($MainTable, $SecTable, $OnColumn, $Name)
     {
-
         $Query = "CREATE TRIGGER $Name AFTER DELETE ON $MainTable
-                  for EACH ROW DELETE FROM $SecTable WHERE $SecTable . $OnColumn = old . IdKey";
+                  for EACH ROW DELETE FROM $SecTable WHERE $SecTable.$OnColumn = old.IdKey";
 
         $stmt = $this->dbConnection->prepare($Query);
         $stmt->execute();
-
     }
 
     public function ShowTableColumn($Table)
     {
         $Query = "SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = '$Table' ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_OBJ);
-
+        return $this->executeQuery($Query)->fetchAll(PDO::FETCH_OBJ);
     }
 
-
-    public function SelectJson($Fields, $Table, $Condition, $IndexSet , $Limit)
+    public function SelectJson($Fields, $Table, $Condition, $IndexSet, $Limit)
     {
         $Query = "SELECT $Fields FROM $Table WHERE $Condition ORDER BY $IndexSet LIMIT $Limit ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->executeQuery($Query)->fetchAll(PDO::FETCH_ASSOC);
         return json_encode($results);
     }
 
     public function SelectJsonWhitoutCondition($Fields, $Table, $Condition)
     {
         $Query = "SELECT $Fields FROM $Table WHERE $Condition  ";
-        $sql = $this->dbConnection->prepare($Query);
-        $sql->execute();
-        $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->executeQuery($Query)->fetchAll(PDO::FETCH_ASSOC);
         return json_encode($results);
     }
 
-    
-
+    private function executeQuery($query)
+    {
+        $sql = $this->dbConnection->prepare($query);
+        $sql->execute();
+        return $sql;
+    }
 }

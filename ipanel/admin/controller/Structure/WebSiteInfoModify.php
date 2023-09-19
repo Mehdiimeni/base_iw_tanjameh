@@ -58,7 +58,7 @@ if (isset($_POST['SubmitM']) and @$objGlobalVar->RefFormGet()[0] == null) {
             $InSet .= " main_phone = '$main_phone' ,";
             $InSet .= " company = '$company' ,";
             $InSet .= " website_address = '$website_address' ,";
-            $InSet .= " modify_id = '$modify_id' ,";
+            $InSet .= " modify_id = $modify_id ,";
             $InSet .= " modify_ip = '$modify_ip'";
 
             $objORM->DataAdd($InSet, TableIWWebSiteInfo);
@@ -113,7 +113,7 @@ if (!isset($_POST['SubmitApi']) and @$objGlobalVar->RefFormGet()[0] != null) {
                 $USet .= " main_phone = '$main_phone' ,";
                 $USet .= " company = '$company' ,";
                 $USet .= " website_address = '$website_address' ,";
-                $USet .= " modify_id = '$modify_id', ";
+                $USet .= " modify_id = $modify_id, ";
                 $USet .= " modify_ip = '$modify_ip' ";
 
                 $objORM->DataUpdate($UCondition, $USet, TableIWWebSiteInfo);

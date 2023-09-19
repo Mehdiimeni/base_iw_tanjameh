@@ -3,7 +3,7 @@
 
 $gender = str_ireplace('%20',' ',$_SESSION['gender']);
 $category = str_ireplace('%20',' ',$_SESSION['category']);
-$page_offcet_nu = 15;
+$page_offcet_nu = 30;
 
 (isset($_GET['page']) and $_GET['page'] > 1) ? $str_limit = ($_GET['page'] - 1) * $page_offcet_nu . '  , ' . $page_offcet_nu : $str_limit = $page_offcet_nu;
 

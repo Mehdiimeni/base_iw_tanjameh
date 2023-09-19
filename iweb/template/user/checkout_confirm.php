@@ -13,7 +13,7 @@
         <div class="container-md">
             <div class="m-2 m-sm-4">
                 <ol id="progress-bar">
-                    <li class="step-done">ورود</li>
+                    <li class="step-done"><a href="./?user=cart" class="text-decoration-none text-orange">ورود</a></li>
                     <li class="step-done">
                         <a href="./?user=checkout_address" class="text-decoration-none text-orange">آدرس</a>
                     </li>
@@ -105,7 +105,7 @@
                                 </li>
                                 <?php
                                 ++$count_product;
-                                $total_parice += $product->int_price;
+                                $total_parice += $product->int_price * $product->qty;
                                 $total_shipping += $product->int_shipping_price;
                                 $total_discount_persent += $product->int_discount_persent;
 
@@ -149,7 +149,8 @@
                                     </label>
                                     <label class="btn btn-outline-dark border-dark-subtle rounded-0"
                                         for="btn-payment-1">
-                                        <img src="./itemplates/iweb/media/shaparak.jpg" alt="کلیه کارت های متصل به شاپرک">
+                                        <img src="./itemplates/iweb/media/shaparak.jpg"
+                                            alt="کلیه کارت های متصل به شاپرک">
                                     </label>
                                 </div>
 
@@ -174,18 +175,32 @@
                                     <p class="small">(قیمت بر حسب تومان میباشد)</p>
                                 </div>
                                 <div class="totals-item d-flex mb-3">
-                                    <label>تحویل</label>
+                                    <label>قیمت کالاها</label>
                                     <div class="totals-value ms-auto" id="cart-shipping">
                                         <?php echo ($total_parice); ?>
                                     </div>
                                 </div>
                                 <hr class="mt-0">
-                                <div class="summary-promo mb-3 d-none">
+                                <div class="totals-item d-flex mb-3">
                                     <label>تخفیف</label>
                                     <div class="promo-value final-value ms-auto" id="basket-promo">
-                                        <?php $total_discount_persent / $count_product ?>%
+                                        <?php echo ($total_discount_persent / $count_product) ?>%
                                     </div>
                                 </div>
+                                <div class="totals-item d-flex mb-3">
+                                    <label>هزینه دلیوری</label>
+                                    <div class="promo-value final-value ms-auto" id="basket-promo">
+                                        <?php echo $product->delviery_price ?>
+                                    </div>
+                                </div>
+                                <?php if ($product->delviery_price_limit != 0) { ?>
+                                    <div class="totals-item d-flex mb-3">
+                                        <div class="promo-value final-value ms-auto" id="basket-promo">
+                                            <?php echo ('در صورت خرید حداقل مبلغ ' . $product->delviery_price_limit . ' این هزینه صفر خواهد شد'); ?>
+
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <div
                                     class="totals-item totals-item-total d-flex fw-semibold border-top border-secondary-subtle py-2">
                                     <label>
@@ -193,11 +208,17 @@
                                         <br>
                                         (با احتساب مالیات بر ارزش افزوده)</label>
                                     <div class="totals-value ms-auto" id="cart-total">
-                                        <?php echo $total_shipping + $total_parice; ?>
+                                        <?php echo $total_shipping + $total_parice + $product->delviery_price; ?>
                                     </div>
                                 </div>
-                                <a href="./?user=set_bank&bank=saman&price=<?php echo 1500; ?>&cnu=<?php echo base64_encode(base64_encode((1500) . 'saman')); ?>"
-                                    class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">پرداخت</a>
+                                <?php if (100000000 > $total_shipping + $total_parice) { ?>
+                                    <a href="./?user=set_bank&bank=saman&price=<?php echo $total_shipping + $total_parice + $product->delviery_price; ?>&cnu=<?php echo base64_encode(base64_encode(($total_shipping + $total_parice + $product->delviery_price) . 'saman')); ?>"
+                                        class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">پرداخت</a>
+                                <?php } else { ?>
+                                    <a href="#"
+                                        class="checkout my-3 w-100 btn text-white btn-next border-0 rounded-0 bg-orange fw-semibold">مبلغ
+                                        بیشتر از حدمجاز</a>
+                                <?php } ?>
                             </div>
                             <p class="mt-4 small">
                                 با ثبت سفارش در tanjameh.com، با خط مشی رازداری، شرایط و ضوابط و خط مشی لغو موافقت می

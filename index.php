@@ -4,6 +4,30 @@
 require "./iweb/vendor/autoload.php";
 SessionTools::init();
 
+
+$requests_limit = 10; // تعداد مجاز درخواست‌ها
+$time_interval = 3; // بازه زمانی (ثانیه) میان درخواست‌ها
+
+if (!isset($_SESSION['last_request_time'])) {
+    $_SESSION['last_request_time'] = time();
+    $_SESSION['request_count'] = 1;
+} else {
+    $current_time = time();
+    $time_diff = $current_time - $_SESSION['last_request_time'];
+
+    if ($time_diff < $time_interval) {
+        $_SESSION['request_count']++;
+        if ($_SESSION['request_count'] > $requests_limit) {
+            http_response_code(429); // کد خطای "تعداد درخواست‌ها زیاد است" (Too Many Requests)
+            exit(" تعداد درخواست‌ها زیاد است. لطفاً به مدت 7 ثانیه صبر کنید.");
+        }
+    } else {
+        $_SESSION['request_count'] = 1;
+    }
+
+    $_SESSION['last_request_time'] = $current_time;
+}
+
 $objIAPI = new IAPI($_SERVER["HTTP_HOST"], "iweb");
 $objIAPI->SetLocalProjectName("tanjameh");
 

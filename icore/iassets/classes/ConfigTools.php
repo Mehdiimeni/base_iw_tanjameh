@@ -1,15 +1,13 @@
 <?php
-
 class ConfigTools
 {
-
     private $AllConfigFileList;
     private $DefineRoot;
     private $Stoper;
 
     public function __construct($DefineRoot)
     {
-        $this->AllConfigFileList = array('init.iw', 'key.iw', 'host.iw', 'local.iw', 'online.iw', 'ipallow.txt', 'ipdeny.txt');
+        $this->AllConfigFileList = ['init.iw', 'key.iw', 'host.iw', 'local.iw', 'online.iw', 'ipallow.txt', 'ipdeny.txt'];
         $this->DefineRoot = $DefineRoot;
         $this->Stoper = 0;
     }
@@ -30,9 +28,8 @@ class ConfigTools
 
     public function StoperCheck($StoperCheck)
     {
-        if ($this->Stoper == 1 or $StoperCheck == 1)
+        if ($this->Stoper == 1 || $StoperCheck == 1) {
             $this->CheckConfigFileExist();
+        }
     }
-
-
 }
