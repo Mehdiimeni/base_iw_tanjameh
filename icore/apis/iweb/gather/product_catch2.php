@@ -9,10 +9,14 @@ $objShowFile->SetRootStoryFile('../../../../irepository/img/');
 
 $todayDate = date("Y-m-d");
 $t_count = $objORM->Fetch("last_updated_date = '$todayDate' ", " SUM(total_product) as tcount ", TableIWCatchRoot)->tcount ;
-/*
+
 if ($t_count > 1300)
+{
+    echo json_encode('--product catch 2 day complate --');
     exit();
-*/
+}
+    
+
 // filter setter
 require_once "../../../idefine/queryset/ProductFilter.php";
 
@@ -63,8 +67,10 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
 
             $obj_catch_root = $objORM->Fetch("root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ", "last_updated_date,counter", TableIWCatchRoot);
 
+            $t_count = $objORM->Fetch("last_updated_date = '$todayDate' ", " SUM(total_product) as tcount ", TableIWCatchRoot)->tcount;
+
             if ($obj_catch_root->last_updated_date === $todayDate) {
-                if (($obj_catch_root->counter < $step_number) or (/*$t_count < 1300*/ 1 )) {
+                if ($t_count < 1300) {
                     $UCondition = " root_id = $ListItem->CatId and name = '$ListItem->Name' and root =2 ";
                     $USet = " counter = counter + 1 ,  name = '$ListItem->Name' , root = 2 ";
                     $objORM->DataUpdate($UCondition, $USet, TableIWCatchRoot);
@@ -109,8 +115,26 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
         $PGroup2 = $ListItem->Name;
         $CatId = $ListItem->CatId;
 
+        $ListAsosNewResult = json_decode($objAsos->ProductsListNew($CatId), true);
+
+        foreach ($ListAsosNewResult['facets'] as $arrFacets) {
+
+            if ($arrFacets['id'] == "freshness_band") {
+
+                foreach ($arrFacets['facetValues'] as $arrFacetValues) {
+
+                    if ($arrFacetValues['name'] == "Today") {
+
+                        $itemLimit = $arrFacetValues['count'];
+                    }
+
+                }
+            }
+        }
+
+
         $iw_product_weight_id = $ListItem->iw_product_weight_id;
-        $ProductContentAt = $objAsos->ProductsListAt($CatId, "", $offset, $step);
+        $ProductContentAt = $objAsos->ProductsList($CatId, $itemLimit);
 
         $ListProductsContentAt = $objAclTools->JsonDecodeArray($ProductContentAt);
 
@@ -142,7 +166,7 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
             $product['price']['previous']['value'] != null ? $ApiLastPrice = $product['price']['previous']['value'] : $ApiLastPrice = 0;
             $ProductCode = $product['productCode'];
 
-            $SCondition = "ProductId = $ProductId";
+            $SCondition = "ProductId = $ProductId ";
 
             if (!$objORM->DataExist($SCondition, TableIWAPIProducts, 'id')) {
 
@@ -276,6 +300,8 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
                             $Color = strtolower($arrColor[0]);
                         }
 
+                        $listImageUrl = json_encode($objProductData['media']['images']);
+
                         $str_change = "
                                 ProductId = $ProductId ,
                                 ProductCode='$ProductCode',
@@ -299,6 +325,7 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
                                 isDeadProduct='$isDeadProduct',
                                 rating='$rating',
                                 CatIds='$CatIds',
+                                listImageUrl='$listImageUrl',
                                 iw_api_brands_id=$iw_api_brands_id,
                                 iw_api_product_type_id=$iw_api_product_type_id ";
 
@@ -370,6 +397,7 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
 
                         }
 
+                        /*
                         if ($objORM->DataExist("Content IS NULL and ProductId = $ProductId", TableIWAPIProducts, 'id')) {
 
 
@@ -431,7 +459,7 @@ if (($objORM->Fetch("iw_company_id = $iw_company_id and expire_date = '$expire_d
                             }
                         }
 
-
+*/
 
 
 

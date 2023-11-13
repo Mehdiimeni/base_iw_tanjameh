@@ -1297,83 +1297,83 @@
       برندهای مردانه    </h4>
     <div class="row row-cols-md-4 row-cols-2 mt-4 lh-lg text-truncate b-animate b-dark">
                   <div class="col">
-                    <a class="nav-link" href="?brand=Neon Rose&id=193">
-          Neon Rose        </a>
+                    <a class="nav-link" href="?brand=Only&id=115">
+          Only        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=River Island Plus&id=113">
-          River Island Plus        </a>
+                    <a class="nav-link" href="?brand=Collective The Label Petite&id=426">
+          Collective The Label Petite        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Threadbare Fitness&id=58">
-          Threadbare Fitness        </a>
+                    <a class="nav-link" href="?brand=Cotton:On&id=337">
+          Cotton:On        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Morgan&id=398">
-          Morgan        </a>
+                    <a class="nav-link" href="?brand=Gossard&id=196">
+          Gossard        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Fred Perry&id=17">
-          Fred Perry        </a>
+                    <a class="nav-link" href="?brand=A Star Is Born&id=158">
+          A Star Is Born        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=ADPT&id=27">
-          ADPT        </a>
+                    <a class="nav-link" href="?brand=Object Tall&id=297">
+          Object Tall        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Tangle Teezer&id=186">
-          Tangle Teezer        </a>
+                    <a class="nav-link" href="?brand=Neutrogena&id=437">
+          Neutrogena        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=DIFF Eyewear&id=160">
-          DIFF Eyewear        </a>
+                    <a class="nav-link" href="?brand=Mama.licious&id=279">
+          Mama.licious        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=True Decadence&id=91">
-          True Decadence        </a>
+                    <a class="nav-link" href="?brand=e.l.f.&id=245">
+          e.l.f.        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=L'Oreal&id=259">
-          L'Oreal        </a>
+                    <a class="nav-link" href="?brand=Waven&id=71">
+          Waven        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Selected Homme&id=19">
-          Selected Homme        </a>
+                    <a class="nav-link" href="?brand=Object&id=416">
+          Object        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Simmi Clothing&id=374">
-          Simmi Clothing        </a>
+                    <a class="nav-link" href="?brand=Mango&id=119">
+          Mango        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Herschel Supply Co&id=185">
-          Herschel Supply Co        </a>
+                    <a class="nav-link" href="?brand=Weleda&id=47">
+          Weleda        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Wrangler&id=39">
-          Wrangler        </a>
+                    <a class="nav-link" href="?brand=The Ordinary&id=367">
+          The Ordinary        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Monday Haircare&id=184">
-          Monday Haircare        </a>
+                    <a class="nav-link" href="?brand=Forever New Petite&id=309">
+          Forever New Petite        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?brand=Aveeno&id=190">
-          Aveeno        </a>
+                    <a class="nav-link" href="?brand=The Frolic&id=420">
+          The Frolic        </a>
                   </div>
         
         </div>
@@ -1383,68 +1383,13 @@
       دسته بندی مردانه    </h4>
     <div class="row row-cols-md-4 row-cols-2 mt-4 lh-lg text-truncate b-animate b-dark">
                   <div class="col">
-                    <a class="nav-link" href="?trend=Grooming Sets&id=94">
-          Grooming Sets        </a>
+                    <a class="nav-link" href="?trend=Spot Treatments&id=164">
+          Spot Treatments        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?trend=Hair Pomades&id=169">
-          Hair Pomades        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Lingerie Sets&id=150">
-          Lingerie Sets        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Joggers&id=37">
-          Joggers        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Makeup Bags&id=58">
-          Makeup Bags        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Shoes&id=33">
-          Shoes        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Socks&id=10">
-          Socks        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Bras&id=40">
-          Bras        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Face Masks&id=128">
-          Face Masks        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Bow Ties&id=131">
-          Bow Ties        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Shapewear&id=161">
-          Shapewear        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Swim Shorts&id=111">
-          Swim Shorts        </a>
-                  </div>
-        
-                <div class="col">
-                    <a class="nav-link" href="?trend=Sun Care&id=35">
-          Sun Care        </a>
+                    <a class="nav-link" href="?trend=Hair Sets&id=103">
+          Hair Sets        </a>
                   </div>
         
                 <div class="col">
@@ -1453,13 +1398,68 @@
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?trend=Eye Shadow Palettes&id=120">
-          Eye Shadow Palettes        </a>
+                    <a class="nav-link" href="?trend=Eye Shadows&id=146">
+          Eye Shadows        </a>
                   </div>
         
                 <div class="col">
-                    <a class="nav-link" href="?trend=Tanning Mitts&id=162">
-          Tanning Mitts        </a>
+                    <a class="nav-link" href="?trend=Cleansers&id=123">
+          Cleansers        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Dresses&id=46">
+          Dresses        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Wash Bags&id=57">
+          Wash Bags        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Face Masks&id=128">
+          Face Masks        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Unitards&id=165">
+          Unitards        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Jock Straps&id=70">
+          Jock Straps        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Wellies&id=156">
+          Wellies        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Ponchos&id=157">
+          Ponchos        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Body Oils&id=26">
+          Body Oils        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Hair Removal Creams&id=188">
+          Hair Removal Creams        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Blushers&id=106">
+          Blushers        </a>
+                  </div>
+        
+                <div class="col">
+                    <a class="nav-link" href="?trend=Hair Mists & Fragrances&id=54">
+          Hair Mists & Fragrances        </a>
                   </div>
         
         </div>

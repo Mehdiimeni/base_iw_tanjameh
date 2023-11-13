@@ -8,7 +8,6 @@ $Enabled = true;
 $strListHead = (new ListTools())->TableHead(array( FA_LC["characteristic"], FA_LC["image"], FA_LC["category"], FA_LC["view"]), FA_LC["tools"]);
 
 // API Count and Connect
-$objAsos = new AsosConnections();
 
 
 $objReqular = new Regularization();

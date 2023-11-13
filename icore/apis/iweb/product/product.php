@@ -57,7 +57,9 @@ if (!empty($_POST['item'])) {
         $iw_company_id = $obj_product->iw_company_id;
 
         // API Count and Connect
-        // check api count
+        // check api count chack new data 
+
+  
         $expire_date = date("m-Y");
         $obj_api_connect = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
@@ -256,6 +258,8 @@ if (!empty($_POST['item'])) {
 
 
         }
+
+     
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
         $objShowFile = new ShowFile($objFileToolsInit->KeyValueFileReader()['MainName']);

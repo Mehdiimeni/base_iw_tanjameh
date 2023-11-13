@@ -60,7 +60,6 @@ class AsosConnections
 
     }
 
-
     public function ProductsListNew($CatId)
     {
 
@@ -113,34 +112,7 @@ class AsosConnections
 
     }
 
-    /*
-    public function ProductsList($CatId)
-    {
 
-        $Curl = $this->StartCurl();
-        curl_setopt_array($Curl, [
-            CURLOPT_URL => $this->MainUrl . "products/v2/list?country=GB&lang=en-GB&store=COM&currency=GBP&offset=0&categoryId=" . $CatId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "x-rapidapi-host: " . $this->RapidapiHost,
-                "x-rapidapi-key: " . $this->RapidapiKey
-            ],
-        ]);
-
-        return $this->ExecCurl($Curl);
-        $this->CloseCurl($Curl);
-
-    }
-
-*/
 
     public function ProductsDetail($ProductId)
     {

@@ -4,39 +4,48 @@ require_once "../global/CommonInclude.php";
 
 if (!empty($_POST['search'])) {
 
-    $search = str_replace('%20', ' ',$_POST['search']);
+    $search = str_replace('%20', ' ', $_POST['search']);
     $page_condition = $_POST['page_condition'];
     $currencies_conversion_id = trim($_POST['currencies_conversion_id']);
-    
 
-    $condition = " name like '$search' ";
+
+    $condition = " name like '%$search%' ";
     $obj_type_id = @$objORM->Fetch($condition, 'id', TableIWApiProductType)->id;
     $obj_brand_id = @$objORM->Fetch($condition, 'id', TableIWApiBrands)->id;
 
     if (!empty($obj_type_id)) {
         $condition = " Enabled = 1 AND Content IS NOT NULL
-    AND AdminOk = 1 AND ( iw_api_product_type_id = $obj_type_id)  ". $page_condition;
+    AND AdminOk = 1 AND ( iw_api_product_type_id = $obj_type_id)  " . $page_condition;
 
     } elseif (!empty($obj_brand_id)) {
 
         $condition = " Enabled = 1 AND Content IS NOT NULL
-    AND AdminOk = 1 AND iw_api_brands_id = $obj_brand_id ". $page_condition;
+    AND AdminOk = 1 AND iw_api_brands_id = $obj_brand_id " . $page_condition;
 
 
     } elseif (!empty($obj_type_id) and !empty($obj_type_id)) {
 
         $condition = " Enabled = 1 AND Content IS NOT NULL
-    AND AdminOk = 1 AND ( iw_api_product_type_id = $obj_type_id or iw_api_brands_id = $obj_brand_id ) ". $page_condition;
+    AND AdminOk = 1 AND ( iw_api_product_type_id = $obj_type_id or iw_api_brands_id = $obj_brand_id ) " . $page_condition;
 
 
     } else {
 
-        echo false;
+        $condition = " Enabled = 1 AND Content IS NOT NULL
+        AND AdminOk = 1 and ( Name LIKE '%$search%' ) ";
+
+        $keywords = explode(" ", $search);
+
+
+        foreach ($keywords as $key => $keyword) {
+            $condition .= " OR Name LIKE '%$keyword%'";
+
+        }
 
     }
 
 
-    if ($objORM->DataExist($condition, TableIWAPIProducts,'id')) {
+    if ($objORM->DataExist($condition, TableIWAPIProducts, 'id')) {
         $obj_products = @$objORM->FetchAll($condition, "id,Name,url_gender,url_category,url_group,Content,ImageSet,MainPrice,LastPrice,iw_api_product_type_id,iw_api_brands_id", TableIWAPIProducts);
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");
@@ -87,14 +96,14 @@ if (!empty($_POST['search'])) {
             if ($CarentCurrencyPrice != null) {
                 $CarentCurrencyPrice = $objGlobalVar->NumberFormat($CarentCurrencyPrice, 0, ".", ",");
                 $CarentCurrencyPrice = $objGlobalVar->Nu2FA($CarentCurrencyPrice);
-                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice .' '. $name_currency .'</h6>';
+                $strPricingPart .= '<h6 class="fw-semibold">' . $CarentCurrencyPrice . ' ' . $name_currency . '</h6>';
             }
             $strOldPricingPart = 0;
 
             if ($PreviousCurrencyPrice != null and $boolChange) {
                 $PreviousCurrencyPrice = $objGlobalVar->NumberFormat($PreviousCurrencyPrice, 0, ".", ",");
                 $PreviousCurrencyPrice = $objGlobalVar->Nu2FA($PreviousCurrencyPrice);
-                $strOldPricingPart  = '<h6><del>' . $PreviousCurrencyPrice .' '. $name_currency .'</del></h6>';
+                $strOldPricingPart = '<h6><del>' . $PreviousCurrencyPrice . ' ' . $name_currency . '</del></h6>';
             }
 
 
@@ -114,12 +123,11 @@ if (!empty($_POST['search'])) {
             $obj_product_variants_size = @$objORM->FetchAll("iw_api_products_id = '$product->id' ", 'brandSize', TableIWApiProductVariants);
 
             $arr_size = array();
-            foreach($obj_product_variants_size as $size)
-            {
+            foreach ($obj_product_variants_size as $size) {
                 $arr_size[] = $size->brandSize;
             }
 
-            $str_size = implode(',',$arr_size);
+            $str_size = implode(',', $arr_size);
 
             $arr_product_detail = array(
                 'name' => $product->Name,

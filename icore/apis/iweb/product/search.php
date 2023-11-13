@@ -6,7 +6,7 @@ if (!empty($_POST['search'])) {
 
     $search = str_replace('%20', ' ', $_POST['search']);
 
-    $condition = " name like '$search' ";
+    $condition = " name LIKE '%$search%' ";
     $obj_type_id = @$objORM->Fetch($condition, 'id', TableIWApiProductType)->id;
     $obj_brand_id = @$objORM->Fetch($condition, 'id', TableIWApiBrands)->id;
 

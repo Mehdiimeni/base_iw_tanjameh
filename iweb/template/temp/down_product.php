@@ -71,7 +71,10 @@ document.querySelectorAll('button').forEach(function(button) {
 });
 
   // search autocomplete
-  function all_search() {
+
+
+
+ /* function all_search() {
     const search = document.getElementById('all_search')
     const matchList = document.getElementById('all_match_list')
     // Search and filter
@@ -112,6 +115,59 @@ document.querySelectorAll('button').forEach(function(button) {
     search.addEventListener('input', () => allSearch(search.value))
   }
 
+*/
+
+function handleSearch() {
+    const search = document.getElementById('all_search');
+    const matchList = document.getElementById('all_match_list');
+
+    const searchAndUpdate = async searchText => {
+        fetch('./ijson/search.php')
+            .then(response => response.json())
+            .then(data => {
+                let matches = data.filter(user => {
+                    const regex = new RegExp(`^${searchText}`, 'gi');
+                    return user.match(regex);
+                });
+
+                if (searchText.length === 0) {
+                    matches = [];
+                    matchList.innerHTML = '';
+                }
+
+                outputHtml(matches);
+            })
+            .catch(error => {
+                console.error('Error fetching JSON data:', error);
+            });
+    };
+
+    const outputHtml = matches => {
+        if (matches.length > 0) {
+            const html = matches.map(match => `
+                <a href="?search=${match}" class="nav-link nav-hover py-2 px-4 d-flex border-bottom align-items-center">
+                    <span class="">${match}</span>
+                    <i class="fa fa-search ms-auto" aria-hidden="true"></i>
+                </a>
+            `).join('');
+
+            matchList.innerHTML = html;
+        }
+    };
+
+    search.addEventListener('input', () => searchAndUpdate(search.value));
+
+    search.addEventListener('keypress', event => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent default form submission
+            searchAndUpdate(search.value);
+            window.location.href = "?search=" + encodeURIComponent(search.value);
+        }
+    });
+}
+
+// Call the function to set up the event listeners
+handleSearch();
 
 
 
