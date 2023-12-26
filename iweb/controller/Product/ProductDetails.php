@@ -97,7 +97,7 @@ if (isset($_GET['IdKey'])) {
 
 
         // API Count and Connect
-        $objAsos = new AsosConnections();
+       $objAsos = new AsosConnections();
 
         $ApiContent = $objAsos->ProductsDetail($objProduct->ProductId);
         $expire_date = date("m-Y");

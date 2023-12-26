@@ -474,7 +474,7 @@ http://tinycomp.net/products/glasscase-jquery-image-zoom-plugin/features
             }
             else { // In case that the image's width and height are smaller than the container's windth and height
                 gcBase.gcDisplayContainer.trigger('mouseleave.glasscase');
-                gcBase.isMouseEventsOn = false;
+                gcBase.isMouseEventsOn = true;
 
                 ddWidth = gcBase.gcImageData[gcBase.current].width;
                 ddHeight = gcBase.gcImageData[gcBase.current].height;
@@ -1276,9 +1276,12 @@ http://tinycomp.net/products/glasscase-jquery-image-zoom-plugin/features
             //Display   
             if (gcBase.config.isZoomEnabled === true) {
                 gcBase.isMouseEventsOn = true;
-                gcBase.gcDisplayContainer.on('touchstart.glasscase', $.proxy(gcBase.touchstartDC, gcBase))
-                                         .on('touchmove.glasscase', $.proxy(gcBase.touchmoveDC, gcBase))
-                                         .on('touchend.glasscase', $.proxy(gcBase.touchendDC, gcBase));
+
+                // Tanjameh Edit (disable bellow code)
+                // gcBase.gcDisplayContainer.on('touchstart.glasscase', $.proxy(gcBase.touchstartDC, gcBase))
+                //                          .on('touchmove.glasscase', $.proxy(gcBase.touchmoveDC, gcBase))
+                //                          .on('touchend.glasscase', $.proxy(gcBase.touchendDC, gcBase));
+
                 gcBase.gcDisplayContainer.on('mousemove.glasscase', $.proxy(gcBase.mousemoveHandler, gcBase))
                                          .on('mouseenter.glasscase', $.proxy(gcBase.mouseenterHandler, gcBase))
                                          .on('mouseenter.glasscase', $.proxy(gcBase.config.mouseEnterDisplayCB, gcBase))
@@ -1295,12 +1298,15 @@ http://tinycomp.net/products/glasscase-jquery-image-zoom-plugin/features
                         clearTimeout(gcBase.mouseTimer);
                         gcBase.mouseTimer = setTimeout(function () { gcBase.hideDAIcons(); }, gcBase.config.speedHideIcons);
                     })
-                    .on('touchmove.glasscaseDA', function (event) {
-                        gcBase.showDAIcons();
-                        clearTimeout(gcBase.mouseTimer);
-                        gcBase.mouseTimer = setTimeout(function () { gcBase.hideDAIcons(); }, gcBase.config.speedHideIcons);
-                        event.preventDefault();
-                    });
+
+                // Tanjameh Edit (disable bellow code)
+                    // .on('touchmove.glasscaseDA', function (event) {
+                    //     gcBase.showDAIcons();
+                    //     clearTimeout(gcBase.mouseTimer);
+                    //     gcBase.mouseTimer = setTimeout(function () { gcBase.hideDAIcons(); }, gcBase.config.speedHideIcons);
+                    //     event.preventDefault();
+                    // });
+                    
             }
 
             gcBase.gcDisplayContainer.on('click.glasscase', function (event) {

@@ -63,6 +63,7 @@ if (!empty($_POST['item'])) {
         $expire_date = date("m-Y");
         $obj_api_connect = $objORM->Fetch("iw_company_id = $obj_product->iw_company_id and expire_date = '$expire_date' ", "*", TableIWAPIAllConnect);
 
+        /*
         if ($obj_api_connect != false and (int) ($obj_api_connect->all_count) < 50000 and (strtotime($now_modify) - $last_modify) > 100000) {
 
 
@@ -258,7 +259,7 @@ if (!empty($_POST['item'])) {
 
 
         }
-
+*/
      
 
         $objFileToolsInit = new FileTools("../../../idefine/conf/init.iw");

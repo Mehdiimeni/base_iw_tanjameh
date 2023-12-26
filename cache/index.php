@@ -1,431 +1,225 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
-
-<head>
-
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS & font-awesome CSS cdn -->
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.rtl.min.css" integrity="sha384-WJUUqfoMmnfkBLne5uxXj+na/c7sesSJ32gI7GfCk4zO4GthUKhSEGyvQ839BC51" crossorigin="anonymous">-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- main & other CSS in local -->
-  <link rel="stylesheet" href="./itemplates/iweb/static/css/bootstrap.rtl.min.css">
-  <link rel="stylesheet" href="./itemplates/iweb/static/owl/owl.carousel.css">
-  <link rel="stylesheet" href="./itemplates/iweb/static/css/main.css">
-  <link rel="stylesheet" href="./itemplates/iweb/static/css/select2.min.css">
-  <link rel="apple-touch-icon" sizes="57x57" href="./itemplates/iweb/icons/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="./itemplates/iweb/icons/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="./itemplates/iweb/icons/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="./itemplates/iweb/icons/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="./itemplates/iweb/icons/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="./itemplates/iweb/icons/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="./itemplates/iweb/icons/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="./itemplates/iweb/icons/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./itemplates/iweb/icons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./itemplates/iweb/icons/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./itemplates/iweb/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="./itemplates/iweb/icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./itemplates/iweb/icons/favicon-16x16.png">
-  <link rel="manifest" href="./itemplates/iweb/icons/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="./itemplates/iweb/icons/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <title>
-    تن جامه  </title>
-
-</head>
-
-<body><!-- scroll back to top -->
-<a id="back-to-top" href="#" class="btn btn-dark btn-sm rounded-0 back-to-top" role="button"><i
-    class="fa-solid fa-chevron-up"></i><span class="d-none d-md-block"> برو بالا</span></a>
-<!-- top bar -->
-<div class="bg-body-secondary d-none d-lg-flex position-relative">
-  <div class="container d-flex font-x-s">
-    <a href="mailto:info@tanjameh.com"
-      class="p-1 flex-fill text-muted text-decoration-none fw-semibold">پست الکترونیکی</a>
-    <a href="tel:02122206812"
-      class="p-1 text-center flex-fill text-muted text-decoration-none fw-semibold">تلفن</a>
-    <a href="./contact_us" class="p-1 text-end flex-fill text-muted text-decoration-none fw-semibold">
-      تماس باما    </a>
-  </div>
-</div>
-<!-- alert top web view -->
-<div class="alert fade show rounded-0 position-absolute top-0 w-100 p-0 bg-orange d-none d-md-block" role="alert">
-  <div class="container text-center text-truncate">
-    <a href="#" class="text-decoration-none text-white font-x-s">
-      <b><a href="https://corporate.tanjameh.com/" style="color:#000000; font-size: 11px; " target="_blank">Visit our Corporate website</a></b>    </a>
-    <button type="button" class="btn-close btn-close-white p-0 float-end mt-1" data-bs-dismiss="alert"
-      aria-label="Close"></button>
-  </div>
-</div>
-<!-- alert top mobile view -->
-<div class="alert fade show rounded-0 top-0 w-100 p-0 bg-orange d-md-none" role="alert">
-  <div class="container text-center text-truncate">
-    <a href="#" class="text-decoration-none text-white font-x-s">
-      <b><a href="https://corporate.tanjameh.com/" style="color:#000000; font-size: 11px; " target="_blank">Visit our Corporate website</a></b>    </a>
-    <button type="button" class="btn-close btn-close-white p-0 float-end mt-1" data-bs-dismiss="alert"
-      aria-label="Close"></button>
-  </div>
-</div>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-lg">
-      <div class="flex-fill d-none d-lg-flex">
-        <ul class="navbar-nav fw-bold">
-                      <li class="nav-item">
-              <a class=" nav-link nav-hover" href="./?gender=men">مردانه</a>
-            </li>
-                      <li class="nav-item">
-              <a class=" nav-link nav-hover" href="./?gender=women">زنانه</a>
-            </li>
-                      <li class="nav-item">
-              <a class=" nav-link nav-hover" href="./?gender=sale">حراج</a>
-            </li>
-                  </ul>
+  <div class="text-dark"
+    style="background-color: #50b9e3;">
+    <div class="container-md">
+      <div class="row pt-5 ps-4 ps-md-0 position-relative placeholder-glow">
+        <div class="col-12 col-md-6 py-3">
+          <h3 class="fw-semibold">
+            کتونی تو نو کن          </h3>
+          <h4 class="mb-4">
+            کتونی های جدید ‌پاییزه          </h4>
+          <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=trainers&CatId=5775"
+            class="text-decoration-none text-dark fw-semibold stretched-link">
+            مشاهده بیشتر<i
+              class="fa-solid fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="col-12 col-md-6 card p-0 rounded-0 border-0">
+          <div class="position-relative pt-48 bg-dark-subtle placeholder">
+            <img class="lazy-image position-absolute top-0 w-100"
+              data-src="./irepository/img/adver_banner/tanjameh-1691256729-1067248025.webp"
+              alt="کتونی تو نو کن">
+          </div>
+        </div>
       </div>
-      <div class="flex-fill text-start text-lg-center">
-        <a class="navbar-brand" href="./">
-          <img src="./itemplates/iweb/media/logo.png" alt="Logo" class="d-inline-block align-text-top">
-        </a>
-        
-      </div>
-      <div class="flex-fill dropdhover">
-        <ul class="navbar-nav float-end flex-row">
-          <!-- account -->
-          <li class="nav-item dropdown b-drop">
-                      <a class="nav-link" href="./?user=login">
-              <svg class="" height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
-                aria-labelledby="your-account-8883409" role="img" aria-hidden="false">
-                <title id="your-account-8883409">پروفایل</title>
-                <path
-                  d="M21.645 22.866a28.717 28.717 0 0 0-6.46-7.817c-2.322-1.892-4.048-1.892-6.37 0a28.74 28.74 0 0 0-6.46 7.817.75.75 0 0 0 1.294.76 27.264 27.264 0 0 1 6.113-7.413A3.98 3.98 0 0 1 12 15.125a3.81 3.81 0 0 1 2.236 1.088 27.252 27.252 0 0 1 6.115 7.412.75.75 0 1 0 1.294-.76zM12 12.002A6.01 6.01 0 0 0 18.003 6 6.003 6.003 0 1 0 12 12.002zm0-10.505a4.502 4.502 0 1 1 0 9.005 4.502 4.502 0 0 1 0-9.005z">
-                </path>
-              </svg>
-            </a>
-                        <ul id="accountDrop" class="dropdown-menu b-animate b-dark border-0 rounded-0 position-absolute">
-              <!-- show li when user is not login -->
-                              <li class="px-3 mt-2"><a class="btn btn-dark w-100 rounded-0" href="./?user=login">
-                    ورود                  </a></li>
-
-                <li class="b-animate b-purple px-3 pt-2">
-                  <a class="text-decoration-none text-mediumpurple d-inline-block" href="./?user=login">ثبت نام</a>
-                  <span class="font-x-s">- تنها یک دقیقه طول می کشد.</span>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                          </ul>
-          </li>
-                    <!-- cart -->
-          <li class="cart nav-item b-drop position-relative">
-                            <a class="nav-link" href="#">
-                              <svg height="1.3em" width="1.3em" focusable="false" fill="currentColor" viewBox="0 0 24 24"
-                aria-labelledby="your-bag-8883411" role="img" aria-hidden="false">
-                <title id="your-bag-8883411">سبد خرید</title>
-                <path
-                  d="M20.677 13.654a5.23 5.23 0 0 0 1.073-3.194c-.01-2.632-1.968-4.78-4.5-5.137V5.25a5.25 5.25 0 0 0-10.5 0v.059a5.224 5.224 0 0 0-2.444 1.014 5.23 5.23 0 0 0-.983 7.33A5.623 5.623 0 0 0 6.375 24h11.25a5.623 5.623 0 0 0 3.052-10.346zM12 1.5a3.75 3.75 0 0 1 3.75 3.75h-7.5A3.75 3.75 0 0 1 12 1.5zm5.625 21H6.375a4.122 4.122 0 0 1-1.554-7.942.75.75 0 0 0 .214-1.256A3.697 3.697 0 0 1 3.75 10.5a3.755 3.755 0 0 1 3-3.674V9a.75.75 0 0 0 1.5 0V6.75h7.5V9a.75.75 0 1 0 1.5 0V6.826a3.755 3.755 0 0 1 3 3.674c0 1.076-.47 2.1-1.285 2.802a.75.75 0 0 0 .213 1.256 4.122 4.122 0 0 1-1.553 7.942z">
-                </path>
-              </svg>
-            </a>
-            <div id="cart-items" class="position-absolute">
-                              <div id="bag-empty" class="pt-3 text-center">
-                  <h6 class="fw-semibold">سبد شما خالی است</h6>
-                  <h6 class="mx-2">برو آن را با تمام امیدها و رویاهای مد خود پر کن.</h6>
-                  <div class="text-bg-dark p-5">
-                    <h6 class="fw-semibold">نمیدونی از کجا شروع کنی؟</h6>
-                    <a href="#" class="btn box-shadow w-100 btn-outline-light rounded-0">جدیدترین ها را ببین</a>
-                  </div>
+    </div>
+  </div>
+  <!-- carousel center nonloop -->
+  <div class="container-fluid py-5"
+    style="background-color: #b9e3f5;">
+    <div class="row">
+      <div class="col-0 col-md-1"></div>
+      <div class="col-12 col-md-11 position-relative overflow-hidden">
+        <div class="container position-absolute bottom-50 z-2">
+          <div class="position-relative index-owl-nav"></div>
+        </div>
+        <div class="owl-center-nonloop owl-carousel">
+                        <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4779" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                            <div id="total-text">
-                <a href="./?user=cart" class="btn btn-dark w-100 my-3">ورود به سبد خرید</a>
+                <a href="?gender=women&category=Shoes&group=trainers&item=4779" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        adidas Originals Forum Bold stripe trainers in cream and pink                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        adidas Originals                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۶,۳۳۶,۰۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
               </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-<nav class="navbar navbar-expand-lg menu p-0 border-bottom">
-
-  <div class="container-lg">
-    <a class="btn border-dark-subtle d-lg-none" data-bs-toggle="offcanvas" href="#offcanvasHome" role="button"
-      aria-controls="offcanvasHome">
-      <svg class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ pVrzNP H3jvU7" height="1em" width="1em" focusable="false"
-        fill="currentColor" viewBox="0 0 24 24" aria-labelledby="menu-6594495" role="img" aria-hidden="false">
-        <title id="menu-6594495">Menu</title>
-        <path
-          d="M.75 2.25h22.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5zM23.25 21.75H.75a.75.75 0 0 0 0 1.5h22.5a.75.75 0 0 0 0-1.5zM.75 12.75h12a.75.75 0 0 0 0-1.5h-12a.75.75 0 0 0 0 1.5z">
-        </path>
-      </svg>
-    </a>
-    <div class="d-lg-block d-none">
-      <ul class="navbar-nav">
-              </ul>
-    </div>
-    <!-- search all website -->
-    <div>
-      <div class="icon-search bg-gainsboro-light d-flex align-items-center justify-content-between p-1">
-        <span class="fs-6 text-dark-emphasis">جستجو</span>
-        <i class="fa fa-search p-2" aria-hidden="trues"></i>
-      </div>
-      <div class="search-form">
-        <input type="text" id="all_search" class="" placeholder="جستجو کنید" onfocus="all_search()">
-        <div class="result-search position-relative p-0">
-          <div id="all_match_list"
-            class="position-absolute bg-light-subtle w-100 overflow-y-scroll border-dark border border-top-0"
-            style="max-height: 18rem;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</nav>
-<div class="offcanvas offcanvas-start cat-offcanvas" tabindex="-1" id="offcanvasHome"
-  aria-labelledby="offcanvasHomeLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasHomeLabel">تن جامه</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <hr class="m-0">
-  <div class="offcanvas-body p-0 overflow-y-scroll overflow-x-hidden">
-    <nav>
-      <div class="nav nav-pills nav-justified" id="nav-tab" role="tablist">
-                    <button class="nav-link active  text-black-50 rounded-0" id="nav-tab-1"
-              data-bs-toggle="tab" data-bs-target="#nav-1" type="button" role="tab"
-              aria-controls="nav-1" aria-selected="true">مردانه</button>
-            <div class="vr"></div>
-                        <button class="nav-link   text-black-50 rounded-0" id="nav-tab-2"
-              data-bs-toggle="tab" data-bs-target="#nav-2" type="button" role="tab"
-              aria-controls="nav-2" aria-selected="true">زنانه</button>
-            <div class="vr"></div>
-                        <button class="nav-link   text-black-50 rounded-0" id="nav-tab-3"
-              data-bs-toggle="tab" data-bs-target="#nav-3" type="button" role="tab"
-              aria-controls="nav-3" aria-selected="true">حراج</button>
-            <div class="vr"></div>
-            
-      </div>
-    </nav>
-    <div class="tab-content shadow-sm" id="nav-tabContent">
-                <div class="tab-pane fade show active " id="nav-1" role="tabpanel"
-            aria-labelledby="nav-tab-1" tabindex="0">
-            <div class="col-6">
-                                <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=men&category=Clothing"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            لباس                          </p>
-                        </div>
-                      </a>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4730" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Shoes&group=shoes&item=4730" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
                     </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=men&category=Shoes, Boots & Trainers"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            کفش                          </p>
-                        </div>
-                      </a>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        adidas Originals Superstar trainers in black leopard                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        adidas Originals                      </h6>
                     </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=men&category=Accessories"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            اکسسوری                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=men&category=FaceBody"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            آرایشی بهداشتی                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=men&category=look"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            لوک                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                              </div>
-
-          </div>
-                    <div class="tab-pane fade  " id="nav-2" role="tabpanel"
-            aria-labelledby="nav-tab-2" tabindex="0">
-            <div class="col-6">
-                                <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=Clothing"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            لباس                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=Shoes"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            کفش                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=Accessories"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            اکسسوری                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=FaceBody"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            آرایشی بهداشتی                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=dresses"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            لباس زنانه                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=women&category=look"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            لوک                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                              </div>
-
-          </div>
-                    <div class="tab-pane fade  " id="nav-3" role="tabpanel"
-            aria-labelledby="nav-tab-3" tabindex="0">
-            <div class="col-6">
-                                <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=sale&category=men"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            مردانه                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                                    <div class="row g-2">
-
-
-                    <div class="card rounded-0 border-0">
-                      <a href="./?gender=sale&category=women"
-                        class="text-dark text-decoration-none">
-                        <div class="card-body">
-                          <p class="card-text">
-                            زنانه                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                              </div>
-
-          </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۶,۳۳۶,۰۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
               </div>
-    <div class="bg-body-secondary py-3">
-                    <div class="card py-2 px-4 shadow-sm rounded-0">
-          <a href="?user=login" class="fs-5 text-decoration-none text-dark">
-            <span class="">ورود</span>
-            <i class="fa-solid fa-arrow-left float-end"></i>
-          </a>
-        </div>
-        <div class="card py-2 px-4 shadow-sm rounded-0">
-          <a href="?user=login" class="fs-5 text-decoration-none text-dark">
-            <span class="">عضویت</span>
-            <i class="fa-solid fa-arrow-left float-end"></i>
-          </a>
-        </div>
-          </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4766" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=trainers&item=4766" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Armani EA7 side gold logo trainer in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        EA7                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۱۱,۹۶۸,۰۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4594" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Shoes&group=trainers&item=4594" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Barbour International Amanza flatform leather trainers in white                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        Barbour International                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۷,۶۷۳,۶۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4969" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4969" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Nike Running React Infinity Run 4 Flyknit trainers in black and blue                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        Nike Running                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۱۰,۹۰۸,۴۸۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4981" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4981" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Nike Air Huarache Runner trainers in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        Nike                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۹,۱۴۸,۴۸۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  <button type="button" value="4954" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4954" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Emporio Armani EA7 distance trainers in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                        کفش ورزشی                        -
+                        EA7                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۱۲,۶۷۲,۰۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                    </div>
+      </div>
+    </div>
   </div>
-</div>  <div class="text-dark"
+  <div class="text-dark"
     style="background-color: #02a571;">
     <div class="container-md">
       <div class="row pt-5 ps-4 ps-md-0 position-relative placeholder-glow">
@@ -434,8 +228,7 @@
             تن جامه خرید فوق العاده          </h3>
           <h4 class="mb-4">
             برای همه شکل ها و اندازه ها          </h4>
-          <a href="https://new.tanjameh.com/?gender=men&category=Clothing&group=shirts&CatId=3602"
-            class="text-decoration-none text-dark fw-semibold stretched-link">
+          <a href="https://new.tanjameh.com/?gender=men&category=Clothing&group=shirts&CatId=3602" class="text-decoration-none text-dark fw-semibold stretched-link">
             بشتاب<i
               class="fa-solid fa-arrow-left"></i>
           </a>
@@ -463,140 +256,11 @@
                         <div class="item position-relative">
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
-                  <button type="button" value="4458" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  
+                  <button type="button" value="4762" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Clothing&group=sportswear&item=4458" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        adidas Originals essential rib crop t-shirt in wonder white                      </h6>
-                      <h6 class="m-0 text-truncate">
-                        تی شرت                        -
-                        adidas Originals                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۲,۱۱۲,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  <button type="button" value="4774" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=Clothing&group=skirts&item=4774" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        New Look satin bias midi skirt in silver                      </h6>
-                      <h6 class="m-0 text-truncate">
-                        دامن                        -
-                        New Look                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۸۲۹,۶۹۶ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  <button type="button" value="4459" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=Clothing&group=loungewear&item=4459" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        4th & Reckless Auriella lounge unitard in black                      </h6>
-                      <h6 class="m-0 text-truncate">
-                        لباس ژیمناستیک و باله                        -
-                        4th & Reckless                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۲,۴۶۴,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  <button type="button" value="5307" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Clothing&group=t-shirts-vests&item=5307" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        ASOS DESIGN skinny long sleeve t-shirt in khaki slub with button neck                      </h6>
-                      <h6 class="m-0 text-truncate">
-                        تی شرت                        -
-                        ASOS DESIGN                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۶۸۹,۶۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  <button type="button" value="4457" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=Accessories&group=bags-purses&item=4457" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Glamorous studded mini bag with chain strap in black                       </h6>
-                      <h6 class="m-0 text-truncate">
-                        کیف                        -
-                        Glamorous                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۹۷۱,۲۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  <button type="button" value="5366" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=dresses&group=party-dresses&item=5366" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=t-shirts-vests&item=4762" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -604,14 +268,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        In The Style Tall exclusive satin bandeau mini dress in black                      </h6>
+                        COLLUSION Unisex logo t-shirt in black                      </h6>
                       <h6 class="m-0 text-truncate">
-                        پیراهن                        -
-                        In The Style Tall                      </h6>
+                      تی شرت                        -
+                        Collusion                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۹۷۱,۲۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۵۲۸,۰۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -619,10 +283,11 @@
                           <div class="item position-relative">
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
-                  <button type="button" value="5214" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  
+                  <button type="button" value="5006" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Clothing&group=lingerie-nightwear&item=5214" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=co-ords&item=5006" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -630,14 +295,149 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Calvin Klein CK 96 lounge t shirt in black                      </h6>
+                        Vero Moda satin mini skirt co-ord in green                      </h6>
                       <h6 class="m-0 text-truncate">
-                        تاپ خواب                        -
-                        Calvin Klein                      </h6>
+                      دامن                        -
+                        Vero Moda                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۱,۵۴۸,۸۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4682" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Clothing&group=jumpers-cardigans&item=4682" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        SNDYS fine knit button through top in green                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      ژاکت کش بافت                        -
+                        SNDYS                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۳,۳۷۹,۲۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="5136" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Clothing&group=trousers-leggings&item=5136" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Pieces wide leg trousers in chocolate                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      شلوار                        -
+                        Pieces                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
                         <h6 class="fw-semibold">۲,۴۶۴,۰۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4787" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=FaceBody&group=tools-accessories&item=4787" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        ASOS DESIGN nylon washbag in khaki                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      کیف بهداشتی                        -
+                        ASOS DESIGN                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۸۴۴,۸۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4697" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Accessories&group=hats&item=4697" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                        <div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>                      </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Champion bucket hat in stone                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      Hats                        -
+                        Champion                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۱,۰۲۰,۸۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4516" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Clothing&group=jeans&item=4516" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Topman stretch slim jeans in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      جین                        -
+                        Topman                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۲,۲۵۲,۸۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -684,10 +484,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4730" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4431" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Shoes&group=shoes&item=4730" class="text-decoration-none">
+                <a href="?gender=women&category=dresses&group=dresses-for-weddings&item=4431" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -695,14 +495,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        adidas Originals Superstar trainers in black leopard                      </h6>
+                        Topshop ruffle wrap midi dress in brown animal                      </h6>
                       <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        adidas Originals                      </h6>
+                      پیراهن                        -
+                        Topshop                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۶,۳۳۶,۰۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۴,۲۲۴,۰۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -711,10 +511,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="5249" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4669" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=shoes&item=5249" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=trousers-leggings&item=4669" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -722,14 +522,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Pull&Bear chunky lace up boots in black                      </h6>
+                        Pull&Bear high waisted tailored trousers in navy                      </h6>
                       <h6 class="m-0 text-truncate">
-                      کفش                        -
+                      شلوار                        -
                         Pull&Bear                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۳,۵۱۹,۲۹۶ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۲,۲۵۲,۸۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -738,10 +538,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4440" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4460" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=men&category=Clothing&group=polo-shirts&item=4440" class="text-decoration-none">
+                <a href="?gender=women&category=dresses&group=dresses-for-weddings&item=4460" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -749,14 +549,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        EA7 activewear short sleeve polo shirt in navy                      </h6>
+                        Vero Moda plisse long sleeve mini dress in black                       </h6>
                       <h6 class="m-0 text-truncate">
-                      پولو شرت                        -
-                        EA7                      </h6>
+                      پیراهن                        -
+                        Vero Moda                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۴,۹۲۸,۰۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۱,۹۷۱,۲۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -765,37 +565,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="5016" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="5040" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Shoes&group=boots&item=5016" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                        <div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>                      </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Moon Boot Icon waterproof nylon knee boot in black                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      چکمه                        -
-                        Moon Boot                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۷,۳۲۱,۶۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="5190" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=Clothing&group=co-ords&item=5190" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=co-ords&item=5040" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -803,14 +576,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Topshop Petite co-ord fluffy circle crop in black                      </h6>
+                        ASOS DESIGN co-ord ribbed maxi cardigan in stone                      </h6>
                       <h6 class="m-0 text-truncate">
-                      بلوز                        -
-                        Topshop Petite                      </h6>
+                      ژاکت کش بافت                        -
+                        ASOS DESIGN                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۲,۳۹۳,۶۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۲,۲۵۲,۸۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -819,37 +592,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4521" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="5059" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Accessories&group=hats&item=4521" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                        <div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>                      </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        New Era USA cap in brown                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کلاه                        -
-                        New Era                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۴۰۸,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="5114" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Clothing&group=hoodies-sweatshirts&item=5114" class="text-decoration-none">
+                <a href="?gender=women&category=Accessories&group=socks-tights&item=5059" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -857,241 +603,68 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        ASOS DESIGN oversized hoodie in off white with New York city skyline print                      </h6>
+                        Salomon 3 pack of everyday unisex crew socks in white brown and grey                      </h6>
                       <h6 class="m-0 text-truncate">
-                      هودی                        -
+                      جوراب                        -
+                        Salomon                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۹۱۵,۲۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4946" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Clothing&group=coats-jackets&item=4946" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        New Look bomber jacket in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      کاپشن و بارونی                        -
+                        New Look                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۲,۸۱۵,۲۹۶ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4544" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Clothing&group=shorts&item=4544" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        ASOS DESIGN split front skort in white                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      شرت                        -
                         ASOS DESIGN                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
                         <h6 class="fw-semibold">۱,۵۴۸,۸۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                    </div>
-      </div>
-    </div>
-  </div>
-  <div class="text-dark"
-    style="background-color: #50b9e3;">
-    <div class="container-md">
-      <div class="row pt-5 ps-4 ps-md-0 position-relative placeholder-glow">
-        <div class="col-12 col-md-6 py-3">
-          <h3 class="fw-semibold">
-            کتونی تو نو کن          </h3>
-          <h4 class="mb-4">
-            کتونی های جدید ‌پاییزه          </h4>
-          <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=trainers&CatId=5775" class="text-decoration-none text-dark fw-semibold stretched-link">
-            مشاهده بیشتر<i
-              class="fa-solid fa-arrow-left"></i>
-          </a>
-        </div>
-        <div class="col-12 col-md-6 card p-0 rounded-0 border-0">
-          <div class="position-relative pt-48 bg-dark-subtle placeholder">
-            <img class="lazy-image position-absolute top-0 w-100"
-              data-src="./irepository/img/adver_banner/tanjameh-1691256729-1067248025.webp"
-              alt="کتونی تو نو کن">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- carousel center nonloop -->
-  <div class="container-fluid py-5"
-    style="background-color: #b9e3f5;">
-    <div class="row">
-      <div class="col-0 col-md-1"></div>
-      <div class="col-12 col-md-11 position-relative overflow-hidden">
-        <div class="container position-absolute bottom-50 z-2">
-          <div class="position-relative index-owl-nav"></div>
-        </div>
-        <div class="owl-center-nonloop owl-carousel">
-                        <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4443" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4443" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Nike Training MC Trainer 2 trainers in black                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Nike Training                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۴,۹۲۴,۴۸۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4981" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4981" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Nike Air Huarache Runner trainers in black                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Nike                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۹,۱۴۸,۴۸۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="5004" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=trainers&item=5004" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Armani Exchange logo trainer in white                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Armani Exchange                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱۱,۶۱۶,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4995" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=trainers&item=4995" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Tommy Hilfiger supercup leather flag logo trainers in white                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Tommy Hilfiger                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۷,۷۴۴,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4429" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4429" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Puma Slipstream trainers in white & tan                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Puma                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۶,۳۳۶,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4985" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4985" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                        <div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>                      </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Nike Training Legend Essential 3 NN trainers in grey                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Nike Training                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۳,۳۷۹,۲۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4947" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Shoes%2C+Boots+%26+Trainers&group=sportswear&item=4947" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        Nike Training Free Metcon 5 trainers in white                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      کفش ورزشی                        -
-                        Nike Training                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۸,۴۴۴,۴۸۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -1138,10 +711,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4519" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4531" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Clothing&group=multipacks&item=4519" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=t-shirts-vests&item=4531" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -1149,64 +722,10 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        adidas Originals trefoil 6 pack socks in black                      </h6>
+                        Weekday Cybele rib tube top with side split in black                      </h6>
                       <h6 class="m-0 text-truncate">
-                      جوراب                        -
-                        adidas Originals                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۴۰۸,۰۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="5158" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=women&category=Clothing&group=trousers-leggings&item=5158" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        ASOS DESIGN pull on trouser in khaki                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      شلوار                        -
-                        ASOS DESIGN                      </h6>
-                    </div>
-                    <section>
-                      <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۹۷۱,۲۰۰ تومان</h6>                      </div>
-                    </section>
-                                      </div>
-                </a>
-              </div>
-                          <div class="item position-relative">
-                <div class="position-absolute top-0 z-1 mt-2">
-                  <!-- add class like or dislike -->
-                  
-                  <button type="button" value="4711" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
-                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
-                </div>
-                <a href="?gender=men&category=Clothing&group=multipacks&item=4711" class="text-decoration-none">
-                  <div class="card text-dark rounded-0 border-0 bg-transparent">
-                    <div class="position-relative">
-                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
-                    </div>
-                    <div class="card-body p-0 py-2">
-                      <h6 class="m-0 text-truncate">
-                        ASOS DESIGN 6 pack waterproof stainless steel stud earrings set in silver gold and matte black                      </h6>
-                      <h6 class="m-0 text-truncate">
-                      گوشواره                        -
-                        ASOS DESIGN                      </h6>
+                      تی شرت                        -
+                        Weekday                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
@@ -1219,10 +738,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4639" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4646" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=Clothing&group=skirts&item=4639" class="text-decoration-none">
+                <a href="?gender=men&category=Clothing&group=jumpers-cardigans&item=4646" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -1230,14 +749,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Wednesday's Girl floral print wrap detail midi skirt in orange                      </h6>
+                        Topman essential knitted 1/4 zip jumper in black                      </h6>
                       <h6 class="m-0 text-truncate">
-                      دامن                        -
-                        Wednesday's Girl                      </h6>
+                      لباس بافتنی                        -
+                        Topman                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۱,۵۴۸,۸۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۱,۹۷۱,۲۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -1246,25 +765,25 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4621" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="5112" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=men&category=Accessories&group=ties&item=4621" class="text-decoration-none">
+                <a href="?gender=men&category=Clothing&group=hoodies-sweatshirts&item=5112" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
-                                              </div>
+                        <div class="text-bg-danger p-1 mb-2"><small>تخفیف</small></div>                      </div>
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Jack & Jones navy floral pocket square                      </h6>
+                        47 Brand LA Dodgers pullover hoodie in black with chest and back print                      </h6>
                       <h6 class="m-0 text-truncate">
-                      دستمال جیبی                        -
-                        Jack & Jones                      </h6>
+                      هودی                        -
+                        47 Brand                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۸۴۴,۸۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۳,۹۴۲,۴۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -1273,10 +792,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="4931" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4755" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=men&category=Clothing&group=underwear-socks&item=4931" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=tops&item=4755" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -1284,14 +803,14 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        Nike 3 pack Dri-Fit cotton stretch trunks in multi                      </h6>
+                        COLLUSION ribbed vest body in white                      </h6>
                       <h6 class="m-0 text-truncate">
-                      تاپ                        -
-                        Nike                      </h6>
+                      بادی                        -
+                        Collusion                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۲,۲۵۲,۸۰۰ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۱,۰۵۵,۲۹۶ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>
@@ -1300,10 +819,10 @@
                 <div class="position-absolute top-0 z-1 mt-2">
                   <!-- add class like or dislike -->
                   
-                  <button type="button" value="5362" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                  <button type="button" value="4694" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
                       class="fa-regular fa-heart" aria-hidden="true"></i></button>
                 </div>
-                <a href="?gender=women&category=dresses&group=party-dresses&item=5362" class="text-decoration-none">
+                <a href="?gender=women&category=Clothing&group=jumpers-cardigans&item=4694" class="text-decoration-none">
                   <div class="card text-dark rounded-0 border-0 bg-transparent">
                     <div class="position-relative">
                       <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
@@ -1311,14 +830,68 @@
                     </div>
                     <div class="card-body p-0 py-2">
                       <h6 class="m-0 text-truncate">
-                        New Look strappy ruffle mini dress in black                      </h6>
+                        ASOS DESIGN sheer longline cardigan with button front detail in camel                      </h6>
                       <h6 class="m-0 text-truncate">
-                      پیراهن                        -
-                        New Look                      </h6>
+                      ژاکت کش بافت                        -
+                        ASOS DESIGN                      </h6>
                     </div>
                     <section>
                       <div class="hstack gap-3">
-                        <h6 class="fw-semibold">۲,۳۲۲,۴۹۶ تومان</h6>                      </div>
+                        <h6 class="fw-semibold">۱,۸۳۰,۴۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="5032" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=women&category=Shoes&group=boots&item=5032" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Glamorous pointed knee boots in black                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      چکمه                        -
+                        Glamorous                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۳,۳۷۹,۲۰۰ تومان</h6>                      </div>
+                    </section>
+                                      </div>
+                </a>
+              </div>
+                          <div class="item position-relative">
+                <div class="position-absolute top-0 z-1 mt-2">
+                  <!-- add class like or dislike -->
+                  
+                  <button type="button" value="4987" class="btn btn-light rounded-0 btn-heart dislike lh-1 p-2 fs-5"><i
+                      class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                </div>
+                <a href="?gender=men&category=Clothing&group=polo-shirts&item=4987" class="text-decoration-none">
+                  <div class="card text-dark rounded-0 border-0 bg-transparent">
+                    <div class="position-relative">
+                      <img class="card-img rounded-0 owl-lazy" data-src="./itemplates/ipanel/build/icon/no-image.jpg" width="100%" height="auto" alt="no image" title="no image">                      <div class="position-absolute bottom-0 end-0 hstack gap-1">
+                                              </div>
+                    </div>
+                    <div class="card-body p-0 py-2">
+                      <h6 class="m-0 text-truncate">
+                        Calvin Klein textured two tone polo in grey                      </h6>
+                      <h6 class="m-0 text-truncate">
+                      پولو شرت                        -
+                        Calvin Klein                      </h6>
+                    </div>
+                    <section>
+                      <div class="hstack gap-3">
+                        <h6 class="fw-semibold">۶,۳۳۶,۰۰۰ تومان</h6>                      </div>
                     </section>
                                       </div>
                 </a>

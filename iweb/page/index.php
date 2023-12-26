@@ -2,18 +2,21 @@
 require("./iweb/core/code_cacher.php");
 
 $_SESSION['page_name_system'] = 'index';
-$codeCacher = new CodeCacher();
-$codeKey = $_SESSION['page_name_system'];
-$cachedCode = $codeCacher->getCachedCode($codeKey);
 
-if ($cachedCode === false) {
-    ob_start();
+
+
 
     (new FileCaller)->FileIncluderWithControler('./iweb', 'temp', 'top');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'top');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'nav');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'menu');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'global', 'mobile_view');
+    $codeCacher = new CodeCacher();
+$codeKey = $_SESSION['page_name_system'];
+$cachedCode = $codeCacher->getCachedCode($codeKey);
+
+if ($cachedCode === false) {
+    ob_start();
     (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_1', '0');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_2', '0');
     (new FileCaller)->FileIncluderWithControler('./iweb', 'adver', 'banner_adver_3', '0');

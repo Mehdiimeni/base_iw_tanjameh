@@ -10,6 +10,7 @@ class AsosConnections
     {
         $this->MainUrl = "https://asos2.p.rapidapi.com/";
         $this->RapidapiHost = "asos2.p.rapidapi.com";
+        //$this->RapidapiKey = "40d7b1f263msh6127e471a19349dp136b93jsna8beb4615654";
         $this->RapidapiKey = "ae43f4cf44msh350bf21c1629509p17e169jsn8abc1ef842b0";
         // $this->RapidapiKey = "9ba7d924b1msh2e2b094b0b3f128p177015jsne09c3f6b7950";
     }
